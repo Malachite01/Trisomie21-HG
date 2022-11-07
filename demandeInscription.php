@@ -17,12 +17,7 @@
 
   <h1>Demande inscription</h1>
 
-  <div class="validationPopup">
-    <h2>Une demande de création de compte a bien été envoyée !</h2>
-    <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-  </div>
-
-  <form id="form" method="POST" onsubmit="popup('validationPopup'),erasePopup('erreurPopup')">
+  <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champNom">Nom :</label>
       <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" required>
@@ -103,11 +98,18 @@
                     $_POST['champMdp'],
                     $_POST['champPro']
                 );
+                echo '
+                  <div class="validationPopup">
+                    <h2 class="txtPopup">Une demande de création de compte a bien été envoyée !</h2>
+                    <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+                    <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+                  </div>';
             } else {
               echo 
               '<div class="erreurPopup">
-                <h2>Le membre n\'a pas été ajouté à la base car il existe déja.</h2>
-                <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+                <h2 class="txtPopup">Le membre n\'a pas été ajouté à la base car il existe déja.</h2>
+                <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
               </div>';
             }
         }

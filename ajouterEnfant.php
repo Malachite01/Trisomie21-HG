@@ -17,13 +17,8 @@
   </div>
 
   <h1>Ajouter un enfant</h1>
-
-  <div class="validationPopup">
-    <h2>L'enfant a bien été ajouté à la base !</h2>
-    <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-  </div>
   
-  <form id="form" method="POST" onsubmit="popup('validationPopup'),erasePopup('erreurPopup')">
+  <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champNom">Nom :</label>
       <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" required>
@@ -62,12 +57,19 @@
           $_POST['champDateDeNaissance'],
           $_POST['champImageJeton']
         );
+        echo '
+        <div class="validationPopup">
+          <h2 class="txtPopup">L\'enfant a bien été ajouté à la base !</h2>
+          <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+        </div>';
         // ici ca redirigera vers la liste des enfants
       } else {
         echo 
         '<div class="erreurPopup">
-          <h2>L\'enfant n\'a pas été ajouté à la base car il existe déja.</h2>
+          <h2 class="txtPopup">L\'enfant n\'a pas été ajouté à la base car il existe déja.</h2>
           <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
         </div>';
       }
     }

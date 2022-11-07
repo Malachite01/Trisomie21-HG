@@ -1,15 +1,15 @@
 
-//*Tous les formulaires sauf connexion
-const myForm = document.getElementById('form');
-myForm.addEventListener('submit', handleSubmit);
-var submitTimer;
+// //*Tous les formulaires sauf connexion
+// const myForm = document.getElementById('form');
+// myForm.addEventListener('submit', handleSubmit);
+// var submitTimer;
 
-function handleSubmit(event) {
-  event.preventDefault();
-  submitTimer = setTimeout(() => {
-    this.submit();
-  }, 1500)
-}
+// function handleSubmit(event) {
+//   event.preventDefault();
+//   submitTimer = setTimeout(() => {
+//     this.submit();
+//   }, 1500)
+// }
 
 function popup(popup) {
     var popupFen = document.querySelector('.' + popup);

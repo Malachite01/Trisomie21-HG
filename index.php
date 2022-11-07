@@ -23,8 +23,9 @@
             case 'password':
             ?>
               <div class="erreurPopup">
-                <h2>Erreur, mot de passe incorrect</h2>
-                <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+                <h2 class="txtPopup">Erreur, mot de passe incorrect</h2>
+                <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('erreurPopup')">Fermer X</button>
               </div>
             <?php
             break;
@@ -32,8 +33,9 @@
             case 'courriel':
             ?>
               <div class="erreurPopup">
-                <h2>Erreur, e-mail incorrect</h2>
-                <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+                <h2 class="txtPopup">Erreur, e-mail incorrect</h2>
+                <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('erreurPopup')">Fermer X</button>
               </div>
             <?php
             break;
@@ -41,8 +43,9 @@
             case 'already':
             ?>
               <div class="erreurPopup">
-                <h2>Erreur, compte non existant</h2>
-                <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+                <h2 class="txtPopup">Erreur, compte non existant</h2>
+                <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('erreurPopup')">Fermer X</button>
               </div>
             <?php
             break;

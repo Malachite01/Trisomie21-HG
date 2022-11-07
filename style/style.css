@@ -619,8 +619,28 @@ div.miseEnForme label {
     margin-right: auto;
 }
 
+.txtPopup {
+    margin-top: 25px;
+}
+
+.boutonFermerPopup {
+    position: absolute;
+    top: 0;
+    right:0;
+    margin: 0;
+    padding: 5px;
+    background: none;
+    color: var(--policeBlanche);
+    font-size: .80em;
+    text-decoration: underline;
+}
+
+.boutonFermerPopup:focus {
+    outline-color: var(--policeBlanche);
+}
+
 .validationPopup {
-    display: none;
+    display: block;
     position: fixed;
     top: 50px;
     background-color: var(--couleurBoutonValider);

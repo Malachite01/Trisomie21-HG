@@ -17,6 +17,12 @@
   
   if(isset($_POST['boutonSupprimer'])) {
     supprimerMembre($_POST['boutonSupprimer']);
+    echo 
+    '<div class="supprPopup">
+      <h2 class="txtPopup">Le membre a été supprimé !</h2>
+      <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
+      <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+    </div>';
     header("Location: gererMembre.php");
   };
 ?>
@@ -25,13 +31,8 @@
     <div class="svgWave"></div>
   </div>
 
-  <h1>Gérer les membres</h1>
+  <h1>Gérer les membres</h1>  
 
-  <div class="supprPopup">
-    <h2>Le membre a été supprimé !</h2>
-    <img src="images/bin.png" alt="valider" class="imageIcone centerIcon">
-  </div>
- 
   <form id="formGestionMembre" method="POST">
 
   <button type="submit" name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" class="imageIcone" alt="icone déconnexion"><span>Déconnexion</span></button>
