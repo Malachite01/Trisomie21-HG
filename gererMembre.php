@@ -32,11 +32,11 @@
     <img src="images/bin.png" alt="valider" class="imageIcone centerIcon">
   </div>
  
-  
-
   <form id="formGestionMembre" method="POST">
-  <button type="submit" name="boutonDeco" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Déconnexion</span></button>
-    <div class="miseEnForme" id="miseEnFormeFiltres">
+
+  <button type="submit" name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" class="imageIcone" alt="icone déconnexion"><span>Déconnexion</span></button>
+    
+  <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">

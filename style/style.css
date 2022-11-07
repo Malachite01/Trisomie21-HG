@@ -192,14 +192,14 @@ input[type="radio"]:checked + .radioLabel::before {
 }
 
 select {
-  border-radius: var(--globalRadius);
-  border-style: none;
-  padding: 12px;
-  margin: 20px;
-  font-family: Georama;
-  font-size: 1em;
-  color: var(--policeNoire);
-  width: 80%;
+    border-radius: var(--globalRadius);
+    border-style: none;
+    padding: 12px;
+    margin: 20px;
+    font-family: Georama;
+    font-size: 1em;
+    color: var(--policeNoire);
+    width: 80%;
 }
 
 button {
@@ -334,6 +334,13 @@ div.miseEnForme label {
     justify-self: center;
     align-items: center;
     justify-items: center;
+}
+
+#boutonDeconnexion {
+    padding: 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .boutons {
