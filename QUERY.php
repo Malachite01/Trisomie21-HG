@@ -27,15 +27,25 @@ $qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :id';
 
 // requete pour modifier les données d'un membre de la BD
 $qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, 
-                                Ville = :ville, Date_Naissance = :dateNaissance, Mdp = :mdp, Courriel = :courriel, 
-                                Pro = :pro WHERE Id_Membre = :idMembre;';
+                                Ville = :ville, Date_Naissance = :dateNaissance, Mdp = :mdp, 
+                                Pro = :pro WHERE Id_Membre = :idMembre';
 
 // requete pour recuperer le nom, prenom, date naissance d'un enfant de la BD
 $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre WHERE Nom = :nom AND Prenom = :prenom AND 
                     Date_Naissance = :dateNaissance AND Courriel = :courriel';
 
+// requete pour ajouter un objectif a la BD
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Travaille,Nb_Jetons,Id_Membre,Id_Enfant) 
+                    VALUES (:intitule, :duree, :lienObjectif, :priorite, 0, :nbJetons, :idmembre, :idenfant)';
+
+// requete pour afficher les objectifs de la BD
+$qAfficherObjectifs = 'SELECT * FROM objectif';
+
+//--------------------------------------------------------------------------------------------------A faire
 // requete pour valider le compte d'un membre de la BD
 $qValiderCompteMembre;
+// requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
+$qAfficherNomPrenomEnfant = 'SELECT Nom,Prenom FROM Enfant';
 
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
@@ -132,7 +142,43 @@ function enfantIdentique(
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
-// fonction qui retourne les lignes si un membre à le meme nom, prenom, date naissance et courriel qu'un membre de la BD
+function afficherNomPrenomEnfant()
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        print_r($data);
+        echo '<select>';
+        // permet de parcourir toutes les colonnes de la requete : query($GLOBALS['qAfficherNomPrenom'])
+        foreach ($data as $key => $value) {
+            if ($key == 'Id_Enfant') {
+                $idEnfant = $value;
+            }
+            if ($key == 'Nom') {
+                $nom = $value;
+            }
+            if ($key == 'Prenom') {
+                echo '<option value="">' . $nom . " " . $value . '</option>"';
+            }
+
+
+            // ' . $idEnfant . '
+        }
+    }
+    echo '</select>';
+}
+
+// fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
 function membreIdentique(
     $nom,
     $prenom,
@@ -159,6 +205,7 @@ function membreIdentique(
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
+
 // fonction qui permet d'ajouter un membre a la BD
 function ajouterMembre(
     $nom,
@@ -171,8 +218,6 @@ function ajouterMembre(
     $mdp,
     $pro
 ) {
-
-    
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -197,6 +242,7 @@ function ajouterMembre(
     }
 }
 
+//-----------------------------------------------------------------------------------------------------A revoir car query -> prepare
 // fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
 // et un checkbox affiche l'etat de validation du membre
 function AfficherNomPrenomDateNaissanceCourrielBoutonSupprimerMembrePlusValidation()
@@ -204,9 +250,13 @@ function AfficherNomPrenomDateNaissanceCourrielBoutonSupprimerMembrePlusValidati
     // connexion a la BD
     $linkpdo = connexionBd();
     // execution de la requete sql
-    $req = $linkpdo->query($GLOBALS['qAfficherMembres']);
+    $req = $linkpdo->prepare($GLOBALS['qAfficherMembres']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
     // permet de parcourir toutes les lignes de la requete : query($GLOBALS['qAfficherMembres'])
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -256,30 +306,60 @@ function AfficherInformationsMembreSession($idMembre)
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Nom') {
-                echo '<input type="text" name="champNom" value="' . $value . '" required>';
+                echo '<label for="champNom">Nom :</label>
+                <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" value="' . $value . '" required>
+                <span></span>';
             } elseif ($key == 'Prenom') {
-                echo '<input type="text" name="champPrénom" value="' . $value . '" required>';
+                echo '<label for="champPrénom">Prénom :</label>
+                <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" value="' . $value . '"required>
+                <span></span>';
             } elseif ($key == 'Adresse') {
-                echo '<input type="text" name="champAdresse" value="' . $value . '" required>';
+                echo '<label for="champAdresse">Adresse :</label>
+                <input type="text" name="champAdresse" placeholder="Entrez votre adresse" maxlength="50" value="' . $value . '"  required>
+                <span></span>';
             } elseif ($key == 'Date_Naissance') {
-                echo '<input type="date" name="champDateNaissance" value="' . $value . '" required>';
+                echo '<label for="champDateDeNaissance">Date de naissance :</label>
+                <input type="date" name="champDateDeNaissance" id="champDateDeNaissance" min="1900-01-01" max="<?php echo date(\'Y-m-d\'); ?>" value="' . $value . '" required>
+                <span></span>';
             } elseif ($key == 'Code_Postal') {
-                echo '<input type="text" name="champCp" value="' . $value . '" required>';
+                echo '
+                <label for="champCp">Code postal :</label>
+                <input type="text" name="champCp" placeholder="Entrez votre code postal" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="50" value="' . $value . '" required>
+                <span></span>';
             } elseif ($key == 'Ville') {
-                echo '<input type="text" name="champVille" value="' . $value . '" required>';
+                echo '<label for="champVille">Ville :</label>
+                <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  required>
+                <span></span>';
             } elseif ($key == 'Pro') {
-                echo '<input type="number" name="champPro" value="' . $value . '" required>';
+                echo '<label for="champPro">Professionnel :</label>
+                <div class="center" style="width: 100%;">
+                  <span class="center1Item">
+                    <input type="radio" name="champPro" id="proNon" value="null" required'; 
+                    if($value == null) echo ' checked>'; else echo '>'; 
+                    echo '<label for="proNon" class="radioLabel" tabindex="0">Non</label>
+                  </span>
+                  <span class="center1Item">
+                    <input type="radio" name="champPro" id="proOui" value="1" required';
+                    if($value == 1) echo ' checked>'; else echo '>';
+                    echo '<label for="proOui" class="radioLabel" tabindex="0">Oui</label>
+                  </span>
+                </div>
+                <span></span>';
             } elseif ($key == 'Mdp') {
-                echo '<input type="text" name="champMdp"value="' . $value . '" required>';
-            } elseif ($key == 'Courriel') {
-                echo '<input type="email" name="champMail" value="' . $value . '" required>';
+                echo '<label for="champMdp">Mot de passe :</label>
+                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
+                <span></span>';
+                echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
+                <input type="text" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
+                <span></span>';
+                echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
             }
         }
     }
 }
 
 // fonction qui permet de modifier les informations du membre de la session
-function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $pro)
+function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $dateNaissance, $mdp, $pro)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -296,7 +376,6 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
         ':adresse' => clean($adresse),
         ':codePostal' => clean($codePostal),
         ':ville' => clean($ville),
-        ':courriel' => clean($courriel),
         ':dateNaissance' => clean($dateNaissance),
         ':mdp' => clean($mdp),
         ':pro' => clean($pro),
@@ -325,6 +404,7 @@ function supprimerMembre($idMembre)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
+    echo '<script type="text/javascript">timedPopup("supprPopup","1500");</script>';
 }
 
 // fonction qui permet de rechercher un membre à partir de son idMembre
@@ -368,16 +448,71 @@ function validerCompteMembre($idMembre)
     }
 }
 
+// fontion qui permet d'ajouter un objectif a la BD
+function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $nbJetons, $idmembre, $idenfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    //execution de la requete sql
+    $req->execute(array(
+        ':intitule' => clean($intitule),
+        ':duree' => clean($duree),
+        ':lienObjectif' => clean($lienObjectif),
+        ':priorite' => clean($priorite),
+        ':nbJetons' => clean($nbJetons),
+        ':idmembre' => clean($idmembre),
+        ':idenfant' => clean($idenfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+    $req->debugDumpParams();
+}
+
+// fonction qui permet d'afficher tous les objectif de la BD
+function afficherObjectifs()
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // execution de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+    }
+    //execution de la requete sql
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+    }
+    // permet de parcourir toutes les lignes de la requete : query($GLOBALS['qAfficherMembres'])
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete : query($GLOBALS['qAfficherMembres'])
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Intitule' || $key == 'Duree' || $key == 'Lien_Image' || $key == 'Priorite' || $key == 'Travaille' || $key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            echo '</tr>';
+        }
+    }
+}
+
 /*                                                                
-                                                                          .                                                
-                                                                          / V\                                               
-                                                                       / `  /                                                
-                                                                     <<    |                                                 
- ,_)/                                                                 /    |                                                 
-   (-'                    ":"                                       /      |               ', ,'                                
-.-'\                    ___:____     |"\/"|                       /        |            ,----'--------------------------.    
-  "'\'"""""'),        ,'        `.    \  /                      /    \  \ /            ("""|```|```|```|```|```|```|``|` |   
-    )/- -,(          |  O        \___/  |                      (      ) | |            |---'---'---'---'---'---'---'--'--|   
-   / \  / |        ~^~^~^~^~^~^~^~^~^~^~^~^~          ________|   _/_  | |          __,_    ______           ______     |_o 
-                                                    <__________\______)\__)            '---'(O)(O)'---------'(O)(O)'---'   
+/                                                                                   .                                                
+/                                                                                  / V\                                               
+/                                                                               / `  /                                                
+/                                                                             <<    |                                                 
+/         ,_)/                                                                 /    |                                                 
+/           (-'                    ":"                                       /      |               ', ,'                                
+/        .-'\                    ___:____     |"\/"|                       /        |            ,----'--------------------------.    
+/          "'\'"""""'),        ,'        `.    \  /                      /    \  \ /            ("""|```|```|```|```|```|```|``|` |   
+/            )/- -,(          |  O        \___/  |                      (      ) | |            |---'---'---'---'---'---'---'--'--|   
+/           / \  / |        ~^~^~^~^~^~^~^~^~^~^~^~^~          ________|   _/_  | |          __,_    ______           ______     |_o 
+/                                                            <__________\______)\__)            '---'(O)(O)'---------'(O)(O)'---'   
 */

@@ -55,6 +55,7 @@
   
   <div class="test"></div>
   <img src="images/logo.png" alt="logo application" class="iconeApp"> 
+  
   <form id="formConnexion" action="indexConnexion.php" method="POST">
     <div class="miseEnForme" id="miseEnFormeConnexion">
       <label for="champIdentifiant">Identifiant :</label>

@@ -672,7 +672,7 @@ div.miseEnForme label {
 }
 
 .supprPopup {
-    display: none;
+    display: block;
     position: fixed;
     top: 50px;
     background-color: var(--couleurBoutonAnnuler);

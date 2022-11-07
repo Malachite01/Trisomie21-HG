@@ -69,7 +69,7 @@ function validerConfirmationMdp(champ1,champ2,message,bouton) {
         btn.disabled = false;;
     }
     else {
-        mess.innerText = "Les mots de passe ne corrsepondent pas !";  
+        mess.innerText = "Les mots de passe ne correspondent pas !";  
         btn.style.backgroundColor = "grey";
         btn.disabled = true;
     }

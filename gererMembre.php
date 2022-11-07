@@ -14,17 +14,34 @@
 <?php
   session_start();
   require('QUERY.php');
-  
   if(isset($_POST['boutonSupprimer'])) {
     supprimerMembre($_POST['boutonSupprimer']);
-    echo 
-    '<div class="supprPopup">
-      <h2 class="txtPopup">Le membre a été supprimé !</h2>
-      <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
-      <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-    </div>';
-    header("Location: gererMembre.php");
+    header("Location: gererMembre.php?params=suppr");
   };
+  //!FONCTION DE VALIDATION DE GRATTHIS AVEC DES BOUTONS SUBMIT
+  // if(isset('boutonvalidationdecompte')) {
+  //   validerlecompte($_POST['boutonValider']);
+  //   header("Location: gererMembre.php?params=valide");
+  // };
+
+  if(isset($_GET['params'])) {
+    $err = htmlspecialchars($_GET['params']);
+    if($err == 'suppr') {
+      echo '
+      <div class="supprPopup">
+        <h2 class="txtPopup">Le membre a été supprimé !</h2>
+        <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
+      </div>';
+    } else if ($err == 'valide') {
+      echo '
+      <div class="validationPopup">
+        <h2 class="txtPopup">Le compte a bien été validé !</h2>
+        <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+      </div>';
+    }
+  }
 ?>
 <body>
   <div class="svgWaveContains">

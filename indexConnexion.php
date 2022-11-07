@@ -24,9 +24,9 @@ if(!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // S
             //(password_verify($mdp,$data['Mdp']))
                     {
             //On met l'id au $_SESSION pour le réutiliser après
-                    $_SESSION['id']= $data['id_Membre'];
+                    $_SESSION['idConnexion']= $data['id_Membre'];
                    //on Redirige vers notre page d'accueil
-                        header('Location: gererMembre.php');
+                        header('Location: modifierProfil.php');
                         die();
                     //Si mauvais password on redirige vers une autre page on l'on a codé une erreur du nom de 'password'
                     }else{ header('Location: index.php?login_err=password'); die();}
