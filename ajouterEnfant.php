@@ -19,6 +19,7 @@
   <h1>Ajouter un enfant</h1>
   
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')">
+    
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champNom">Nom :</label>
       <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" required>
@@ -73,6 +74,10 @@
         </div>';
       }
     }
+    if(isset($_POST['boutonDeco'])) {  
+      session_destroy();
+      header('Location: index.php');
+    };
   ?>
 </body>
 </html>

@@ -15,6 +15,7 @@
     --couleurBoutonValider: #8bc196;
     --couleurBoutonValiderHover: #3e7449;
     --couleurRadioHover: rgba(100, 100, 100,0.3);
+    --couleurPopupEdit: #67c1e4;
 }
 
 @font-face {
@@ -26,8 +27,6 @@
     src: url(../fonts/Georama-Italic.ttf);
     font-family: GeoramaItalic;
 }
-
-@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
 
 /* Ne fonctionne pas sur tous les navigateurs */
 body::-webkit-scrollbar {
@@ -216,10 +215,14 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img,
+button > img:not(#imgDeconnexion),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
+}
+
+button > #imgDeconnexion {
+    vertical-align: middle;
 }
 
 table {
@@ -394,6 +397,19 @@ div.miseEnForme label {
 }
 .boutonSupprimer:active {
     animation: hoverClickAnnuler .1s cubic-bezier(.16,.83,.59,.91) forwards;
+}
+
+.boutonEdit {
+    background-color: var(--couleurBoutonValider);
+    color:var(--policeBlanche);
+    padding: 9px;
+}
+.boutonEdit:hover {
+    animation: hoverWaveEdit .15s cubic-bezier(.16,.83,.59,.91) forwards;
+    cursor: pointer;
+}
+.boutonEdit:active {
+    animation: hoverClickEdit .1s cubic-bezier(.16,.83,.59,.91) forwards;
 }
 
 @keyframes hoverWave {
@@ -608,6 +624,78 @@ div.miseEnForme label {
         background: radial-gradient(circle at center, var(--couleurBoutonValider) 0 0%, var(--couleurBoutonValider) 0);
     }
 }
+@keyframes hoverWaveEdit {
+    0% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 0%, var(--couleurBouton) 0);
+
+    }
+    10% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 10%, var(--couleurBouton) 0);
+
+    }
+    20% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 20%, var(--couleurBouton) 0);
+
+    }
+    30% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 30%, var(--couleurBouton) 0);
+
+    }
+    40% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 40%, var(--couleurBouton) 0);
+
+    }
+    50% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 50%, var(--couleurBouton) 0);
+
+    }
+    60% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 60%, var(--couleurBouton) 0);
+
+    }
+    70% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 70%, var(--couleurBouton) 0);
+
+    }
+    80% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 80%, var(--couleurBouton) 0);
+
+    }
+    90% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 90%, var(--couleurBouton) 0);
+
+    }
+    100% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 100%, var(--couleurBouton) 0);
+
+    }
+}
+@keyframes hoverClickEdit {
+    50% {
+        background: radial-gradient(circle at center, var(--couleurBouton) 0 10%, var(--couleurBouton) 0);
+
+    }
+    60% {
+        background: radial-gradient(circle at center, var(--couleurBouton) 0 30%, var(--couleurBouton) 0);
+
+    }
+    70% {
+        background: radial-gradient(circle at center, var(--couleurBouton) 0 40%, var(--couleurBouton) 0);
+
+    }
+    80% {
+        background: radial-gradient(circle at center, var(--couleurBouton) 0 30%, var(--couleurBouton) 0);
+
+    }
+    90% {
+        background: radial-gradient(circle at center, var(--couleurBouton) 0 10%, var(--couleurBouton) 0);
+
+    }
+    100% {
+        background: radial-gradient(circle at center, var(--couleurBouton) 0 0%, var(--couleurBouton) 0);
+
+    }
+}
 
 .imageIcone {
     width: 30px;
@@ -633,6 +721,7 @@ div.miseEnForme label {
     color: var(--policeBlanche);
     font-size: .80em;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .boutonFermerPopup:focus {
@@ -685,6 +774,22 @@ div.miseEnForme label {
     align-self: center;
     justify-self: center;
     z-index: 1;
+}
+
+.editPopup {
+    display: block;
+    position: fixed;
+    top: 50px;
+    background-color: var(--couleurPopupEdit);
+    border-radius: var(--globalRadius);
+    padding: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: 10%;
+    margin-right: 10%;
+    align-self: center;
+    justify-self: center;
+    z-index: 2;
 }
 
 .iconeApp {
@@ -761,6 +866,10 @@ div.miseEnForme label {
         margin: 0px;
     }
     .boutonValider .imageIcone {
+        width: 20px;
+        margin: 0px;
+    }
+    .boutonEdit .imageIcone {
         width: 20px;
         margin: 0px;
     }

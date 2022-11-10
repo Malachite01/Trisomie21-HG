@@ -52,7 +52,7 @@
 
   <form id="formGestionMembre" method="POST">
 
-  <button type="submit" name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" class="imageIcone" alt="icone déconnexion"><span>Déconnexion</span></button>
+  <button type="submit" name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span>Déconnexion</span></button>
     
   <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>

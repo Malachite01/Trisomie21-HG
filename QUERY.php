@@ -335,7 +335,7 @@ function AfficherInformationsMembreSession($idMembre)
                 <div class="center" style="width: 100%;">
                   <span class="center1Item">
                     <input type="radio" name="champPro" id="proNon" value="null" required'; 
-                    if($value == null) echo ' checked>'; else echo '>'; 
+                    if($value == null || $value == 0) echo ' checked>'; else echo '>'; 
                     echo '<label for="proNon" class="radioLabel" tabindex="0">Non</label>
                   </span>
                   <span class="center1Item">
@@ -346,6 +346,7 @@ function AfficherInformationsMembreSession($idMembre)
                 </div>
                 <span></span>';
             } elseif ($key == 'Mdp') {
+                //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
                 <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
                 <span></span>';
