@@ -49,6 +49,16 @@
               </div>
             <?php
             break;
+
+            case 'deconnexion':
+              ?>
+                <div class="editPopup">
+                  <h2 class="txtPopup">Vous avez bien été déconnecté</h2>
+                  <img src="images/logout.png" alt="image deconnexion" class="imageIcone centerIcon">
+                  <button class="boutonFermerPopup" onclick="erasePopup('editPopup')">Fermer X</button>
+                </div>
+              <?php
+              break;
         }
     }
   ?> 
@@ -66,7 +76,8 @@
       <input type="password" name="champMotDePasse" id="champMotDePasse" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" required>
       <span><img src="images/oeilFermé.png" id="oeilMdp" alt="oeil" onclick="afficherMDP('champMotDePasse','oeilMdp')"></span>
       
-      <a href="ajouterEnfant.html"> Mot de passe oublié ?</a>
+      <a href="demandeInscription.php"> Pas encore de compte ?</a>
+      <a href="#"> Mot de passe oublié ?</a>
     </div>
 
     <button type="submit" name="boutonConnexion" class="boutons" id="boutonConnexion"><img src="images/unlock.png" class="imageIcone" alt="icone cadenas"><span>Connexion</span></button>

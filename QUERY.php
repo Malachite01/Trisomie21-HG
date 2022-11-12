@@ -504,6 +504,43 @@ function afficherObjectifs()
     }
 }
 
+function faireMenu() {
+    $effacer = ["/leSite/", ".php"];
+    $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
+    echo
+    '
+    <nav class="navbar">
+    <a href="#"><img src="images/logo.png" alt="logo" class="logo"></a>
+    <div class="nav-links">
+      <ul class="nav-ul">
+        <li><a href="modifierProfil.php" id="modifierProfil">Profil</a></li>
+        <div class="separateur"></div>
+        <li><a href="#" id="tableauDeBord">Tableau de bord</a></li>
+        <div class="separateur"></div>
+        <li><a href="ajouterEnfant.php" id="ajouterEnfant">Ajouter un enfant</a></li>
+        <div class="separateur"></div>
+        <li><a href="gererMembre.php" id="gererMembre">Gérer les membres</a></li>
+        <div class="separateur"></div>
+        <li>
+            <div class="center">
+                <p>Placeholder</p>
+                <a href="deconnexion.php" class="pasMoi"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span>Déconnexion</span></button></a>
+            </div>
+        </li>
+      </ul>
+    </div>
+    
+    <img src="images/menu.png" onclick="menuMobile(\'nav-links\')" alt="barre de menu" class="menu-hamburger">
+    
+    </nav>';
+    
+    echo '
+    <script>
+        var elementActif = document.querySelector("#'. $get_url .'");
+        elementActif.classList.add("active");
+    </script>';
+}
+
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               

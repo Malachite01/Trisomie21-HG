@@ -15,6 +15,8 @@
     <div class="svgWave"></div>
   </div>
 
+  <?php require('QUERY.php'); faireMenu();?>
+
   <h1>Demande inscription</h1>
 
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
@@ -79,7 +81,6 @@
   </form>
   <script src="js/javascript.js"></script>
   <?php
-        require('QUERY.php');
         if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp', 'champPro'))) {
             if (membreIdentique(
                 $_POST['champNom'],

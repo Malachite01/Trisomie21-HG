@@ -48,11 +48,11 @@
     <div class="svgWave"></div>
   </div>
 
+  <?php faireMenu();?>
+
   <h1>Gérer les membres</h1>  
 
   <form id="formGestionMembre" method="POST">
-
-  <button type="submit" name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span>Déconnexion</span></button>
     
   <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
@@ -92,10 +92,6 @@
         </tr>
         <?php
           AfficherNomPrenomDateNaissanceCourrielBoutonSupprimerMembrePlusValidation();
-          if(isset($_POST['boutonDeco'])) {  
-            session_destroy();
-            header('Location: index.php');
-          };
         ?>
       </tbody>
     </table>

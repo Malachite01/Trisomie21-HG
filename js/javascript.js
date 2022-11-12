@@ -11,6 +11,12 @@
 //   }, 1500)
 // }
 
+//*MENU 
+function menuMobile(nav) {
+    navLinks = document.querySelector("." + nav);
+    navLinks.classList.toggle('mobile-menu');
+}
+
 function popup(popup) {
     var popupFen = document.querySelector('.' + popup);
     var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup)" );

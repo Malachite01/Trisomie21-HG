@@ -20,3 +20,5 @@ Connexion
 <a target="_blank" href="https://icons8.com/icon/vGj0AluRnTSa/sortie">Sortie</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
 <a href="https://www.flaticon.com/fr/icones-gratuites/editer" title="Éditer icônes">Éditer icônes créées par Freepik - Flaticon</a>
+
+<a target="_blank" href="https://icons8.com/icon/1320IBiTPBYp/menu">Menu</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>

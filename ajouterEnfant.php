@@ -10,11 +10,15 @@
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 	<link rel="stylesheet" href="style/style.css">
 </head>
-
 <body>
   <div class="svgWaveContains">
     <div class="svgWave"></div>
   </div>
+  
+  <?php
+    require('QUERY.php');
+    faireMenu();
+  ?>
 
   <h1>Ajouter un enfant</h1>
   
@@ -45,7 +49,6 @@
   </form>
   <script src="js/javascript.js"></script>
   <?php
-    require('QUERY.php');
     if (champRempli(array('champNom', 'champPrénom', 'champDateDeNaissance', 'champImageJeton'))) {
       if (enfantIdentique(
         $_POST['champNom'],

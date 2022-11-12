@@ -20,6 +20,7 @@
     session_start();
     require('QUERY.php');
 
+    faireMenu();
     if (isset($_POST['boutonValider'])) {
       modifierMembreSession(
         $_SESSION['idConnexion'],
