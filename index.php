@@ -51,14 +51,23 @@
             break;
 
             case 'deconnexion':
-              ?>
-                <div class="editPopup">
-                  <h2 class="txtPopup">Vous avez bien été déconnecté</h2>
-                  <img src="images/logout.png" alt="image deconnexion" class="imageIcone centerIcon">
-                  <button class="boutonFermerPopup" onclick="erasePopup('editPopup')">Fermer X</button>
-                </div>
-              <?php
-              break;
+            ?>
+              <div class="editPopup">
+                <h2 class="txtPopup">Vous avez bien été déconnecté</h2>
+                <img src="images/logout.png" alt="image deconnexion" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('editPopup')">Fermer X</button>
+              </div>
+            <?php
+            break;
+            case 'ajoutMembre':
+            ?>
+              <div class="validationPopup">
+                <h2 class="txtPopup">Une demande de création de compte a bien été envoyée ! Votre compte est désormais en attente de validation.</h2>
+                <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('validationPopup')">Fermer X</button>
+              </div>
+            <?php
+            break;
         }
     }
   ?> 

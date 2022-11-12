@@ -15,9 +15,10 @@
     <div class="svgWave"></div>
   </div>
 
-  <?php require('QUERY.php'); faireMenu();?>
+  <?php require('QUERY.php');?>
+  <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
 
-  <h1>Demande inscription</h1>
+  <h1 id="texteH1DemandeInscription">Demande inscription</h1>
 
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
@@ -99,12 +100,7 @@
                     $_POST['champMdp'],
                     $_POST['champPro']
                 );
-                echo '
-                  <div class="validationPopup">
-                    <h2 class="txtPopup">Une demande de création de compte a bien été envoyée !</h2>
-                    <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-                    <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
-                  </div>';
+                header('Location: index.php?login_err=ajoutMembre');
             } else {
               echo 
               '<div class="erreurPopup">

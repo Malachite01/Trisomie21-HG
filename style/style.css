@@ -278,21 +278,24 @@ input[type="checkbox"]:checked {
 
 /* MENU pc */
 .navbar {
-    position: fixed;
+    position: absolute;
     padding: 50px;
     padding-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
     align-items: center;
     z-index: 1;
+    background-color: #e1f2f9;
+    border-radius: var(--globalRadius);
 }
 .navbar a {
     color: var(--couleurBoutonHover);
     font-family: Georama; 
 }
-.navbar .logo {
+.logo {
     position: absolute;
     top: 10px;
     left: 20px;
@@ -307,13 +310,12 @@ input[type="checkbox"]:checked {
 .navbar .nav-links .nav-ul li{
     margin: 0 25px;
     font-size: 1.1em;
-    padding-bottom: 5px;
     border-bottom: 2px solid transparent;
 }
-.navbar .nav-links .nav-ul li a:not(.center) {
+.navbar .nav-links .nav-ul li a:not(.center):not(.lienBoutonDeconnexion) {
     padding: 8px;
 }
-.navbar .nav-links .nav-ul li a:not(.center):not(.active):not(.pasMoi):hover {
+.navbar .nav-links .nav-ul li a:not(.center):not(.active):not(.lienBoutonDeconnexion):hover {
     background-color: lightgray;
     padding: 8px;
     border-radius: var(--globalRadius);
@@ -327,7 +329,9 @@ input[type="checkbox"]:checked {
     box-shadow: 5px 5px 0px .1px #01534f;
 }
 .active:after {
-    content: " ←";
+    content: url(../images/left-arrow.png);
+    justify-content: center;
+    vertical-align: middle;
 }
 .nav-ul {
     list-style: none;
@@ -345,10 +349,20 @@ input[type="checkbox"]:checked {
     border-radius: var(--globalRadius);
     cursor: pointer;
 }
-
+#centerDeconnexion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin-top: -5px;
+}
+#deconnexionDiv {
+    top: -10px;
+}
 /* Phone navbar */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1062px) {
     .navbar {
+        position: fixed;
         padding: 0px;
         width: 100%;
     }
@@ -367,7 +381,7 @@ input[type="checkbox"]:checked {
         position: absolute;
         padding: 0;
         margin: 0;
-        margin-left: 100%;
+        margin-left: -100%;
         background-color: rgba(255, 255, 255, 0.959);
         width: 100%;
         height: 100vh;
@@ -432,6 +446,10 @@ div.miseEnForme label {
     width: 100%;
 }
 
+#texteH1DemandeInscription {
+    margin-top: 20px;
+}
+
 .center {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -465,6 +483,11 @@ div.miseEnForme label {
     margin: 0;
     top: 0;
     right: 0;
+}
+
+.txtBoutonDeconnexion {
+    font-size: .8em;
+    font-family: Georama;
 }
 
 .boutons {

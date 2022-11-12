@@ -522,9 +522,9 @@ function faireMenu() {
         <li><a href="gererMembre.php" id="gererMembre">Gérer les membres</a></li>
         <div class="separateur"></div>
         <li>
-            <div class="center">
-                <p>Placeholder</p>
-                <a href="deconnexion.php" class="pasMoi"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span>Déconnexion</span></button></a>
+            <div id="centerDeconnexion">
+                <p class="txtBoutonDeconnexion">Placeholder</p>
+                <a href="deconnexion.php" class="lienBoutonDeconnexion"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span class="txtBoutonDeconnexion">Déconnexion</span></button></a>
             </div>
         </li>
       </ul>
