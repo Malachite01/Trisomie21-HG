@@ -505,7 +505,7 @@ function afficherObjectifs()
 }
 
 function faireMenu() {
-    $effacer = ["/leSite/", ".php"];
+    $effacer = ["/leSite/", ".php", "?params=suppr"];
     $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
     echo
     '
@@ -513,9 +513,9 @@ function faireMenu() {
     <a href="#"><img src="images/logo.png" alt="logo" class="logo"></a>
     <div class="nav-links">
       <ul class="nav-ul">
-        <li><a href="modifierProfil.php" id="modifierProfil">Profil</a></li>
-        <div class="separateur"></div>
         <li><a href="#" id="tableauDeBord">Tableau de bord</a></li>
+        <div class="separateur"></div>
+        <li><a href="modifierProfil.php" id="modifierProfil">Profil</a></li>
         <div class="separateur"></div>
         <li><a href="ajouterEnfant.php" id="ajouterEnfant">Ajouter un enfant</a></li>
         <div class="separateur"></div>

@@ -276,6 +276,10 @@ input[type="checkbox"]:checked {
     accent-color: var(--couleurBouton);
 }
 
+.texteAccueil {
+    font-size: .92em;
+}
+
 /* MENU pc */
 .navbar {
     position: absolute;

@@ -15,7 +15,37 @@
     <div class="svgWave"></div>
   </div>
 
-  <?php require('QUERY.php');?>
+  <?php
+  require('QUERY.php');
+  if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp', 'champPro'))) {
+      if (membreIdentique(
+          $_POST['champNom'],
+          $_POST['champPrénom'],
+          $_POST['champDateDeNaissance'],
+          $_POST['champMail']
+      ) == 0) {
+          ajouterMembre(
+              $_POST['champNom'],
+              $_POST['champPrénom'],
+              $_POST['champAdresse'],
+              $_POST['champCp'],
+              $_POST['champVille'],
+              $_POST['champMail'],
+              $_POST['champDateDeNaissance'],
+              $_POST['champMdp'],
+              $_POST['champPro']
+          );
+          header('Location: index.php?login_err=ajoutMembre');
+      } else {
+        echo 
+        '<div class="erreurPopup">
+          <h2 class="txtPopup">Le membre n\'a pas été ajouté à la base car il existe déja.</h2>
+          <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+        </div>';
+      }
+  }
+  ?>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
 
   <h1 id="texteH1DemandeInscription">Demande inscription</h1>
@@ -39,7 +69,7 @@
       <span></span>
 
       <label for="champCp">Code postal :</label>
-      <input type="text" name="champCp" placeholder="Entrez votre code postal" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="50" required>
+      <input type="text" name="champCp" placeholder="Entrez votre code postal" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5" required>
       <span></span>
 
       <label for="champVille">Ville :</label>
@@ -81,35 +111,5 @@
     </div>
   </form>
   <script src="js/javascript.js"></script>
-  <?php
-        if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp', 'champPro'))) {
-            if (membreIdentique(
-                $_POST['champNom'],
-                $_POST['champPrénom'],
-                $_POST['champDateDeNaissance'],
-                $_POST['champMail']
-            ) == 0) {
-                ajouterMembre(
-                    $_POST['champNom'],
-                    $_POST['champPrénom'],
-                    $_POST['champAdresse'],
-                    $_POST['champCp'],
-                    $_POST['champVille'],
-                    $_POST['champMail'],
-                    $_POST['champDateDeNaissance'],
-                    $_POST['champMdp'],
-                    $_POST['champPro']
-                );
-                header('Location: index.php?login_err=ajoutMembre');
-            } else {
-              echo 
-              '<div class="erreurPopup">
-                <h2 class="txtPopup">Le membre n\'a pas été ajouté à la base car il existe déja.</h2>
-                <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
-                <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-              </div>';
-            }
-        }
-  ?>
 </body>
 </html>
