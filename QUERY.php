@@ -263,8 +263,11 @@ function AfficherNomPrenomDateNaissanceCourrielBoutonSupprimerMembrePlusValidati
         // permet de parcourir toutes les colonnes de la requete : query($GLOBALS['qAfficherMembres'])
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Nom' || $key == 'Prenom' || $key == 'Date_Naissance' || $key == 'Courriel') {
+            if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
                 echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Date_Naissance') {
+                echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
             }
             // recuperation valeurs importantes dans des variables
             if ($key == 'Id_Membre') {
@@ -333,14 +336,16 @@ function AfficherInformationsMembreSession($idMembre)
                 echo '<label for="champPro">Professionnel :</label>
                 <div class="center" style="width: 100%;">
                   <span class="center1Item">
-                    <input type="radio" name="champPro" id="proNon" value="null" required'; 
-                    if($value == null || $value == 0) echo ' checked>'; else echo '>'; 
-                    echo '<label for="proNon" class="radioLabel" tabindex="0">Non</label>
+                    <input type="radio" name="champPro" id="proNon" value="null" required';
+                if ($value == null || $value == 0) echo ' checked>';
+                else echo '>';
+                echo '<label for="proNon" class="radioLabel" tabindex="0">Non</label>
                   </span>
                   <span class="center1Item">
                     <input type="radio" name="champPro" id="proOui" value="1" required';
-                    if($value == 1) echo ' checked>'; else echo '>';
-                    echo '<label for="proOui" class="radioLabel" tabindex="0">Oui</label>
+                if ($value == 1) echo ' checked>';
+                else echo '>';
+                echo '<label for="proOui" class="radioLabel" tabindex="0">Oui</label>
                   </span>
                 </div>
                 <span></span>';
@@ -502,7 +507,8 @@ function afficherObjectifs()
     }
 }
 
-function faireMenu() {
+function faireMenu()
+{
     $effacer = ["/leSite/", ".php", "?params=suppr"];
     $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
     echo
@@ -531,10 +537,10 @@ function faireMenu() {
     <img src="images/menu.png" onclick="menuMobile(\'nav-links\')" alt="barre de menu" class="menu-hamburger">
     
     </nav>';
-    
+
     echo '
     <script>
-        var elementActif = document.querySelector("#'. $get_url .'");
+        var elementActif = document.querySelector("#' . $get_url . '");
         elementActif.classList.add("active");
     </script>';
 }
