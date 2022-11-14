@@ -404,7 +404,6 @@ function supprimerMembre($idMembre)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
-    echo '<script type="text/javascript">timedPopup("supprPopup","1500");</script>';
 }
 
 // fonction qui permet de rechercher un membre à partir de son idMembre
