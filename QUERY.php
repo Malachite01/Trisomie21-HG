@@ -544,7 +544,6 @@ function faireMenu()
         elementActif.classList.add("active");
     </script>';
 }
-azduhazuh
 
 /*                                                                
 /                                                                                   .                                                
