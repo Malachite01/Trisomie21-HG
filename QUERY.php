@@ -45,7 +45,7 @@ $qAfficherObjectifs = 'SELECT * FROM objectif';
 // requete pour valider le compte d'un membre de la BD
 $qValiderCompteMembre;
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
-$qAfficherNomPrenomEnfant = 'SELECT Nom,Prenom FROM Enfant';
+$qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom, Prenom FROM Enfant';
 
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
@@ -156,10 +156,11 @@ function afficherNomPrenomEnfant()
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
+    echo '<select name="idEnfant">';
+    echo '<option>Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        print_r($data);
-        echo '<select>';
-        // permet de parcourir toutes les colonnes de la requete : query($GLOBALS['qAfficherNomPrenom'])
+        // print_r($data);
+        // permet de parcourir toutes les colonnes de la requete : prepare($GLOBALS['qAfficherNomPrenom'])
         foreach ($data as $key => $value) {
             if ($key == 'Id_Enfant') {
                 $idEnfant = $value;
@@ -168,11 +169,8 @@ function afficherNomPrenomEnfant()
                 $nom = $value;
             }
             if ($key == 'Prenom') {
-                echo '<option value="">' . $nom . " " . $value . '</option>"';
+                echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
-
-
-            // ' . $idEnfant . '
         }
     }
     echo '</select>';
@@ -332,21 +330,18 @@ function AfficherInformationsMembreSession($idMembre)
                 <span></span>';
             } elseif ($key == 'Pro') {
                 echo '<label for="champPro">Professionnel :</label>
-                <div class="center" style="width: 100%;">
-                  <span class="center1Item">
-                    <input type="radio" name="champPro" id="proNon" value="null" required'; 
-                    if($value == null || $value == 0) echo ' checked>'; else echo '>'; 
-                    echo '<label for="proNon" class="radioLabel" tabindex="0">Non</label>
-                  </span>
-                  <span class="center1Item">
+                <div class="center" style="width: 100%;"><span class="center1Item">
+                    <input type="radio" name="champPro" id="proNon" value="null" required';
+                if ($value == null) echo ' checked>';
+                else echo '>';
+                echo '<label for="proNon" class="radioLabel" tabindex="0">Non</label></span><span class="center1Item">
                     <input type="radio" name="champPro" id="proOui" value="1" required';
-                    if($value == 1) echo ' checked>'; else echo '>';
-                    echo '<label for="proOui" class="radioLabel" tabindex="0">Oui</label>
-                  </span>
+                if ($value == 1) echo ' checked>';
+                else echo '>';
+                echo '<label for="proOui" class="radioLabel" tabindex="0">Oui</label></span>
                 </div>
                 <span></span>';
             } elseif ($key == 'Mdp') {
-                //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
                 <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
                 <span></span>';
@@ -502,43 +497,6 @@ function afficherObjectifs()
             echo '</tr>';
         }
     }
-}
-
-function faireMenu() {
-    $effacer = ["/leSite/", ".php", "?params=suppr"];
-    $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
-    echo
-    '
-    <nav class="navbar">
-    <a href="#"><img src="images/logo.png" alt="logo" class="logo"></a>
-    <div class="nav-links">
-      <ul class="nav-ul">
-        <li><a href="#" id="tableauDeBord">Tableau de bord</a></li>
-        <div class="separateur"></div>
-        <li><a href="modifierProfil.php" id="modifierProfil">Profil</a></li>
-        <div class="separateur"></div>
-        <li><a href="ajouterEnfant.php" id="ajouterEnfant">Ajouter un enfant</a></li>
-        <div class="separateur"></div>
-        <li><a href="gererMembre.php" id="gererMembre">Gérer les membres</a></li>
-        <div class="separateur"></div>
-        <li>
-            <div id="centerDeconnexion">
-                <p class="txtBoutonDeconnexion">Placeholder</p>
-                <a href="deconnexion.php" class="lienBoutonDeconnexion"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span class="txtBoutonDeconnexion">Déconnexion</span></button></a>
-            </div>
-        </li>
-      </ul>
-    </div>
-    
-    <img src="images/menu.png" onclick="menuMobile(\'nav-links\')" alt="barre de menu" class="menu-hamburger">
-    
-    </nav>';
-    
-    echo '
-    <script>
-        var elementActif = document.querySelector("#'. $get_url .'");
-        elementActif.classList.add("active");
-    </script>';
 }
 
 /*                                                                
