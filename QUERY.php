@@ -155,10 +155,11 @@ function afficherNomPrenomEnfant()
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
+    echo '<select name="idEnfant">';
+    echo '<option>Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        print_r($data);
-        echo '<select>';
-        // permet de parcourir toutes les colonnes de la requete : query($GLOBALS['qAfficherNomPrenom'])
+        // print_r($data);
+        // permet de parcourir toutes les colonnes de la requete : prepare($GLOBALS['qAfficherNomPrenom'])
         foreach ($data as $key => $value) {
             if ($key == 'Id_Enfant') {
                 $idEnfant = $value;
@@ -167,11 +168,8 @@ function afficherNomPrenomEnfant()
                 $nom = $value;
             }
             if ($key == 'Prenom') {
-                echo '<option value="">' . $nom . " " . $value . '</option>"';
+                echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
-
-
-            // ' . $idEnfant . '
         }
     }
     echo '</select>';
@@ -544,7 +542,6 @@ function faireMenu()
         elementActif.classList.add("active");
     </script>';
 }
-je suis le meilleure
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               
