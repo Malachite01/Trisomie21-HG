@@ -3,7 +3,6 @@
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
 */
-
 // requete pour ajouter un enfant a la BD
 $qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) 
                     VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
