@@ -542,6 +542,7 @@ function faireMenu()
         elementActif.classList.add("active");
     </script>';
 }
+
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               
