@@ -16,6 +16,11 @@
     --couleurBoutonValiderHover: #3e7449;
     --couleurRadioHover: rgba(100, 100, 100,0.3);
     --couleurPopupEdit: #67c1e4;
+    --couleurMenu: #e1f2f9;
+    --couleurFondMenuMobile: rgba(255, 255, 255, 0.959);
+    --couleurHover: lightgray;
+    --couleurHoverMenuTexte: #30491a;
+    --couleurMenuActif: rgb(154, 221, 254);
 }
 
 @font-face {
@@ -281,75 +286,87 @@ input[type="checkbox"]:checked {
 }
 
 /* MENU pc */
+.logo {
+    position: absolute;
+    top: 3px;
+    left: 20px;
+    width: 100px;
+}
+nav a {
+    font-family: Georama; 
+}
 .navbar {
     position: absolute;
     padding: 50px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     display: flex;
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
     align-items: center;
-    z-index: 1;
-    background-color: #e1f2f9;
+    z-index: 2;
+    background-color: var(--couleurMenu);
     border-radius: var(--globalRadius);
-}
-.navbar a {
-    color: var(--couleurBoutonHover);
-    font-family: Georama; 
-}
-.logo {
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    width: 100px;
 }
 .navbar .separateur::after {
     content: "|";
 }
 .navbar .nav-links .nav-ul {
     display: flex;
+    text-align: center;
+    list-style: none;
 }
 .navbar .nav-links .nav-ul li{
-    margin: 0 25px;
+    margin: 0 15px;
     font-size: 1.1em;
-    border-bottom: 2px solid transparent;
 }
 .navbar .nav-links .nav-ul li a:not(.center):not(.lienBoutonDeconnexion) {
     padding: 8px;
 }
 .navbar .nav-links .nav-ul li a:not(.center):not(.active):not(.lienBoutonDeconnexion):hover {
-    background-color: lightgray;
+    background-color: var(--couleurHover);
+    color: var(--couleurHoverMenuTexte);
     padding: 8px;
     border-radius: var(--globalRadius);
 }
-.active {
-    color: var(--couleurBarActive);
-    font-weight: bolder;
-    border-radius: var(--globalRadius);
-    background-color: rgb(154, 221, 254);
-    padding: 8px;
-    box-shadow: 5px 5px 0px .1px #01534f;
-}
-.active:after {
-    content: url(../images/left-arrow.png);
-    justify-content: center;
-    vertical-align: middle;
-}
-.nav-ul {
+.sousMenu {
+    position: absolute;
+    margin-top: 6px;
     list-style: none;
+    text-align: center;
+    display: none;
+    width: max-content;
+    background-color: #f2f3f3;
+    border-radius: var(--globalRadius);
+    padding-top: 14px;
+}
+.navbar .nav-links .nav-ul ul.sousMenu {
+    /* margin-left: -45px; */
+    justify-self: center;
+    align-self: center;
+}
+.navbar .nav-links .nav-ul .sousMenu li a {
+    color: var(--couleurBoutonHover);
+    font-size: .75em;
+}
+.navbar .nav-links .nav-ul .sousMenu li{
+    margin-bottom: 15px;
+}
+.navbar .nav-ul > li:hover .sousMenu {
+    display: block;
 }
 .navbar .menu-hamburger {
     position: absolute;
     display: none;
     padding: 7px;
-    right: 10px;
-    top: 10px;
+    right: 5px;
+    top: 5px;
     width: 35px;
+    z-index: 2;
 }
 .menu-hamburger:hover {
-    background-color: lightgrey;
+    background-color: var(--couleurHover);
     border-radius: var(--globalRadius);
     cursor: pointer;
 }
@@ -363,7 +380,20 @@ input[type="checkbox"]:checked {
 #deconnexionDiv {
     top: -10px;
 }
-/* Phone navbar */
+.active {
+    color: var(--couleurBarActive);
+    font-weight: bolder;
+    border-radius: var(--globalRadius);
+    background-color: var(--couleurMenuActif);
+    padding: 8px;
+    box-shadow: 5px 5px 0px .1px #01534f;
+}
+.active:after {
+    content: url(../images/left-arrow.png);
+    justify-content: center;
+    vertical-align: middle;
+}
+/* Phone navbar 1062px*/
 @media screen and (max-width: 1062px) {
     .navbar {
         position: fixed;
@@ -373,20 +403,27 @@ input[type="checkbox"]:checked {
     .navbar .logo {
         z-index: 1;
     }
+    .navbar .fondMobile {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        background-color: var(--couleurMenu);
+        width: 100%;
+        height: 60px;
+    }
     .navbar .menu-hamburger {
         display: block;
     }
     .nav-links {
+        position: absolute;
         display: flex;
         justify-content: center;
-        align-items: center;
         top: 0;
         left: 0;
-        position: absolute;
         padding: 0;
         margin: 0;
         margin-left: -100%;
-        background-color: rgba(255, 255, 255, 0.959);
+        background-color: var(--couleurFondMenuMobile);
         width: 100%;
         height: 100vh;
         transition: all .4s cubic-bezier(.86,.16,.28,1.24);
@@ -395,16 +432,35 @@ input[type="checkbox"]:checked {
         margin-left: 0;
     }
     .nav-links .nav-ul {
+        margin-top: 200px;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    .navbar .nav-links .nav-ul li{
-        margin: 25px 0;
+    .navbar .nav-links .nav-ul li:not(.sousMenu) {
+        margin-bottom: 0;
         font-size: 1.4em;
     }
+    .navbar .nav-links .nav-ul li:not(:first-child):not(.sousMenu) {
+        margin-bottom: 0;
+        margin-top: 20px;
+    }
+    .navbar ul.sousMenu {
+        margin-top: 6px;
+        padding: 10px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    .navbar .sousMenu li:first-child {
+        margin-top: 0;
+    }
     .navbar .separateur::after {
-        content: " ";
+        content: "______________________________";
+    }
+    .sousMenu {
+        position: initial;
+        font-size: .75em;
+        border-radius: var(--globalRadius);
     }
 }
 

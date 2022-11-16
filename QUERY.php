@@ -158,7 +158,6 @@ function afficherNomPrenomEnfant()
     echo '<select name="idEnfant">';
     echo '<option>Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // print_r($data);
         // permet de parcourir toutes les colonnes de la requete : prepare($GLOBALS['qAfficherNomPrenom'])
         foreach ($data as $key => $value) {
             if ($key == 'Id_Enfant') {
@@ -507,38 +506,84 @@ function afficherObjectifs()
 
 function faireMenu()
 {
-    $effacer = ["/leSite/", ".php", "?params=suppr"];
-    $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
+    // $effacer = ["/leSite/", ".php", "?params=suppr"];
+    // $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
+    $get_url = $_SERVER['REQUEST_URI'];
+    $idAChercher = "";
+    if(stripos($get_url,"tableau")) {
+        $idAChercher = "tableauDeBord";
+    }else if(stripos($get_url,"enfant")) {
+        $idAChercher = "Enfants";
+    } else if (stripos($get_url,"membre")) {
+        $idAChercher = "Membres";
+    } else if (stripos($get_url,"objectif")) {
+        $idAChercher = "Objectifs";
+    } else if (stripos($get_url,"recompense")) {
+        $idAChercher = "Recompenses";
+    }
     echo
     '
     <nav class="navbar">
-    <a href="#"><img src="images/logo.png" alt="logo" class="logo"></a>
-    <div class="nav-links">
-      <ul class="nav-ul">
-        <li><a href="#" id="tableauDeBord">Tableau de bord</a></li>
-        <div class="separateur"></div>
-        <li><a href="modifierProfil.php" id="modifierProfil">Profil</a></li>
-        <div class="separateur"></div>
-        <li><a href="ajouterEnfant.php" id="ajouterEnfant">Ajouter un enfant</a></li>
-        <div class="separateur"></div>
-        <li><a href="gererMembre.php" id="gererMembre">Gérer les membres</a></li>
-        <div class="separateur"></div>
-        <li>
-            <div id="centerDeconnexion">
-                <p class="txtBoutonDeconnexion">Placeholder</p>
-                <a href="deconnexion.php" class="lienBoutonDeconnexion"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span class="txtBoutonDeconnexion">Déconnexion</span></button></a>
-            </div>
-        </li>
-      </ul>
-    </div>
+        <div class="fondMobile"></div>
+        <a href="#"><img src="images/logo.png" alt="logo" class="logo"></a>
+        
+        <div class="nav-links">
+          <ul class="nav-ul">
+            <li><a href="#" id="tableauDeBord">Tableau de bord</a></li>
     
-    <img src="images/menu.png" onclick="menuMobile(\'nav-links\')" alt="barre de menu" class="menu-hamburger">
-    
+            <div class="separateur"></div>
+            
+            <li><a id="Enfants">Enfants</a>
+                <ul class="sousMenu">
+                    <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
+                    <li><a href="#">Gérer les enfants</a></li>
+                </ul>
+            </li>        
+            
+            <div class="separateur"></div>
+            
+            <li><a id="Membres">Membres</a>
+                <ul class="sousMenu">
+                    <li><a href="gererMembre.php">Gérer les membres</a></li>
+                </ul>
+            </li>
+            
+            <div class="separateur"></div>
+            
+            <li><a id="Objectifs">Objectifs</a>
+                <ul class="sousMenu">
+                    <li><a href="creationObjectif.php">Créer un objectif</a></li>
+                    <li><a href="#">Gérer les objectifs</a></li>
+                </ul>
+            </li>
+
+            <div class="separateur"></div>
+
+            <li><a id="Recompenses">Récompenses</a>
+                <ul class="sousMenu">
+                    <li><a href="#">Ajouter une récompense</a></li>
+                    <li><a href="#">Gérer les récompenses</a></li>
+                </ul>
+            </li>
+            
+            <div class="separateur"></div>
+
+            <li>
+                <div id="centerDeconnexion">
+                    <a href="modifierProfil.php" id="modifierProfil"><p class="txtBoutonDeconnexion">Placeholder profil</p></a>
+                    <a href="deconnexion.php" class="lienBoutonDeconnexion"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span class="txtBoutonDeconnexion">Déconnexion</span></button></a>
+                </div>
+            </li>
+          </ul>
+        </div>
+        
+        <img src="images/menu.png" onclick="menuMobile(\'nav-links\')" alt="barre de menu" class="menu-hamburger">
+        
     </nav>';
 
     echo '
     <script>
-        var elementActif = document.querySelector("#' . $get_url . '");
+        var elementActif = document.querySelector("#' . $idAChercher . '");
         elementActif.classList.add("active");
     </script>';
 }
