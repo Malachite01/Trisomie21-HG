@@ -323,7 +323,7 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Code_Postal') {
                 echo '
                 <label for="champCp">Code postal :</label>
-                <input type="text" name="champCp" placeholder="Entrez votre code postal" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="50" value="' . $value . '" required>
+                <input type="text" name="champCp" placeholder="Entrez votre code postal" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
                 <span></span>';
             } elseif ($key == 'Ville') {
                 echo '<label for="champVille">Ville :</label>
