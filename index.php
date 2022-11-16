@@ -40,12 +40,22 @@
             <?php
             break;
 
-            case 'already':
+            case 'inexistant':
             ?>
               <div class="erreurPopup">
                 <h2 class="txtPopup">Erreur, compte non existant</h2>
                 <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
                 <button class="boutonFermerPopup" onclick="erasePopup('erreurPopup')">Fermer X</button>
+              </div>
+            <?php
+            break;
+
+            case 'invalide':
+            ?>
+              <div class="alertPopup">
+                <h2 class="txtPopup">Erreur, votre compte est encore en attente de validation</h2>
+                <img src="images/wait.png" alt="image attente" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('alertPopup')">Fermer X</button>
               </div>
             <?php
             break;

@@ -18,11 +18,10 @@
     supprimerMembre($_POST['boutonSupprimer']);
     header("Location: gererMembre.php?params=suppr");
   };
-  //!FONCTION DE VALIDATION DE GRATTHIS AVEC DES BOUTONS SUBMIT
-  // if(isset('boutonvalidationdecompte')) {
-  //   validerlecompte($_POST['boutonValider']);
-  //   header("Location: gererMembre.php?params=valide");
-  // };
+  if(isset($_POST['boutonValider'])) {
+    validerMembre($_POST['boutonValider']);
+    header("Location: gererMembre.php?params=valide");
+  };
 
   if(isset($_GET['params'])) {
     $err = htmlspecialchars($_GET['params']);

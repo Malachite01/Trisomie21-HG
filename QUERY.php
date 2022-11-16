@@ -18,6 +18,12 @@ $qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Cour
 // requete pour recuperer toute les informations des membre de la BD
 $qAfficherMembres = 'SELECT * FROM Membre';
 
+// requete pour valider un membre de la BD
+$qValiderMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMembre';
+
+// requete pour vérifier si un membre est valide ou non dans la BD
+$qVerifierValidationMembre = 'SELECT * FROM Membre WHERE Courriel = :courriel AND Mdp = :mdp AND Compte_Valide = 1';
+
 // requete pour rechercher un membre dans la BD
 $qRechercherUnMembre = 'SELECT * FROM membre WHERE Id_Membre = :id';
 
@@ -44,7 +50,7 @@ $qAfficherObjectifs = 'SELECT * FROM objectif';
 // requete pour valider le compte d'un membre de la BD
 $qValiderCompteMembre;
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
-$qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant';
+$qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
 
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
@@ -54,6 +60,8 @@ $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant';
 function connexionBd()
 {
     // parametre de connexion a la BD
+    // cDRvPP\2mwea(LGp
+    // https://test-saetrisomie21.000webhostapp.com/
     $SERVER = '127.0.0.1';
     $DB = 'projet_sae';
     $LOGIN = 'root';
@@ -276,20 +284,67 @@ function AfficherNomPrenomDateNaissanceCourrielBoutonSupprimerMembrePlusValidati
         }
         // permet de dire si un membre a son compte valide ou non 
         if ($compteValide == Null) {
-            echo '<td><a href="gererMembre.php?id=' . $idMembre . '"><input type="checkbox" value="Valider"</a></td>'; // compte valide
+            echo '
+            <td>
+                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
+                    <img src="images/valider.png" class="imageIcone" alt="icone valider">
+                    <span>Valider</span>
+                </button>
+            </td>';  // compte doit etre validé
         } else {
-            echo '<td><input type="checkbox" checked  disabled="disabled"></td>'; // compte invalide
+            echo '
+            <td>
+                <p style="color: green">Compte valide !</p>
+            </td>'; // compte valide donc bouton innactif
         }
         // creation du bouton supprimer dans le tableau
         echo '
             <td>
                 <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
                 " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                    <span>Supprimer</span>
                 </button>
             </td>
         </tr>';
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------
+// fonction qui permet de valider un membre a partir de son id
+function validerMembre($idMembre) {
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // execution de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qValiderMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour valider le compte membre');
+    }
+    $req->execute(array(':idMembre' => clean($idMembre)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour valider le compte membre');
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------
+// fonction qui permet de vérifier si un membre est validé ou non avant de se connecter
+function verifierValidationMembre($courriel, $mdp) {
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // execution de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qVerifierValidationMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
+    }
+    $req->execute(array(':courriel' => clean($courriel),':mdp' => clean($mdp)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
+    }
+    if($req->rowCount()>0) {
+        return true;
+    } else {
+        return false;
     }
 }
 
