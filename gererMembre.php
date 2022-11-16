@@ -58,13 +58,12 @@
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
-        <select name="" id="">
-          <option value="Normal">Normal</option>
-          <option value="Normal">Normal</option>
-          <option value="Normal">Normal</option>
-          <option value="Normal">Normal</option>
-          <option value="Normal">Normal</option>
-          <option value="Normal">Normal</option>
+        <select name="filtres" id="filtres">
+          <option value="aucun">Aucun</option>
+          <option value="alphabetiqueCroissant">De A à Z</option>
+          <option value="alphabetiqueDecroissant">De Z à A</option>
+          <option value="valide">Membres validés</option>
+          <option value="invalide">Membres invalides</option>
         </select>
       </div>
       <div class="centerIconeChamp">
@@ -82,14 +81,6 @@
       </thead>
 
       <tbody id="tbodyGererMembres">
-        <tr>
-          <td>Placeholder1</td>
-          <td>Placeholder1</td>
-          <td>Placeholder1@gmail.com</td>
-          <td>05/02/2003</td>
-          <td><input type="checkbox" value="1" id="checked" onclick="Disable(this);" id="$i"></td>
-          <td><button type="submit" name="boutonSupprimer" class="boutonSupprimer"><img src="images/bin.png" class="imageIcone" alt="icone supprimer"><span>Supprimer</span></button></td>
-        </tr>
         <?php
           AfficherNomPrenomDateNaissanceCourrielBoutonSupprimerMembrePlusValidation();
         ?>

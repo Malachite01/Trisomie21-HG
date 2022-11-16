@@ -44,7 +44,7 @@ $qAfficherObjectifs = 'SELECT * FROM objectif';
 // requete pour valider le compte d'un membre de la BD
 $qValiderCompteMembre;
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
-$qAfficherNomPrenomEnfant = 'SELECT Nom,Prenom FROM Enfant';
+$qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant';
 
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
@@ -536,7 +536,7 @@ function faireMenu()
             <li><a id="Enfants">Enfants</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
-                    <li><a href="#">Gérer les enfants</a></li>
+                    <li><a href="#">Mon équipe d\'enfants</a></li>
                 </ul>
             </li>        
             
@@ -570,7 +570,7 @@ function faireMenu()
 
             <li>
                 <div id="centerDeconnexion">
-                    <a href="modifierProfil.php" id="modifierProfil"><p class="txtBoutonDeconnexion">Placeholder profil</p></a>
+                    <a href="modifierProfil.php" class="centerProfil"><p class="txtBoutonDeconnexion">Placeholder profil</p><img src="images/profil.png" alt="profil" class="imageIcone"></a>
                     <a href="deconnexion.php" class="lienBoutonDeconnexion"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span class="txtBoutonDeconnexion">Déconnexion</span></button></a>
                 </div>
             </li>

@@ -299,7 +299,7 @@ nav a {
     position: absolute;
     padding: 50px;
     padding-top: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -318,7 +318,8 @@ nav a {
     list-style: none;
 }
 .navbar .nav-links .nav-ul li{
-    margin: 0 15px;
+    margin-left: 15px;
+    margin-right: 15px;
     font-size: 1.1em;
 }
 .navbar .nav-links .nav-ul li a:not(.center):not(.lienBoutonDeconnexion) {
@@ -373,6 +374,13 @@ nav a {
 #centerDeconnexion {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin-top: -5px;
+}
+.centerProfil {
+    display: grid;
+    grid-template-columns: 1fr 0.1fr;
     align-items: center;
     justify-items: center;
     margin-top: -5px;
@@ -541,6 +549,7 @@ div.miseEnForme label {
 #boutonDeconnexion {
     padding: 1px;
     margin: 0;
+    margin-top: -5px;
     top: 0;
     right: 0;
 }
@@ -1036,7 +1045,10 @@ div.miseEnForme label {
     max-width: 70px;
     max-height: 70px;
 }
-
+#imageTampon {
+    max-width: 70px;
+    max-height: 70px;
+}
 #boutonsValiderAnnuler {
     position: relative;
     top: 10px;

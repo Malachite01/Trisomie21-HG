@@ -24,3 +24,5 @@ Connexion
 <a target="_blank" href="https://icons8.com/icon/1320IBiTPBYp/menu">Menu</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
 <a target="_blank" href="https://icons8.com/icon/VaY24BN2Q36n/fl%C3%A8che-gauche">Flèche gauche</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+<a target="_blank" href="https://icons8.com/icon/ABBSjQJK83zf/utilisateur">Utilisateur</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
