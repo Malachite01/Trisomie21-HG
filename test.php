@@ -11,12 +11,6 @@
 <body>
     <form action="" method="POST">
         <h1>Ajouter objectif</h1>
-        <label>Intitule :<input type="text" name="champIntitule" /></label>
-        <label>Duree :<input type="text" name="champDuree" /></label>
-        <label>Lien objectif :<input type="text" name="champLienObjectif" /></label>
-        <label>Priorité :<input type="text" name="champPriorite" /></label>
-        <label>Nombre de jetons :<input type="text" name="champNbJetons" /></label>
-        <input type="submit">
         <?php
         session_start();
         $id = $_SESSION['idConnexion'];
@@ -34,6 +28,12 @@
             );
         }
         ?>
+        <label>Intitule :<input type="text" name="champIntitule" /></label>
+        <label>Duree :<input type="text" name="champDuree" /></label>
+        <label>Lien objectif :<input type="text" name="champLienObjectif" /></label>
+        <label>Priorité :<input type="text" name="champPriorite" /></label>
+        <label>Nombre de jetons :<input type="text" name="champNbJetons" /></label>
+        <input type="submit">
         <input type="datetime-local" id="dateDebut">
         <input type="datetime-local" id="dateFin">
     </form>

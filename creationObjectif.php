@@ -17,36 +17,40 @@
 
   <?php
     require('QUERY.php');
+    session_start();
+    $id = $_SESSION['idConnexion'];
     faireMenu();
   ?>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
 
   <h1 id="texteH1DemandeInscription">Création d'un objectif</h1>
 
+  <?php
+      if (champRempli(array('champIntitule', 'champDuree', 'champImageTampon', 'champPriorite', 'champNbTampons'))) {
+        if(isset($_POST['boutonValider'])) {
+          ajouterObjectif($_POST['champIntitule'],
+                          $_POST['champDuree'],
+                          $_POST['champImageTampon'],
+                          $_POST['champPriorite'],
+                          $_POST['champNbTampons'],
+                          $id,
+                          $_POST['idEnfant']);
+          echo '
+          <div class="validationPopup">
+            <h2 class="txtPopup">L\'objectif a bien été ajouté à l\'enfant !</h2>
+            <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+            <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+          </div>';
+        }
+      }
+    ?>
+
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
+  
     <div class="miseEnForme" id="miseEnFormeFormulaire">
     <label for="champIntitule">Enfant concerné :</label>
       <?php
-        session_start();
-        $id = $_SESSION['idConnexion'];
         afficherNomPrenomEnfant();
-        if (champRempli(array('champIntitule', 'champDuree', 'champImageTampon', 'champPriorite', 'champNbTampons'))) {
-            ajouterObjectif(
-                $_POST['champIntitule'],
-                $_POST['champDuree'],
-                $_POST['champImageTampon'],
-                $_POST['champPriorite'],
-                $_POST['champNbTampons'],
-                $id,
-                $_POST['idEnfant']
-            );
-            echo '
-            <div class="validationPopup">
-              <h2 class="txtPopup">L\'objectif a bien été ajouté à l\'enfant !</h2>
-              <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-              <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
-            </div>';
-        }
       ?>
       <span></span>
 
@@ -59,7 +63,7 @@
       <span></span>
 
       <label for="champImageTampon">Image du tampon :</label>
-      <input type="file" name="champImageJeton" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp"  onchange="refreshImageSelector('champImageTampon','imageTampon')" required>
+      <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp"  onchange="refreshImageSelector('champImageTampon','imageTampon')" required>
       <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
 
       <label for="champPriorite">Priorité :</label>

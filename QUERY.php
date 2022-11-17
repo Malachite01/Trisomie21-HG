@@ -524,7 +524,6 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $nbJetons,
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
-    $req->debugDumpParams();
 }
 
 // fonction qui permet d'afficher tous les objectif de la BD

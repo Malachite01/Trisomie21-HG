@@ -307,7 +307,7 @@ nav a {
     align-items: center;
     z-index: 2;
     background-color: var(--couleurMenu);
-    border-radius: var(--globalRadius);
+    border-radius: 0;
 }
 .navbar .separateur::after {
     content: "|";
@@ -1059,11 +1059,12 @@ div.miseEnForme label {
 }
 
 .svgWaveContains {
-    position:absolute;
+    position:fixed;
     height: 5%;
     width:100%;
-    top:0;
+    top:0px;
     left:0;
+    z-index: -1;
 }
 
 .svgWave {
