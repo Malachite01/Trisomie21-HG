@@ -47,6 +47,8 @@ $qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Tr
 $qAfficherObjectifs = 'SELECT * FROM objectif';
 
 //--------------------------------------------------------------------------------------------------A faire
+// requete pour afficher le prenom du membre connecté
+$qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
 // requete pour valider le compte d'un membre de la BD
 $qValiderCompteMembre;
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
@@ -345,6 +347,22 @@ function verifierValidationMembre($courriel, $mdp) {
         return true;
     } else {
         return false;
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------
+// fonction qui permet d'afficher le prenom d'un membre (barre menu)
+function afficherPrenomMembre($idMembre) {
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // execution de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherPrenomMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
+    }
+    $req->execute(array(':idMembre' => clean($idMembre)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
     }
 }
 
