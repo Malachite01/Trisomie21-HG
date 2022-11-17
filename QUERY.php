@@ -483,27 +483,6 @@ function rechercherMembre($idMembre)
     return $req; // retourne le membre correspondant a $idMembre
 }
 
-//----------------------------------------------------------------------------------------------------A revoir car pas fini
-// fonction qui permet de valider le compte d'un membre 
-function validerCompteMembre($idMembre)
-{
-    // connexion a la base de donnees
-    $linkpdo = connexionBd();
-    RechercherMembre($idMembre); // recherche du membre selon son idMembre pour valider son compte 
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRechercherUnMembre']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour valider le compte d\'un membre');
-    }
-    //execution de la requete sql
-    $req->execute(array(
-        ':id' => $idMembre
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour valider le compte d\'un membre');
-    }
-}
-
 // fontion qui permet d'ajouter un objectif a la BD
 function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $nbJetons, $idmembre, $idenfant)
 {
