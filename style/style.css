@@ -1106,6 +1106,22 @@ div.miseEnForme label {
     background-color: var(--couleurBoutonHover);
 }
 
+/*! TABLEAU DE BORD */
+#formTableauDeBord {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+.containerTableauDeBord {
+
+    background-color: red;
+}
+
+#containerObjectifs {
+    background-color: #01534f;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
 /* DANS LE PC */
 @media screen and (max-width: 400px) {
     h1 {
@@ -1132,6 +1148,9 @@ div.miseEnForme label {
         margin-top: 5%;
     }
     #formConnexion {
+        margin-top: 5%;
+    }
+    #formTableauDeBord {
         margin-top: 5%;
     }
     #miseEnFormeConnexion {

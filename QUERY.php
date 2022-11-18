@@ -580,7 +580,7 @@ function faireMenu()
         
         <div class="nav-links">
           <ul class="nav-ul">
-            <li><a href="#" id="tableauDeBord">Tableau de bord</a></li>
+            <li><a href="tableauDeBord.php" id="tableauDeBord">Tableau de bord</a></li>
     
             <div class="separateur"></div>
             
