@@ -54,7 +54,7 @@ $qValiderCompteMembre;
 $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
 //requete de modification d'Objectif
 $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, Priorite = :priorite, 
-Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons Where id_Membre = :idMembre AND id_Enfant = idEnfant'; 
+Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons Where id_Membre = :idMembre AND id_Enfant = idEnfant';
 
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
@@ -401,7 +401,7 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Code_Postal') {
                 echo '
                 <label for="champCp">Code postal :</label>
-                <input type="text" name="champCp" placeholder="Entrez votre code postal" value='. $value .' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
+                <input type="text" name="champCp" placeholder="Entrez votre code postal" value=' . $value . ' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
                 <span></span>';
             } elseif ($key == 'Ville') {
                 echo '<label for="champVille">Ville :</label>
@@ -669,16 +669,17 @@ function faireMenu()
 }
 
 
-function modifierObjectif($intitule,$duree,$lienImage,$priorite,$travaille,$nbJetons,$nbTampons,$idMembre,$idEnfant){
-     // connexion a la BD
-     $linkpdo = connexionBd();
-     // preparation de la requete sql
-     $req = $linkpdo->prepare($GLOBALS['qModifierInformationsObjectif']);
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif 
+function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, $nbJetons, $nbTampons, $idMembre, $idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif 
              ');
-     }
-             //execution de la requete sql
+    }
+    //execution de la requete sql
     $req->execute(array(
         ':intitule' => clean($intitule),
         ':duree' => clean($duree),
@@ -693,7 +694,7 @@ function modifierObjectif($intitule,$duree,$lienImage,$priorite,$travaille,$nbJe
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif 
             ');
-
+    }
 }
 
 
