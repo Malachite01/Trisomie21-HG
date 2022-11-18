@@ -46,13 +46,13 @@ $qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Tr
 // requete pour afficher les objectifs de la BD
 $qAfficherObjectifs = 'SELECT * FROM objectif';
 
-//--------------------------------------------------------------------------------------------------A faire
 // requete pour afficher le prenom du membre connecté
 $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
-// requete pour valider le compte d'un membre de la BD
-$qValiderCompteMembre;
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
 $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
+//requete de modification d'Objectif
+$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, Priorite = :priorite, 
+Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons Where id_Membre = :idMembre AND id_Enfant = idEnfant'; 
 
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
@@ -396,7 +396,7 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Code_Postal') {
                 echo '
                 <label for="champCp">Code postal :</label>
-                <input type="text" name="champCp" placeholder="Entrez votre code postal" value='. $value .' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
+                <input type="text" name="champCp" placeholder="Entrez votre code postal" value='. $ value .' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
                 <span></span>';
             } elseif ($key == 'Ville') {
                 echo '<label for="champVille">Ville :</label>
@@ -638,6 +638,36 @@ function faireMenu()
         elementActif.classList.add("active");
     </script>';
 }
+
+
+function modifierObjectif($intitule,$duree,$lienImage,$priorite,$travaille,$nbJetons,$nbTampons,$idMembre,$idEnfant){
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qModifierInformationsObjectif']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif 
+             ');
+     }
+             //execution de la requete sql
+    $req->execute(array(
+        ':intitule' => clean($intitule),
+        ':duree' => clean($duree),
+        ':lienImage' => clean($lienImage),
+        ':priorite' => clean($priorite),
+        ':travaille' => clean($travaille),
+        ':nbJetons' => clean($nbJetons),
+        ':nbTampons' => clean($nbTampons),
+        ':idMembre' => clean($idMembre),
+        ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif 
+            ');
+
+}
+
+
 
 /*                                                                
 /                                                                                   .                                                
