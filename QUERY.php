@@ -40,8 +40,8 @@ $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre WH
                     Date_Naissance = :dateNaissance AND Courriel = :courriel';
 
 // requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Travaille,Nb_Jetons,Id_Membre,Id_Enfant) 
-                    VALUES (:intitule, :duree, :lienObjectif, :priorite, 0, :nbJetons, :idmembre, :idenfant)';
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Travaille,Nb_Jetons,Id_Membre,Id_Enfant,Nb_Tampons,Nb_Tampons_Places) 
+                    VALUES (:intitule, :duree, :lienObjectif, :priorite, :travaille, :nbJetons, :idMembre, :idEnfant, :nbTampons, :nbTamponsPlaces)';
 
 // requete pour afficher les objectifs de la BD
 $qAfficherObjectifs = 'SELECT * FROM objectif';
@@ -49,8 +49,6 @@ $qAfficherObjectifs = 'SELECT * FROM objectif';
 //--------------------------------------------------------------------------------------------------A faire
 // requete pour afficher le prenom du membre connecté
 $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
-// requete pour valider le compte d'un membre de la BD
-$qValiderCompteMembre;
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
 $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
 
@@ -315,7 +313,8 @@ function AfficherNomPrenomDateNaissanceCourrielBoutonSupprimerMembrePlusValidati
 
 // ---------------------------------------------------------------------------------------------------
 // fonction qui permet de valider un membre a partir de son id
-function validerMembre($idMembre) {
+function validerMembre($idMembre)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // execution de la requete sql
@@ -331,7 +330,8 @@ function validerMembre($idMembre) {
 
 // ---------------------------------------------------------------------------------------------------
 // fonction qui permet de vérifier si un membre est validé ou non avant de se connecter
-function verifierValidationMembre($courriel, $mdp) {
+function verifierValidationMembre($courriel, $mdp)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // execution de la requete sql
@@ -339,11 +339,11 @@ function verifierValidationMembre($courriel, $mdp) {
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
     }
-    $req->execute(array(':courriel' => clean($courriel),':mdp' => clean($mdp)));
+    $req->execute(array(':courriel' => clean($courriel), ':mdp' => clean($mdp)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
     }
-    if($req->rowCount()>0) {
+    if ($req->rowCount() > 0) {
         return true;
     } else {
         return false;
@@ -352,7 +352,8 @@ function verifierValidationMembre($courriel, $mdp) {
 
 // ---------------------------------------------------------------------------------------------------
 // fonction qui permet d'afficher le prenom d'un membre (barre menu)
-function afficherPrenomMembre($idMembre) {
+function afficherPrenomMembre($idMembre)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // execution de la requete sql
@@ -396,7 +397,7 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Code_Postal') {
                 echo '
                 <label for="champCp">Code postal :</label>
-                <input type="text" name="champCp" placeholder="Entrez votre code postal" value='. $value .' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
+                <input type="text" name="champCp" placeholder="Entrez votre code postal" value=' . $value . ' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
                 <span></span>';
             } elseif ($key == 'Ville') {
                 echo '<label for="champVille">Ville :</label>
@@ -502,7 +503,7 @@ function rechercherMembre($idMembre)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $nbJetons, $idmembre, $idenfant)
+function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -517,9 +518,12 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $nbJetons,
         ':duree' => clean($duree),
         ':lienObjectif' => clean($lienObjectif),
         ':priorite' => clean($priorite),
+        ':travaille' => clean($travaille),
         ':nbJetons' => clean($nbJetons),
-        ':idmembre' => clean($idmembre),
-        ':idenfant' => clean($idenfant)
+        ':idMembre' => clean($idMembre),
+        ':idEnfant' => clean($idEnfant),
+        ':nbTampons' => clean($nbTampons),
+        ':nbTamponsPlaces' => clean($nbTamponsPlaces)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
@@ -547,7 +551,28 @@ function afficherObjectifs()
         // permet de parcourir toutes les colonnes de la requete : query($GLOBALS['qAfficherMembres'])
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Intitule' || $key == 'Duree' || $key == 'Lien_Image' || $key == 'Priorite' || $key == 'Travaille' || $key == 'Nb_Jetons') {
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Lien_Image') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Priorite') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Nb_Tampons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Nb_Tampons_Places') {
                 echo '<td>' . $value . '</td>';
             }
             echo '</tr>';
@@ -561,15 +586,15 @@ function faireMenu()
     // $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
     $get_url = $_SERVER['REQUEST_URI'];
     $idAChercher = "";
-    if(stripos($get_url,"tableau")) {
+    if (stripos($get_url, "tableau")) {
         $idAChercher = "tableauDeBord";
-    }else if(stripos($get_url,"enfant")) {
+    } else if (stripos($get_url, "enfant")) {
         $idAChercher = "Enfants";
-    } else if (stripos($get_url,"membre")) {
+    } else if (stripos($get_url, "membre")) {
         $idAChercher = "Membres";
-    } else if (stripos($get_url,"objectif")) {
+    } else if (stripos($get_url, "objectif")) {
         $idAChercher = "Objectifs";
-    } else if (stripos($get_url,"recompense")) {
+    } else if (stripos($get_url, "recompense")) {
         $idAChercher = "Recompenses";
     }
     echo
