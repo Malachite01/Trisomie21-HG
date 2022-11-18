@@ -44,7 +44,7 @@ $qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Tr
                     VALUES (:intitule, :duree, :lienObjectif, :priorite, :travaille, :nbJetons, :idMembre, :idEnfant, :nbTampons, :nbTamponsPlaces)';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherObjectifs = 'SELECT * FROM objectif';
+$qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille FROM objectif where Id_Enfant = :idEnfant';
 
 // requete pour afficher le prenom du membre connecté
 $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
@@ -535,7 +535,7 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $travaille
 }
 
 // fonction qui permet d'afficher tous les objectif de la BD
-function afficherObjectifs()
+function afficherObjectifs($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -545,7 +545,7 @@ function afficherObjectifs()
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
     }
     //execution de la requete sql
-    $req->execute();
+    $req->execute(array(':idEnfant' => $idEnfant));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
     }
@@ -558,29 +558,28 @@ function afficherObjectifs()
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Duree') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Lien_Image') {
-                echo '<td>' . $value . '</td>';
-            }
             if ($key == 'Priorite') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Travaille') {
+            if ($key == 'Duree') {
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Nb_Jetons') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Nb_Tampons') {
+            if ($key == 'Travaille') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Nb_Tampons_Places') {
-                echo '<td>' . $value . '</td>';
-            }
-            echo '</tr>';
         }
+        echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
     }
 }
 
@@ -633,7 +632,7 @@ function faireMenu()
             <li><a id="Objectifs">Objectifs</a>
                 <ul class="sousMenu">
                     <li><a href="creationObjectif.php">Créer un objectif</a></li>
-                    <li><a href="#">Gérer les objectifs</a></li>
+                    <li><a href="gererObjectifs.php">Gérer les objectifs</a></li>
                 </ul>
             </li>
 

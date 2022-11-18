@@ -1113,7 +1113,6 @@ div.miseEnForme label {
     justify-items: center;
 }
 .containerTableauDeBord {
-
     background-color: red;
 }
 
@@ -1220,6 +1219,34 @@ div.miseEnForme label {
     }
     #tbodyGererMembres td:nth-child(5)::before{
         content: "Validé :";
+    }
+
+
+    #tbodyGererObjectifs td::before{
+        position: absolute;
+        font-weight: bold;
+        font-size: 1.05em;
+        left: 0;
+        width: 50%;
+        text-align: left;
+    }
+    #tbodyGererObjectifs td:first-child::before{
+        content: "Intitulé :";
+    }
+    #tbodyGererObjectifs td:nth-child(2)::before{
+        content: "Durée d'évaluation :";
+    }
+    #tbodyGererObjectifs td:nth-child(3)::before{
+        content: "Priorité :";
+    }
+    #tbodyGererObjectifs td:nth-child(4)::before{
+        content: "Jetons à gagner :";
+    }
+    #tbodyGererObjectifs td:nth-child(5)::before{
+        content: "Statut :";
+    }
+    #tbodyGererObjectifs td:nth-child(6)::before{
+        content: "Modifier :";
     }
 }
 @media screen and (max-width: 700px) {

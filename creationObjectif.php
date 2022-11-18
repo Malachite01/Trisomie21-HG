@@ -73,7 +73,6 @@
       <input type="text" name="champPriorite" placeholder="Entrez la priorité de l'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5" required>
       <span></span>
 
-      <!-- c'est de la merde  -->
       <label for="champTravaille">Statut de l'objectif :</label>
       <select name="champTravaille">
         <option value="null">Veuillez choisir un statut</option>
@@ -81,20 +80,17 @@
         <option value="2">A venir</option>
       </select>
       <span></span>
-      <!-- fin de la merde  -->
 
       <label for="champImageTampon">Image du tampon :</label>
       <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageTampon','imageTampon')" required>
       <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
 
-      <!-- de la merde  -->
       <label for="champNbTampons">Nombre de tampons :</label>
       <input type="number" name="champNbTampons" placeholder="Entrez le nombre de tampons pour valider l'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" required>
       <span></span>
-      <!-- fin de la merde -->
 
-      <label for="champNbJetons">Nombre de Jetons :</label>
-      <input type="number" name="champNbJetons" placeholder="Entrez le nombre de tampons pour valider l'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" required>
+      <label for="champNbJetons">Jetons à gagner :</label>
+      <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" required>
       <span></span>
 
     </div>
