@@ -55,6 +55,9 @@ $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY N
 //requete de modification d'Objectif
 $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, Priorite = :priorite, 
 Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons Where id_Membre = :idMembre AND id_Enfant = idEnfant';
+//Rajoute une recompense
+$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant) 
+VALUES (:intitule ,:descriptif,:lienImage,:idEnfant)';
 
 /*
 / -----------------------------------------------Liste des requetes---------------------------------------------------------
@@ -695,7 +698,26 @@ function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, 
             ');
     }
 }
-
+// PARTIE RECOMPENSE
+function ajouterRecompense($intitule,$descriptif,$lienImage,$idEnfant){
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qAjouterRecompense']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter une recompense a la BD');
+     }
+     //execution de la requete sql
+     $req->execute(array(
+         ':intitule' => clean($intitule),
+         ':descriptif' => clean($descriptif),
+         ':lienImage' => clean($lienImage),
+         ':idEnfant' => clean($idEnfant)
+     ));
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+     }
+}
 
 
 /*                                                                
