@@ -19,6 +19,7 @@
 
   <h1>Modifier les objectifs</h1>
   <?php
+  session_start();
   require('QUERY.php');
 
   faireMenu();
