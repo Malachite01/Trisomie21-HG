@@ -57,7 +57,7 @@
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champIntitule">Enfant concerné :</label>
       <?php
-      afficherNomPrenomEnfant();
+        afficherNomPrenomEnfant();
       ?>
       <span></span>
 
@@ -70,15 +70,20 @@
       <span></span>
 
       <label for="champPriorite">Priorité :</label>
-      <input type="text" name="champPriorite" placeholder="Entrez la priorité de l'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5" required>
+      <input type="number" name="champPriorite" placeholder="Entrez la priorité de l'objectif (un nombre)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11" required>
       <span></span>
 
       <label for="champTravaille">Statut de l'objectif :</label>
-      <select name="champTravaille">
-        <option value="null">Veuillez choisir un statut</option>
-        <option value="1">En cours</option>
-        <option value="2">A venir</option>
-      </select>
+      <div class="center" style="width: 100%;">
+        <span class="center1Item">
+          <input type="radio" name="champTravaille" id="enCours" value="1" checked required>
+          <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
+        </span>
+        <span class="center1Item">
+          <input type="radio" name="champTravaille" id="Avenir" value="2" required>
+          <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
+        </span>
+      </div>
       <span></span>
 
       <label for="champImageTampon">Image du tampon :</label>
@@ -86,11 +91,11 @@
       <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
 
       <label for="champNbTampons">Nombre de tampons :</label>
-      <input type="number" name="champNbTampons" placeholder="Entrez le nombre de tampons pour valider l'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" required>
+      <input type="number" name="champNbTampons" placeholder="Entrez le nombre de tampons pour valider l'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" min="1" max="99999999999" required>
       <span></span>
 
       <label for="champNbJetons">Jetons à gagner :</label>
-      <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" required>
+      <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" min="1" max="99999999999" required>
       <span></span>
 
     </div>
