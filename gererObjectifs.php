@@ -38,13 +38,13 @@
   <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
-        <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
+        <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
             afficherNomPrenomEnfantSubmit();
         ?>
       </div>
       <div class="centerIconeChamp">
-        <img src="images/search.png" class="imageIcone" alt="icone de loupe">
+        <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <input type="text" name="Recherche">
       </div>
     </div>
