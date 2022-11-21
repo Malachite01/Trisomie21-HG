@@ -106,6 +106,10 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant) 
                         VALUES (:intitule ,:descriptif,:lienImage,:idEnfant)';
 
+$qRechercherRecompense = 'SELECT * FROM where id_Recompense = :idrecompense';
+
+$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
+                        WHERE id_Recompense = :idRecompense';
 
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -310,6 +314,40 @@ function afficherNomPrenomEnfant()
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
     echo '<select name="idEnfant" onchange="this.form.submit()">';
+    echo '<option>Veuillez choisir un enfant</option>';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Id_Enfant') {
+                $idEnfant = $value;
+            }
+            if ($key == 'Nom') {
+                $nom = $value;
+            }
+            if ($key == 'Prenom') {
+                echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
+            }
+        }
+    }
+    echo '</select>';
+}
+
+// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
+function afficherNomPrenomEnfantSubmit()
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    echo '<select name="idEnfant">';
     echo '<option>Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
@@ -1235,6 +1273,72 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+    }
+}
+
+function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierRecompense']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'une recompense ');
+    }
+    //execution de la requete sql
+    $req->execute(array(
+
+        ':intitule' => clean($intitule),
+        ':descriptif' => clean($descriptif),
+        ':lienImage' => clean($lienImage),
+        ':idRecompense' => clean($idRecompense)
+
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour modifier une recompense');
+    }
+}
+function rechercherRecompense($idRecompense)
+{
+    // connexion a la base de donnees
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherRecompense']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher une recompense dans la BD');
+    }
+    //execution de la requete sql
+    $req->execute(array(
+        ':idrecompense' => clean($idRecompense)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher une recompense dans la BD');
+    }
+    return $req;
+}
+function afficherRecompense($idRecompense)
+{
+    // recherche les informations d'une selon son id
+    $req = rechercherRecompense($idRecompense); // retoune la recompense selon $idRecompense
+    // permet de parcourir la ligne de la requetes : rechercherRecompense($idRecompense);
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete : rechercherRecompense($idRecompense);
+        foreach ($data as $key => $value) {
+            // recuperation de toutes les informations du membre de la session dans des inputs 
+            if ($key == 'Intitule') {
+                echo '<label for="champIntitule">IntitulÃ© :</label>
+                <input type="text" name="champIntitule" placeholder="Choisissez un intitule" minlength="1" maxlength="50" value="' . $value . '" required>
+                <span></span>';
+            } elseif ($key == 'Descriptif') {
+                echo '<label for="champDescriptif">Descriptif :</label>
+                <input type="text" name="champDescriptif" placeholder="Choisissez un descriptif" minlength="1" maxlength="50" value="' . $value . '"required>
+                <span></span>';
+            } elseif ($key == 'Lien_Image') {
+                echo '<label for="champImage">Image :</label>
+                <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
+                <span></span>';
+            }
+        }
     }
 }
 
