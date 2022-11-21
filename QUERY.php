@@ -104,7 +104,8 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille FROM objectif WHERE Id_Objectif = :idObjectif';
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille, Lien_Image, Nb_Tampons 
+                                    FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
@@ -1236,6 +1237,61 @@ function afficherObjectifs($idEnfant)
             </button>
             </td>
         </tr>';
+    }
+}
+
+// fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
+function AfficherInformationUnObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherInformationUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+    }
+    // permet de parcourir la ligne de la requetes 
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $key => $value) {
+            // recuperation de toutes les informations du membre de la session dans des inputs 
+            if ($key == 'Intitule') {
+                echo '<label for="champNom">Nom :</label>
+                <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" value="' . $value . '" required>
+                <span></span>';
+            } elseif ($key == 'Duree') {
+                echo '<label for="champPrénom">Prénom :</label>
+                <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" value="' . $value . '"required>
+                <span></span>';
+            } elseif ($key == 'Priorite') {
+                echo '<label for="champAdresse">Adresse :</label>
+                <input type="text" name="champAdresse" placeholder="Entrez votre adresse" maxlength="50" value="' . $value . '"  required>
+                <span></span>';
+            } elseif ($key == 'Nb_Jetons') {
+                echo '<label for="champDateDeNaissance">Date de naissance :</label>
+                <input type="date" name="champDateDeNaissance" id="champDateDeNaissance" min="1900-01-01" max="<?php echo date(\'Y-m-d\'); ?>" value="' . $value . '" required>
+                <span></span>';
+            } elseif ($key == 'Travaille') {
+                echo '
+                <label for="champCp">Code postal :</label>
+                <input type="text" name="champCp" placeholder="Entrez votre code postal" value=' . $value . ' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
+                <span></span>';
+            } elseif ($key == 'Lien_Image') {
+                echo '<label for="champVille">Ville :</label>
+                <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  required>
+                <span></span>';
+            } elseif ($key == 'Nb_Tampons') {
+                echo '<label for="champPro">Professionnel :</label>
+                <div class="center" style="width: 100%;">
+                  <span class="center1Item">
+                    <input type="radio" name="champPro" id="proNon" value="null" required';
+            }
+        }
     }
 }
 
