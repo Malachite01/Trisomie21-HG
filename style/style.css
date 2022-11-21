@@ -647,16 +647,16 @@ div.miseEnForme label {
 }
 
 .boutonEdit {
-    background-color: var(--couleurBoutonValider);
+    background-color: var(--couleurPopupEdit);
     color:var(--policeBlanche);
     padding: 9px;
 }
 .boutonEdit:hover {
-    animation: hoverWaveEdit .15s cubic-bezier(.16,.83,.59,.91) forwards;
+    animation: hoverWaveModifier .15s cubic-bezier(.16,.83,.59,.91) forwards;
     cursor: pointer;
 }
 .boutonEdit:active {
-    animation: hoverClickEdit .1s cubic-bezier(.16,.83,.59,.91) forwards;
+    animation: hoverWaveModifier .1s cubic-bezier(.16,.83,.59,.91) forwards;
 }
 
 @keyframes hoverWave {

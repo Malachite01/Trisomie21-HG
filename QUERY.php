@@ -104,7 +104,8 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille FROM objectif WHERE Id_Objectif = :idObjectif';
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille, Lien_Image, Nb_Tampons 
+                                    FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
@@ -116,8 +117,8 @@ $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id
 $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
-$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage , Cout_Jetons = :coutJetons
-                        WHERE id_Recompense = :idRecompense';
+$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage , 
+                        Cout_Jetons = :coutJetons WHERE id_Recompense = :idRecompense';
 
 // requete pour supprimer une recompense selon son id
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
@@ -1225,20 +1226,74 @@ function afficherObjectifs($idEnfant)
         }
         echo '
             <td>
-            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
-             class="boutonModifier" onclick="window.location=\'modifierObjectifs.php\'" >
+            <button type="submit" name="boutonModifierrr" value="' . $idObjectif . '" 
+             class="boutonModifier">
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
             </td>
         </tr>';
+    }
+}
+
+// fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
+function AfficherInformationUnObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherInformationUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+    }
+    // permet de parcourir la ligne de la requetes 
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $key => $value) {
+            // recuperation de toutes les informations du membre de la session dans des inputs 
+            if ($key == 'Intitule') {
+                echo '<label for="champIntitule">Intitule :</label>
+                <input type="text" name="champIntitule" placeholder="Entrez l\'intitulé" minlength="1" maxlength="50" value="' . $value . '" required>
+                <span></span>';
+            } elseif ($key == 'Duree') {
+                echo '<label for="champDuree">Durée d\'évaluation :</label>
+                <input type="text" name="champDuree" placeholder="Entrez une durée" minlength="1" maxlength="50" value="' . $value . '"required>
+                <span></span>';
+            } elseif ($key == 'Priorite') {
+                echo '<label for="champPriorite">Priorité :</label>
+                <input type="text" name="champPriorite" placeholder="Entrez la Priorite" maxlength="50" value="' . $value . '"  required>
+                <span></span>';
+            } elseif ($key == 'Travaille') {
+                echo '
+                <label for="champTravaille">Code postal :</label>
+                <input type="text" name="champTravaille" placeholder="Entrez votre code postal" value=' . $value . ' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
+                <span></span>';
+            } elseif ($key == 'Lien_Image') {
+                echo '<label for="champLien_Image">Ville :</label>
+                <input type="text" name="champLien_Image" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  required>
+                <span></span>';
+            } elseif ($key == 'Nb_Tampons') {
+                echo '<label for="champNb_Tampons">Ville :</label>
+                <input type="text" name="champNb_Tampons" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  required>
+                <span></span>';
+            } elseif ($key == 'Nb_Jetons') {
+                echo '<label for="champNb_Jetons">Date de naissance :</label>
+                <input type="date" name="champNb_Jetons" id="champDateDeNaissance" min="1900-01-01" max="<?php echo date(\'Y-m-d\'); ?>" value="' . $value . '" required>
+                <span></span>';
+            }
+        }
     }
 }
 
@@ -1314,7 +1369,7 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant, $coutJ
 }
 
 // fonction qui permet de modifier les informations d'une recompense selon son Id_Recompense
-function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense,$coutJetons)
+function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense, $coutJetons)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1380,7 +1435,7 @@ function afficherInfoRecompense($idRecompense)
                 echo '<label for="champImage">Image :</label>
                 <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
-            }elseif ($key == 'Cout_Jetons') {
+            } elseif ($key == 'Cout_Jetons') {
                 echo '<label for="champCoutJetons">Prix de la recompense :</label>
                 <input type="text" name="champCoutJetons"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
