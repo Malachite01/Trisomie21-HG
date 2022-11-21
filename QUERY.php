@@ -575,7 +575,14 @@ function afficherObjectifs($idEnfant)
             }
         }
         echo '
-        <td>
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
+             class="boutonModifier" onclick="window.location=\'#\'" >
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
             <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">

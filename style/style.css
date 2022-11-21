@@ -612,6 +612,20 @@ div.miseEnForme label {
     animation: hoverClickAnnuler .1s cubic-bezier(.16,.83,.59,.91) forwards;
 }
 
+.boutonModifier {
+    background-color: var(--couleurPopupEdit);
+    color:var(--policeBlanche);
+    padding: 3px;
+    margin: 7px;
+}
+.boutonModifier:hover {
+    animation: hoverWaveModifier .15s cubic-bezier(.16,.83,.59,.91) forwards;
+    cursor: pointer;
+}
+.boutonModifier:active {
+    animation: hoverClickModifier .1s cubic-bezier(.16,.83,.59,.91) forwards;
+}
+
 .boutonValiderMembre {
     background-color: var(--couleurBoutonValider);
     color:var(--policeBlanche);
@@ -926,6 +940,78 @@ div.miseEnForme label {
     }
     100% {
         background: radial-gradient(circle at center, var(--couleurBouton) 0 0%, var(--couleurBouton) 0);
+
+    }
+}
+@keyframes hoverWaveModifier {
+    0% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 0%, var(--couleurPopupEdit) 0);
+
+    }
+    10% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 10%, var(--couleurPopupEdit) 0);
+
+    }
+    20% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 20%, var(--couleurPopupEdit) 0);
+
+    }
+    30% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 30%, var(--couleurPopupEdit) 0);
+
+    }
+    40% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 40%, var(--couleurPopupEdit) 0);
+
+    }
+    50% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 50%, var(--couleurPopupEdit) 0);
+
+    }
+    60% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 60%, var(--couleurPopupEdit) 0);
+
+    }
+    70% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 70%, var(--couleurPopupEdit) 0);
+
+    }
+    80% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 80%, var(--couleurPopupEdit) 0);
+
+    }
+    90% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 90%, var(--couleurPopupEdit) 0);
+
+    }
+    100% {
+        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 100%, var(--couleurPopupEdit) 0);
+
+    }
+}
+@keyframes hoverClickModifier {
+    50% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 10%, var(--couleurPopupEdit) 0);
+
+    }
+    60% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 30%, var(--couleurPopupEdit) 0);
+
+    }
+    70% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 40%, var(--couleurPopupEdit) 0);
+
+    }
+    80% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 30%, var(--couleurPopupEdit) 0);
+
+    }
+    90% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 10%, var(--couleurPopupEdit) 0);
+
+    }
+    100% {
+        background: radial-gradient(circle at center, var(--couleurPopupEdit) 0 0%, var(--couleurPopupEdit) 0);
 
     }
 }
@@ -1245,9 +1331,6 @@ div.miseEnForme label {
     #tbodyGererObjectifs td:nth-child(5)::before{
         content: "Statut :";
     }
-    #tbodyGererObjectifs td:nth-child(6)::before{
-        content: "Modifier :";
-    }
 }
 @media screen and (max-width: 700px) {
     .boutonSupprimer .imageIcone {
@@ -1255,6 +1338,14 @@ div.miseEnForme label {
         margin: 5px;
     }
     .boutonSupprimer span {
+        width: 20px;
+        margin: 5px;
+    }
+    .boutonModifier .imageIcone {
+        width: 20px;
+        margin: 5px;
+    }
+    .boutonModifier span {
         width: 20px;
         margin: 5px;
     }
