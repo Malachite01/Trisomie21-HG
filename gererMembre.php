@@ -68,8 +68,8 @@ if (isset($_GET['params'])) {
           <option value="6">Membres invalides</option>
           <option value="7">Membres les plus jeunes</option>
           <option value="8">Membres les plus agés</option>
-
         </select>
+        
       </div>
       <div class="centerIconeChamp">
         <img src="images/search.png" class="imageIcone" alt="icone de loupe">
