@@ -106,7 +106,8 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant) 
                         VALUES (:intitule ,:descriptif,:lienImage,:idEnfant)';
 
-$qRechercherRecompense = 'SELECT * FROM Recompense where id_Recompense = :idRecompense';
+// requete pour rechercher une recompense selon son Id_Recompense
+$qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
