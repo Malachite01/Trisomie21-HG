@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="description" content="">
-	<title>Gérer les objectifs</title>
+	<title>Gérer les Recompenses</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 	<link rel="stylesheet" href="style/style.css">
@@ -15,13 +15,13 @@
   session_start();
   require('QUERY.php');
   if(isset($_POST['boutonModifier'])) {
-    header('Location: modifierObjectifs.php');
+    header('Location: modifierRecompense.php');
   }
   if(isset($_POST['boutonSupprimer'])) {
-    supprimerObjectif($_POST['boutonSupprimer']);
+    supprimerRecompense($_POST['boutonSupprimer']);
     echo '
       <div class="supprPopup">
-        <h2 class="txtPopup">L\'objectif a été supprimé !</h2>
+        <h2 class="txtPopup">La Récompense a été supprimé !</h2>
         <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
         <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
       </div>';
@@ -34,7 +34,7 @@
 
   <?php faireMenu();?>
 
-  <h1>Gérer les objectifs</h1>  
+  <h1>Gérer les récompenses</h1>  
 
   <form id="formGestionMembre" method="POST">
     
@@ -57,18 +57,16 @@
     <table>
       <thead>
         <th>Intitulé</th>
-        <th>Durée d'évaluation</th>
-        <th>Priorité</th>
-        <th>Jetons à gagner</th>
-        <th>Statut</th>
+        <th>Descriptif</th>
+        <th>Prix de la récompense</th>
         <th>Modifier</th>
-        <th>Supprimer</th>
+        <th>Suprimer</th>
       </thead>
 
       <tbody id="tbodyGererObjectifs">
         <?php
           if (isset($_POST['idEnfant'])) {
-            afficherObjectifs($_POST['idEnfant']);
+            afficherRecompense($_POST['idEnfant']);
           }
         ?>
       </tbody>
