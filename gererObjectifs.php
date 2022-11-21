@@ -14,6 +14,18 @@
 <?php
   session_start();
   require('QUERY.php');
+  if(isset($_POST['boutonModifier'])) {
+    header('Location: modifierObjectifs.php');
+  }
+  if(isset($_POST['boutonSupprimer'])) {
+    supprimerObjectif($_POST['boutonSupprimer']);
+    echo '
+      <div class="supprPopup">
+        <h2 class="txtPopup">L\'objectif a été supprimé !</h2>
+        <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
+      </div>';
+  }
 ?>
 <body>
   <div class="svgWaveContains">

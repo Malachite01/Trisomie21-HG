@@ -103,6 +103,9 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 // requete pour supprimer un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
+// requete pour afficher les objectifs de la BD
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille FROM objectif WHERE Id_Objectif = :idObjectif';
+
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -236,7 +239,7 @@ function faireMenu()
 
             <li>
                 <div id="centerDeconnexion">
-                    <a href="modifierProfil.php" class="centerProfil"><p class="txtBoutonDeconnexion">Placeholder profil</p><img src="images/profil.png" alt="profil" class="imageIcone"></a>
+                    <a href="modifierProfil.php" class="centerProfil"><p class="txtBoutonDeconnexion">' . $_SESSION['prenomMembre'] . '</p><img src="images/profil.png" alt="profil" class="imageIcone"></a>
                     <a href="deconnexion.php" class="lienBoutonDeconnexion"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span class="txtBoutonDeconnexion">Déconnexion</span></button></a>
                 </div>
             </li>
@@ -1017,6 +1020,7 @@ function afficherPrenomMembre($idMembre)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
     }
+    return $req;
 }
 
 // fonction qui permet de rechercher un membre à partir de son idMembre
@@ -1215,17 +1219,20 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Travaille') {
                 echo '<td>' . $value . '</td>';
             }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
         }
         echo '
             <td>
-            <button name="boutonModifier" value="' . $idEnfant . '" 
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" onclick="window.location=\'modifierObjectifs.php\'" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
@@ -1383,7 +1390,8 @@ function afficherInfoRecompense($idRecompense)
 }
 
 // requete qui permet de supprimer une recompense selon son id
-function supprimerRecompense($idRecompense){
+function supprimerRecompense($idRecompense)
+{
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     // preparation de la requete sql
