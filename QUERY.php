@@ -106,7 +106,7 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant) 
                         VALUES (:intitule ,:descriptif,:lienImage,:idEnfant)';
 
-$qRechercherRecompense = 'SELECT * FROM where id_Recompense = :idrecompense';
+$qRechercherRecompense = 'SELECT * FROM Recompense where id_Recompense = :idRecompense';
 
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
                         WHERE id_Recompense = :idRecompense';
@@ -1309,7 +1309,7 @@ function rechercherRecompense($idRecompense)
     }
     //execution de la requete sql
     $req->execute(array(
-        ':idrecompense' => clean($idRecompense)
+        ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher une recompense dans la BD');
@@ -1326,7 +1326,7 @@ function afficherRecompense($idRecompense)
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Intitule') {
-                echo '<label for="champIntitule">IntitulÃ© :</label>
+                echo '<label for="champIntitule">Intitule :</label>
                 <input type="text" name="champIntitule" placeholder="Choisissez un intitule" minlength="1" maxlength="50" value="' . $value . '" required>
                 <span></span>';
             } elseif ($key == 'Descriptif') {
@@ -1340,6 +1340,7 @@ function afficherRecompense($idRecompense)
             }
         }
     }
+    print_r($data);
 }
 
 
