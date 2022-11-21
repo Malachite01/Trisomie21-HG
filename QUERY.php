@@ -100,6 +100,9 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
                                 Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons WHERE id_Membre = :idMembre 
                                 AND id_Enfant = idEnfant';
 
+// requete pour supprimer un objectif selon son Id_Objectif
+$qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
+
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -113,6 +116,8 @@ $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idReco
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
                         WHERE id_Recompense = :idRecompense';
 
+// requete pour supprimer une recompense selon son id
+$qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1254,6 +1259,25 @@ function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, 
     }
 }
 
+// fonction qui permet de supprimer un objectif selon son Id_Objectif
+function supprimerObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
 // -----------------------------------------------Recompense--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
@@ -1314,7 +1338,7 @@ function rechercherRecompense($idRecompense)
     }
     //execution de la requete sql
     $req->execute(array(
-        ':idrecompense' => clean($idRecompense)
+        ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher une recompense dans la BD');
@@ -1347,7 +1371,22 @@ function afficherRecompense($idRecompense)
             }
         }
     }
-    print_r($data);
+}
+
+// requete qui permet de supprimer une recompense selon son id
+function supprimerRecompense($idRecompense){
+    // connexion a la base de donnees
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerRecompense']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idRecompense' => clean($idRecompense)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
 }
 
 
