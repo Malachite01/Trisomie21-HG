@@ -100,13 +100,17 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
                                 Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons WHERE id_Membre = :idMembre 
                                 AND id_Enfant = idEnfant';
 
+// requete pour supprimer un objectif selon son Id_Objectif
+$qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
+
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
 $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant) 
                         VALUES (:intitule ,:descriptif,:lienImage,:idEnfant)';
 
-$qRechercherRecompense = 'SELECT * FROM Recompense where id_Recompense = :idRecompense';
+// requete pour rechercher une recompense selon son Id_Recompense
+$qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
@@ -1212,7 +1216,7 @@ function afficherObjectifs($idEnfant)
         echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
-             class="boutonModifier" onclick="window.location=\'#\'" >
+             class="boutonModifier" onclick="window.location=\'modifierObjectifs.php\'" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
@@ -1249,6 +1253,25 @@ function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, 
         ':nbTampons' => clean($nbTampons),
         ':idMembre' => clean($idMembre),
         ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
+// fonction qui permet de supprimer un objectif selon son Id_Objectif
+function supprimerObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
@@ -1348,7 +1371,6 @@ function afficherRecompense($idRecompense)
             }
         }
     }
-    print_r($data);
 }
 function supprimerRecompense($idRecompense){
     // connexion a la base de donnees
@@ -1364,6 +1386,7 @@ function supprimerRecompense($idRecompense){
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
 }
+
 
 /*                                                                
 /                                                                                   .                                                
