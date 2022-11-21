@@ -68,8 +68,8 @@ if (isset($_GET['params'])) {
           <option value="6">Membres invalides</option>
           <option value="7">Membres les plus jeunes</option>
           <option value="8">Membres les plus agés</option>
-
         </select>
+        
       </div>
       <div class="centerIconeChamp">
         <img src="images/search.png" class="imageIcone" alt="icone de loupe">
@@ -87,35 +87,40 @@ if (isset($_GET['params'])) {
 
       <tbody id="tbodyGererMembres">
         <?php
-        switch ($_POST['filtres']) {
-          case 1:
-            AfficherMembres();
-            break;
-          case 2:
-            AfficherMembresIdMembreDecroissante();
-            break;
-          case 3:
-            AfficherMembresAZ();
-            break;
-          case 4:
-            AfficherMembresZA();
-            break;
-          case 5:
-            AfficherMembresCompteValideDecroissante();
-            break;
-          case 6:
-            AfficherMembresCompteValideCroissante();
-            break;
-          case 7:
-            AfficherMembresDateNaissanceCroissante();
-            break;
-          case 8:
-            AfficherMembresDateNaissanceDecroissante();
-            break;
-          default:
-            AfficherMembres();
-            break;
+        if (isset($_POST['filtres'])) {
+          switch ($_POST['filtres']) {
+            case 1:
+              AfficherMembres();
+              break;
+            case 2:
+              AfficherMembresIdMembreDecroissante();
+              break;
+            case 3:
+              AfficherMembresAZ();
+              break;
+            case 4:
+              AfficherMembresZA();
+              break;
+            case 5:
+              AfficherMembresCompteValideDecroissante();
+              break;
+            case 6:
+              AfficherMembresCompteValideCroissante();
+              break;
+            case 7:
+              AfficherMembresDateNaissanceCroissante();
+              break;
+            case 8:
+              AfficherMembresDateNaissanceDecroissante();
+              break;
+            default:
+              AfficherMembres();
+              break;
+          }
+        } else {
+          AfficherMembres();
         }
+
         ?>
       </tbody>
     </table>

@@ -38,14 +38,17 @@
   <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
-        <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
+        <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
             afficherNomPrenomEnfantSubmit();
         ?>
       </div>
       <div class="centerIconeChamp">
-        <img src="images/search.png" class="imageIcone" alt="icone de loupe">
-        <input type="text" name="Recherche">
+        <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
+        <select name="filtres" id="filtres" onchange="this.form.submit()">
+          <option value="1">Filtre</option>
+          <option value="2">Filtre</option>
+        </select>
       </div>
     </div>
     <table>
@@ -63,10 +66,15 @@
         <?php
           if (isset($_POST['idEnfant'])) {
             afficherObjectifs($_POST['idEnfant']);
-        }
+          }
         ?>
       </tbody>
     </table>
+    <?php 
+      if(!isset($_POST['idEnfant'])) {
+        echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
+      }
+    ?>
   </form>
 </body>
 </html>
