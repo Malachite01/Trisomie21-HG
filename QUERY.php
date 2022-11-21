@@ -217,7 +217,7 @@ function faireMenu()
 
             <li><a id="Recompenses">Récompenses</a>
                 <ul class="sousMenu">
-                    <li><a href="#">Ajouter une récompense</a></li>
+                    <li><a href="ajouterRecompense.php">Ajouter une récompense</a></li>
                     <li><a href="#">Gérer les récompenses</a></li>
                 </ul>
             </li>
