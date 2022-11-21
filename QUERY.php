@@ -1227,7 +1227,7 @@ function afficherObjectifs($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>

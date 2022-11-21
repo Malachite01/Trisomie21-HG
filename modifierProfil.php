@@ -51,7 +51,7 @@
 
     <div class="center" id="boutonsValiderAnnuler">
       <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+      <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
     </div>
   </form>
   <script src="js/javascript.js"></script>
