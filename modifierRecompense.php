@@ -31,7 +31,8 @@
         $_POST['champIntitule'],
         $_POST['champDescriptif'],
         $_POST['champImage'],
-        1
+        1,
+        $_POST['champCoutJetons']
       );
       echo '
       <div class="editPopup">
@@ -44,7 +45,7 @@
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-        afficherRecompense(1);
+        afficherInfoRecompense(1);
       ?>
     </div>    
 

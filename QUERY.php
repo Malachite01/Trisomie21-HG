@@ -106,18 +106,21 @@ $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
-$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant) 
-                        VALUES (:intitule ,:descriptif,:lienImage,:idEnfant)';
+$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant,Cout_Jetons) 
+                        VALUES (:intitule ,:descriptif,:lienImage,:idEnfant,:coutJetons)';
 
 // requete pour rechercher une recompense selon son Id_Recompense
 $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
-$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
+$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage , Cout_Jetons = :coutJetons
                         WHERE id_Recompense = :idRecompense';
 
 // requete pour supprimer une recompense selon son id
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
+
+// requete pour afficher toutes les recompenses d'un enfant donne
+$qafficherRecompense = 'SELECT Id_Recompense,Intitule,Descriptif,Lien_Image,Cout_Jetons FROM Recompense WHERE Id_Enfant = :idEnfant';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1281,7 +1284,7 @@ function supprimerObjectif($idObjectif)
 // -----------------------------------------------Recompense--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
-function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant)
+function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant, $coutJetons)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1295,7 +1298,8 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant)
         ':intitule' => clean($intitule),
         ':descriptif' => clean($descriptif),
         ':lienImage' => clean($lienImage),
-        ':idEnfant' => clean($idEnfant)
+        ':idEnfant' => clean($idEnfant),
+        ':coutJetons' => clean($coutJetons)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
@@ -1303,7 +1307,7 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant)
 }
 
 // fonction qui permet de modifier les informations d'une recompense selon son Id_Recompense
-function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
+function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense,$coutJetons)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1318,7 +1322,8 @@ function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
         ':intitule' => clean($intitule),
         ':descriptif' => clean($descriptif),
         ':lienImage' => clean($lienImage),
-        ':idRecompense' => clean($idRecompense)
+        ':idRecompense' => clean($idRecompense),
+        ':coutJetons' => clean($coutJetons)
 
     ));
     if ($req == false) {
@@ -1347,7 +1352,7 @@ function rechercherRecompense($idRecompense)
 }
 
 // requete qui permet d'afficher un recompense selon son Id_Recompense
-function afficherRecompense($idRecompense)
+function afficherInfoRecompense($idRecompense)
 {
     // recherche les informations d'une selon son id
     $req = rechercherRecompense($idRecompense); // retoune la recompense selon $idRecompense
@@ -1367,6 +1372,10 @@ function afficherRecompense($idRecompense)
             } elseif ($key == 'Lien_Image') {
                 echo '<label for="champImage">Image :</label>
                 <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
+                <span></span>';
+            }elseif ($key == 'Cout_Jetons') {
+                echo '<label for="champCoutJetons">Prix de la recompense :</label>
+                <input type="text" name="champCoutJetons"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
             }
         }
@@ -1388,7 +1397,61 @@ function supprimerRecompense($idRecompense){
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
 }
-
+// fonction qui permet d'afficher toutes les recompenses de la BD pour un enfant donnee
+function afficherRecompense($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Priorite') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                echo '<td>' . $value . '</td>';
+            }
+        }
+        echo '
+            <td>
+            <button name="boutonModifier" value="' . $idEnfant . '" 
+             class="boutonModifier" onclick="window.location=\'modifierObjectifs.php\'" >
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+    }
+}
 
 /*                                                                
 /                                                                                   .                                                
