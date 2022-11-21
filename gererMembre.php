@@ -59,7 +59,7 @@ if (isset($_GET['params'])) {
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
-        <select name="filtres" id="filtres">
+        <select name="filtres" id="filtres" onchange="this.form.submit()">
           <option value="1">Membres les plus récents</option>
           <option value="2">Membres les plus ancients</option>
           <option value="3">De A à Z</option>
@@ -119,7 +119,6 @@ if (isset($_GET['params'])) {
         ?>
       </tbody>
     </table>
-    <input type="submit">
   </form>
 </body>
 
