@@ -56,6 +56,7 @@
         <th>Jetons à gagner</th>
         <th>Statut</th>
         <th>Modifier</th>
+        <th>Suprimmer</th>
       </thead>
 
       <tbody id="tbodyGererObjectifs">
