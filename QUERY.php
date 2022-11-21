@@ -102,12 +102,14 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
-//Rajoute une recompense
+// requete pour ajuter une recompense a la BD
 $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant) 
                         VALUES (:intitule ,:descriptif,:lienImage,:idEnfant)';
 
-$qRechercherRecompense = 'SELECT * FROM where id_Recompense = :idrecompense';
+// requete pour recherche les informations d'une recompense selon son Id_Recompense
+$qRechercherRecompense = 'SELECT * FROM where Id_Recompense = :idRecompense';
 
+// requete pour modifier les informations d'une recompense selon son Id_Recompense
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
                         WHERE id_Recompense = :idRecompense';
 
@@ -1276,6 +1278,7 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant)
     }
 }
 
+// fonction qui permet de modifier les informations d'une recompense selon son Id_Recompense
 function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
 {
     // connexion a la BD
@@ -1285,7 +1288,7 @@ function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'une recompense ');
     }
-    //execution de la requete sql
+    // execution de la requete sql
     $req->execute(array(
 
         ':intitule' => clean($intitule),
@@ -1298,6 +1301,8 @@ function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour modifier une recompense');
     }
 }
+
+// fonction qui permet de rechercher une recompense selon son Id_Recompense
 function rechercherRecompense($idRecompense)
 {
     // connexion a la base de donnees
@@ -1309,13 +1314,15 @@ function rechercherRecompense($idRecompense)
     }
     //execution de la requete sql
     $req->execute(array(
-        ':idrecompense' => clean($idRecompense)
+        ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher une recompense dans la BD');
     }
     return $req;
 }
+
+// requete qui permet d'afficher un recompense selon son Id_Recompense
 function afficherRecompense($idRecompense)
 {
     // recherche les informations d'une selon son id

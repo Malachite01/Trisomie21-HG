@@ -87,35 +87,40 @@ if (isset($_GET['params'])) {
 
       <tbody id="tbodyGererMembres">
         <?php
-        switch ($_POST['filtres']) {
-          case 1:
-            AfficherMembres();
-            break;
-          case 2:
-            AfficherMembresIdMembreDecroissante();
-            break;
-          case 3:
-            AfficherMembresAZ();
-            break;
-          case 4:
-            AfficherMembresZA();
-            break;
-          case 5:
-            AfficherMembresCompteValideDecroissante();
-            break;
-          case 6:
-            AfficherMembresCompteValideCroissante();
-            break;
-          case 7:
-            AfficherMembresDateNaissanceCroissante();
-            break;
-          case 8:
-            AfficherMembresDateNaissanceDecroissante();
-            break;
-          default:
-            AfficherMembres();
-            break;
+        if (isset($_POST['filtres'])) {
+          switch ($_POST['filtres']) {
+            case 1:
+              AfficherMembres();
+              break;
+            case 2:
+              AfficherMembresIdMembreDecroissante();
+              break;
+            case 3:
+              AfficherMembresAZ();
+              break;
+            case 4:
+              AfficherMembresZA();
+              break;
+            case 5:
+              AfficherMembresCompteValideDecroissante();
+              break;
+            case 6:
+              AfficherMembresCompteValideCroissante();
+              break;
+            case 7:
+              AfficherMembresDateNaissanceCroissante();
+              break;
+            case 8:
+              AfficherMembresDateNaissanceDecroissante();
+              break;
+            default:
+              AfficherMembres();
+              break;
+          }
+        } else {
+          AfficherMembres();
         }
+
         ?>
       </tbody>
     </table>
