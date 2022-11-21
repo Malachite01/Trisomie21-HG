@@ -34,24 +34,19 @@
       $_POST['champMdp'],
       $_POST['champPro']
     );
-    echo '
-      <div class="editPopup">
-        <h2 class="txtPopup">Votre profil a bien été modifié !</h2>
-        <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
-        <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
-      </div>';
+    header('Location: gererObjectifs.php??params=modif');
   }
   ?>
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
         <?php
-            
+            AfficherInformationUnObjectif($_POST['boutonModifier']);
         ?>
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
       <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+      <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
     </div>
   </form>
   <script src="js/javascript.js"></script>

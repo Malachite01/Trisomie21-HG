@@ -14,7 +14,7 @@
 <?php
   session_start();
   require('QUERY.php');
-  if(isset($_POST['boutonModifier'])) {
+  if(isset($_POST['boutonModifierrr'])) {
     header('Location: modifierObjectifs.php');
   }
   if(isset($_POST['boutonSupprimer'])) {
@@ -25,6 +25,17 @@
         <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
         <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
       </div>';
+  }
+  if (isset($_GET['params'])) {
+    $err = clean($_GET['params']);
+    if ($err == 'modif') {
+      echo '
+      <div class="editPopup">
+        <h2 class="txtPopup">L\'objectif a bien été modifié !</h2>
+        <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
+      </div>';
+    }
   }
 ?>
 <body>
@@ -62,7 +73,7 @@
         <th>Jetons à gagner</th>
         <th>Statut</th>
         <th>Modifier</th>
-        <th>Suprimmer</th>
+        <th>Supprimer</th>
       </thead>
 
       <tbody id="tbodyGererObjectifs">

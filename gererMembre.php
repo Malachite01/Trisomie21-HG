@@ -25,7 +25,7 @@ if (isset($_POST['boutonValider'])) {
 };
 
 if (isset($_GET['params'])) {
-  $err = htmlspecialchars($_GET['params']);
+  $err = clean($_GET['params']);
   if ($err == 'suppr') {
     echo '
       <div class="supprPopup">
