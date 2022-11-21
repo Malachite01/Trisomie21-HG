@@ -40,7 +40,7 @@
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <?php
-            afficherNomPrenomEnfant();
+            afficherNomPrenomEnfantSubmit();
         ?>
       </div>
       <div class="centerIconeChamp">
@@ -67,7 +67,6 @@
         ?>
       </tbody>
     </table>
-    <button type="submit">envoyer</button>
   </form>
 </body>
 </html>
