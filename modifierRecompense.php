@@ -45,7 +45,7 @@
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-        afficherInfoRecompense(1);
+        afficherInfoRecompense($_GET['idRec']);
       ?>
     </div>    
 
