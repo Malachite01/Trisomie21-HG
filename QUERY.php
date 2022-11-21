@@ -1372,6 +1372,8 @@ function afficherRecompense($idRecompense)
         }
     }
 }
+
+// requete qui permet de supprimer une recompense selon son id
 function supprimerRecompense($idRecompense){
     // connexion a la base de donnees
     $linkpdo = connexionBd();
