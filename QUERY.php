@@ -117,8 +117,8 @@ $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id
 $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
-$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage , Cout_Jetons = :coutJetons
-                        WHERE id_Recompense = :idRecompense';
+$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage , 
+                        Cout_Jetons = :coutJetons WHERE id_Recompense = :idRecompense';
 
 // requete pour supprimer une recompense selon son id
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
@@ -1254,7 +1254,7 @@ function AfficherInformationUnObjectif($idObjectif)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
     }
     // execution de la requete sql
-    $req->execute(array(':idEnfant' => clean($idObjectif)));
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
     }
@@ -1370,7 +1370,7 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant, $coutJ
 }
 
 // fonction qui permet de modifier les informations d'une recompense selon son Id_Recompense
-function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense,$coutJetons)
+function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense, $coutJetons)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1436,7 +1436,7 @@ function afficherInfoRecompense($idRecompense)
                 echo '<label for="champImage">Image :</label>
                 <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
-            }elseif ($key == 'Cout_Jetons') {
+            } elseif ($key == 'Cout_Jetons') {
                 echo '<label for="champCoutJetons">Prix de la recompense :</label>
                 <input type="text" name="champCoutJetons"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
