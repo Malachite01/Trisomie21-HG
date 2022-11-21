@@ -33,7 +33,7 @@
       $_POST['champNb_Tampons'],
       $_POST['champNb_Jetons'],
       $_SESSION['idConnexion'],
-      $_GET['idObj']
+      $_POST['boutonModifier']
     );
     header('Location: gererObjectifs.php??params=modif');
   }
@@ -41,7 +41,7 @@
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-      AfficherInformationUnObjectif($_GET['idObj']);
+      AfficherInformationUnObjectif($_POST['boutonModifier']);
       ?>
     </div>
 
