@@ -15,7 +15,8 @@
   session_start();
   require('QUERY.php');
   if(isset($_POST['boutonModifier'])) {
-    header('Location: modifierRecompense.php');
+    $test = $_POST['boutonModifier'];
+    header('Location: modifierRecompense.php?idRec=' . $test);
   }
   if(isset($_POST['boutonSupprimer'])) {
     supprimerRecompense($_POST['boutonSupprimer']);
