@@ -97,7 +97,8 @@ $qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons,
 
 //requete de modification d'Objectif
 $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, Priorite = :priorite, 
-                                Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons WHERE id_Objectif = :idObjectif';
+                                Travaille = :travaille, Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons, Id_Membre = :idMembre 
+                                WHERE id_Objectif = :idObjectif';
 
 // requete pour supprimer un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -1217,9 +1218,9 @@ function afficherObjectifs($idEnfant)
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Travaille') {
-                if($value == 1) {
+                if ($value == 1) {
                     echo '<td>En cours</td>';
-                } else if($value == 2) {
+                } else if ($value == 2) {
                     echo '<td>A venir</td>';
                 } else {
                     echo '<td>Aucun</td>';
@@ -1326,7 +1327,7 @@ function AfficherInformationUnObjectif($idObjectif)
 }
 
 // fonction qui permet de modifier un objectif de la BD
-function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, $nbJetons, $nbTampons, $idMembre, $idEnfant)
+function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, $nbJetons, $nbTampons, $idMembre, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1345,7 +1346,7 @@ function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, 
         ':nbJetons' => clean($nbJetons),
         ':nbTampons' => clean($nbTampons),
         ':idMembre' => clean($idMembre),
-        ':idEnfant' => clean($idEnfant)
+        ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
