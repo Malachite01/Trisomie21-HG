@@ -124,7 +124,7 @@ $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif =
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 
 // requete pour afficher toutes les recompenses d'un enfant donne
-$qafficherRecompense = 'SELECT Id_Recompense,Intitule,Descriptif,Lien_Image,Cout_Jetons FROM Recompense WHERE Id_Enfant = :idEnfant';
+$qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Enfant = :idEnfant';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1192,12 +1192,12 @@ function afficherObjectifs($idEnfant)
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
     // execution de la requete sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -1495,14 +1495,14 @@ function afficherRecompense($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
+    $req = $linkpdo->prepare($GLOBALS['qAfficherRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
     }
     // execution de la requete sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -1513,30 +1513,24 @@ function afficherRecompense($idEnfant)
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Priorite') {
+            if ($key == 'Descriptif') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Duree') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
+            if ($key == 'Cout_Jetons') {
                 echo '<td>' . $value . '</td>';
             }
         }
         echo '
             <td>
             <button name="boutonModifier" value="' . $idEnfant . '" 
-             class="boutonModifier" onclick="window.location=\'modifierObjectifs.php\'" >
+             class="boutonModifier" onclick="window.location=\'modifierRecompense.php\'" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cette recompense ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
