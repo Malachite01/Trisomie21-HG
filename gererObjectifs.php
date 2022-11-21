@@ -15,28 +15,27 @@
 <?php
 session_start();
 require('QUERY.php');
-if (isset($_POST['boutonModifier'])) {
-  $test = $_POST['boutonModifier'];
-  header('Location: modifierObjectifs.php?idObj=' . $test);
-}
+// if (isset($_POST['boutonModifier'])) {
+
+// }
 if (isset($_POST['boutonSupprimer'])) {
   supprimerObjectif($_POST['boutonSupprimer']);
   echo '
-      <div class="supprPopup">
-        <h2 class="txtPopup">L\'objectif a été supprimé !</h2>
-        <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
-        <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
-      </div>';
+  <div class="supprPopup">
+    <h2 class="txtPopup">L\'objectif a été supprimé !</h2>
+    <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
+    <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
+  </div>';
 }
 if (isset($_GET['params'])) {
   $err = clean($_GET['params']);
   if ($err == 'modif') {
     echo '
-      <div class="editPopup">
-        <h2 class="txtPopup">L\'objectif a bien été modifié !</h2>
-        <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
-        <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
-      </div>';
+    <div class="editPopup">
+      <h2 class="txtPopup">L\'objectif a bien été modifié !</h2>
+      <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
+      <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
+    </div>';
   }
 }
 ?>
@@ -50,7 +49,7 @@ if (isset($_GET['params'])) {
 
   <h1>Gérer les objectifs</h1>
 
-  <form id="formGestionObjectifs" action="" method="POST">
+  <form id="formGestionObjectifs" method="POST">
 
     <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
@@ -93,6 +92,21 @@ if (isset($_GET['params'])) {
     }
     ?>
   </form>
+  <?php
+    if (isset($_POST['boutonValider'])) {
+      modifierObjectif(
+        $_POST['champIntitule'],
+        $_POST['champDuree'],
+        $_POST['champLienImage'],
+        $_POST['champPriorite'],
+        $_POST['champTravaille'],
+        $_POST['champNbJetons'],
+        $_POST['champNbTampons'],
+        $_SESSION['idConnexion'],
+        $_POST['boutonValider']
+      );
+    }
+  ?>
 </body>
 
 </html>

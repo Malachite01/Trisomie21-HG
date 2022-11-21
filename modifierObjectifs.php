@@ -23,33 +23,20 @@
   require('QUERY.php');
 
   faireMenu();
-  if (isset($_POST['boutonValider'])) {
-    modifierObjectif(
-      $_POST['champIntitule'],
-      $_POST['champDuree'],
-      $_POST['champPriorite'],
-      $_POST['champTravaille'],
-      $_POST['champLien_Image'],
-      $_POST['champNb_Tampons'],
-      $_POST['champNb_Jetons'],
-      $_SESSION['idConnexion'],
-      $_POST['boutonModifier']
-    );
-  }
   ?>
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
-    <div class="miseEnForme" id="miseEnFormeFormulaire">
+ 
+  <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-      AfficherInformationUnObjectif($_POST['boutonModifier']);
+        AfficherInformationUnObjectif($_POST['boutonModifier']);
       ?>
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
       <button type="submit" formaction="gererObjectifs.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" formaction="gererObjectifs.php?params=modif" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
+      <button type="submit" formaction="gererObjectifs.php?params=modif" value="<?php echo $_POST['boutonModifier']; ?>" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
     </div>
   </form>
   <script src="js/javascript.js"></script>
 </body>
-
 </html>
