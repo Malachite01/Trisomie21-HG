@@ -233,7 +233,7 @@ function faireMenu()
 
             <li>
                 <div id="centerDeconnexion">
-                    <a href="modifierProfil.php" class="centerProfil"><p class="txtBoutonDeconnexion">Placeholder profil</p><img src="images/profil.png" alt="profil" class="imageIcone"></a>
+                    <a href="modifierProfil.php" class="centerProfil"><p class="txtBoutonDeconnexion">' . $_SESSION['prenomMembre'] . '</p><img src="images/profil.png" alt="profil" class="imageIcone"></a>
                     <a href="deconnexion.php" class="lienBoutonDeconnexion"><button name="boutonDeco" class="boutons" id="boutonDeconnexion"><img src="images/logout.png" id="imgDeconnexion" class="imageIcone" alt="icone déconnexion"><span class="txtBoutonDeconnexion">Déconnexion</span></button></a>
                 </div>
             </li>
@@ -1014,6 +1014,7 @@ function afficherPrenomMembre($idMembre)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
     }
+    return $req;
 }
 
 // fonction qui permet de rechercher un membre à partir de son idMembre
@@ -1374,7 +1375,8 @@ function afficherRecompense($idRecompense)
 }
 
 // requete qui permet de supprimer une recompense selon son id
-function supprimerRecompense($idRecompense){
+function supprimerRecompense($idRecompense)
+{
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     // preparation de la requete sql
