@@ -103,6 +103,9 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 // requete pour supprimer un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
+// requete pour afficher les objectifs de la BD
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille FROM objectif WHERE Id_Objectif = :idObjectif';
+
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
