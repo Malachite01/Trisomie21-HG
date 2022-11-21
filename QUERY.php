@@ -112,6 +112,8 @@ $qRechercherRecompense = 'SELECT * FROM Recompense where id_Recompense = :idReco
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage 
                         WHERE id_Recompense = :idRecompense';
 
+// requete pour supprimer une recompense selon son id
+$qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1313,7 +1315,7 @@ function rechercherRecompense($idRecompense)
     }
     //execution de la requete sql
     $req->execute(array(
-        ':idrecompense' => clean($idRecompense)
+        ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher une recompense dans la BD');
@@ -1348,7 +1350,20 @@ function afficherRecompense($idRecompense)
     }
     print_r($data);
 }
-
+function supprimerRecompense($idRecompense){
+    // connexion a la base de donnees
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerRecompense']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idRecompense' => clean($idRecompense)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+}
 
 /*                                                                
 /                                                                                   .                                                
