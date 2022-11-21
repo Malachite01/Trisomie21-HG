@@ -24,15 +24,16 @@
 
   faireMenu();
   if (isset($_POST['boutonValider'])) {
-    modifierMembreSession(
-      $_SESSION['idConnexion'],
-      $_POST['champNom'],
-      $_POST['champPrénom'],
-      $_POST['champAdresse'],
-      $_POST['champCp'],
-      $_POST['champVille'],
-      $_POST['champMdp'],
-      $_POST['champPro']
+    modifierObjectif(
+      $_POST['champIntitule'],
+      $_POST['champDuree'],
+      $_POST['champPriorite'],
+      $_POST['champTravaille'],
+      $_POST['champLien_Image'],
+      $_POST['champNb_Tampons'],
+      $_POST['champNb_Jetons'],
+      idmembre,
+      idEnfant
     );
     header('Location: gererObjectifs.php??params=modif');
   }
