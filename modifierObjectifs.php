@@ -17,9 +17,8 @@
     <div class="svgWave"></div>
   </div>
 
-  <h1>Modifier profil</h1>
+  <h1>Modifier les objectifs</h1>
   <?php
-  session_start();
   require('QUERY.php');
 
   faireMenu();
@@ -44,9 +43,7 @@
   ?>
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
-      <?php
-        AfficherInformationsMembreSession($_SESSION['idConnexion']);
-      ?>
+
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">

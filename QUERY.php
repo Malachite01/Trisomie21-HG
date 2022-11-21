@@ -1210,7 +1210,7 @@ function afficherObjectifs($idEnfant)
         }
         echo '
             <td>
-            <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
+            <button name="boutonModifier" value="' . $idEnfant . '" 
              class="boutonModifier" onclick="window.location=\'modifierObjectifs.php\'" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>

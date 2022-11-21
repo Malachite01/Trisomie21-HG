@@ -14,15 +14,6 @@
 <?php
   session_start();
   require('QUERY.php');
-  if(isset($_POST['boutonSupprimer'])) {
-    supprimerMembre($_POST['boutonSupprimer']);
-    header("Location: gererMembre.php?params=suppr");
-  };
-  //!boutonModifier profil
-  if(isset($_POST['boutonValider'])) {
-    validerMembre($_POST['boutonValider']);
-    header("Location: gererMembre.php?params=valide");
-  };
 ?>
 <body>
   <div class="svgWaveContains">
