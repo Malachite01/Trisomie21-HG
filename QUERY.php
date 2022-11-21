@@ -97,8 +97,7 @@ $qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons,
 
 //requete de modification d'Objectif
 $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, Priorite = :priorite, 
-                                Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons WHERE id_Membre = :idMembre 
-                                AND id_Enfant = idEnfant';
+                                Travaille = :travaille,Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons WHERE id_Objectif = :idObjectif';
 
 // requete pour supprimer un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
