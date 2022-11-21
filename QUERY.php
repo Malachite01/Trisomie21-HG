@@ -1212,17 +1212,20 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Travaille') {
                 echo '<td>' . $value . '</td>';
             }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
         }
         echo '
             <td>
-            <button name="boutonModifier" value="' . $idEnfant . '" 
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" onclick="window.location=\'modifierObjectifs.php\'" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
