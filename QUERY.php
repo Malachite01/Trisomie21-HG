@@ -1218,7 +1218,13 @@ function afficherObjectifs($idEnfant)
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Travaille') {
-                echo '<td>' . $value . '</td>';
+                if($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
             }
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
@@ -1226,7 +1232,7 @@ function afficherObjectifs($idEnfant)
         }
         echo '
             <td>
-            <button type="submit" name="boutonModifierrr" value="' . $idObjectif . '" 
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier">
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
@@ -1264,34 +1270,57 @@ function AfficherInformationUnObjectif($idObjectif)
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Intitule') {
-                echo '<label for="champIntitule">Intitule :</label>
-                <input type="text" name="champIntitule" placeholder="Entrez l\'intitulé" minlength="1" maxlength="50" value="' . $value . '" required>
+                echo '
+                <label for="champIntitule">Intitulé :</label>
+                <input type="text" name="champIntitule" placeholder="Entrez l\'intitulé de l\'objectif" minlength="1" maxlength="50" value="' . $value . '" required>
                 <span></span>';
             } elseif ($key == 'Duree') {
-                echo '<label for="champDuree">Durée d\'évaluation :</label>
-                <input type="text" name="champDuree" placeholder="Entrez une durée" minlength="1" maxlength="50" value="' . $value . '"required>
-                <span></span>';
-            } elseif ($key == 'Priorite') {
-                echo '<label for="champPriorite">Priorité :</label>
-                <input type="text" name="champPriorite" placeholder="Entrez la Priorite" maxlength="50" value="' . $value . '"  required>
-                <span></span>';
-            } elseif ($key == 'Travaille') {
                 echo '
-                <label for="champTravaille">Code postal :</label>
-                <input type="text" name="champTravaille" placeholder="Entrez votre code postal" value=' . $value . ' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" required>
+                <label for="champDuree">Durée d\'évaluation :</label>
+                <input type="text" name="champDuree" placeholder="Entrez la durée d\'évaluation" minlength="1" maxlength="50" value="' . $value . '" required>
+                <span></span>
+                ';
+            } elseif ($key == 'Priorite') {
+                echo '
+                <label for="champPriorite">Priorité :</label>
+                <input type="number" name="champPriorite" placeholder="Entrez la priorité de l\'objectif (un nombre)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="11" value="' . $value . '" required>
+                <span></span>
+                ';
+            } elseif ($key == 'Travaille') {
+                echo '<label for="champTravaille">Professionnel :</label>
+                <div class="center" style="width: 100%;">
+                  <span class="center1Item">
+                    <input type="radio" name="champTravaille" id="enCours" value="null" required';
+                if ($value == null || $value == 0) echo ' checked>';
+                else echo '>';
+                echo '<label for="enCours" class="radioLabel" tabindex="0">En cours</label>
+                  </span>
+                  <span class="center1Item">
+                    <input type="radio" name="champTravaille" id="Avenir" value="1" required';
+                if ($value == 1) echo ' checked>';
+                else echo '>';
+                echo '<label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
+                  </span>
+                </div>
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
-                echo '<label for="champLien_Image">Ville :</label>
-                <input type="text" name="champLien_Image" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  required>
-                <span></span>';
+                echo '
+                <label for="champImageTampon">Image du tampon :</label>
+                <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\') value="' . $value . ' required>
+                <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
+                ';
             } elseif ($key == 'Nb_Tampons') {
-                echo '<label for="champNb_Tampons">Ville :</label>
-                <input type="text" name="champNb_Tampons" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  required>
-                <span></span>';
+                echo '
+                <label for="champNbTampons">Nombre de tampons :</label>
+                <input type="number" name="champNbTampons" placeholder="Entrez le nombre de tampons pour valider l\'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" min="1" max="99999999999" value="' . $value . '" required>
+                <span></span>
+                ';
             } elseif ($key == 'Nb_Jetons') {
-                echo '<label for="champNb_Jetons">Date de naissance :</label>
-                <input type="date" name="champNb_Jetons" id="champDateDeNaissance" min="1900-01-01" max="<?php echo date(\'Y-m-d\'); ?>" value="' . $value . '" required>
-                <span></span>';
+                echo '
+                <label for="champNbJetons">Jetons à gagner :</label>
+                <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" min="1" max="99999999999"  value="' . $value . '"  required>
+                <span></span>
+                ';
             }
         }
     }
