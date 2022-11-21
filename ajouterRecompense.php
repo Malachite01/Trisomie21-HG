@@ -29,12 +29,16 @@
     afficherNomPrenomEnfant();
     ?>
     <div class="miseEnForme" id="miseEnFormeFormulaire">
-      <label for="champIntitule">champIntitule :</label>
+      <label for="champIntitule">Intitule :</label>
       <input type="text" name="champIntitule" placeholder="Entrez intitule" minlength="1" maxlength="50" required>
       <span></span>
 
       <label for="champDescriptif">Descriptif :</label>
       <input type="text" name="champDescriptif" placeholder="Entrez votre description" minlength="1" maxlength="50" required>
+      <span></span>
+
+      <label for="champCoutJetons">Cout de la récompense :</label>
+      <input type="text" name="champCoutJetons" placeholder="Entrez le prix de cette recompense" minlength="1" maxlength="50" required>
       <span></span>
 
       <label for="champLienImage">Image Récompense:</label>
@@ -51,12 +55,13 @@
   <script src="js/javascript.js"></script>
   <?php
     if (isset($_POST['idEnfant'])){
-        if (champRempli(array('champIntitule', 'champDescriptif', 'champLienImage'))) {
+        if (champRempli(array('champIntitule', 'champDescriptif', 'champLienImage','champCoutJetons'))) {
             ajouterRecompense(
               $_POST['champIntitule'],
               $_POST['champDescriptif'],
               $_POST['champLienImage'],
-              $_POST['idEnfant']
+              $_POST['idEnfant'],
+              $_POST['champCoutJetons']
             );
     }
    
