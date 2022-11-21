@@ -35,7 +35,6 @@
       $_SESSION['idConnexion'],
       $_POST['boutonModifier']
     );
-    header('Location: gererObjectifs.php?params=modif');
   } else if(isset($_POST['boutonAnnuler'])) {
     header('Location: gererObjectifs.php');
   }
@@ -49,7 +48,7 @@
 
     <div class="center" id="boutonsValiderAnnuler">
       <button type="submit" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
+      <button type="submit" formaction="gererObjectifs.php?params=modif" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
     </div>
   </form>
   <script src="js/javascript.js"></script>
