@@ -1233,7 +1233,7 @@ function afficherObjectifs($idEnfant)
         echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
-             class="boutonModifier">
+             class="boutonModifier" formaction="modifierObjectifs.php">
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
@@ -1291,13 +1291,13 @@ function AfficherInformationUnObjectif($idObjectif)
                 <div class="center" style="width: 100%;">
                   <span class="center1Item">
                     <input type="radio" name="champTravaille" id="enCours" value="null" required';
-                if ($value == null || $value == 0) echo ' checked>';
+                if ($value == 1) echo ' checked>';
                 else echo '>';
                 echo '<label for="enCours" class="radioLabel" tabindex="0">En cours</label>
                   </span>
                   <span class="center1Item">
                     <input type="radio" name="champTravaille" id="Avenir" value="1" required';
-                if ($value == 1) echo ' checked>';
+                if ($value == 2) echo ' checked>';
                 else echo '>';
                 echo '<label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
                   </span>

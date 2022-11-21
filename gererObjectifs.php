@@ -50,7 +50,7 @@ if (isset($_GET['params'])) {
 
   <h1>Gérer les objectifs</h1>
 
-  <form id="formGestionMembre" method="POST">
+  <form id="formGestionObjectifs" action="" method="POST">
 
     <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
