@@ -23,19 +23,6 @@
   require('QUERY.php');
 
   faireMenu();
-  if (isset($_POST['boutonValider'])) {
-    modifierObjectif(
-      $_POST['champIntitule'],
-      $_POST['champDuree'],
-      $_POST['champPriorite'],
-      $_POST['champTravaille'],
-      $_POST['champImageTampon'],
-      $_POST['champNbTampons'],
-      $_POST['champNbJetons'],
-      $_SESSION['idConnexion'],
-      $_POST['boutonModifier']
-    );
-  }
   ?>
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
 

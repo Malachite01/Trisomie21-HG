@@ -1340,9 +1340,8 @@ function AfficherInformationUnObjectif($idObjectif)
             } elseif ($key == 'Lien_Image') {
                 echo '
                 <label for="champLienImage">Image du tampon :</label>
-                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\') value="' . $value . ' required>
-                <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
-                ';
+                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
+                <img src="'. AfficherImageObjectif($idObjectif).'" alt=" " id="imageTampon">';
             } elseif ($key == 'Nb_Tampons') {
                 echo '
                 <label for="champNbTampons">Nombre de tampons :</label>
