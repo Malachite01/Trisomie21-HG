@@ -20,7 +20,6 @@
   <?php
   require('QUERY.php');
   session_start();
-  $id = $_SESSION['idConnexion'];
   faireMenu();
   ?>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
@@ -37,7 +36,7 @@
         $_POST['champPriorite'],
         $_POST['champTravaille'],
         $_POST['champNbJetons'],
-        $id,
+        $_SESSION['idConnexion'],
         $_POST['idEnfant'],
         $_POST['champNbTampons'],
         0
