@@ -50,6 +50,7 @@
           </div>';
     }
   }
+  
   ?>
 
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">

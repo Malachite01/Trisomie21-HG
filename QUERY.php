@@ -1321,16 +1321,16 @@ function AfficherInformationUnObjectif($idObjectif)
                 <span></span>
                 ';
             } elseif ($key == 'Travaille') {
-                echo '<label for="champTravaille">Professionnel :</label>
+                echo '<label for="champTravaille">Statut de l\'objectif :</label>
                 <div class="center" style="width: 100%;">
                   <span class="center1Item">
-                    <input type="radio" name="champTravaille" id="enCours" value="null" required';
+                    <input type="radio" name="champTravaille" id="enCours" value="1" required';
                 if ($value == 1) echo ' checked>';
                 else echo '>';
                 echo '<label for="enCours" class="radioLabel" tabindex="0">En cours</label>
                   </span>
                   <span class="center1Item">
-                    <input type="radio" name="champTravaille" id="Avenir" value="1" required';
+                    <input type="radio" name="champTravaille" id="Avenir" value="2" required';
                 if ($value == 2) echo ' checked>';
                 else echo '>';
                 echo '<label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
@@ -1339,8 +1339,8 @@ function AfficherInformationUnObjectif($idObjectif)
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
                 echo '
-                <label for="champImageTampon">Image du tampon :</label>
-                <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\') value="' . $value . ' required>
+                <label for="champLienImage">Image du tampon :</label>
+                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\') value="' . $value . ' required>
                 <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
                 ';
             } elseif ($key == 'Nb_Tampons') {

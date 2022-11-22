@@ -74,13 +74,13 @@ function validerConfirmationMdp(champ1,champ2,message,bouton) {
         btn.style.backgroundColor = "rgb(139, 193, 150)";
         document.getElementById(champ1).style.border = "none";
         document.getElementById(champ2).style.border = "none";
-        btn.disabled = false;;
+        btn.disabled = false;
     }
     else {
         mess.innerText = "Les mots de passe ne correspondent pas !";  
         btn.style.backgroundColor = "grey";
-        document.getElementById(champ1).style.border = "2px solid red";
-        document.getElementById(champ2).style.border = "2px solid red";
+        document.getElementById(champ1).style.border = "2px solid rgb(255, 77, 77)";
+        document.getElementById(champ2).style.border = "2px solid rgb(255, 77, 77)";
         btn.disabled = true;
     }
 }
