@@ -24,11 +24,11 @@
 
   faireMenu();
   ?>
-  <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
+  <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-      AfficherInformationUnObjectif($_POST['boutonModifier']);
+        AfficherInformationUnObjectif($_POST['boutonModifier']);
       ?>
     </div>
 

@@ -49,7 +49,7 @@ if (isset($_GET['params'])) {
 
   <h1>Gérer les objectifs</h1>
 
-  <form id="formGestionObjectifs" method="POST">
+  <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
@@ -97,7 +97,7 @@ if (isset($_GET['params'])) {
       modifierObjectif(
         $_POST['champIntitule'],
         $_POST['champDuree'],
-        $_POST['champLienImage'],
+        uploadImage($_FILES['champLienImage']),
         $_POST['champPriorite'],
         $_POST['champTravaille'],
         $_POST['champNbJetons'],
