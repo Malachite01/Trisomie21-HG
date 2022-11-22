@@ -28,12 +28,12 @@
   <h1 id="texteH1DemandeInscription">Création d'un objectif</h1>
 
   <?php
-  if (champRempli(array('champIntitule', 'champDuree', 'champImageTampon', 'champPriorite', 'champNbTampons'))) {
+  if (champRempli(array('champIntitule', 'champDuree', 'champPriorite', 'champNbTampons'))) {
     if (isset($_POST['boutonValider'])) {
       ajouterObjectif(
         $_POST['champIntitule'],
         $_POST['champDuree'],
-        $_POST['champImageTampon'],
+        uploadImage($_FILES['champImageTampon']),
         $_POST['champPriorite'],
         $_POST['champTravaille'],
         $_POST['champNbJetons'],
@@ -52,12 +52,12 @@
   }
   ?>
 
-  <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
+  <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champIntitule">Enfant concerné :</label>
       <?php
-        afficherNomPrenomEnfant();
+      afficherNomPrenomEnfant();
       ?>
       <span></span>
 

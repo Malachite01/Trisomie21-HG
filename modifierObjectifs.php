@@ -29,9 +29,9 @@
       $_POST['champDuree'],
       $_POST['champPriorite'],
       $_POST['champTravaille'],
-      $_POST['champLien_Image'],
-      $_POST['champNb_Tampons'],
-      $_POST['champNb_Jetons'],
+      $_POST['champImageTampon'],
+      $_POST['champNbTampons'],
+      $_POST['champNbJetons'],
       $_SESSION['idConnexion'],
       $_POST['boutonModifier']
     );
@@ -48,6 +48,9 @@
       <button type="submit" formaction="gererObjectifs.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
       <button type="submit" formaction="gererObjectifs.php?params=modif" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
     </div>
+    <?php if (isset($_POST['boutonModifier'])) {
+      echo $_POST['boutonModifier'];
+    } ?>
   </form>
   <script src="js/javascript.js"></script>
 </body>
