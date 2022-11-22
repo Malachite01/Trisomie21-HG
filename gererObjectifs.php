@@ -93,6 +93,9 @@ if (isset($_GET['params'])) {
     ?>
   </form>
   <?php
+    // if(!isset($_POST['champLienImage'])) {
+    //   $_POST['champLienImage'] = AfficherImageObjectif($_POST['boutonValider']);
+    // }
     if (isset($_POST['boutonValider'])) {
       modifierObjectif(
         $_POST['champIntitule'],

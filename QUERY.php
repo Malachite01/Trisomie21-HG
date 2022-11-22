@@ -229,7 +229,7 @@ function faireMenu()
     '
     <nav class="navbar">
         <div class="fondMobile"></div>
-        <a href="#"><img src="images/logo.png" alt="logo" class="logo"></a>
+        <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
         
         <div class="nav-links">
           <ul class="nav-ul">
