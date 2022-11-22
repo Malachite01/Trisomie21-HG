@@ -107,6 +107,9 @@ $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 $qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille, Lien_Image, Nb_Tampons 
                                     FROM objectif WHERE Id_Objectif = :idObjectif';
 
+// requete qui permet de récupérer l'image d'un objectif 
+$qAfficherImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
+
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -174,32 +177,35 @@ function clean($champEntrant)
     return $champEntrant;
 }
 
-function uploadImage()
+function uploadImage($photo)
 {
-    if (isset($_FILES['file'])) {
-        // informations contenu dans l'image misent dans des variables
-        $tmpName = $_FILES['file']['tmp_name'];
-        $name = $_FILES['file']['name'];
-        $size = $_FILES['file']['size'];
-        $error = $_FILES['file']['error'];
-        // met l'image dans le dossier upload
-        move_uploaded_file($tmpName, './upload/' . $name); // chemin image, chemin upload
-        // verification de l'extension de l'image
+
+    if (isset($photo)) {
+        $tmpName = $photo['tmp_name'];
+        $name = $photo['name'];
+        $size = $photo['size'];
+        $error = $photo['error'];
+
         $tabExtension = explode('.', $name);
         $extension = strtolower(end($tabExtension));
 
-        //Tableau des extensions que l'on accepte
-        $extensions = ['jpg', 'png', 'jpeg', 'gif'];
-        //Taille max que l'on accepte
+        $extensions = ['jpg', 'png', 'jpeg', 'gif', 'svg', 'webp', 'bmp'];
         $maxSize = 400000;
+
         if (in_array($extension, $extensions) && $size <= $maxSize && $error == 0) {
+
             $uniqueName = uniqid('', true);
             //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
             $file = $uniqueName . "." . $extension;
+            $chemin = "upload/";
             //$file = 5f586bf96dcd38.73540086.jpg
-            move_uploaded_file($tmpName, './upload/' . $file);
+            move_uploaded_file($tmpName, 'upload/' . $file);
+            $result = $chemin . $file;
         }
+    } else {
+        echo '<h1>erreur</h1>';
     }
+    return $result;
 }
 
 function faireMenu()
@@ -1397,6 +1403,37 @@ function supprimerObjectif($idObjectif)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
+// fonction qui permet d'afficher l'image d'un objectif selon son Id_Objectif
+function AfficherImageObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherImageObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                $image = $value;
+            }
+        }
+        return $image;
     }
 }
 
