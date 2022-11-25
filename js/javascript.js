@@ -29,13 +29,6 @@ function erasePopup(popup) {
     popupFen.style.display = 'none';
 }
 
-function timedPopup(popupFen,time) {
-    popup(popupFen);
-    submitTimer = setTimeout(() => {
-        eraseGray(popupFen);
-    }, time);
-}
-
 function eraseGray(popup) {
     var popupFen = document.querySelector('.' + popup);
     var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup)" );
