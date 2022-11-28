@@ -9,8 +9,8 @@
 // ----------------------------------------------Enfant---------------------------------------------------------------------
 
 // requete pour ajouter un enfant a la BD
-$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) 
-                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
+$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton,Total_Jetons) 
+                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton,0)';
 
 // requete pour verifier qu'un enfant avec les données en parametre n'existe pas deja dans la BD
 $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant 
@@ -129,6 +129,11 @@ $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompe
 
 // requete pour afficher toutes les recompenses d'un enfant donne
 $qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Enfant = :idEnfant';
+// ----------------------------------------------TABLEAU de Bord-----------------------------------------------------------------
+$qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant = :idEnfant';
+
+$qAjouterUnJeton = 'UPDATE Enfant SET Total_Jetons = Total_Jetons+1 WHERE Id_Enfant=:idEnfant';
+
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1605,6 +1610,44 @@ function afficherRecompense($idEnfant)
             </td>
         </tr>';
     }
+}
+//TABLEAU DE BORD//
+
+function AfficherTotalJetons($idEnfant){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherNombreJetonsEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les jetons de lenfant');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les jetons');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $value) {
+            echo '<p>'. $value . 'Jetons dans la cagnotte!! </p>';
+        }
+        
+    }
+    
+}
+function ajouterUnJeton($idEnfant){
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUnJeton']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les jetons de lenfant');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les jetons');
+    }
+   
 }
 
 /*                                                                
