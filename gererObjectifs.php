@@ -101,7 +101,6 @@ if (isset($_GET['params'])) {
         $_POST['champIntitule'],
         $_POST['champDuree'],
         uploadImage($_FILES['champLienImage']),
-        $_POST['champPriorite'],
         $_POST['champTravaille'],
         $_POST['champNbJetons'],
         $_POST['champNbTampons'],
