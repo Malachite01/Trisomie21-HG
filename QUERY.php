@@ -1138,10 +1138,10 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Mdp') {
                 //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
-                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
+                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
                 <span></span>';
                 echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
-                <input type="text" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
+                <input type="text" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
                 <span></span>';
                 echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
             }
@@ -1331,20 +1331,22 @@ function AfficherInformationUnObjectif($idObjectif)
                 <span></span>
                 ';
             } elseif ($key == 'Travaille') {
-                echo '<label for="champTravaille">Statut de l\'objectif :</label>
+                echo '
+                <label for="champTravaille">Statut de l\'objectif :</label>
                 <div class="center" style="width: 100%;">
-                  <span class="center1Item">
-                    <input type="radio" name="champTravaille" id="enCours" value="1" required';
-                if ($value == 1) echo ' checked>';
-                else echo '>';
-                echo '<label for="enCours" class="radioLabel" tabindex="0">En cours</label>
-                  </span>
-                  <span class="center1Item">
-                    <input type="radio" name="champTravaille" id="Avenir" value="2" required';
-                if ($value == 2) echo ' checked>';
-                else echo '>';
-                echo '<label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
-                  </span>
+
+                    <span class="center1Item">
+                        <input type="radio" name="champTravaille" id="Avenir" value="2" required';if ($value == 2) echo ' checked>';else echo '>';
+                        echo '
+                        <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
+                    </span>
+
+                    <span class="center1Item">
+                        <input type="radio" name="champTravaille" id="enCours" value="1" required';if ($value == 1) echo ' checked>';else echo '>';
+                        echo '
+                        <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
+                    </span>
+
                 </div>
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
@@ -1352,6 +1354,7 @@ function AfficherInformationUnObjectif($idObjectif)
                 <label for="champLienImage">Image du tampon :</label>
                 <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
                 <img src="'. AfficherImageObjectif($idObjectif).'" alt=" " id="imageTampon">';
+                echo '<input type="hidden" value="'. AfficherImageObjectif($idObjectif).'" name="hiddenImageLink">';
             } elseif ($key == 'Nb_Tampons') {
                 echo '
                 <label for="champNbTampons">Nombre de tampons :</label>
