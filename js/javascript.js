@@ -78,6 +78,27 @@ function validerConfirmationMdp(champ1,champ2,message,bouton) {
     }
 }
 
+function validerConfirmationMdpProfil(champ1,champ2,message,bouton) {
+    var mdp1 = document.getElementById(champ1).value;
+    var mdp2 = document.getElementById(champ2).value;
+    var mess = document.getElementById(message);
+    var btn = document.getElementById(bouton);
+    if(mdp1 == mdp2) {
+        mess.innerText = " ";
+        btn.style.backgroundColor = "rgb(103, 193, 228)";
+        document.getElementById(champ1).style.border = "none";
+        document.getElementById(champ2).style.border = "none";
+        btn.disabled = false;
+    }
+    else {
+        mess.innerText = "Les mots de passe ne correspondent pas !";  
+        btn.style.backgroundColor = "grey";
+        document.getElementById(champ1).style.border = "2px solid rgb(255, 77, 77)";
+        document.getElementById(champ2).style.border = "2px solid rgb(255, 77, 77)";
+        btn.disabled = true;
+    }
+}
+
 //? PAGE GESTION MEMBRES
 function Disable(ctrl){
     ctrl.setAttribute('disabled',true);

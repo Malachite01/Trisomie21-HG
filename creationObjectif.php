@@ -76,12 +76,12 @@
       <label for="champTravaille">Statut de l'objectif :</label>
       <div class="center" style="width: 100%;">
         <span class="center1Item">
-          <input type="radio" name="champTravaille" id="enCours" value="1" checked required>
-          <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
+          <input type="radio" name="champTravaille" id="Avenir" value="2" checked required>
+          <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
         </span>
         <span class="center1Item">
-          <input type="radio" name="champTravaille" id="Avenir" value="2" required>
-          <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
+          <input type="radio" name="champTravaille" id="enCours" value="1" required>
+          <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
         </span>
       </div>
       <span></span>
