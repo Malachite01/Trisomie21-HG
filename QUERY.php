@@ -88,15 +88,15 @@ $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre'
 // ----------------------------------------------Objectif-------------------------------------------------------------------
 
 // requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Travaille,Nb_Jetons,Id_Membre,Id_Enfant,
-                    Nb_Tampons,Nb_Tampons_Places) VALUES (:intitule, :duree, :lienObjectif, :priorite, :travaille, :nbJetons, 
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Travaille,Nb_Jetons,Id_Membre,Id_Enfant,
+                    Nb_Tampons,Nb_Tampons_Places) VALUES (:intitule, :duree, :lienObjectif, :travaille, :nbJetons, 
                     :idMembre, :idEnfant, :nbTampons, :nbTamponsPlaces)';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
+$qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
 
 //requete de modification d'Objectif
-$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, Priorite = :priorite, 
+$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, 
                                 Travaille = :travaille, Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons, Id_Membre = :idMembre 
                                 WHERE id_Objectif = :idObjectif';
 
@@ -104,12 +104,13 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Travaille, Lien_Image, Nb_Tampons, Nb_Jetons 
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille, Lien_Image, Nb_Tampons 
                                     FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete qui permet de récupérer l'image d'un objectif 
 $qAfficherImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
 
+$qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre = :id';
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -1170,28 +1171,42 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
             session');
     }
 }
-
+function supprimerIdMembreDansObjectif($idMembre){
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    //on supprime les liens avec Objectif
+    $req = $linkpdo->prepare($GLOBALS['$qSupprimerInfosIdMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer tous les idObj de la BD');
+    }
+   
+    $req -> execute(array(':id'=>clean($idMembre)));
+    $req->debugDumpParams();
+}
 // fonction qui permet de supprimer un membre a partir de son idMembre
 function supprimerMembre($idMembre)
 {
+    supprimerIdMembreDansObjectif($idMembre);
     // connexion a la base de donnees
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    //on supprime le membre
     $req = $linkpdo->prepare($GLOBALS['qSupprimerMembre']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
     }
     // execution de la requete sql
+    $req->debugDumpParams();
     $req->execute(array(':id' => clean($idMembre)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
+
 }
 
 // -----------------------------------------------Objectif------------------------------------------------------------------
 
 // fontion qui permet d'ajouter un objectif a la BD
-function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
+function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1205,7 +1220,6 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $travaille
         ':intitule' => clean($intitule),
         ':duree' => clean($duree),
         ':lienObjectif' => clean($lienObjectif),
-        ':priorite' => clean($priorite),
         ':travaille' => clean($travaille),
         ':nbJetons' => clean($nbJetons),
         ':idMembre' => clean($idMembre),
@@ -1240,9 +1254,6 @@ function afficherObjectifs($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Priorite') {
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Duree') {
@@ -1314,12 +1325,6 @@ function AfficherInformationUnObjectif($idObjectif)
                 <input type="text" name="champDuree" placeholder="Entrez la durée d\'évaluation" minlength="1" maxlength="50" value="' . $value . '" required>
                 <span></span>
                 ';
-            } elseif ($key == 'Priorite') {
-                echo '
-                <label for="champPriorite">Priorité :</label>
-                <input type="number" name="champPriorite" placeholder="Entrez la priorité de l\'objectif (un nombre)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="11" value="' . $value . '" required>
-                <span></span>
-                ';
             } elseif ($key == 'Travaille') {
                 echo '
                 <label for="champTravaille">Statut de l\'objectif :</label>
@@ -1363,7 +1368,7 @@ function AfficherInformationUnObjectif($idObjectif)
 }
 
 // fonction qui permet de modifier un objectif de la BD
-function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, $nbJetons, $nbTampons, $idMembre, $idObjectif)
+function modifierObjectif($intitule, $duree, $lienImage, $travaille, $nbJetons, $nbTampons, $idMembre, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1377,7 +1382,6 @@ function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, 
         ':intitule' => clean($intitule),
         ':duree' => clean($duree),
         ':lienImage' => clean($lienImage),
-        ':priorite' => clean($priorite),
         ':travaille' => clean($travaille),
         ':nbJetons' => clean($nbJetons),
         ':nbTampons' => clean($nbTampons),
