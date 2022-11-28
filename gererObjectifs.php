@@ -81,7 +81,7 @@ if (isset($_GET['params'])) {
       <tbody id="tbodyGererObjectifs">
         <?php
         if (isset($_POST['idEnfant'])) {
-          afficherObjectifs($_POST['idEnfant']);
+          afficherGererObjectifs($_POST['idEnfant']);
         }
         ?>
       </tbody>
@@ -93,19 +93,19 @@ if (isset($_GET['params'])) {
     ?>
   </form>
   <?php
-    if (isset($_POST['boutonValider'])) {
-      modifierObjectif(
-        $_POST['champIntitule'],
-        $_POST['champDuree'],
-        $_POST['champLienImage'],
-        $_POST['champPriorite'],
-        $_POST['champTravaille'],
-        $_POST['champNbJetons'],
-        $_POST['champNbTampons'],
-        $_SESSION['idConnexion'],
-        $_POST['boutonValider']
-      );
-    }
+  if (isset($_POST['boutonValider'])) {
+    modifierObjectif(
+      $_POST['champIntitule'],
+      $_POST['champDuree'],
+      $_POST['champLienImage'],
+      $_POST['champPriorite'],
+      $_POST['champTravaille'],
+      $_POST['champNbJetons'],
+      $_POST['champNbTampons'],
+      $_SESSION['idConnexion'],
+      $_POST['boutonValider']
+    );
+  }
   ?>
 </body>
 

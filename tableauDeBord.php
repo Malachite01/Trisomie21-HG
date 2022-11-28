@@ -31,6 +31,9 @@
     if (isset($_POST['idEnfant'])) {
       afficherObjectifs($_POST['idEnfant']);
     }
+    if (isset($_POST['idObjectif'])) {
+      UpdateTamponsPlaces($_POST['valeurObjectif'], $_POST['idObjectif']);
+    }
     // fin de ma merde
     ?>
     <!-- ma merde  -->

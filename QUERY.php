@@ -110,6 +110,14 @@ $qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite
 // requete qui permet de récupérer l'image d'un objectif 
 $qAfficherImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
 
+// raquete qui permet de récupérer le nombre de tampon pour un objectif donné
+$qNombreDeTampons = 'SELECT Nb_Tampons FROM objectif WHERE Id_Objectif = :idObjectif';
+
+// raquete qui permet de récupérer le nombre de tampon pour un objectif donné
+$qNombreDeTamponsPlaces = 'SELECT Nb_Tampons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+
+$qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Tampons_Places = :nbTamponsPlaces WHERE Id_Objectif = :idObjectif';
+
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -1219,7 +1227,7 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $travaille
 }
 
 // fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
-function afficherObjectifs($idEnfant)
+function afficherGererObjectifs($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1280,6 +1288,133 @@ function afficherObjectifs($idEnfant)
             </button>
             </td>
         </tr>';
+    }
+}
+
+// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
+function afficherObjectifs($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Priorite') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '<input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
+        for ($i = 1; $i <= NombreDeTampons($idObjectif); $i++) {
+            if ($i <= NombreDeTamponsPlaces($idObjectif)) {
+                echo '<input type="submit" value=' . $i . ' style="background-color: green;" disabled>';
+            } else {
+                echo '<input type="submit" name="valeurObjectif" value=' . $i . '>';
+            }
+        }
+    }
+}
+
+// fontion qui permet d'ajouter un objectif a la BD
+function NombreDeTampons($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qNombreDeTampons']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+// fontion qui permet d'ajouter un objectif a la BD
+function NombreDeTamponsPlaces($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qNombreDeTamponsPlaces']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+// fontion qui permet d'ajouter un objectif a la BD
+function UpdateTamponsPlaces($nbTamponsPlaces, $idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qUpdateTamponsPlaces']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':nbTamponsPlaces' => clean($nbTamponsPlaces),
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
 }
 
