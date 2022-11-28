@@ -27,13 +27,12 @@
   <h1 id="texteH1DemandeInscription">Création d'un objectif</h1>
 
   <?php
-  if (champRempli(array('champIntitule', 'champDuree', 'champPriorite', 'champNbTampons'))) {
+  if (champRempli(array('champIntitule', 'champDuree','champNbTampons'))) {
     if (isset($_POST['boutonValider'])) {
       ajouterObjectif(
         $_POST['champIntitule'],
         $_POST['champDuree'],
         uploadImage($_FILES['champImageTampon']),
-        $_POST['champPriorite'],
         $_POST['champTravaille'],
         $_POST['champNbJetons'],
         $_SESSION['idConnexion'],
@@ -69,19 +68,15 @@
       <input type="text" name="champDuree" placeholder="Entrez la durée d'évaluation" minlength="1" maxlength="50" required>
       <span></span>
 
-      <label for="champPriorite">Priorité :</label>
-      <input type="number" name="champPriorite" placeholder="Entrez la priorité de l'objectif (un nombre)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11" required>
-      <span></span>
-
       <label for="champTravaille">Statut de l'objectif :</label>
       <div class="center" style="width: 100%;">
         <span class="center1Item">
-          <input type="radio" name="champTravaille" id="enCours" value="1" checked required>
-          <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
+          <input type="radio" name="champTravaille" id="Avenir" value="2" checked required>
+          <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
         </span>
         <span class="center1Item">
-          <input type="radio" name="champTravaille" id="Avenir" value="2" required>
-          <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
+          <input type="radio" name="champTravaille" id="enCours" value="1" required>
+          <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
         </span>
       </div>
       <span></span>

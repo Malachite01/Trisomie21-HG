@@ -25,7 +25,7 @@
 
   <h1>Ajouter un enfant</h1>
 
-  <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')">
+  <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champNom">Nom :</label>
@@ -52,7 +52,7 @@
   </form>
   <script src="js/javascript.js"></script>
   <?php
-  if (champRempli(array('champNom', 'champPrénom', 'champDateDeNaissance', 'champImageJeton'))) {
+  if (champRempli(array('champNom', 'champPrénom', 'champDateDeNaissance'))) {
     if (enfantIdentique(
       $_POST['champNom'],
       $_POST['champPrénom'],
@@ -62,7 +62,7 @@
         $_POST['champNom'],
         $_POST['champPrénom'],
         $_POST['champDateDeNaissance'],
-        $_POST['champImageJeton']
+        uploadImage($_FILES['champImageJeton'])
       );
       echo '
         <div class="validationPopup">
@@ -70,7 +70,6 @@
           <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
           <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
         </div>';
-      // ici ca redirigera vers la liste des enfants
     } else {
       echo
       '<div class="erreurPopup">
@@ -80,10 +79,6 @@
         </div>';
     }
   }
-  if (isset($_POST['boutonDeco'])) {
-    session_destroy();
-    header('Location: index.php');
-  };
   ?>
 </body>
 

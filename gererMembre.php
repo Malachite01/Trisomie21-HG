@@ -65,7 +65,7 @@ if (isset($_GET['params'])) {
           <option value="3">De A à Z</option>
           <option value="4">De Z à A</option>
           <option value="5">Membres validés</option>
-          <option value="6">Membres invalides</option>
+          <option value="6">Membres non validés</option>
           <option value="7">Membres les plus jeunes</option>
           <option value="8">Membres les plus agés</option>
         </select>

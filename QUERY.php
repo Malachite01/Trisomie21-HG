@@ -9,8 +9,8 @@
 // ----------------------------------------------Enfant---------------------------------------------------------------------
 
 // requete pour ajouter un enfant a la BD
-$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) 
-                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
+$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton,Total_Jetons) 
+                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton,0)';
 
 // requete pour verifier qu'un enfant avec les données en parametre n'existe pas deja dans la BD
 $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant 
@@ -88,15 +88,15 @@ $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre'
 // ----------------------------------------------Objectif-------------------------------------------------------------------
 
 // requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Priorite,Travaille,Nb_Jetons,Id_Membre,Id_Enfant,
-                    Nb_Tampons,Nb_Tampons_Places) VALUES (:intitule, :duree, :lienObjectif, :priorite, :travaille, :nbJetons, 
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Travaille,Nb_Jetons,Id_Membre,Id_Enfant,
+                    Nb_Tampons,Nb_Tampons_Places) VALUES (:intitule, :duree, :lienObjectif, :travaille, :nbJetons, 
                     :idMembre, :idEnfant, :nbTampons, :nbTamponsPlaces)';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
+$qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
 
 //requete de modification d'Objectif
-$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, Priorite = :priorite, 
+$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, 
                                 Travaille = :travaille, Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons, Id_Membre = :idMembre 
                                 WHERE id_Objectif = :idObjectif';
 
@@ -104,7 +104,7 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Dure
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Priorite, Nb_Jetons, Travaille, Lien_Image, Nb_Tampons 
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille, Lien_Image, Nb_Tampons 
                                     FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete qui permet de récupérer l'image d'un objectif 
@@ -118,6 +118,7 @@ $qNombreDeTamponsPlaces = 'SELECT Nb_Tampons_Places FROM objectif WHERE Id_Objec
 
 $qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Tampons_Places = :nbTamponsPlaces WHERE Id_Objectif = :idObjectif';
 
+$qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre = :id';
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -136,6 +137,11 @@ $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompe
 
 // requete pour afficher toutes les recompenses d'un enfant donne
 $qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Enfant = :idEnfant';
+// ----------------------------------------------TABLEAU de Bord-----------------------------------------------------------------
+$qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant = :idEnfant';
+
+$qAjouterUnJeton = 'UPDATE Enfant SET Total_Jetons = Total_Jetons+1 WHERE Id_Enfant=:idEnfant';
+
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -237,7 +243,7 @@ function faireMenu()
     '
     <nav class="navbar">
         <div class="fondMobile"></div>
-        <a href="#"><img src="images/logo.png" alt="logo" class="logo"></a>
+        <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
         
         <div class="nav-links">
           <ul class="nav-ul">
@@ -1140,10 +1146,10 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Mdp') {
                 //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
-                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
+                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
                 <span></span>';
                 echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
-                <input type="text" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
+                <input type="text" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
                 <span></span>';
                 echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
             }
@@ -1178,18 +1184,32 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
             session');
     }
 }
+function supprimerIdMembreDansObjectif($idMembre)
+{
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    //on supprime les liens avec Objectif
+    $req = $linkpdo->prepare($GLOBALS['$qSupprimerInfosIdMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer tous les idObj de la BD');
+    }
 
+    $req->execute(array(':id' => clean($idMembre)));
+    $req->debugDumpParams();
+}
 // fonction qui permet de supprimer un membre a partir de son idMembre
 function supprimerMembre($idMembre)
 {
+    supprimerIdMembreDansObjectif($idMembre);
     // connexion a la base de donnees
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    //on supprime le membre
     $req = $linkpdo->prepare($GLOBALS['qSupprimerMembre']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
     }
     // execution de la requete sql
+    $req->debugDumpParams();
     $req->execute(array(':id' => clean($idMembre)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
@@ -1199,7 +1219,7 @@ function supprimerMembre($idMembre)
 // -----------------------------------------------Objectif------------------------------------------------------------------
 
 // fontion qui permet d'ajouter un objectif a la BD
-function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
+function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1213,7 +1233,6 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $priorite, $travaille
         ':intitule' => clean($intitule),
         ':duree' => clean($duree),
         ':lienObjectif' => clean($lienObjectif),
-        ':priorite' => clean($priorite),
         ':travaille' => clean($travaille),
         ':nbJetons' => clean($nbJetons),
         ':idMembre' => clean($idMembre),
@@ -1248,9 +1267,6 @@ function afficherGererObjectifs($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Priorite') {
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Duree') {
@@ -1449,35 +1465,35 @@ function AfficherInformationUnObjectif($idObjectif)
                 <input type="text" name="champDuree" placeholder="Entrez la durée d\'évaluation" minlength="1" maxlength="50" value="' . $value . '" required>
                 <span></span>
                 ';
-            } elseif ($key == 'Priorite') {
-                echo '
-                <label for="champPriorite">Priorité :</label>
-                <input type="number" name="champPriorite" placeholder="Entrez la priorité de l\'objectif (un nombre)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="11" value="' . $value . '" required>
-                <span></span>
-                ';
             } elseif ($key == 'Travaille') {
-                echo '<label for="champTravaille">Statut de l\'objectif :</label>
+                echo '
+                <label for="champTravaille">Statut de l\'objectif :</label>
                 <div class="center" style="width: 100%;">
-                  <span class="center1Item">
-                    <input type="radio" name="champTravaille" id="enCours" value="1" required';
-                if ($value == 1) echo ' checked>';
-                else echo '>';
-                echo '<label for="enCours" class="radioLabel" tabindex="0">En cours</label>
-                  </span>
-                  <span class="center1Item">
-                    <input type="radio" name="champTravaille" id="Avenir" value="2" required';
+
+                    <span class="center1Item">
+                        <input type="radio" name="champTravaille" id="Avenir" value="2" required';
                 if ($value == 2) echo ' checked>';
                 else echo '>';
-                echo '<label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
-                  </span>
+                echo '
+                        <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
+                    </span>
+
+                    <span class="center1Item">
+                        <input type="radio" name="champTravaille" id="enCours" value="1" required';
+                if ($value == 1) echo ' checked>';
+                else echo '>';
+                echo '
+                        <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
+                    </span>
+
                 </div>
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
                 echo '
                 <label for="champLienImage">Image du tampon :</label>
-                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\') value="' . $value . ' required>
-                <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
-                ';
+                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
+                <img src="' . AfficherImageObjectif($idObjectif) . '" alt=" " id="imageTampon">';
+                echo '<input type="hidden" value="' . AfficherImageObjectif($idObjectif) . '" name="hiddenImageLink">';
             } elseif ($key == 'Nb_Tampons') {
                 echo '
                 <label for="champNbTampons">Nombre de tampons :</label>
@@ -1496,7 +1512,7 @@ function AfficherInformationUnObjectif($idObjectif)
 }
 
 // fonction qui permet de modifier un objectif de la BD
-function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, $nbJetons, $nbTampons, $idMembre, $idObjectif)
+function modifierObjectif($intitule, $duree, $lienImage, $travaille, $nbJetons, $nbTampons, $idMembre, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1510,7 +1526,6 @@ function modifierObjectif($intitule, $duree, $lienImage, $priorite, $travaille, 
         ':intitule' => clean($intitule),
         ':duree' => clean($duree),
         ':lienImage' => clean($lienImage),
-        ':priorite' => clean($priorite),
         ':travaille' => clean($travaille),
         ':nbJetons' => clean($nbJetons),
         ':nbTampons' => clean($nbTampons),
@@ -1736,6 +1751,43 @@ function afficherRecompense($idEnfant)
             </button>
             </td>
         </tr>';
+    }
+}
+//TABLEAU DE BORD//
+
+function AfficherTotalJetons($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherNombreJetonsEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les jetons de lenfant');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les jetons');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $value) {
+            echo '<p>' . $value . 'Jetons dans la cagnotte!! </p>';
+        }
+    }
+}
+function ajouterUnJeton($idEnfant)
+{
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUnJeton']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les jetons de lenfant');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les jetons');
     }
 }
 

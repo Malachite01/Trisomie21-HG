@@ -29,13 +29,33 @@
     afficherNomPrenomEnfant();
     // ma merde
     if (isset($_POST['idEnfant'])) {
+      AfficherTotalJetons($_POST['idEnfant']);
       afficherObjectifs($_POST['idEnfant']);
+
+      echo '
+    <button type="submit" name="boutonAjouter"
+    class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir rajouter ce jeton ?\');">
+        <img src="images/valider.png" class="imageIcone" alt="icone valider">
+        <span>Valider</span>
+    </button>';
+
+      if (isset($_POST['boutonAjouter'])) {
+        ajouterUnJeton($_POST['idEnfant']);
+      }
     }
+
+
+
+
+
+
+
     if (isset($_POST['idObjectif'])) {
       UpdateTamponsPlaces($_POST['valeurObjectif'], $_POST['idObjectif']);
     }
     // fin de ma merde
     ?>
+
     <!-- ma merde  -->
     <input type="submit">
     <!-- fin de ma merde -->

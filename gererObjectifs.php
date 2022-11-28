@@ -49,7 +49,7 @@ if (isset($_GET['params'])) {
 
   <h1>Gérer les objectifs</h1>
 
-  <form id="formGestionObjectifs" method="POST">
+  <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
@@ -93,18 +93,31 @@ if (isset($_GET['params'])) {
     ?>
   </form>
   <?php
+
   if (isset($_POST['boutonValider'])) {
-    modifierObjectif(
-      $_POST['champIntitule'],
-      $_POST['champDuree'],
-      $_POST['champLienImage'],
-      $_POST['champPriorite'],
-      $_POST['champTravaille'],
-      $_POST['champNbJetons'],
-      $_POST['champNbTampons'],
-      $_SESSION['idConnexion'],
-      $_POST['boutonValider']
-    );
+    if ($_FILES['champLienImage']['name'] == "") {
+      modifierObjectif(
+        $_POST['champIntitule'],
+        $_POST['champDuree'],
+        $_POST['hiddenImageLink'],
+        $_POST['champTravaille'],
+        $_POST['champNbJetons'],
+        $_POST['champNbTampons'],
+        $_SESSION['idConnexion'],
+        $_POST['boutonValider']
+      );
+    } else {
+      modifierObjectif(
+        $_POST['champIntitule'],
+        $_POST['champDuree'],
+        uploadImage($_FILES['champLienImage']),
+        $_POST['champTravaille'],
+        $_POST['champNbJetons'],
+        $_POST['champNbTampons'],
+        $_SESSION['idConnexion'],
+        $_POST['boutonValider']
+      );
+    }
   }
   ?>
 </body>

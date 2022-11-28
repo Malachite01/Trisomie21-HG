@@ -23,35 +23,19 @@
   require('QUERY.php');
 
   faireMenu();
-  if (isset($_POST['boutonValider'])) {
-    modifierObjectif(
-      $_POST['champIntitule'],
-      $_POST['champDuree'],
-      $_POST['champPriorite'],
-      $_POST['champTravaille'],
-      $_POST['champImageTampon'],
-      $_POST['champNbTampons'],
-      $_POST['champNbJetons'],
-      $_SESSION['idConnexion'],
-      $_POST['boutonModifier']
-    );
-  }
   ?>
-  <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
+  <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-      AfficherInformationUnObjectif($_POST['boutonModifier']);
+        AfficherInformationUnObjectif($_POST['boutonModifier']);
       ?>
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
-      <button type="submit" formaction="gererObjectifs.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" formaction="gererObjectifs.php?params=modif" value="<?php echo $_POST['boutonModifier']; ?>" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Editer </span></button>
+      <button type="submit" formaction="gererObjectifs.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
+      <button type="submit" formaction="gererObjectifs.php?params=modif" value="<?php echo $_POST['boutonModifier']; ?>" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
     </div>
-    <?php if (isset($_POST['boutonModifier'])) {
-      echo $_POST['boutonModifier'];
-    } ?>
   </form>
   <script src="js/javascript.js"></script>
 </body>
