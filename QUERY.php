@@ -92,6 +92,9 @@ $qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Travaille,N
                     Nb_Tampons,Nb_Tampons_Places) VALUES (:intitule, :duree, :lienObjectif, :travaille, :nbJetons, 
                     :idMembre, :idEnfant, :nbTampons, :nbTamponsPlaces)';
 
+// requete qui permet de vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
+$qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = : intitule AND Id_Enfant = : idEnfant';
+
 // requete pour afficher les objectifs de la BD
 $qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
 
@@ -431,12 +434,8 @@ function afficherNomPrenomEnfantSubmit()
 // -----------------------------------------------Membre--------------------------------------------------------------------
 
 // fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
-function membreIdentique(
-    $nom,
-    $prenom,
-    $dateNaissance,
-    $courriel
-) {
+function membreIdentique($nom, $prenom, $dateNaissance, $courriel)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -1243,6 +1242,27 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
+}
+
+// fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
+function objectifIdentique($intitule, $idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qObjectifIdentique']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un membre existe deja');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':intitule' => clean($intitule),
+        ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
+    }
+    return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
 // fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee

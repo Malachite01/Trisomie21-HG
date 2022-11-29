@@ -27,19 +27,22 @@
   <h1 id="texteH1DemandeInscription">Création d'un objectif</h1>
 
   <?php
-  if (champRempli(array('champIntitule', 'champDuree','champNbTampons'))) {
+  if (champRempli(array('champIntitule', 'champDuree', 'champNbTampons'))) {
     if (isset($_POST['boutonValider'])) {
-      ajouterObjectif(
-        $_POST['champIntitule'],
-        $_POST['champDuree'],
-        uploadImage($_FILES['champImageTampon']),
-        $_POST['champTravaille'],
-        $_POST['champNbJetons'],
-        $_SESSION['idConnexion'],
-        $_POST['idEnfant'],
-        $_POST['champNbTampons'],
-        0
-      );
+      if (objectifIdentique($_POST['champIntitule'], $_POST['idEnfant']) == 0) {
+        ajouterObjectif(
+          $_POST['champIntitule'],
+          $_POST['champDuree'],
+          uploadImage($_FILES['champImageTampon']),
+          $_POST['champTravaille'],
+          $_POST['champNbJetons'],
+          $_SESSION['idConnexion'],
+          $_POST['idEnfant'],
+          $_POST['champNbTampons'],
+          0
+        );
+      }
+
       echo '
           <div class="validationPopup">
             <h2 class="txtPopup">L\'objectif a bien été ajouté à l\'enfant !</h2>
@@ -48,7 +51,7 @@
           </div>';
     }
   }
-  
+
   ?>
 
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">
