@@ -55,9 +55,6 @@
     }
     // fin de ma merde
     ?>
-
-    <!-- ma merde  -->
-    <input type="submit">
     <!-- fin de ma merde -->
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
