@@ -26,7 +26,7 @@
   <h1>Tableau de bord pour l'enfant:</h1>
   <form id="formTableauDeBord" method="POST">
     <?php
-    afficherNomPrenomEnfant();
+    afficherNomPrenomEnfantSubmit();
     // ma merde
     if (isset($_POST['idEnfant'])) {
       AfficherTotalJetons($_POST['idEnfant']);
