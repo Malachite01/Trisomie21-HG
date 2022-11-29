@@ -1330,12 +1330,9 @@ div.miseEnForme label {
         content: "Durée d'évaluation :";
     }
     #tbodyGererObjectifs td:nth-child(3)::before{
-        content: "Priorité :";
-    }
-    #tbodyGererObjectifs td:nth-child(4)::before{
         content: "Jetons à gagner :";
     }
-    #tbodyGererObjectifs td:nth-child(5)::before{
+    #tbodyGererObjectifs td:nth-child(4)::before{
         content: "Statut :";
     }
 }

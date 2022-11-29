@@ -71,7 +71,6 @@ if (isset($_GET['params'])) {
       <thead>
         <th>Intitulé</th>
         <th>Durée d'évaluation</th>
-        <th>Priorité</th>
         <th>Jetons à gagner</th>
         <th>Statut</th>
         <th>Modifier</th>
