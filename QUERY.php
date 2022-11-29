@@ -375,7 +375,7 @@ function afficherNomPrenomEnfant()
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
-    echo '<select name="idEnfant">';
+    echo '<select name="idEnfant" onchange="this.form.submit()">';
     echo '<option>Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
