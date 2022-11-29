@@ -116,6 +116,7 @@ if (isset($_GET['params'])) {
         $_SESSION['idConnexion'],
         $_POST['boutonValider']
       );
+      unlink($_POST['hiddenImageLink']);
     }
   }
   ?>
