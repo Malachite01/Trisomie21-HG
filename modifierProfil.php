@@ -51,7 +51,7 @@
 
     <div class="center" id="boutonsValiderAnnuler">
       <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
-      <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider" onclick="return confirm('Êtes vous sûr de vouloir appliquer ces modifications ? Votre compte devra être vérifié a nouveau');"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
+      <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider" onclick="return confirm('Êtes vous sûr de vouloir appliquer ces modifications ?');"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
     </div>
   </form>
   <script src="js/javascript.js"></script>
