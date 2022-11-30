@@ -93,7 +93,7 @@ $qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Travaille,N
                     :idMembre, :idEnfant, :nbTampons, :nbTamponsPlaces)';
 
 // requete qui permet de vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
-$qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = : intitule AND Id_Enfant = : idEnfant';
+$qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
 
 // requete pour afficher les objectifs de la BD
 $qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
