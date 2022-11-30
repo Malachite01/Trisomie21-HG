@@ -41,14 +41,20 @@
           $_POST['champNbTampons'],
           0
         );
-      }
-
-      echo '
+        echo '
           <div class="validationPopup">
             <h2 class="txtPopup">L\'objectif a bien été ajouté à l\'enfant !</h2>
             <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
             <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
           </div>';
+      } else {
+        echo
+        '<div class="erreurPopup">
+            <h2 class="txtPopup">L\'objectif n\'a pas été ajouté car il existe déja pour cet enfant.</h2>
+            <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
+            <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+          </div>';
+      }
     }
   }
 
