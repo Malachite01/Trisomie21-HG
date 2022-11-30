@@ -145,6 +145,12 @@ $qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant 
 
 $qAjouterUnJeton = 'UPDATE Enfant SET Total_Jetons = Total_Jetons+1 WHERE Id_Enfant=:idEnfant';
 
+
+//--------------------------------EQUIPE---------------------------------------------------------------------------
+$qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
+VALUES (:idEnfant,:idMembre,:dateDemandeEquipe,:role)';
+
+$qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -370,7 +376,7 @@ function enfantIdentique(
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
-// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
+// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
 function afficherNomPrenomEnfant()
 {
     // connexion a la BD
@@ -385,8 +391,8 @@ function afficherNomPrenomEnfant()
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
-    echo '<select name="idEnfant">';
-    echo '<option>Veuillez choisir un enfant</option>';
+    echo '<select name="idEnfant" required>';
+    echo '<option value="">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
@@ -1818,6 +1824,40 @@ function ajouterUnJeton($idEnfant)
     }
 }
 
+
+//-------------------------------------------------EQUIPE------------------------------------------------------------
+function afficherNomPrenomMembre()
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    echo '<select name="idMembre">';
+    echo '<option>Veuillez choisir un Membre</option>';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Id_Membre') {
+                $idEnfant = $value;
+            }
+            if ($key == 'Nom') {
+                $nom = $value;
+            }
+            if ($key == 'Prenom') {
+                echo '<option value=' . $idMembre . '>' . $nom . " " . $value . '</option>';
+            }
+        }
+    }
+    echo '</select>';
+}
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               
