@@ -272,6 +272,7 @@ function faireMenu()
 
             <li><a href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
+                    <li><a href="#">Mes équipes</a></li>
                     <li><a href="#">Gérer une équipe</a></li>
                 </ul>
             </li>    
