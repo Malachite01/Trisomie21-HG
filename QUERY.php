@@ -257,7 +257,6 @@ function faireMenu()
             <li><a id="Enfants">Enfants</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
-                    <li><a href="#">Mon équipe d\'enfants</a></li>
                 </ul>
             </li>        
             
@@ -268,6 +267,14 @@ function faireMenu()
                     <li><a href="gererMembre.php">Gérer les membres</a></li>
                 </ul>
             </li>
+
+            <div class="separateur"></div>
+
+            <li><a href="#" id="Equipe">Equipe</a>
+                <ul class="sousMenu">
+                    <li><a href="#">Gérer une équipe</a></li>
+                </ul>
+            </li>    
             
             <div class="separateur"></div>
             

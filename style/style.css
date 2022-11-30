@@ -402,7 +402,7 @@ nav a {
     vertical-align: middle;
 }
 /* Phone navbar 1062px*/
-@media screen and (max-width: 1062px) {
+@media screen and (max-width: 1150px) {
     .navbar {
         position: fixed;
         padding: 0px;
