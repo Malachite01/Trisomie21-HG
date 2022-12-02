@@ -76,7 +76,7 @@ $qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :id';
 
 // requete pour modifier les données d'un membre de la BD
 $qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, 
-                                Ville = :ville, Mdp = :mdp, Pro = :pro WHERE Id_Membre = :idMembre';
+                                Ville = :ville, Mdp = :mdp WHERE Id_Membre = :idMembre';
 
 // requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
 $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre 
@@ -1134,7 +1134,7 @@ function AfficherInformationsMembreSession($idMembre)
 }
 
 // fonction qui permet de modifier les informations du membre de la session
-function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $mdp, $pro)
+function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $mdp)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1152,7 +1152,6 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
         ':codePostal' => clean($codePostal),
         ':ville' => clean($ville),
         ':mdp' => clean($mdp),
-        ':pro' => clean($pro),
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
