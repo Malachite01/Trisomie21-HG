@@ -60,8 +60,7 @@
               $_POST['champIntitule'],
               $_POST['champDescriptif'],
               $_POST['champLienImage'],
-              $_POST['idEnfant'],
-              $_POST['champCoutJetons']
+              $_POST['idObjectif']
             );
     }
    
