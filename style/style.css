@@ -1138,6 +1138,10 @@ div.miseEnForme label {
     width: 25px;
     height: 25px;
 }
+#oeilMdp2 {
+    width: 25px;
+    height: 25px;
+}
 
 #boutonConnexion {
     margin-left: 20%;
@@ -1169,6 +1173,7 @@ div.miseEnForme label {
     max-height: 70px;
 }
 #imageTampon {
+    margin: none;
     max-width: 70px;
     max-height: 70px;
 }

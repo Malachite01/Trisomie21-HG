@@ -260,7 +260,7 @@ function faireMenu()
     
             <div class="separateur"></div>
             
-            <li><a id="Enfants">Enfants</a>
+            <li><a href="#" id="Enfants">Enfants</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
                 </ul>
@@ -268,7 +268,7 @@ function faireMenu()
             
             <div class="separateur"></div>
             
-            <li><a id="Membres">Membres</a>
+            <li><a href="#" id="Membres">Membres</a>
                 <ul class="sousMenu">
                     <li><a href="gererMembre.php">Gérer les membres</a></li>
                 </ul>
@@ -276,24 +276,25 @@ function faireMenu()
 
             <div class="separateur"></div>
 
-            <li><a href="#" id="Equipe">Equipe</a>
+            <li><a href="#" href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
+                    <li><a href="#">Mes équipes</a></li>
                     <li><a href="#">Gérer une équipe</a></li>
                 </ul>
             </li>    
             
             <div class="separateur"></div>
             
-            <li><a id="Objectifs">Objectifs</a>
+            <li><a href="#" id="Objectifs">Objectifs</a>
                 <ul class="sousMenu">
-                    <li><a href="creationObjectif.php">Créer un objectif</a></li>
+                    <li><a href="ajouterObjectif.php">Ajouter un objectif</a></li>
                     <li><a href="gererObjectifs.php">Gérer les objectifs</a></li>
                 </ul>
             </li>
 
             <div class="separateur"></div>
 
-            <li><a id="Recompenses">Récompenses</a>
+            <li><a href="#" id="Recompenses">Récompenses</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterRecompense.php">Ajouter une récompense</a></li>
                     <li><a href="gererRecompense.php">Gérer les récompenses</a></li>
@@ -1138,31 +1139,14 @@ function AfficherInformationsMembreSession($idMembre)
                 echo '<label for="champVille">Ville :</label>
                 <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  required>
                 <span></span>';
-            } elseif ($key == 'Pro') {
-                echo '<label for="champPro">Professionnel :</label>
-                <div class="center" style="width: 100%;">
-                  <span class="center1Item">
-                    <input type="radio" name="champPro" id="proNon" value="null" required';
-                if ($value == null || $value == 0) echo ' checked>';
-                else echo '>';
-                echo '<label for="proNon" class="radioLabel" tabindex="0">Non</label>
-                  </span>
-                  <span class="center1Item">
-                    <input type="radio" name="champPro" id="proOui" value="1" required';
-                if ($value == 1) echo ' checked>';
-                else echo '>';
-                echo '<label for="proOui" class="radioLabel" tabindex="0">Oui</label>
-                  </span>
-                </div>
-                <span></span>';
             } elseif ($key == 'Mdp') {
                 //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
-                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
-                <span></span>';
+                <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
+                <span><img src="images/oeilFermé.png" id="oeilMdp" alt="oeil" onclick="afficherMDP(\'champMdp\',\'oeilMdp\')"></span>';
                 echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
-                <input type="text" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
-                <span></span>';
+                <input type="password" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
+                <span><img src="images/oeilFermé.png" id="oeilMdp2" alt="oeil" onclick="afficherMDP(\'champConfirmerMdp\',\'oeilMdp2\')"></span>';
                 echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
             }
         }
