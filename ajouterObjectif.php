@@ -96,10 +96,6 @@
       <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageTampon','imageTampon')" required>
       <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
 
-      <label for="champNbTampons">Nombre de tampons :</label>
-      <input type="number" name="champNbTampons" placeholder="Entrez le nombre de tampons pour valider l'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" min="1" max="99999999999" required>
-      <span></span>
-
       <label for="champNbJetons">Jetons à gagner :</label>
       <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" min="1" max="99999999999" required>
       <span></span>
