@@ -6,7 +6,7 @@
 / --------------------------------------------------------------------------------------------------------------------------
 */
 
-// ----------------------------------------------Enfant---------------------------------------------------------------------
+//? ----------------------------------------------Enfant---------------------------------------------------------------------
 
 // requete pour ajouter un enfant a la BD
 $qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton,Total_Jetons) 
@@ -19,7 +19,7 @@ $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
 $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
 
-// ----------------------------------------------Membre---------------------------------------------------------------------
+//? ----------------------------------------------Membre---------------------------------------------------------------------
 
 // requete pour ajouter un membre a la BD
 $qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Pro) 
@@ -85,12 +85,12 @@ $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre
 // requete pour rechercher le prenom du membre connecté
 $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
-// ----------------------------------------------Objectif-------------------------------------------------------------------
+//? ----------------------------------------------Objectif-------------------------------------------------------------------
 
 // requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Duree,Lien_Image,Travaille,Nb_Jetons,Id_Membre,Id_Enfant,
-                    Nb_Tampons,Nb_Tampons_Places) VALUES (:intitule, :duree, :lienObjectif, :travaille, :nbJetons, 
-                    :idMembre, :idEnfant, :nbTampons, :nbTamponsPlaces)';
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Nb_Jetons,Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant
+                    ) VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, 
+                    :idMembre, :idEnfant)';
 
 // requete qui permet de vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
 $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
@@ -122,7 +122,7 @@ $qNombreDeTamponsPlaces = 'SELECT Nb_Tampons_Places FROM objectif WHERE Id_Objec
 $qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Tampons_Places = :nbTamponsPlaces WHERE Id_Objectif = :idObjectif';
 
 $qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre = :id';
-// ----------------------------------------------Recompense-----------------------------------------------------------------
+//? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
 $qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,Id_Objectif) 
@@ -140,13 +140,12 @@ $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompe
 
 // requete pour afficher toutes les recompenses d'un enfant donne
 $qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Objectif = :idObjectif';
-// ----------------------------------------------TABLEAU de Bord-----------------------------------------------------------------
+//? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
 $qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant = :idEnfant';
 
 $qAjouterUnJeton = 'UPDATE Enfant SET Total_Jetons = Total_Jetons+1 WHERE Id_Enfant=:idEnfant';
 
-
-//--------------------------------EQUIPE---------------------------------------------------------------------------
+//?--------------------------------Equipe---------------------------------------------------------------------------
 $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
 VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
@@ -157,7 +156,7 @@ $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY N
 / --------------------------------------------------------------------------------------------------------------------------
 */
 
-// -----------------------------------------------Générales-----------------------------------------------------------------
+//! -----------------------------------------------GENERALES-----------------------------------------------------------------
 
 // fonction qui permet de se connecter a la BD
 function connexionBd()
@@ -323,7 +322,7 @@ function faireMenu()
     </script>';
 }
 
-// -----------------------------------------------Enfant--------------------------------------------------------------------
+//! -----------------------------------------------ENFANT--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un enfant a la BD
 function ajouterEnfant(
@@ -445,7 +444,7 @@ function afficherNomPrenomEnfantSubmit()
     echo '</select>';
 }
 
-// -----------------------------------------------Membre--------------------------------------------------------------------
+//! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
 // fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
 function membreIdentique($nom, $prenom, $dateNaissance, $courriel)
@@ -1212,10 +1211,10 @@ function supprimerMembre($idMembre)
     }
 }
 
-// -----------------------------------------------Objectif------------------------------------------------------------------
+//! -----------------------------------------------OBJECTIF------------------------------------------------------------------
 
 // fontion qui permet d'ajouter un objectif a la BD
-function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
+function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille, $idMembre, $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1227,14 +1226,12 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons
     // execution de la requete sql
     $req->execute(array(
         ':intitule' => clean($intitule),
+        ':nbJetons' => clean($nbJetons),
         ':duree' => clean($duree),
         ':lienObjectif' => clean($lienObjectif),
         ':travaille' => clean($travaille),
-        ':nbJetons' => clean($nbJetons),
         ':idMembre' => clean($idMembre),
-        ':idEnfant' => clean($idEnfant),
-        ':nbTampons' => clean($nbTampons),
-        ':nbTamponsPlaces' => clean($nbTamponsPlaces)
+        ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
@@ -1604,7 +1601,14 @@ function AfficherImageObjectif($idObjectif)
     }
 }
 
-// -----------------------------------------------Recompense--------------------------------------------------------------
+// fonction qui ressort une durée en heure avec des semaines, jours
+function dureeDeCagnottage($semaines,$jours,$heures) {
+    $semaines *= 24 * 7;
+    $jours *= 24;
+    return $semaines + $jours + $heures;
+}
+
+//! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
 function ajouterRecompense($intitule, $descriptif, $lienImage,$idObjectif)
@@ -1746,14 +1750,14 @@ function afficherRecompense($idObjectif)
         }
         echo '
             <td>
-            <button name="boutonModifier" value="' . $idEnfant . '" 
+            <button name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" onclick="window.location=\'modifierRecompense.php\'" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cette recompense ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
