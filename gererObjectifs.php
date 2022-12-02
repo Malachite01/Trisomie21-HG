@@ -55,11 +55,9 @@ if (isset($_GET['params'])) {
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
-        <form method="POST">
         <?php
           afficherNomPrenomEnfantSubmit();
         ?>
-        </form>
       </div>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
