@@ -72,8 +72,12 @@
       <input type="text" name="champIntitule" placeholder="Entrez l'intitulé de l'objectif" minlength="1" maxlength="50" required>
       <span></span>
 
-      <label for="champDuree">Durée d'évaluation :</label>
-      <input type="text" name="champDuree" placeholder="Entrez la durée d'évaluation" minlength="1" maxlength="50" required>
+      <label>Durée de cagnottage :</label>
+      <div id="selecteurDuree">
+        <div class="center"><label for="inline champDureeSemaines" class="labelSemJourH">Semaine(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeSemaines" min="0" max="99"></div>
+        <div class="center"><label for="inline champDureeJours">Jour(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeJours" min="0" max="99"></div>
+        <div class="center"><label for="inline champDureeHeures">Heure(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeHeures" min="0" max="99"></div>
+      </div>
       <span></span>
 
       <label for="champTravaille">Statut de l'objectif :</label>

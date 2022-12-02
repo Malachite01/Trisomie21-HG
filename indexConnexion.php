@@ -25,7 +25,7 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
                     $_SESSION['idConnexion'] = $data['id_Membre'];
                     $_SESSION['prenomMembre'] = $data['Prenom'];
                     //page d'accueil normalement tableau de bord
-                    header('Location: modifierProfil.php');
+                    header('Location: tableauDeBord.php');
                     die();
                 } else {
                     header('Location: index.php?login_err=invalide');

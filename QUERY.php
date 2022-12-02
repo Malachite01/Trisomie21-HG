@@ -123,21 +123,21 @@ $qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre
 // ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
-$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,id_Enfant,Cout_Jetons) 
-                        VALUES (:intitule ,:descriptif,:lienImage,:idEnfant,:coutJetons)';
+$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,Id_Objectif) 
+                        VALUES (:intitule ,:descriptif,:lienImage,:idObjectif)';
 
 // requete pour rechercher une recompense selon son Id_Recompense
 $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage , 
-                        Cout_Jetons = :coutJetons WHERE id_Recompense = :idRecompense';
+                         WHERE id_Recompense = :idRecompense';
 
 // requete pour supprimer une recompense selon son id
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 
 // requete pour afficher toutes les recompenses d'un enfant donne
-$qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Enfant = :idEnfant';
+$qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Objectif = :idObjectif';
 // ----------------------------------------------TABLEAU de Bord-----------------------------------------------------------------
 $qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant = :idEnfant';
 
@@ -146,7 +146,7 @@ $qAjouterUnJeton = 'UPDATE Enfant SET Total_Jetons = Total_Jetons+1 WHERE Id_Enf
 
 //--------------------------------EQUIPE---------------------------------------------------------------------------
 $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
-VALUES (:idEnfant,:idMembre,:dateDemandeEquipe,:role)';
+VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
 $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
 /*
@@ -1587,7 +1587,7 @@ function AfficherImageObjectif($idObjectif)
 // -----------------------------------------------Recompense--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
-function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant, $coutJetons)
+function ajouterRecompense($intitule, $descriptif, $lienImage,$idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1601,8 +1601,7 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant, $coutJ
         ':intitule' => clean($intitule),
         ':descriptif' => clean($descriptif),
         ':lienImage' => clean($lienImage),
-        ':idEnfant' => clean($idEnfant),
-        ':coutJetons' => clean($coutJetons)
+        ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
@@ -1610,7 +1609,7 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idEnfant, $coutJ
 }
 
 // fonction qui permet de modifier les informations d'une recompense selon son Id_Recompense
-function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense, $coutJetons)
+function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1625,8 +1624,7 @@ function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense, $
         ':intitule' => clean($intitule),
         ':descriptif' => clean($descriptif),
         ':lienImage' => clean($lienImage),
-        ':idRecompense' => clean($idRecompense),
-        ':coutJetons' => clean($coutJetons)
+        ':idRecompense' => clean($idRecompense)
 
     ));
     if ($req == false) {
@@ -1676,10 +1674,7 @@ function afficherInfoRecompense($idRecompense)
                 echo '<label for="champImage">Image :</label>
                 <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
-            } elseif ($key == 'Cout_Jetons') {
-                echo '<label for="champCoutJetons">Prix de la recompense :</label>
-                <input type="text" name="champCoutJetons"  maxlength="50" value="' . $value . '"  required>
-                <span></span>';
+            
             }
         }
     }
@@ -1702,7 +1697,7 @@ function supprimerRecompense($idRecompense)
     }
 }
 // fonction qui permet d'afficher toutes les recompenses de la BD pour un enfant donnee
-function afficherRecompense($idEnfant)
+function afficherRecompense($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1712,7 +1707,7 @@ function afficherRecompense($idEnfant)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
     }
     // execution de la requete sql
-    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
     }
@@ -1726,9 +1721,6 @@ function afficherRecompense($idEnfant)
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Descriptif') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Cout_Jetons') {
                 echo '<td>' . $value . '</td>';
             }
         }
@@ -1804,8 +1796,8 @@ function afficherNomPrenomMembre()
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
-    echo '<select name="idMembre">';
-    echo '<option>Veuillez choisir un Membre</option>';
+    echo '<select name="idMembre"required>';
+    echo '<option value="">Veuillez choisir un Membre</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
@@ -1822,6 +1814,27 @@ function afficherNomPrenomMembre()
     }
     echo '</select>';
 }
+function ajouterUneEquipe($idEnfant,$idMembre,$dateDemandeEquipe,$role){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUneEquipe']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter une recompense a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idEnfant' => clean($idEnfant),
+        ':idMembre' => clean($idMembre),
+        ':dateDemandeEquipe' => $dateDemandeEquipe,//Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':role' => clean($role)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+    }
+}
+
+
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               
