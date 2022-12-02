@@ -88,8 +88,8 @@ $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre'
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
 // requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Nb_Jetons_Places,Id_Membre,Id_Enfant) 
-                    VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :nbJetonsPlaces, :idMembre, :idEnfant)';
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant) 
+                    VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :idMembre, :idEnfant)';
 
 // requete qui permet de vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
 $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
@@ -1196,7 +1196,7 @@ function supprimerMembre($idMembre)
 //! -----------------------------------------------OBJECTIF------------------------------------------------------------------
 
 // fontion qui permet d'ajouter un objectif a la BD
-function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
+function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille, $idMembre, $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1208,14 +1208,12 @@ function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons
     // execution de la requete sql
     $req->execute(array(
         ':intitule' => clean($intitule),
+        ':nbJetons' => clean($nbJetons),
         ':duree' => clean($duree),
         ':lienObjectif' => clean($lienObjectif),
         ':travaille' => clean($travaille),
-        ':nbJetons' => clean($nbJetons),
         ':idMembre' => clean($idMembre),
         ':idEnfant' => clean($idEnfant),
-        ':nbTampons' => clean($nbTampons),
-        ':nbTamponsPlaces' => clean($nbTamponsPlaces)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');

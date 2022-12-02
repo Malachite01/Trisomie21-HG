@@ -37,7 +37,7 @@
           uploadImage($_FILES['champImageTampon']),
           $_POST['champTravaille'],
           $_SESSION['idConnexion'],
-          $_POST['idEnfant'],
+          $_POST['idEnfant']
         );
         echo '
           <div class="validationPopup">
