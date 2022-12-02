@@ -95,7 +95,7 @@ $qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image
 $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
+$qAfficherObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
 
 //requete de modification d'Objectif
 $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, 
@@ -1273,6 +1273,9 @@ function afficherGererObjectifs($idEnfant)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value .'" alt=" " style="max-width: 80px; border-radius: 50%;"></td>';
+            }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }

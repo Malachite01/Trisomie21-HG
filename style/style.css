@@ -1374,15 +1374,18 @@ div.miseEnForme label {
         text-align: left;
     }
     #tbodyGererObjectifs td:first-child::before{
-        content: "Intitulé :";
+        content: "Image jeton :";
     }
     #tbodyGererObjectifs td:nth-child(2)::before{
-        content: "Durée d'évaluation :";
+        content: "Intitulé :";
     }
     #tbodyGererObjectifs td:nth-child(3)::before{
-        content: "Jetons :";
+        content: "Durée d'évaluation :";
     }
     #tbodyGererObjectifs td:nth-child(4)::before{
+        content: "Jetons :";
+    }
+    #tbodyGererObjectifs td:nth-child(5)::before{
         content: "Statut :";
     }
 }
