@@ -27,13 +27,13 @@
   <h1 id="texteH1DemandeInscription">Création d'un objectif</h1>
 
   <?php
-  if (champRempli(array('champIntitule', 'champDuree', 'champNbJetons', 'champTravaille'))) {
+  if (champRempli(array('champIntitule', 'champNbJetons', 'champTravaille'))) {
     if (isset($_POST['boutonValider'])) {
       if (objectifIdentique($_POST['champIntitule'], $_POST['idEnfant']) == 0) {
         ajouterObjectif(
           $_POST['champIntitule'],
           $_POST['champNbJetons'],
-          dureeDeCagnottage($_POST['champDureeSemaines'],$_POST['champDureeJours'],$_POST['champDureeHeures']),
+          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
           uploadImage($_FILES['champImageTampon']),
           $_POST['champTravaille'],
           $_SESSION['idConnexion'],

@@ -1213,8 +1213,9 @@ function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille
         ':lienObjectif' => clean($lienObjectif),
         ':travaille' => clean($travaille),
         ':idMembre' => clean($idMembre),
-        ':idEnfant' => clean($idEnfant),
+        ':idEnfant' => clean($idEnfant)
     ));
+
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
@@ -1583,7 +1584,8 @@ function AfficherImageObjectif($idObjectif)
 }
 
 // fonction qui ressort une durée en heure avec des semaines, jours
-function dureeDeCagnottage($semaines,$jours,$heures) {
+function dureeDeCagnottage($semaines, $jours, $heures)
+{
     $semaines *= 24 * 7;
     $jours *= 24;
     return $semaines + $jours + $heures;
