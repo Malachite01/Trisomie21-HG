@@ -71,7 +71,7 @@ if (isset($_GET['params'])) {
       <thead>
         <th>Intitulé</th>
         <th>Durée d'évaluation</th>
-        <th>Jetons à gagner</th>
+        <th>Jetons</th>
         <th>Statut</th>
         <th>Modifier</th>
         <th>Supprimer</th>
@@ -97,22 +97,20 @@ if (isset($_GET['params'])) {
     if ($_FILES['champLienImage']['name'] == "") {
       modifierObjectif(
         $_POST['champIntitule'],
+        $_POST['champNbJetons'],
         $_POST['champDuree'],
         $_POST['hiddenImageLink'],
         $_POST['champTravaille'],
-        $_POST['champNbJetons'],
-        $_POST['champNbTampons'],
         $_SESSION['idConnexion'],
         $_POST['boutonValider']
       );
     } else {
       modifierObjectif(
         $_POST['champIntitule'],
+        $_POST['champNbJetons'],
         $_POST['champDuree'],
         uploadImage($_FILES['champLienImage']),
         $_POST['champTravaille'],
-        $_POST['champNbJetons'],
-        $_POST['champNbTampons'],
         $_SESSION['idConnexion'],
         $_POST['boutonValider']
       );
