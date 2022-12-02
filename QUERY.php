@@ -88,9 +88,8 @@ $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre'
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
 // requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule,Nb_Jetons,Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant
-                    ) VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, 
-                    :idMembre, :idEnfant)';
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Nb_Jetons_Places,Id_Membre,Id_Enfant) 
+                    VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :nbJetonsPlaces, :idMembre, :idEnfant)';
 
 // requete qui permet de vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
 $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
@@ -99,25 +98,24 @@ $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule 
 $qAfficherObjectifs = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
 
 //requete de modification d'Objectif
-$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Duree = :duree, Lien_Image = :lienImage, 
-                                Travaille = :travaille, Nb_Jetons = :nbJetons,  Nb_Tampons = :nbTampons, Id_Membre = :idMembre 
-                                WHERE id_Objectif = :idObjectif';
+$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, 
+                                Lien_Image = :lienImage, Travaille = :travaille, Id_Membre = :idMembre WHERE id_Objectif = :idObjectif';
 
 // requete pour supprimer un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille, Lien_Image, Nb_Tampons 
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille, Lien_Image, Nb_Jetons_Places 
                                     FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete qui permet de récupérer l'image d'un objectif 
 $qAfficherImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // raquete qui permet de récupérer le nombre de tampon pour un objectif donné
-$qNombreDeTampons = 'SELECT Nb_Tampons FROM objectif WHERE Id_Objectif = :idObjectif';
+$qNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // raquete qui permet de récupérer le nombre de tampon pour un objectif donné
-$qNombreDeTamponsPlaces = 'SELECT Nb_Tampons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+$qNombreDeJetonsPlaces = 'SELECT Nb_Tampons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
 $qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Tampons_Places = :nbTamponsPlaces WHERE Id_Objectif = :idObjectif';
 
@@ -325,12 +323,8 @@ function faireMenu()
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un enfant a la BD
-function ajouterEnfant(
-    $nom,
-    $prenom,
-    $dateNaissance,
-    $lienJeton
-) {
+function ajouterEnfant($nom, $prenom, $dateNaissance, $lienJeton)
+{
 
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -352,11 +346,8 @@ function ajouterEnfant(
 }
 
 // fonction qui retourne les lignes si un enfant a le meme nom, prenom, date naissance qu'un enfant de la BD
-function enfantIdentique(
-    $nom,
-    $prenom,
-    $dateNaissance
-) {
+function enfantIdentique($nom, $prenom, $dateNaissance)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -446,42 +437,9 @@ function afficherNomPrenomEnfantSubmit()
 
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
-// fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
-function membreIdentique($nom, $prenom, $dateNaissance, $courriel)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qMembreIdentique']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un membre existe deja');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':nom' => clean($nom),
-        ':prenom' => clean($prenom),
-        ':dateNaissance' => clean($dateNaissance),
-        ':courriel' => clean($courriel)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
-    }
-    return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
-}
-
-
 // fonction qui permet d'ajouter un membre a la BD
-function ajouterMembre(
-    $nom,
-    $prenom,
-    $adresse,
-    $codePostal,
-    $ville,
-    $courriel,
-    $dateNaissance,
-    $mdp,
-    $pro
-) {
+function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $pro)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -504,6 +462,29 @@ function ajouterMembre(
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un membre a la BD');
     }
+}
+
+// fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
+function membreIdentique($nom, $prenom, $dateNaissance, $courriel)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qMembreIdentique']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un membre existe deja');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':nom' => clean($nom),
+        ':prenom' => clean($prenom),
+        ':dateNaissance' => clean($dateNaissance),
+        ':courriel' => clean($courriel)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
+    }
+    return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
 // fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
@@ -1179,12 +1160,13 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
             session');
     }
 }
+
 function supprimerIdMembreDansObjectif($idMembre)
 {
     $linkpdo = connexionBd();
     // preparation de la requete sql
     //on supprime les liens avec Objectif
-    $req = $linkpdo->prepare($GLOBALS['$qSupprimerInfosIdMembre']);
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerInfosIdMembre']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer tous les idObj de la BD');
     }
@@ -1192,6 +1174,7 @@ function supprimerIdMembreDansObjectif($idMembre)
     $req->execute(array(':id' => clean($idMembre)));
     $req->debugDumpParams();
 }
+
 // fonction qui permet de supprimer un membre a partir de son idMembre
 function supprimerMembre($idMembre)
 {
@@ -1204,7 +1187,6 @@ function supprimerMembre($idMembre)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
     }
     // execution de la requete sql
-    $req->debugDumpParams();
     $req->execute(array(':id' => clean($idMembre)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
@@ -1214,7 +1196,7 @@ function supprimerMembre($idMembre)
 //! -----------------------------------------------OBJECTIF------------------------------------------------------------------
 
 // fontion qui permet d'ajouter un objectif a la BD
-function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille, $idMembre, $idEnfant)
+function ajouterObjectif($intitule, $duree, $lienObjectif, $travaille, $nbJetons, $idMembre, $idEnfant, $nbTampons, $nbTamponsPlaces)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1226,12 +1208,14 @@ function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille
     // execution de la requete sql
     $req->execute(array(
         ':intitule' => clean($intitule),
-        ':nbJetons' => clean($nbJetons),
         ':duree' => clean($duree),
         ':lienObjectif' => clean($lienObjectif),
         ':travaille' => clean($travaille),
+        ':nbJetons' => clean($nbJetons),
         ':idMembre' => clean($idMembre),
-        ':idEnfant' => clean($idEnfant)
+        ':idEnfant' => clean($idEnfant),
+        ':nbTampons' => clean($nbTampons),
+        ':nbTamponsPlaces' => clean($nbTamponsPlaces)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
@@ -1368,8 +1352,8 @@ function afficherObjectifs($idEnfant)
             }
         }
         echo '<input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
-        for ($i = 1; $i <= NombreDeTampons($idObjectif); $i++) {
-            if ($i <= NombreDeTamponsPlaces($idObjectif)) {
+        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
                 echo '<input type="submit" value=' . $i . ' style="background-color: green;" disabled>';
             } else {
                 echo '<input type="submit" name="valeurObjectif" value=' . $i . '>';
@@ -1379,12 +1363,12 @@ function afficherObjectifs($idEnfant)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function NombreDeTampons($idObjectif)
+function NombreDeJetons($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qNombreDeTampons']);
+    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetons']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
@@ -1404,12 +1388,12 @@ function NombreDeTampons($idObjectif)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function NombreDeTamponsPlaces($idObjectif)
+function NombreDeJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qNombreDeTamponsPlaces']);
+    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetonsPlaces']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
@@ -1429,7 +1413,7 @@ function NombreDeTamponsPlaces($idObjectif)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function UpdateTamponsPlaces($nbTamponsPlaces, $idObjectif)
+function UpdateTamponsPlaces($nbJetonsPlaces, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1440,7 +1424,7 @@ function UpdateTamponsPlaces($nbTamponsPlaces, $idObjectif)
     }
     // execution de la requete sql
     $req->execute(array(
-        ':nbTamponsPlaces' => clean($nbTamponsPlaces),
+        ':nbTamponsPlaces' => clean($nbJetonsPlaces),
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
@@ -1526,7 +1510,7 @@ function AfficherInformationUnObjectif($idObjectif)
 }
 
 // fonction qui permet de modifier un objectif de la BD
-function modifierObjectif($intitule, $duree, $lienImage, $travaille, $nbJetons, $nbTampons, $idMembre, $idObjectif)
+function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, $idMembre, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1538,11 +1522,10 @@ function modifierObjectif($intitule, $duree, $lienImage, $travaille, $nbJetons, 
     // execution de la requete sql
     $req->execute(array(
         ':intitule' => clean($intitule),
+        ':nbJetons' => clean($nbJetons),
         ':duree' => clean($duree),
         ':lienImage' => clean($lienImage),
         ':travaille' => clean($travaille),
-        ':nbJetons' => clean($nbJetons),
-        ':nbTampons' => clean($nbTampons),
         ':idMembre' => clean($idMembre),
         ':idObjectif' => clean($idObjectif)
     ));
@@ -1611,7 +1594,7 @@ function dureeDeCagnottage($semaines,$jours,$heures) {
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
-function ajouterRecompense($intitule, $descriptif, $lienImage,$idObjectif)
+function ajouterRecompense($intitule, $descriptif, $lienImage, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1698,7 +1681,6 @@ function afficherInfoRecompense($idRecompense)
                 echo '<label for="champImage">Image :</label>
                 <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
-            
             }
         }
     }
@@ -1838,7 +1820,8 @@ function afficherNomPrenomMembre()
     }
     echo '</select>';
 }
-function ajouterUneEquipe($idEnfant,$idMembre,$dateDemandeEquipe,$role){
+function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -1850,7 +1833,7 @@ function ajouterUneEquipe($idEnfant,$idMembre,$dateDemandeEquipe,$role){
     $req->execute(array(
         ':idEnfant' => clean($idEnfant),
         ':idMembre' => clean($idMembre),
-        ':dateDemandeEquipe' => $dateDemandeEquipe,//Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':dateDemandeEquipe' => $dateDemandeEquipe, //Il faut mettre le timestamp, on le demande pas a l'utilisateur
         ':role' => clean($role)
     ));
     if ($req == false) {
