@@ -320,6 +320,17 @@ function faireMenu()
     </script>';
 }
 
+function dureeString($duree)
+{
+    $duree = 553;
+    $s = intdiv($duree, 168);
+    $duree -= 168 * $s;
+    $j = intdiv($duree, 24);
+    $duree -= 24 * $j;
+    $h = intdiv($duree, 1);
+    return "$s s | $j j | $h h";
+}
+
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un enfant a la BD
