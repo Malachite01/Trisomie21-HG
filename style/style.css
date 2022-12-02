@@ -34,6 +34,10 @@
 }
 
 /* Ne fonctionne pas sur tous les navigateurs */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
+}
 body::-webkit-scrollbar {
     width: 13px;
 }
@@ -96,7 +100,7 @@ a {
     color: var(--couleurBoutonHover);
 }
 
-input:not(input[type="radio"], input[type="checkbox"]) {
+input:not(input[type="radio"], input[type="checkbox"], .selecteurSemJourH) {
     border-radius: var(--globalRadius);
     border-style: none;
     padding: 12px;
@@ -1203,6 +1207,47 @@ div.miseEnForme label {
     font-size: 1.2em;
     color: red;
 }
+/*? AJOUT OBJECTIFS */
+
+.inline {
+    display: flex;
+    flex-direction: row;
+}
+
+.selecteurSemJourH {
+    margin-left: 10px;
+    margin: 0px;
+    border-radius: var(--globalRadius);
+    border-style: none;
+    padding: 7px;
+    font-family: Georama;
+    font-size: 1em;
+    color: var(--policeNoire);
+}
+
+#selecteurDuree {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 10px;
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr ;
+}
+
+.labelSemJourH {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 1100px) {
+    #selecteurDuree {
+        display: block;
+    }
+    .selecteurSemJourH {
+        margin-top: 10px;
+    }
+    .labelSemJourH {
+        margin: 0px;
+    }
+}
 
 /*! TABLEAU DE BORD */
 #formTableauDeBord {
@@ -1335,7 +1380,7 @@ div.miseEnForme label {
         content: "Durée d'évaluation :";
     }
     #tbodyGererObjectifs td:nth-child(3)::before{
-        content: "Jetons à gagner :";
+        content: "Jetons :";
     }
     #tbodyGererObjectifs td:nth-child(4)::before{
         content: "Statut :";
