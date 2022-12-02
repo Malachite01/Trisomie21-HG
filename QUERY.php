@@ -1167,7 +1167,7 @@ function supprimerIdMembreDansObjectif($idMembre)
     $linkpdo = connexionBd();
     // preparation de la requete sql
     //on supprime les liens avec Objectif
-    $req = $linkpdo->prepare($GLOBALS['$qSupprimerInfosIdMembre']);
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerInfosIdMembre']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer tous les idObj de la BD');
     }
@@ -1510,7 +1510,7 @@ function AfficherInformationUnObjectif($idObjectif)
 }
 
 // fonction qui permet de modifier un objectif de la BD
-function modifierObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille, $idMembre, $idEnfant)
+function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, $idMembre, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1524,10 +1524,10 @@ function modifierObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaill
         ':intitule' => clean($intitule),
         ':nbJetons' => clean($nbJetons),
         ':duree' => clean($duree),
-        ':lienObjectif' => clean($lienObjectif),
+        ':lienImage' => clean($lienImage),
         ':travaille' => clean($travaille),
         ':idMembre' => clean($idMembre),
-        ':idEnfant' => clean($idEnfant)
+        ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
@@ -1587,7 +1587,7 @@ function AfficherImageObjectif($idObjectif)
 // -----------------------------------------------Recompense--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
-function ajouterRecompense($intitule, $descriptif, $lienImage,$idObjectif)
+function ajouterRecompense($intitule, $descriptif, $lienImage, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1674,7 +1674,6 @@ function afficherInfoRecompense($idRecompense)
                 echo '<label for="champImage">Image :</label>
                 <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
                 <span></span>';
-            
             }
         }
     }
@@ -1814,7 +1813,8 @@ function afficherNomPrenomMembre()
     }
     echo '</select>';
 }
-function ajouterUneEquipe($idEnfant,$idMembre,$dateDemandeEquipe,$role){
+function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -1826,7 +1826,7 @@ function ajouterUneEquipe($idEnfant,$idMembre,$dateDemandeEquipe,$role){
     $req->execute(array(
         ':idEnfant' => clean($idEnfant),
         ':idMembre' => clean($idMembre),
-        ':dateDemandeEquipe' => $dateDemandeEquipe,//Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':dateDemandeEquipe' => $dateDemandeEquipe, //Il faut mettre le timestamp, on le demande pas a l'utilisateur
         ':role' => clean($role)
     ));
     if ($req == false) {
