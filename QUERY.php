@@ -19,6 +19,8 @@ $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant
 // requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
 $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
 
+$qAfficherNomPrenomEnfanParam = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom WHERE Id_Enfant = :idEnfant';
+
 //? ----------------------------------------------Membre---------------------------------------------------------------------
 
 // requete pour ajouter un membre a la BD
@@ -435,6 +437,39 @@ function afficherNomPrenomEnfantSubmit()
     echo '</select>';
 }
 
+// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
+function afficherNomPrenomEnfantSubmitParam($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomEnfantParam']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    echo '<select name="idEnfant" onchange="this.form.submit()">';
+    echo '<option>Veuillez choisir un enfant</option>';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Id_Enfant') {
+                $idEnfant = $value;
+            }
+            if ($key == 'Nom') {
+                $nom = $value;
+            }
+            if ($key == 'Prenom') {
+                echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
+            }
+        }
+    }
+    echo '</select>';
+}
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un membre a la BD
