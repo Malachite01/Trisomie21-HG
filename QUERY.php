@@ -322,13 +322,12 @@ function faireMenu()
 
 function dureeString($duree)
 {
-    $duree = 553;
     $s = intdiv($duree, 168);
     $duree -= 168 * $s;
     $j = intdiv($duree, 24);
     $duree -= 24 * $j;
     $h = intdiv($duree, 1);
-    return "$s s | $j j | $h h";
+    return $s . 'semaines ' . $j . 'jours ' . $h . 'heures';
 }
 
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
@@ -1274,13 +1273,13 @@ function afficherGererObjectifs($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value .'" alt=" " style="max-width: 80px; border-radius: 50%;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 80px; border-radius: 50%;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Duree') {
-                echo '<td>' . $value . '</td>';
+                echo '<td>' . dureeString($value) . '</td>';
             }
             if ($key == 'Nb_Jetons') {
                 echo '<td>' . $value . '</td>';
