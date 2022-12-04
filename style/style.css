@@ -259,7 +259,7 @@ table tbody tr:nth-child(odd) {
 }
 
 td {
-    border-left: solid 1px var(--couleurBoutonHover);
+    border-left: solid 1px white;
     padding-left: 3px;
     padding-right: 3px;
 }
