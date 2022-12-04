@@ -60,14 +60,30 @@ if (isset($_GET['params'])) {
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
-          <option value="1">Membres les plus récents</option>
-          <option value="2">Membres les plus ancients</option>
-          <option value="3">De A à Z</option>
-          <option value="4">De Z à A</option>
-          <option value="5">Membres validés</option>
-          <option value="6">Membres non validés</option>
-          <option value="7">Membres les plus jeunes</option>
-          <option value="8">Membres les plus agés</option>
+          <?php
+          if(isset($_POST['filtres'])) {
+            echo '<option value="1"';if($_POST['filtres'] == 1) {echo 'selected';}; echo'>Membres les plus récents</option>';
+            echo '<option value="2"';if($_POST['filtres'] == 2) {echo 'selected';}; echo'>Membres les plus anciens</option>';
+            echo '<option value="3"';if($_POST['filtres'] == 3) {echo 'selected';}; echo'>De A à Z</option>';
+            echo '<option value="4"';if($_POST['filtres'] == 4) {echo 'selected';}; echo'>De Z à A</option>';
+            echo '<option value="5"';if($_POST['filtres'] == 5) {echo 'selected';}; echo'>Membres validés</option>';
+            echo '<option value="6"';if($_POST['filtres'] == 6) {echo 'selected';}; echo'>Membres non validés</option>';
+            echo '<option value="7"';if($_POST['filtres'] == 7) {echo 'selected';}; echo'>Membres les plus jeunes</option>';
+            echo '<option value="8"';if($_POST['filtres'] == 8) {echo 'selected';}; echo'>Membres les plus agés</option>';
+          } else {
+            echo '
+            <option value="1">Membres les plus récents</option>
+            <option value="2">Membres les plus ancients</option>
+            <option value="3">De A à Z</option>
+            <option value="4">De Z à A</option>
+            <option value="5">Membres validés</option>
+            <option value="6">Membres non validés</option>
+            <option value="7">Membres les plus jeunes</option>
+            <option value="8">Membres les plus agés</option>
+          ';
+          }
+          
+          ?>
         </select>
         
       </div>

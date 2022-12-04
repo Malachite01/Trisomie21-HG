@@ -56,7 +56,11 @@ if (isset($_GET['params'])) {
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-          afficherNomPrenomEnfantSubmit();
+        if(isset($_POST['idEnfant'])) {
+          afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+        } else {
+          afficherNomPrenomEnfantSubmit(null);
+        }
         ?>
       </div>
       <div class="centerIconeChamp">

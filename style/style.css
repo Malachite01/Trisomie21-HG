@@ -24,7 +24,7 @@
 }
 
 @font-face {
-    src: url(../fonts/Georama.ttf);
+    src: url(../fonts/Gro.ttf);
     font-family: Georama;
 }
 
@@ -1380,7 +1380,7 @@ div.miseEnForme label {
         content: "Intitulé :";
     }
     #tbodyGererObjectifs td:nth-child(3)::before{
-        content: "Durée d'évaluation :";
+        content: "Durée :";
     }
     #tbodyGererObjectifs td:nth-child(4)::before{
         content: "Jetons :";

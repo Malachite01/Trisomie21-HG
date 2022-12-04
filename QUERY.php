@@ -211,7 +211,7 @@ function uploadImage($photo)
         $extension = strtolower(end($tabExtension));
 
         $extensions = ['jpg', 'png', 'jpeg', 'gif', 'svg', 'webp', 'bmp'];
-        $maxSize = 400000;
+        $maxSize = 4000000;
 
         if (in_array($extension, $extensions) && $size <= $maxSize && $error == 0) {
 
@@ -413,7 +413,7 @@ function afficherNomPrenomEnfant()
 }
 
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
-function afficherNomPrenomEnfantSubmit()
+function afficherNomPrenomEnfantSubmit($enfantSelect)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -438,7 +438,9 @@ function afficherNomPrenomEnfantSubmit()
             if ($key == 'Nom') {
                 $nom = $value;
             }
-            if ($key == 'Prenom') {
+            if($key == 'Prenom' && $idEnfant == $enfantSelect) {
+                echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
+            } else if($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1274,7 +1276,7 @@ function afficherGererObjectifs($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 80px; border-radius: 50%;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
