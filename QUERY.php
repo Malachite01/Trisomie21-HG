@@ -9,8 +9,8 @@
 //? ----------------------------------------------Enfant---------------------------------------------------------------------
 
 // requete pour ajouter un enfant a la BD
-$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton,Total_Jetons) 
-                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton,0)';
+$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) 
+                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
 
 // requete pour verifier qu'un enfant avec les données en parametre n'existe pas deja dans la BD
 $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant 
