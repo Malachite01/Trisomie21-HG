@@ -163,11 +163,16 @@ $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_J
 $qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
 
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
+$qAfficherImageTampon = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
+
 //?--------------------------------Equipe---------------------------------------------------------------------------
 $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
 VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
 $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
+
+$qAfficherEquipe = 'SELECT membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
+suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1338,6 +1343,403 @@ function afficherGererObjectifs($idEnfant)
     }
 }
 
+function afficherImageTampon($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherImageTampon']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une image');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une image');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
+function afficherObjectifs($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<div class="objectif">';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
+            }
+            if ($key == 'Intitule') {
+                echo '<h3>' . $value . '</h3>';
+            }
+            if ($key == 'Priorite') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . dureeString($value) . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '<div class="containerTampons">
+        <input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
+        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                echo '<input type="submit" value=' . $i . ' style="background-color: green;" disabled>';
+            } else {
+                echo '<input type="submit" name="valeurObjectif" value=' . $i . '>';
+            }
+        }
+        echo '</div>
+        </div>';
+    }
+}
+
+// fontion qui permet d'ajouter un objectif a la BD
+function NombreDeJetons($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetons']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+// fontion qui permet d'ajouter un objectif a la BD
+function NombreDeJetonsPlaces($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetonsPlaces']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+// fontion qui permet d'ajouter un objectif a la BD
+function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qUpdateJetonsPlaces']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':nbJetonsPlaces' => clean($nbJetonsPlaces),
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+}
+
+// fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
+function AfficherInformationUnObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherInformationUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+    }
+    // permet de parcourir la ligne de la requetes 
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $key => $value) {
+            // recuperation de toutes les informations du membre de la session dans des inputs 
+            if ($key == 'Intitule') {
+                echo '
+                <label for="champIntitule">Intitulé :</label>
+                <input type="text" name="champIntitule" placeholder="Entrez l\'intitulé de l\'objectif" minlength="1" maxlength="50" value="' . $value . '" required>
+                <span></span>';
+            } elseif ($key == 'Duree') {
+                $duree = $value;
+                $s = intdiv($duree, 168);
+                $duree -= 168 * $s;
+                $j = intdiv($duree, 24);
+                $duree -= 24 * $j;
+                $h = intdiv($duree, 1);
+                echo '
+                <label>Durée de cagnottage :</label>
+                <div id="selecteurDuree">
+                    <div class="center"><label for="inline champDureeSemaines" class="labelSemJourH">Semaine(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeSemaines" min="0" max="99" value="' . $s . '" required></div>
+                    <div class="center"><label for="inline champDureeJours">Jour(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeJours" min="0" max="99" value="' . $j . '" required></div>
+                    <div class="center"><label for="inline champDureeHeures">Heure(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeHeures" min="0" max="99" value="' . $h . '" required></div>
+                </div>
+                <span></span>
+                ';
+            } elseif ($key == 'Travaille') {
+                echo '
+                <label for="champTravaille">Statut de l\'objectif :</label>
+                <div class="center" style="width: 100%;">
+
+                    <span class="center1Item">
+                        <input type="radio" name="champTravaille" id="Avenir" value="2" required';
+                if ($value == 2) echo ' checked>';
+                else echo '>';
+                echo '
+                        <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
+                    </span>
+
+                    <span class="center1Item">
+                        <input type="radio" name="champTravaille" id="enCours" value="1" required';
+                if ($value == 1) echo ' checked>';
+                else echo '>';
+                echo '
+                        <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
+                    </span>
+
+                </div>
+                <span></span>';
+            } elseif ($key == 'Lien_Image') {
+                echo '
+                <label for="champLienImage">Image du tampon :</label>
+                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
+                <img src="' . AfficherImageObjectif($idObjectif) . '" alt=" " id="imageTampon">';
+                echo '<input type="hidden" value="' . AfficherImageObjectif($idObjectif) . '" name="hiddenImageLink">';
+            } elseif ($key == 'Nb_Jetons') {
+                echo '
+                <label for="champNbJetons">Jetons à placer :</label>
+                <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" min="1" max="99999999999"  value="' . $value . '"  required>
+                <span></span>
+                ';
+            }
+        }
+    }
+}
+
+// fonction qui permet de modifier un objectif de la BD
+function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, $idMembre, $idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':intitule' => clean($intitule),
+        ':nbJetons' => clean($nbJetons),
+        ':duree' => clean($duree),
+        ':lienImage' => clean($lienImage),
+        ':travaille' => clean($travaille),
+        ':idMembre' => clean($idMembre),
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
+// fonction qui permet de supprimer un objectif selon son Id_Objectif
+function supprimerObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
+// fonction qui permet d'afficher l'image d'un objectif selon son Id_Objectif
+function AfficherImageObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherImageObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                $image = $value;
+            }
+        }
+        return $image;
+    }
+}
+
+// fonction qui ressort une durée en heure avec des semaines, jours
+function dureeDeCagnottage($semaines, $jours, $heures)
+{
+    $semaines *= 24 * 7;
+    $jours *= 24;
+    return $semaines + $jours + $heures;
+}
+
+function afficherObjectifSelonId($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifSelonId']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Intitule') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Nb_jetons') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Duree') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Lien_Image') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Nb_Jetons_Places') {
+                echo '<div>' . $value . '</div>';
+            }
+        }
+    }
+}
+
+function afficherIntituleObjectif($objectifSelected, $idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherIntituleObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    echo '<select name="idObjectif">';
+    echo '<option>Veuillez choisir un objectif</option>';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+            if ($key == 'Intitule') {
+                $Intitule = $value;
+            }
+        }
+        if ($idObjectif == $objectifSelected) {
+            echo '<option value=' . $idObjectif . ' selected>' . $Intitule . '</option>';
+        } else {
+            echo '<option value=' . $idObjectif . '>' . $Intitule . '</option>';
+        }
+    }
+    echo '</select>';
+}
+
 function afficherGererObjectifsAZ($idEnfant)
 {
     // connexion a la BD
@@ -1722,373 +2124,6 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
     }
 }
 
-// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
-function afficherObjectifs($idEnfant)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
-    }
-    // execution de la requete sql
-    $req->execute(array(':idEnfant' => clean($idEnfant)));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
-    }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Priorite') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
-                }
-            }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
-            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<input type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . ' style="background-color: green;" disabled>';
-            } else {
-                echo '<input type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . '>';
-            }
-        }
-    }
-}
-
-// fontion qui permet d'ajouter un objectif a la BD
-function NombreDeJetons($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetons']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
-    }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
-}
-
-// fontion qui permet d'ajouter un objectif a la BD
-function NombreDeJetonsPlaces($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetonsPlaces']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
-    }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
-}
-
-// fontion qui permet d'ajouter un objectif a la BD
-function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qUpdateJetonsPlaces']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':nbJetonsPlaces' => clean($nbJetonsPlaces),
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
-    }
-}
-
-// fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
-function AfficherInformationUnObjectif($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherInformationUnObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
-    }
-    // execution de la requete sql
-    $req->execute(array(':idObjectif' => clean($idObjectif)));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
-    }
-    // permet de parcourir la ligne de la requetes 
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
-        foreach ($data as $key => $value) {
-            // recuperation de toutes les informations du membre de la session dans des inputs 
-            if ($key == 'Intitule') {
-                echo '
-                <label for="champIntitule">Intitulé :</label>
-                <input type="text" name="champIntitule" placeholder="Entrez l\'intitulé de l\'objectif" minlength="1" maxlength="50" value="' . $value . '" required>
-                <span></span>';
-            } elseif ($key == 'Duree') {
-                $duree = $value;
-                $s = intdiv($duree, 168);
-                $duree -= 168 * $s;
-                $j = intdiv($duree, 24);
-                $duree -= 24 * $j;
-                $h = intdiv($duree, 1);
-                echo '
-                <label>Durée de cagnottage :</label>
-                <div id="selecteurDuree">
-                    <div class="center"><label for="inline champDureeSemaines" class="labelSemJourH">Semaine(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeSemaines" min="0" max="99" value="' . $s . '" required></div>
-                    <div class="center"><label for="inline champDureeJours">Jour(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeJours" min="0" max="99" value="' . $j . '" required></div>
-                    <div class="center"><label for="inline champDureeHeures">Heure(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeHeures" min="0" max="99" value="' . $h . '" required></div>
-                </div>
-                <span></span>
-                ';
-            } elseif ($key == 'Travaille') {
-                echo '
-                <label for="champTravaille">Statut de l\'objectif :</label>
-                <div class="center" style="width: 100%;">
-
-                    <span class="center1Item">
-                        <input type="radio" name="champTravaille" id="Avenir" value="2" required';
-                if ($value == 2) echo ' checked>';
-                else echo '>';
-                echo '
-                        <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
-                    </span>
-
-                    <span class="center1Item">
-                        <input type="radio" name="champTravaille" id="enCours" value="1" required';
-                if ($value == 1) echo ' checked>';
-                else echo '>';
-                echo '
-                        <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
-                    </span>
-
-                </div>
-                <span></span>';
-            } elseif ($key == 'Lien_Image') {
-                echo '
-                <label for="champLienImage">Image du tampon :</label>
-                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
-                <img src="' . AfficherImageObjectif($idObjectif) . '" alt=" " id="imageTampon">';
-                echo '<input type="hidden" value="' . AfficherImageObjectif($idObjectif) . '" name="hiddenImageLink">';
-            } elseif ($key == 'Nb_Jetons') {
-                echo '
-                <label for="champNbJetons">Jetons à placer :</label>
-                <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" min="1" max="99999999999"  value="' . $value . '"  required>
-                <span></span>
-                ';
-            }
-        }
-    }
-}
-
-// fonction qui permet de modifier un objectif de la BD
-function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, $idMembre, $idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':intitule' => clean($intitule),
-        ':nbJetons' => clean($nbJetons),
-        ':duree' => clean($duree),
-        ':lienImage' => clean($lienImage),
-        ':travaille' => clean($travaille),
-        ':idMembre' => clean($idMembre),
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-}
-
-// fonction qui permet de supprimer un objectif selon son Id_Objectif
-function supprimerObjectif($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-}
-
-// fonction qui permet d'afficher l'image d'un objectif selon son Id_Objectif
-function AfficherImageObjectif($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherImageObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                $image = $value;
-            }
-        }
-        return $image;
-    }
-}
-
-// fonction qui ressort une durée en heure avec des semaines, jours
-function dureeDeCagnottage($semaines, $jours, $heures)
-{
-    $semaines *= 24 * 7;
-    $jours *= 24;
-    return $semaines + $jours + $heures;
-}
-
-function afficherObjectifSelonId($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifSelonId']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Intitule') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Nb_jetons') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Duree') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Lien_Image') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Nb_Jetons_Places') {
-                echo '<div>' . $value . '</div>';
-            }
-        }
-    }
-}
-
-function afficherIntituleObjectif($objectifSelected, $idEnfant)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherIntituleObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idEnfant' => clean($idEnfant)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
-    }
-    echo '<select name="idObjectif">';
-    echo '<option>Veuillez choisir un objectif</option>';
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-            if ($key == 'Intitule') {
-                $Intitule = $value;
-            }
-        }
-        if ($idObjectif == $objectifSelected) {
-            echo '<option value=' . $idObjectif . ' selected>' . $Intitule . '</option>';
-        } else {
-            echo '<option value=' . $idObjectif . '>' . $Intitule . '</option>';
-        }
-    }
-    echo '</select>';
-}
-
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
@@ -2343,7 +2378,57 @@ function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
-
+// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
+function afficherGererEquipe($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherEquipe']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Nom') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Prenom') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Id_Enfant') {
+                $idEnfant = $value;
+            }
+            if ($key == 'Id_Membre') {
+                $idMembre = $value;
+            }
+        }
+        // creation du bouton supprimer dans le tableau
+        echo '
+            <td>
+                <button type="submit" name="boutonSupprimer" value="' . $idMembre . ',' . $idEnfant . '
+                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre de cette équipe ?\');" >
+                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                    <span>Supprimer</span>
+                </button>
+            </td>
+        </tr>';
+        echo $idMembre . "," . $idEnfant;
+    }
+}
+function supprimerMembreEquipe($chaineConcatene)
+{
+    $chaineDeconcatene = explode(",", $chaineConcatene);
+}
 
 /*                                                                
 /                                                                                   .                                                
