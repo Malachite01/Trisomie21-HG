@@ -153,6 +153,8 @@ $qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant 
 
 $qAjouterUnJeton = 'UPDATE Enfant SET Total_Jetons = Total_Jetons+1 WHERE Id_Enfant=:idEnfant';
 
+$qAfficherImageTampon = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
+
 //?--------------------------------Equipe---------------------------------------------------------------------------
 $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
 VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
@@ -1328,6 +1330,28 @@ function afficherGererObjectifs($idEnfant)
     }
 }
 
+function afficherImageTampon($idEnfant) {
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherImageTampon']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+          return $value;
+        }
+    }
+}
+
 // fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
 function afficherObjectifs($idEnfant)
 {
@@ -1345,18 +1369,18 @@ function afficherObjectifs($idEnfant)
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
+        echo '<div class="objectif">';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
+                echo '<h3>' . $value . '</h3>';
             }
             if ($key == 'Priorite') {
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Duree') {
-                echo '<td>' . $value . '</td>';
+                echo '<td>' . dureeString($value) . '</td>';
             }
             if ($key == 'Nb_Jetons') {
                 echo '<td>' . $value . '</td>';
@@ -1373,15 +1397,23 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
             }
-        }
-        echo '<input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
-        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
-            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<input type="submit" value=' . $i . ' style="background-color: green;" disabled>';
-            } else {
-                echo '<input type="submit" name="valeurObjectif" value=' . $i . '>';
+            if ($key == 'Lien_Image') {
+                $img = $value;
             }
         }
+        echo '<div class="containerTampons">
+        <input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
+        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                echo '<button style="border: 4px solid #00cc66" class="tampon" type="submit" value=' . $i . ' style="background-color: green;" disabled>
+                <img style="filter: grayscale(100%);" class="imageTamponValide" src="'.afficherImageTampon($idEnfant).'" id="imageJeton" alt=" "></button>';
+            } else {
+                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '>
+                <img class="imageTampon" src="'.afficherImageTampon($idEnfant).'" id="imageJeton" alt=" "></button>';
+            }
+        }
+        echo '</div>
+        </div>';
     }
 }
 

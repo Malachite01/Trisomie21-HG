@@ -39,20 +39,21 @@
       </div>
     </div>
     <?php
-      if (isset($_POST['idEnfant'])) {
-        afficherObjectifs($_POST['idEnfant']);
-      } else if(!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant"){
-        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
-      }
-      if (isset($_POST['idObjectif'])) {
+      if 
+      (isset($_POST['idObjectif'])) {
         UpdateTamponsPlaces($_POST['valeurObjectif'], $_POST['idObjectif']);
+      }
+      if(!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant"){
+        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
       }
     ?>
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
-        <div class="objectif">
-          <label for=""><p></p></label>
-        </div>
+          <?php
+            if (isset($_POST['idEnfant'])) {
+              afficherObjectifs($_POST['idEnfant']);
+            }
+          ?>
       </div>
     </div>
 
