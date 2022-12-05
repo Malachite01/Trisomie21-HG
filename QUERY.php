@@ -1421,7 +1421,7 @@ function afficherObjectifs($idEnfant)
                 echo '<button class="tampon" type="submit" value=' . $i . ' disabled>
                 <img class="imageTamponValide" src="'.afficherImageTampon($idEnfant).'" id="imageJeton" alt=" "></button>';
             } else {
-                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '></button>';
+                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '>?</button>';
             }
         }
         echo '</div>

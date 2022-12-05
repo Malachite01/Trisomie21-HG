@@ -230,7 +230,7 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img:not(#imgDeconnexion,.imageTampon,.tampon),
+button > img:not(#imgDeconnexion,.tampon,.imageTamponValide),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
@@ -1264,6 +1264,14 @@ h3 .titreObjectif {
     font-size: 1.5em;
 }
 
+.imageObjectif {
+    position: relative;
+    display: inline-block;
+    top: -20px;
+    left: -20px;
+    border: 2px dashed var(--couleurBarActive);
+}
+
 .tampon {
     background-color: transparent;
     border-radius: 50%;
@@ -1276,29 +1284,13 @@ h3 .titreObjectif {
     cursor: pointer;
     width: 38px;
     height: 38px;
-
-}
-
-.imageTampon {
-    width: 30px;
-    border-radius: 50%;
-    margin: 0;
-    padding: 0;
 }
 
 .imageTamponValide {
-    width: 30px;
+    width: 38px;
     border-radius: 50%;
-    margin: 0;
+    margin: -2px;
     padding: 0;
-}
-
-.imageObjectif {
-    position: relative;
-    display: inline-block;
-    top: -20px;
-    left: -20px;
-    border: 2px dashed var(--couleurBarActive);
 }
 
 .containerTampons {
