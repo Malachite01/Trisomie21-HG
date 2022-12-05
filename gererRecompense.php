@@ -39,7 +39,7 @@
 
   <form id="formGestionMembre" method="POST">
     
-  <div class="miseEnForme" id="miseEnFormeFiltres">
+    <div class="miseEnForme" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">

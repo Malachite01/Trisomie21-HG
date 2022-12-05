@@ -163,10 +163,6 @@ $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_J
 $qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
 
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
-$qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant = :idEnfant';
-
-$qAjouterUnJeton = 'UPDATE Enfant SET Total_Jetons = Total_Jetons+1 WHERE Id_Enfant=:idEnfant';
-
 //?--------------------------------Equipe---------------------------------------------------------------------------
 $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
 VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
@@ -299,7 +295,7 @@ function faireMenu()
 
             <li><a href="#" href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
-                    <li><a href="#">Mes équipes</a></li>
+                    <li><a href="ajouterEquipe.php">Mes équipes</a></li>
                     <li><a href="#">Gérer une équipe</a></li>
                 </ul>
             </li>    
