@@ -1481,9 +1481,19 @@ function AfficherInformationUnObjectif($idObjectif)
                 <input type="text" name="champIntitule" placeholder="Entrez l\'intitulé de l\'objectif" minlength="1" maxlength="50" value="' . $value . '" required>
                 <span></span>';
             } elseif ($key == 'Duree') {
+                $duree = $value;
+                $s = intdiv($duree, 168);
+                $duree -= 168 * $s;
+                $j = intdiv($duree, 24);
+                $duree -= 24 * $j;
+                $h = intdiv($duree, 1);
                 echo '
-                <label for="champDuree">Durée d\'évaluation :</label>
-                <input type="text" name="champDuree" placeholder="Entrez la durée d\'évaluation" minlength="1" maxlength="50" value="' . $value . '" required>
+                <label>Durée de cagnottage :</label>
+                <div id="selecteurDuree">
+                    <div class="center"><label for="inline champDureeSemaines" class="labelSemJourH">Semaine(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeSemaines" min="0" max="99" value="'.$s.'" required></div>
+                    <div class="center"><label for="inline champDureeJours">Jour(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeJours" min="0" max="99" value="'.$j.'" required></div>
+                    <div class="center"><label for="inline champDureeHeures">Heure(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeHeures" min="0" max="99" value="'.$h.'" required></div>
+                </div>
                 <span></span>
                 ';
             } elseif ($key == 'Travaille') {
@@ -1515,15 +1525,9 @@ function AfficherInformationUnObjectif($idObjectif)
                 <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
                 <img src="' . AfficherImageObjectif($idObjectif) . '" alt=" " id="imageTampon">';
                 echo '<input type="hidden" value="' . AfficherImageObjectif($idObjectif) . '" name="hiddenImageLink">';
-            } elseif ($key == 'Nb_Tampons') {
-                echo '
-                <label for="champNbTampons">Nombre de tampons :</label>
-                <input type="number" name="champNbTampons" placeholder="Entrez le nombre de tampons pour valider l\'objectif" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" min="1" max="99999999999" value="' . $value . '" required>
-                <span></span>
-                ';
             } elseif ($key == 'Nb_Jetons') {
                 echo '
-                <label for="champNbJetons">Jetons à gagner :</label>
+                <label for="champNbJetons">Jetons à placer :</label>
                 <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" min="1" max="99999999999"  value="' . $value . '"  required>
                 <span></span>
                 ';

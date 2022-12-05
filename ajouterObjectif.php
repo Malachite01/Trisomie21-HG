@@ -24,7 +24,7 @@
   ?>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
 
-  <h1 id="texteH1DemandeInscription">Création d'un objectif</h1>
+  <h1 id="texteH1DemandeInscription">Ajouter un objectif à un enfant</h1>
 
   <?php
   if (champRempli(array('champIntitule', 'champNbJetons', 'champTravaille'))) {
@@ -96,7 +96,7 @@
       <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageTampon','imageTampon')" required>
       <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
 
-      <label for="champNbJetons">Jetons à gagner :</label>
+      <label for="champNbJetons">Jetons à placer :</label>
       <input type="number" name="champNbJetons" placeholder="Entrez le nombre de jetons à gagner" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" min="1" max="99999999999" required>
       <span></span>
 
