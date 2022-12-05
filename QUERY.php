@@ -154,6 +154,9 @@ $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equip
 VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
 $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
+
+$qAfficherEquipe = 'SELECT membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
+suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1941,7 +1944,57 @@ function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
-
+// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
+function afficherGererEquipe($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherEquipe']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Nom') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Prenom') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Id_Enfant') {
+                $idEnfant = $value;
+            }
+            if ($key == 'Id_Membre') {
+                $idMembre = $value;
+            }
+        }
+        // creation du bouton supprimer dans le tableau
+        echo '
+            <td>
+                <button type="submit" name="boutonSupprimer" value="' . $idMembre . ','. $idEnfant . '
+                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre de cette équipe ?\');" >
+                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                    <span>Supprimer</span>
+                </button>
+            </td>
+        </tr>';
+        echo $idMembre . ",". $idEnfant ;
+    }
+    
+}
+function supprimerMembreEquipe($chaineConcatene){
+    $chaineDeconcatene = explode(",",$chaineConcatene)
+}
 
 /*                                                                
 /                                                                                   .                                                
