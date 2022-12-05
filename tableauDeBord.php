@@ -30,29 +30,32 @@
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-            if(isset($_POST['idEnfant']) && $_POST['idEnfant'] != "Veuillez choisir un enfant") {
-              afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
-            } else {
-              afficherNomPrenomEnfantSubmit(null);
-            }
+        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != "Veuillez choisir un enfant") {
+          afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+        } else {
+          afficherNomPrenomEnfantSubmit(null);
+        }
         ?>
       </div>
     </div>
     <?php
-      if (isset($_POST['idObjectif'])) {
-        UpdateTamponsPlaces($_POST['valeurObjectif'], $_POST['idObjectif']);
-      }
-      if(!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant"){
-        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
-      }
+    if (isset($_POST['idEnfant'])) {
+      afficherObjectifs($_POST['idEnfant']);
+    } else if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+    }
+    if (isset($_POST['valeurJetonsIdObjectif'])) {
+      $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+      UpdateJetonsPlaces($valeur[0], $valeur[1]);
+    }
     ?>
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
-          <?php
-            if (isset($_POST['idEnfant'])) {
-              afficherObjectifs($_POST['idEnfant']);
-            }
-          ?>
+        <?php
+        if (isset($_POST['idEnfant'])) {
+          afficherObjectifs($_POST['idEnfant']);
+        }
+        ?>
       </div>
     </div>
 
