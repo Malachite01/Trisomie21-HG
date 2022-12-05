@@ -39,9 +39,7 @@
       </div>
     </div>
     <?php
-    if (isset($_POST['idEnfant'])) {
-      afficherObjectifs($_POST['idEnfant']);
-    } else if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
+    if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
       echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
     }
     if (isset($_POST['valeurJetonsIdObjectif'])) {

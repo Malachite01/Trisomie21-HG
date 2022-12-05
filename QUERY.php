@@ -1419,7 +1419,8 @@ function afficherObjectifs($idEnfant)
         <input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<input type="submit" value=' . $i . ' style="background-color: green;" disabled>';
+                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '>
+                <img class="imageTamponValide" src="'.afficherImageTampon($idEnfant).'"></button>';
             } else {
                 echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '>?</button>';
             }
