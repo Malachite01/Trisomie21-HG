@@ -130,7 +130,7 @@ $qNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = :idObject
 // raquete qui permet de récupérer le nombre de tampon pour un objectif donné
 $qNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
+$qUpdateJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
 
 $qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre = :id';
 
@@ -1768,12 +1768,11 @@ function afficherObjectifs($idEnfant)
                 $idObjectif = $value;
             }
         }
-        echo '<input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<input type="submit" value=' . $i . ' style="background-color: green;" disabled>';
+                echo '<input type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . ' style="background-color: green;" disabled>';
             } else {
-                echo '<input type="submit" name="valeurObjectif" value=' . $i . '>';
+                echo '<input type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . '>';
             }
         }
     }
@@ -1830,12 +1829,12 @@ function NombreDeJetonsPlaces($idObjectif)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function UpdateTamponsPlaces($nbJetonsPlaces, $idObjectif)
+function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qUpdateTamponsPlaces']);
+    $req = $linkpdo->prepare($GLOBALS['qUpdateJetonsPlaces']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
