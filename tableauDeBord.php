@@ -37,11 +37,11 @@
       afficherObjectifs($_POST['idEnfant']);
 
       echo '
-    <button type="submit" name="boutonAjouter"
-    class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir rajouter ce jeton ?\');">
-        <img src="images/valider.png" class="imageIcone" alt="icone valider">
-        <span>Valider</span>
-    </button>';
+      <button type="submit" name="boutonAjouter"
+      class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir rajouter ce jeton ?\');">
+          <img src="images/valider.png" class="imageIcone" alt="icone valider">
+          <span>Valider</span>
+      </button>';
 
       if (isset($_POST['boutonAjouter'])) {
         ajouterUnJeton($_POST['idEnfant']);

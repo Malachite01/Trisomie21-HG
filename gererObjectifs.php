@@ -91,7 +91,7 @@ if (isset($_GET['params'])) {
       </tbody>
     </table>
     <?php
-    if (!isset($_POST['idEnfant'])) {
+    if (!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant") {
       echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
     }
     ?>
@@ -103,7 +103,7 @@ if (isset($_GET['params'])) {
       modifierObjectif(
         $_POST['champIntitule'],
         $_POST['champNbJetons'],
-        $_POST['champDuree'],
+        dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
         $_POST['hiddenImageLink'],
         $_POST['champTravaille'],
         $_SESSION['idConnexion'],
@@ -113,7 +113,7 @@ if (isset($_GET['params'])) {
       modifierObjectif(
         $_POST['champIntitule'],
         $_POST['champNbJetons'],
-        $_POST['champDuree'],
+        dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
         uploadImage($_FILES['champLienImage']),
         $_POST['champTravaille'],
         $_SESSION['idConnexion'],
