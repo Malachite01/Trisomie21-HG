@@ -98,6 +98,18 @@ $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule 
 // requete pour afficher les objectifs de la BD
 $qAfficherObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
 
+$qAfficherObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
+
+$qAfficherObjectifsZA = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule DESC';
+
+$qAfficherObjectifsDureeCroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree';
+
+$qAfficherObjectifsDureeDecroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree DESC';
+
+$qAfficherObjectifsStatutCroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille';
+
+$qAfficherObjectifsStatutDecroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille DESC';
+
 //requete de modification d'Objectif
 $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, 
                                 Lien_Image = :lienImage, Travaille = :travaille, Id_Membre = :idMembre WHERE id_Objectif = :idObjectif';
@@ -127,9 +139,9 @@ $qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE I
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
-$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image) 
-                        VALUES (:intitule,:descriptif,:lienImage)';
-$qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompense) VALUES (1,1)';
+$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Lien_Image,Descriptif) 
+                        VALUES (:intitule,:lienImage,:descriptif)';
+$qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompense) VALUES (:idObjectif,:idRecompense)';
 
 
 // requete pour rechercher une recompense selon son Id_Recompense
@@ -143,10 +155,12 @@ $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif =
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 
 // requete pour afficher toutes les recompenses d'un enfant donne
-$qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Objectif = :idObjectif';
+$qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Intitule, recompense.Lien_Image, recompense.Descriptif FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
 // requete pour afficher toutes les informations d'un objectif selon son idObjectif
 $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+
+$qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
 
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
 //?--------------------------------Equipe---------------------------------------------------------------------------
@@ -1327,6 +1341,390 @@ function afficherGererObjectifs($idEnfant)
     }
 }
 
+function afficherGererObjectifsAZ($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsAZ']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . dureeString($value) . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+    }
+}
+
+function afficherGererObjectifsZA($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsZA']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . dureeString($value) . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+    }
+}
+
+function afficherGererObjectifsDureeCroissante($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsDureeCroissante']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . dureeString($value) . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+    }
+}
+
+function afficherGererObjectifsDureeDecroissante($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsDureeDecroissante']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . dureeString($value) . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+    }
+}
+
+function afficherGererObjectifsStatutCroissant($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsStatutCroissant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . dureeString($value) . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+    }
+}
+
+function afficherGererObjectifsStatutDecroissant($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsStatutDecroissant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Duree') {
+                echo '<td>' . dureeString($value) . '</td>';
+            }
+            if ($key == 'Nb_Jetons') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Travaille') {
+                if ($value == 1) {
+                    echo '<td>En cours</td>';
+                } else if ($value == 2) {
+                    echo '<td>A venir</td>';
+                } else {
+                    echo '<td>Aucun</td>';
+                }
+            }
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+        }
+        echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+    }
+}
+
 // fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
 function afficherObjectifs($idEnfant)
 {
@@ -1489,9 +1887,9 @@ function AfficherInformationUnObjectif($idObjectif)
                 echo '
                 <label>Durée de cagnottage :</label>
                 <div id="selecteurDuree">
-                    <div class="center"><label for="inline champDureeSemaines" class="labelSemJourH">Semaine(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeSemaines" min="0" max="99" value="'.$s.'" required></div>
-                    <div class="center"><label for="inline champDureeJours">Jour(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeJours" min="0" max="99" value="'.$j.'" required></div>
-                    <div class="center"><label for="inline champDureeHeures">Heure(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeHeures" min="0" max="99" value="'.$h.'" required></div>
+                    <div class="center"><label for="inline champDureeSemaines" class="labelSemJourH">Semaine(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeSemaines" min="0" max="99" value="' . $s . '" required></div>
+                    <div class="center"><label for="inline champDureeJours">Jour(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeJours" min="0" max="99" value="' . $j . '" required></div>
+                    <div class="center"><label for="inline champDureeHeures">Heure(s):&ensp; </label><input class="inline selecteurSemJourH" type="number" name="champDureeHeures" min="0" max="99" value="' . $h . '" required></div>
                 </div>
                 <span></span>
                 ';
@@ -1698,7 +2096,7 @@ function afficherIntituleObjectif($objectifSelected, $idEnfant)
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
-function ajouterRecompense($intitule, $descriptif, $lienImage, $idObjectif)
+function ajouterRecompense($intitule, $lienImage, $descriptif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1710,9 +2108,9 @@ function ajouterRecompense($intitule, $descriptif, $lienImage, $idObjectif)
     // execution de la requete sql
     $req->execute(array(
         ':intitule' => clean($intitule),
-        ':descriptif' => clean($descriptif),
         ':lienImage' => clean($lienImage),
-        ':idObjectif' => clean($idObjectif)
+        ':descriptif' => clean($descriptif)
+
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
@@ -1807,7 +2205,7 @@ function supprimerRecompense($idRecompense)
     }
 }
 // fonction qui permet d'afficher toutes les recompenses de la BD pour un enfant donnee
-function afficherRecompense($idObjectif)
+function afficherRecompense($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1817,7 +2215,7 @@ function afficherRecompense($idObjectif)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
     }
     // execution de la requete sql
-    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
     }
@@ -1833,17 +2231,20 @@ function afficherRecompense($idObjectif)
             if ($key == 'Descriptif') {
                 echo '<td>' . $value . '</td>';
             }
+            if ($key == 'Id_Recompense') {
+                $idRecompense = $value;
+            }
         }
         echo '
             <td>
-            <button name="boutonModifier" value="' . $idObjectif . '" 
+            <button name="boutonModifier" value="' . $idRecompense . '" 
              class="boutonModifier" onclick="window.location=\'modifierRecompense.php\'" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
+            <button type="submit" name="boutonSupprimer" value="' . $idRecompense . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cette recompense ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
@@ -1852,44 +2253,45 @@ function afficherRecompense($idObjectif)
         </tr>';
     }
 }
-//TABLEAU DE BORD//
 
-function AfficherTotalJetons($idEnfant)
+function ajouterLienRecompenseObj($idObjectif, $idRecompense)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherNombreJetonsEnfant']);
+    $req = $linkpdo->prepare($GLOBALS['qAjouterLienRecompenseObj']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les jetons de lenfant');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
     }
     // execution de la requete sql
-    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    $req->execute(array(':idObjectif' => clean($idObjectif), ':idRecompense' => clean($idRecompense)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les jetons');
-    }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
-        foreach ($data as $value) {
-            echo '<p>' . $value . 'Jetons dans la cagnotte!! </p>';
-        }
-    }
-}
-function ajouterUnJeton($idEnfant)
-{
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterUnJeton']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les jetons de lenfant');
-    }
-    // execution de la requete sql
-    $req->execute(array(':idEnfant' => clean($idEnfant)));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les jetons');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
     }
 }
 
+function rechercherIdRecompenseSelonIntitule($intitule)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherIdRecompenseSelonIntitule']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
+    }
+    // execution de la requete sql
+    $req->execute(array(':intitule' => clean($intitule)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
 
 //! -------------------------------------------------EQUIPE------------------------------------------------------------
 function afficherNomPrenomMembre()
@@ -1924,6 +2326,7 @@ function afficherNomPrenomMembre()
     }
     echo '</select>';
 }
+
 function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
 {
     // connexion a la BD

@@ -56,7 +56,7 @@ if (isset($_GET['params'])) {
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-        if(isset($_POST['idEnfant'])) {
+        if (isset($_POST['idEnfant'])) {
           afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
         } else {
           afficherNomPrenomEnfantSubmit(null);
@@ -66,8 +66,57 @@ if (isset($_GET['params'])) {
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
-          <option value="1">Filtre</option>
-          <option value="2">Filtre</option>
+          <?php
+          if (isset($_POST['filtres'])) {
+            echo '<option value="1"';
+            if ($_POST['filtres'] == 1) {
+              echo 'selected';
+            };
+            echo '>Veuillez choisir un filtre</option>';
+            echo '<option value="2"';
+            if ($_POST['filtres'] == 2) {
+              echo 'selected';
+            };
+            echo '>De A à Z</option>';
+            echo '<option value="3"';
+            if ($_POST['filtres'] == 3) {
+              echo 'selected';
+            };
+            echo '>De Z à A</option>';
+            echo '<option value="4"';
+            if ($_POST['filtres'] == 4) {
+              echo 'selected';
+            };
+            echo '>Objectifs les plus courts</option>';
+            echo '<option value="5"';
+            if ($_POST['filtres'] == 5) {
+              echo 'selected';
+            };
+            echo '>Objectifs les plus longs</option>';
+            echo '<option value="6"';
+            if ($_POST['filtres'] == 6) {
+              echo 'selected';
+            };
+            echo '>Objectif en cours</option>';
+            echo '<option value="7"';
+            if ($_POST['filtres'] == 7) {
+              echo 'selected';
+            };
+            echo '>Objectif à venir</option>';
+          } else {
+            echo '
+            <option value="1">Veuillez choisir un filtre</option>
+            <option value="2">Membres les plus ancients</option>
+            <option value="3">De A à Z</option>
+            <option value="4">De Z à A</option>
+            <option value="5">Objectifs les plus courts</option>
+            <option value="6">Objectifs les plus longs</option>
+            <option value="7">Objectif en cours</option>
+            <option value="8">Objectif à venir</option>
+          ';
+          }
+
+          ?>
         </select>
       </div>
     </div>
@@ -84,14 +133,37 @@ if (isset($_GET['params'])) {
 
       <tbody id="tbodyGererObjectifs">
         <?php
+
         if (isset($_POST['idEnfant'])) {
-          afficherGererObjectifs($_POST['idEnfant']);
+          switch ($_POST['filtres']) {
+            case 2:
+              afficherGererObjectifsAZ($_POST['idEnfant']);
+              break;
+            case 3:
+              afficherGererObjectifsZA($_POST['idEnfant']);
+              break;
+            case 4:
+              afficherGererObjectifsDureeCroissante($_POST['idEnfant']);
+              break;
+            case 5:
+              afficherGererObjectifsDureeDecroissante($_POST['idEnfant']);
+              break;
+            case 6:
+              afficherGererObjectifsStatutCroissant($_POST['idEnfant']);
+              break;
+            case 7:
+              afficherGererObjectifsStatutDecroissant($_POST['idEnfant']);
+              break;
+            default:
+              afficherGererObjectifs($_POST['idEnfant']);
+              break;
+          }
         }
         ?>
       </tbody>
     </table>
     <?php
-    if (!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant") {
+    if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
       echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
     }
     ?>
