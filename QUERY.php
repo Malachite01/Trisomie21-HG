@@ -9,8 +9,8 @@
 //? ----------------------------------------------Enfant---------------------------------------------------------------------
 
 // requete pour ajouter un enfant a la BD
-$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton,Total_Jetons) 
-                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton,0)';
+$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) 
+                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
 
 // requete pour verifier qu'un enfant avec les données en parametre n'existe pas deja dans la BD
 $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant 
@@ -139,6 +139,10 @@ $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompe
 
 // requete pour afficher toutes les recompenses d'un enfant donne
 $qAfficherRecompense = 'SELECT * FROM recompense WHERE Id_Objectif = :idObjectif';
+
+// requete pour afficher toutes les informations d'un objectif selon son idObjectif
+$qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
 $qAfficherNombreJetonsEnfant = 'SELECT Total_Jetons from Enfant WHERE Id_Enfant = :idEnfant';
 
@@ -438,9 +442,9 @@ function afficherNomPrenomEnfantSubmit($enfantSelect)
             if ($key == 'Nom') {
                 $nom = $value;
             }
-            if($key == 'Prenom' && $idEnfant == $enfantSelect) {
+            if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if($key == 'Prenom') {
+            } else if ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1604,6 +1608,46 @@ function dureeDeCagnottage($semaines, $jours, $heures)
     $semaines *= 24 * 7;
     $jours *= 24;
     return $semaines + $jours + $heures;
+}
+
+function afficherObjectifSelonId($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifSelonId']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Intitule') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Nb_jetons') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Duree') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Lien_Image') {
+                echo '<div>' . $value . '</div>';
+            }
+            if ($key == 'Nb_Jetons_Places') {
+                echo '<div>' . $value . '</div>';
+            }
+        }
+    }
 }
 
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
