@@ -2022,7 +2022,7 @@ function afficherGererEquipe($idEnfant)
     
 }
 function supprimerMembreEquipe($chaineConcatene){
-    $chaineDeconcatene = explode(",",$chaineConcatene)
+    $chaineDeconcatene = explode(",",$chaineConcatene);
 }
 
 /*                                                                
