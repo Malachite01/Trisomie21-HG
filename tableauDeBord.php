@@ -25,45 +25,33 @@
 
   <h1>Tableau de bord pour l'enfant:</h1>
   <form id="formTableauDeBord" method="POST">
+    <div class="miseEnForme" id="miseEnFormeEnfant">
+      <label for="Recherche">Filtres :</label>
+      <div class="centerIconeChamp">
+        <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
+        <?php
+            if(isset($_POST['idEnfant'])) {
+              afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+            } else {
+              afficherNomPrenomEnfantSubmit(null);
+            }
+        ?>
+      </div>
+    </div>
     <?php
-    if(isset($_POST['idEnfant'])) {
-      afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
-    } else {
-      afficherNomPrenomEnfantSubmit(null);
-    }
-    // ma merde
-    if (isset($_POST['idEnfant'])) {
-      AfficherTotalJetons($_POST['idEnfant']);
-      afficherObjectifs($_POST['idEnfant']);
-
-      echo '
-    <button type="submit" name="boutonAjouter"
-    class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir rajouter ce jeton ?\');">
-        <img src="images/valider.png" class="imageIcone" alt="icone valider">
-        <span>Valider</span>
-    </button>';
-
-      if (isset($_POST['boutonAjouter'])) {
-        ajouterUnJeton($_POST['idEnfant']);
+      if (isset($_POST['idEnfant'])) {
+        afficherObjectifs($_POST['idEnfant']);
+      } else if(!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant"){
+        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
       }
-    }
-
-
-
-
-
-
-
-    if (isset($_POST['idObjectif'])) {
-      UpdateTamponsPlaces($_POST['valeurObjectif'], $_POST['idObjectif']);
-    }
-    // fin de ma merde
+      if (isset($_POST['idObjectif'])) {
+        UpdateTamponsPlaces($_POST['valeurObjectif'], $_POST['idObjectif']);
+      }
     ?>
-    <!-- fin de ma merde -->
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
         <div class="objectif">
-          <label for="">Intitulé : <p></p></label>
+          <label for=""><p></p></label>
         </div>
       </div>
     </div>
