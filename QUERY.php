@@ -1349,12 +1349,12 @@ function afficherImageTampon($idEnfant) {
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qAfficherImageTampon']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une image');
     }
     // execution de la requete sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une image');
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
