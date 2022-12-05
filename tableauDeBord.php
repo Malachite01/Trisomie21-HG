@@ -26,34 +26,34 @@
   <h1>Tableau de bord pour l'enfant:</h1>
   <form id="formTableauDeBord" method="POST">
     <div class="miseEnForme" id="miseEnFormeEnfant">
-      <label for="Recherche">Filtres :</label>
+      <label for="Recherche">Enfant :</label>
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-            if(isset($_POST['idEnfant'])) {
-              afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
-            } else {
-              afficherNomPrenomEnfantSubmit(null);
-            }
+        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != "Veuillez choisir un enfant") {
+          afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+        } else {
+          afficherNomPrenomEnfantSubmit(null);
+        }
         ?>
       </div>
     </div>
     <?php
-      if 
-      (isset($_POST['idObjectif'])) {
-        UpdateTamponsPlaces($_POST['valeurObjectif'], $_POST['idObjectif']);
-      }
-      if(!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant"){
-        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
-      }
+    if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+    }
+    if (isset($_POST['valeurJetonsIdObjectif'])) {
+      $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+      UpdateJetonsPlaces($valeur[0], $valeur[1]);
+    }
     ?>
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
-          <?php
-            if (isset($_POST['idEnfant'])) {
-              afficherObjectifs($_POST['idEnfant']);
-            }
-          ?>
+        <?php
+        if (isset($_POST['idEnfant'])) {
+          afficherObjectifs($_POST['idEnfant']);
+        }
+        ?>
       </div>
     </div>
 
