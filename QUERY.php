@@ -173,6 +173,8 @@ $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY N
 
 $qAfficherEquipe = 'SELECT membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
 suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
+
+$qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfant AND suivre.Id_Membre =:idMembre';
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -301,7 +303,7 @@ function faireMenu()
             <li><a href="#" href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEquipe.php">Mes équipes</a></li>
-                    <li><a href="#">Gérer une équipe</a></li>
+                    <li><a href="gererEquipe.php">Gérer une équipe</a></li>
                 </ul>
             </li>    
             
@@ -2045,6 +2047,23 @@ function afficherGererEquipe($idEnfant)
 }
 function supprimerMembreEquipe($chaineConcatene){
     $chaineDeconcatene = explode(",",$chaineConcatene);
+    $idMembre = $chaineDeconcatene[0];
+    $idEnfant = $chaineDeconcatene[1];
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qSupprimerUnMembreEquipe']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+     }
+     $req->execute(array(':idMembre' => clean($idMembre),
+                        ':idEnfant' => clean($idEnfant)            
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+
+
 }
 
 /*                                                                
