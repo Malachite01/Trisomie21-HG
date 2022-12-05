@@ -498,6 +498,13 @@ nav a {
     grid-template-columns: 1fr;
 }
 
+#miseEnFormeEnfant {
+    margin: 12%;
+    margin-top: 40px;
+    margin-bottom: 5%;
+    grid-template-columns: 1fr;
+}
+
 .miseEnForme {
     background-color: var(--couleurMiseEnForme);
     border-radius: 10px;
@@ -1304,6 +1311,9 @@ div.miseEnForme label {
     #miseEnFormeFiltres {
         grid-template-columns: max-content 1fr 1fr;
     }
+    #miseEnFormeEnfant {
+        grid-template-columns: max-content 1fr;
+    }
     .iconeApp {
         width: 250px;
     }
@@ -1419,6 +1429,11 @@ div.miseEnForme label {
         margin-bottom: 5%;
     }
     #miseEnFormeFiltres {
+        margin: 25%;
+        margin-top: 0px;
+        margin-bottom: 5%;
+    }
+    #miseEnFormeEnfant {
         margin: 25%;
         margin-top: 0px;
         margin-bottom: 5%;
