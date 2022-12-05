@@ -26,7 +26,7 @@
   <h1>Ajouter une recompense</h1>
 
 
-  <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')">
+  <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
     <?php
     if (isset($_POST['idEnfant'])) {
 
@@ -47,10 +47,6 @@
       <input type="text" name="champDescriptif" placeholder="Entrez votre description" minlength="1" maxlength="50" required>
       <span></span>
 
-      <label for="champCoutJetons">Cout de la récompense :</label>
-      <input type="text" name="champCoutJetons" placeholder="Entrez le prix de cette recompense" minlength="1" maxlength="50" required>
-      <span></span>
-
       <label for="champLienImage">Image Récompense:</label>
       <input type="file" name="champLienImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageJeton','imageJeton')" required>
       <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
@@ -65,21 +61,23 @@
   <script src="js/javascript.js"></script>
   <?php
   if (isset($_POST['idEnfant'])) {
-    if (champRempli(array('champIntitule', 'champDescriptif', 'champLienImage', 'champCoutJetons'))) {
+    if (champRempli(array('champIntitule', 'champDescriptif'))) {
       ajouterRecompense(
         $_POST['champIntitule'],
-        $_POST['champDescriptif'],
-        $_POST['champLienImage'],
-        $_POST['idObjectif']
+        uploadImage($_FILES['champLienImage']),
+        $_POST['champDescriptif']
+
       );
+      AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
+      echo '
+      <div class="validationPopup">
+        <h2 class="txtPopup">La Récompense a bien été ajouté à la base !</h2>
+        <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+      </div>';
     }
 
-    echo '
-        <div class="validationPopup">
-          <h2 class="txtPopup">La Récompense a bien été ajouté à la base !</h2>
-          <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-          <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
-        </div>';
+
     // ici ca redirigera vers la liste des enfants
 
   }
