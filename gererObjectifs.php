@@ -73,7 +73,7 @@ if (isset($_GET['params'])) {
     </div>
     <table>
       <thead>
-        <th>Image jeton</th>
+        <th>Image objectif</th>
         <th>Intitulé</th>
         <th>Durée d'évaluation</th>
         <th>Jetons</th>
