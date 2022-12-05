@@ -1417,14 +1417,13 @@ function afficherObjectifs($idEnfant)
                 $idObjectif = $value;
             }
         }
-        echo '<div class="containerTampons">
-        <input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
+        echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '>
-                <img class="imageTamponValide" src="'.afficherImageTampon($idEnfant).'"></button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . '>
+                <img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
             } else {
-                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '>?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . '>?</button>';
             }
         }
         echo '</div>
@@ -2428,25 +2427,25 @@ function afficherGererEquipe($idEnfant)
         echo $idMembre . "," . $idEnfant;
     }
 }
-function supprimerMembreEquipe($chaineConcatene){
-    $chaineDeconcatene = explode(",",$chaineConcatene);
+function supprimerMembreEquipe($chaineConcatene)
+{
+    $chaineDeconcatene = explode(",", $chaineConcatene);
     $idMembre = $chaineDeconcatene[0];
     $idEnfant = $chaineDeconcatene[1];
-     // connexion a la BD
-     $linkpdo = connexionBd();
-     // preparation de la requete sql
-     $req = $linkpdo->prepare($GLOBALS['qSupprimerUnMembreEquipe']);
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
-     }
-     $req->execute(array(':idMembre' => clean($idMembre),
-                        ':idEnfant' => clean($idEnfant)            
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerUnMembreEquipe']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    $req->execute(array(
+        ':idMembre' => clean($idMembre),
+        ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
-
-
 }
 
 /*                                                                
