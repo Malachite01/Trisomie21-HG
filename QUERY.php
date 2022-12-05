@@ -124,8 +124,10 @@ $qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
-$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image,Id_Objectif) 
-                        VALUES (:intitule ,:descriptif,:lienImage,:idObjectif)';
+$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Descriptif,Lien_Image) 
+                        VALUES (:intitule,:descriptif,:lienImage)';
+$qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompense) VALUES (1,1)';
+
 
 // requete pour rechercher une recompense selon son Id_Recompense
 $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
