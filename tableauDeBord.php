@@ -26,11 +26,11 @@
   <h1>Tableau de bord pour l'enfant:</h1>
   <form id="formTableauDeBord" method="POST">
     <div class="miseEnForme" id="miseEnFormeEnfant">
-      <label for="Recherche">Filtres :</label>
+      <label for="Recherche">Enfant :</label>
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-        if (isset($_POST['idEnfant'])) {
+        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != "Veuillez choisir un enfant") {
           afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
         } else {
           afficherNomPrenomEnfantSubmit(null);
@@ -51,11 +51,11 @@
     ?>
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
-        <div class="objectif">
-          <label for="">
-            <p></p>
-          </label>
-        </div>
+        <?php
+        if (isset($_POST['idEnfant'])) {
+          afficherObjectifs($_POST['idEnfant']);
+        }
+        ?>
       </div>
     </div>
 

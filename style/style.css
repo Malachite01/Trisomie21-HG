@@ -230,7 +230,7 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img:not(#imgDeconnexion),
+button > img:not(#imgDeconnexion,.imageTampon,.tampon),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
@@ -1257,18 +1257,116 @@ div.miseEnForme label {
 }
 
 /*! TABLEAU DE BORD */
+h3 .titreObjectif {
+    position: relative;
+    top:-23px;
+    left:-23px;
+    font-size: 1.5em;
+}
+
+.tampon {
+    background-color: transparent;
+    border-radius: 50%;
+    border: 2px dashed grey;
+    padding: 0px;
+    font-family: Georama;
+    font-size: 0em;
+    margin: 10px;
+    font-size: 0em;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+
+}
+
+.imageTampon {
+    width: 30px;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+.imageTamponValide {
+    width: 30px;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+.imageObjectif {
+    position: relative;
+    display: inline-block;
+    top: -20px;
+    left: -20px;
+    border: 2px dashed var(--couleurBarActive);
+}
+
+.containerTampons {
+    display: grid;
+    height : 60px;
+    overflow-y: scroll;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    margin: 0px
+}
+
 #formTableauDeBord {
     display: grid;
     align-items: center;
     justify-items: center;
 }
 .containerTableauDeBord {
-    background-color: red;
 }
 
 #containerObjectifs {
-    background-color: #01534f;
+    margin: 50px;
+    display: grid;
+    background-color: red;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.objectif {
+    background-color: lightsalmon;
+    margin: 20px;
+    padding: 30px;
+    border-radius: var(--globalRadius);
+}
+@media screen and (max-width: 1200px){
+    #containerObjectifs {
+        grid-template-columns: 1fr 1fr;
+    }
+    .objectif {
+        margin: 40px;
+    }
+}
+@media screen and (max-width: 980px){
+    #containerObjectifs {
+        margin: 0px;
+        grid-template-columns: 1fr;
+    }
+}
+@media screen and (max-width: 460px){
+    #containerObjectifs {
+        padding: 0px;
+        grid-template-columns: 1fr;
+    }
+    .objectif {
+        margin-top: 20px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
+@media screen and (max-width: 360px){
+    h3 .titreObjectif {
+        position: relative;
+        top:5px;
+        left:5px;
+        font-size: 1.2em;
+    }
+    .objectif {
+        margin-top: 20px;
+        padding: 0px;
+    }
 }
 
 /* DANS LE PC */
