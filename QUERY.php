@@ -116,11 +116,14 @@ $qAfficherImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :
 $qNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // raquete qui permet de récupérer le nombre de tampon pour un objectif donné
-$qNombreDeJetonsPlaces = 'SELECT Nb_Tampons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+$qNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Tampons_Places = :nbTamponsPlaces WHERE Id_Objectif = :idObjectif';
+$qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
 
 $qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre = :id';
+
+$qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif ORDER BY Intitule';
+
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -1444,7 +1447,7 @@ function UpdateTamponsPlaces($nbJetonsPlaces, $idObjectif)
     }
     // execution de la requete sql
     $req->execute(array(
-        ':nbTamponsPlaces' => clean($nbJetonsPlaces),
+        ':nbJetonsPlaces' => clean($nbJetonsPlaces),
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
@@ -1652,6 +1655,41 @@ function afficherObjectifSelonId($idObjectif)
     }
 }
 
+function afficherIntituleObjectif($objectifSelected)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherIntituleObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    echo '<select name="idObjectif" onchange="this.form.submit()">';
+    echo '<option>Veuillez choisir un objectif</option>';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+            if ($key == 'Intitule') {
+                $Intitule = $value;
+            }
+            if ($idObjectif == $objectifSelected) {
+                echo '<option value=' . $idObjectif . ' selected>' . $Intitule . '</option>';
+            } else if ($key == 'Prenom') {
+                echo '<option value=' . $idObjectif . '>' . $Intitule . '</option>';
+            }
+        }
+    }
+    echo '</select>';
+}
+
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
@@ -1848,7 +1886,7 @@ function ajouterUnJeton($idEnfant)
 }
 
 
-//!-------------------------------------------------EQUIPE------------------------------------------------------------
+//! -------------------------------------------------EQUIPE------------------------------------------------------------
 function afficherNomPrenomMembre()
 {
     // connexion a la BD
