@@ -1386,6 +1386,9 @@ function afficherObjectifs($idEnfant)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<img class="imageObjectif" style="border-radius: 10px;" src="'.$value.'" id="imageJeton" alt=" ">';
+            }
             if ($key == 'Intitule') {
                 echo '<h3>' . $value . '</h3>';
             }
@@ -1410,19 +1413,15 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
             }
-            if ($key == 'Lien_Image') {
-                $img = $value;
-            }
         }
         echo '<div class="containerTampons">
         <input type="hidden" name="idObjectif" value=' . $idObjectif . '>';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button style="border: 4px solid #00cc66" class="tampon" type="submit" value=' . $i . ' style="background-color: green;" disabled>
-                <img style="filter: grayscale(100%);" class="imageTamponValide" src="'.afficherImageTampon($idEnfant).'" id="imageJeton" alt=" "></button>';
+                echo '<button class="tampon" type="submit" value=' . $i . ' disabled>
+                <img class="imageTamponValide" src="'.afficherImageTampon($idEnfant).'" id="imageJeton" alt=" "></button>';
             } else {
-                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '>
-                <img class="imageTampon" src="'.afficherImageTampon($idEnfant).'" id="imageJeton" alt=" "></button>';
+                echo '<button class="tampon" type="submit" name="valeurObjectif" value=' . $i . '></button>';
             }
         }
         echo '</div>

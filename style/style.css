@@ -1265,41 +1265,46 @@ h3 .titreObjectif {
 }
 
 .tampon {
+    background-color: transparent;
     border-radius: 50%;
-    border-style: none;
+    border: 2px dashed grey;
     padding: 0px;
-    color: var(--policeBlanche);
     font-family: Georama;
     font-size: 0em;
-    border-style: none;
     margin: 10px;
     font-size: 0em;
-    color: var(--policeNoire);
     cursor: pointer;
+    width: 38px;
+    height: 38px;
+
 }
 
 .imageTampon {
     width: 30px;
-    border-radius: 20000px;
+    border-radius: 50%;
     margin: 0;
     padding: 0;
 }
 
 .imageTamponValide {
     width: 30px;
-    border-radius: 50px;
+    border-radius: 50%;
     margin: 0;
     padding: 0;
 }
 
-.imageTamponValide::before {
-    content: "";
-    width: 10px;
-    height: 10px;
+.imageObjectif {
+    position: relative;
+    display: inline-block;
+    top: -20px;
+    left: -20px;
+    border: 2px dashed var(--couleurBarActive);
 }
 
 .containerTampons {
     display: grid;
+    height : 60px;
+    overflow-y: scroll;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     margin: 0px
 }
