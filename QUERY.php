@@ -106,7 +106,7 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_J
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Nb_Jetons, Travaille, Lien_Image, Nb_Jetons_Places 
+$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons
                                     FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete qui permet de récupérer l'image d'un objectif 
