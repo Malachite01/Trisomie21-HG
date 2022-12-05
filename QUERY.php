@@ -122,7 +122,7 @@ $qUpdateTamponsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces 
 
 $qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre = :id';
 
-$qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif ORDER BY Intitule';
+$qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
@@ -1659,7 +1659,7 @@ function afficherObjectifSelonId($idObjectif)
     }
 }
 
-function afficherIntituleObjectif($objectifSelected)
+function afficherIntituleObjectif($objectifSelected, $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1669,11 +1669,13 @@ function afficherIntituleObjectif($objectifSelected)
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
     // execution de la requete sql
-    $req->execute();
+    $req->execute(array(
+        ':idEnfant' => clean($idEnfant)
+    ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
-    echo '<select name="idObjectif" onchange="this.form.submit()">';
+    echo '<select name="idObjectif">';
     echo '<option>Veuillez choisir un objectif</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
@@ -1684,11 +1686,11 @@ function afficherIntituleObjectif($objectifSelected)
             if ($key == 'Intitule') {
                 $Intitule = $value;
             }
-            if ($idObjectif == $objectifSelected) {
-                echo '<option value=' . $idObjectif . ' selected>' . $Intitule . '</option>';
-            } else if ($key == 'Prenom') {
-                echo '<option value=' . $idObjectif . '>' . $Intitule . '</option>';
-            }
+        }
+        if ($idObjectif == $objectifSelected) {
+            echo '<option value=' . $idObjectif . ' selected>' . $Intitule . '</option>';
+        } else {
+            echo '<option value=' . $idObjectif . '>' . $Intitule . '</option>';
         }
     }
     echo '</select>';

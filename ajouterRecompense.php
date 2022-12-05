@@ -28,8 +28,15 @@
 
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')">
     <?php
-    afficherNomPrenomEnfant();
-    afficherIntituleObjectif(null)
+    if (isset($_POST['idEnfant'])) {
+
+      afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+      afficherIntituleObjectif(null, $_POST['idEnfant']);
+    } else {
+      afficherNomPrenomEnfantSubmit(null);
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif afin de lui ajouter une récompense !</p>";
+    }
+
     ?>
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champIntitule">Intitule :</label>
