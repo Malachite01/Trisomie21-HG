@@ -20,6 +20,8 @@
   <?php
   session_start();
   require('QUERY.php');
+  testConnexion();
+  
   faireMenu();
   ?>
 

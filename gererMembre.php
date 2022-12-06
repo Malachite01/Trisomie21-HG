@@ -15,6 +15,8 @@
 <?php
 session_start();
 require('QUERY.php');
+testConnexion();
+
 if (isset($_POST['boutonSupprimer'])) {
   supprimerMembre($_POST['boutonSupprimer']);
   header("Location: gererMembre.php?params=suppr");

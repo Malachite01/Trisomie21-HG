@@ -356,6 +356,11 @@ function dureeString($duree)
     $h = intdiv($duree, 1);
     return $s . 'semaines ' . $j . 'jours ' . $h . 'heures';
 }
+function testConnexion(){
+    if  ($_SESSION['idConnexion']==null){
+        header('Location: index.php');
+    }
+}
 
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
 

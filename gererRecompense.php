@@ -14,6 +14,7 @@
 <?php
   session_start();
   require('QUERY.php');
+  testConnexion();
   if(isset($_POST['boutonModifier'])) {
     $test = $_POST['boutonModifier'];
     header('Location: modifierRecompense.php?idRec=' . $test);

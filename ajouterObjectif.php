@@ -20,6 +20,7 @@
   <?php
   require('QUERY.php');
   session_start();
+  testConnexion();
   faireMenu();
   ?>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
