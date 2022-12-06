@@ -98,7 +98,11 @@ $qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image
 $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
 
 // requete pour afficher les objectifs de la BD
-$qAfficherObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant';
+$qAfficherObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Travaille, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant';
+
+$qAfficherObjectifsTb = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
+
+$qAfficherValidationTb = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
 
 $qAfficherObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
@@ -177,6 +181,10 @@ $qAfficherEquipe = 'SELECT membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_E
 suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
 $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfant AND suivre.Id_Membre =:idMembre';
+//?----------------------------------------------------MESSAGE-----------------------------------------------------------------
+$qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
+
+//----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -356,7 +364,22 @@ function dureeString($duree)
     $j = intdiv($duree, 24);
     $duree -= 24 * $j;
     $h = intdiv($duree, 1);
-    return $s . 'semaines ' . $j . 'jours ' . $h . 'heures';
+    if($s != 0) {
+        $s = $s . ' semaines ';
+    } else {
+        $s = null;
+    }
+    if($j != 0) {
+        $j = $j . ' jours ';
+    } else {
+        $j = null;
+    }
+    if($h != 0) {
+        $h = $h . ' heures';
+    } else {
+        $h = null;
+    }
+    return  $s . $j . $h;
 }
 function testConnexion()
 {
@@ -1411,7 +1434,7 @@ function afficherObjectifs($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsTb']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -1426,47 +1449,88 @@ function afficherObjectifs($idEnfant)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
             if ($key == 'Lien_Image') {
+                AfficherValidationObjectif($idObjectif);
                 echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
+                
             }
             if ($key == 'Intitule') {
                 echo '<h3>' . $value . '</h3>';
             }
-            if ($key == 'Priorite') {
-                echo '<td>' . $value . '</td>';
-            }
             if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
+                echo '<p>'.dureeString($value).'</p><br>';
+            }
+            if ($key == 'Nb_Jetons_Places') {
+                if(is_null($value)) {
+                    $places = 0;
+                }else $places = $value;
             }
             if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
+                $res = $value - $places;
+                if($res != 0) {
+                    echo '<p style="color: grey;">'.$res.' jeton(s) à valider:</p>';
                 } else {
-                    echo '<td>Aucun</td>';
+                    echo'<br>';
                 }
-            }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
+                $places = 0;
             }
         }
         echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>
-                <img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
+                if($res == 0){
+                    echo'<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                } else {
+                    echo'<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                }
+                
             } else {
                 echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
-        echo '</div>
-        </div>';
+        echo '</div></div>';
     }
 }
+
+function AfficherValidationObjectif($idObjectif) {
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherValidationTb']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Nb_Jetons_Places') {
+                if(is_null($value)) {
+                    $places = 0;
+                }else $places = $value;
+            }
+            if ($key == 'Nb_Jetons') {
+                $res = $value - $places;
+                $places = 0;
+            }
+        }
+        if($res == 0){
+            echo'<p class="msgObjectifValidé">Objectif validé! </p><div class="tick-mark-valide"></div>';
+        }            
+    }
+}
+
+
 
 // fontion qui permet d'ajouter un objectif a la BD
 function NombreDeJetons($idObjectif)
@@ -2482,6 +2546,28 @@ function supprimerMembreEquipe($chaineConcatene)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+}
+//!---------------------------------------------MESSAGE-------------------------------------------------------------------------
+
+function ajouterMessage($sujet,$corps,$dateHeure,$idObjectif,$idMembre){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterMessage']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter une recompense a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':sujet' => clean($sujet),
+        ':corps' => clean($corps),
+        ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':idObjectif' => clean($idObjectif),
+        ':idMembre'   => clean($idMembre)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
 
