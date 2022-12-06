@@ -85,6 +85,8 @@ $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre
 
 // requete pour rechercher le prenom du membre connecté
 $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
+// requete pour rechercher le prenom du membre connecté
+$qAfficherNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -179,6 +181,10 @@ $qAfficherEquipe = 'SELECT membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_E
 suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
 $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfant AND suivre.Id_Membre =:idMembre';
+//?----------------------------------------------------MESSAGE-----------------------------------------------------------------
+$qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
+
+//----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -1139,6 +1145,35 @@ function afficherPrenomMembre($idMembre)
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
     }
     return $req;
+}
+
+// fonction qui permet d'afficher le prenom d'un membre (barre menu)
+function afficherNomPrenomMembreMessage($idMembre)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idMembre' => clean($idMembre)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $key => $value) {
+            // recuperation de toutes les informations du membre de la session dans des inputs 
+            if ($key == 'Nom') {
+                echo $value;
+            }
+            if ($key == 'Prenom') {
+                echo $value;
+            }
+        }
+    }
 }
 
 // fonction qui permet de rechercher un membre à partir de son idMembre
@@ -2527,6 +2562,28 @@ function supprimerMembreEquipe($chaineConcatene)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+}
+//!---------------------------------------------MESSAGE-------------------------------------------------------------------------
+
+function ajouterMessage($sujet,$corps,$dateHeure,$idObjectif,$idMembre){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterMessage']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter une recompense a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':sujet' => clean($sujet),
+        ':corps' => clean($corps),
+        ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':idObjectif' => clean($idObjectif),
+        ':idMembre'   => clean($idMembre)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
 
