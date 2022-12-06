@@ -364,17 +364,17 @@ function dureeString($duree)
     $j = intdiv($duree, 24);
     $duree -= 24 * $j;
     $h = intdiv($duree, 1);
-    if($s != 0) {
+    if ($s != 0) {
         $s = $s . ' semaines ';
     } else {
         $s = null;
     }
-    if($j != 0) {
+    if ($j != 0) {
         $j = $j . ' jours ';
     } else {
         $j = null;
     }
-    if($h != 0) {
+    if ($h != 0) {
         $h = $h . ' heures';
     } else {
         $h = null;
@@ -1155,11 +1155,12 @@ function afficherNomPrenomMembreMessage($idMembre)
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Nom') {
-                echo $value;
+                $nom = $value;
             }
             if ($key == 'Prenom') {
-                echo $value;
+                $prenom = $value;
             }
+            return $nom . '.' . $prenom;
         }
     }
 }
@@ -1455,25 +1456,24 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Lien_Image') {
                 AfficherValidationObjectif($idObjectif);
                 echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
-                
             }
             if ($key == 'Intitule') {
                 echo '<h3>' . $value . '</h3>';
             }
             if ($key == 'Duree') {
-                echo '<p>'.dureeString($value).'</p><br>';
+                echo '<p>' . dureeString($value) . '</p><br>';
             }
             if ($key == 'Nb_Jetons_Places') {
-                if(is_null($value)) {
+                if (is_null($value)) {
                     $places = 0;
-                }else $places = $value;
+                } else $places = $value;
             }
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
-                if($res != 0) {
-                    echo '<p style="color: grey;">'.$res.' jeton(s) à valider:</p>';
+                if ($res != 0) {
+                    echo '<p style="color: grey;">' . $res . ' jeton(s) à valider:</p>';
                 } else {
-                    echo'<br>';
+                    echo '<br>';
                 }
                 $places = 0;
             }
@@ -1482,12 +1482,11 @@ function afficherObjectifs($idEnfant)
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
                 echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
-                if($res == 0){
-                    echo'<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                if ($res == 0) {
+                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 } else {
-                    echo'<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 }
-                
             } else {
                 echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
@@ -1496,7 +1495,8 @@ function afficherObjectifs($idEnfant)
     }
 }
 
-function AfficherValidationObjectif($idObjectif) {
+function AfficherValidationObjectif($idObjectif)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -1515,18 +1515,18 @@ function AfficherValidationObjectif($idObjectif) {
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nb_Jetons_Places') {
-                if(is_null($value)) {
+                if (is_null($value)) {
                     $places = 0;
-                }else $places = $value;
+                } else $places = $value;
             }
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
                 $places = 0;
             }
         }
-        if($res == 0){
-            echo'<p class="msgObjectifValidé">Objectif validé! </p><div class="tick-mark-valide"></div>';
-        }            
+        if ($res == 0) {
+            echo '<p class="msgObjectifValidé">Objectif validé! </p><div class="tick-mark-valide"></div>';
+        }
     }
 }
 
@@ -2550,7 +2550,8 @@ function supprimerMembreEquipe($chaineConcatene)
 }
 //!---------------------------------------------MESSAGE-------------------------------------------------------------------------
 
-function ajouterMessage($sujet,$corps,$dateHeure,$idObjectif,$idMembre){
+function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
