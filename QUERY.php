@@ -136,7 +136,7 @@ $qNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objecti
 
 $qUpdateJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
 
-$qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = null WHERE Id_Membre = :id';
+$qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
 
 $qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
@@ -374,6 +374,12 @@ function dureeString($duree)
         $h = null;
     }
     return  $s . $j . $h;
+}
+function testConnexion()
+{
+    if ($_SESSION['idConnexion'] == null) {
+        header('Location: index.php');
+    }
 }
 
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
@@ -1228,8 +1234,8 @@ function supprimerIdMembreDansObjectif($idMembre)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer tous les idObj de la BD');
     }
 
-    $req->execute(array(':id' => clean($idMembre)));
-    $req->debugDumpParams();
+    $req->execute(array(':idMembre' => clean($idMembre)));
+    // $req->debugDumpParams();
 }
 
 // fonction qui permet de supprimer un membre a partir de son idMembre

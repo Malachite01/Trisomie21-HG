@@ -21,7 +21,7 @@
   <?php
   session_start();
   require('QUERY.php');
-
+  testConnexion();
   faireMenu();
   if (isset($_POST['boutonValider'])) {
     modifierMembreSession(
