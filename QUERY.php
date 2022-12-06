@@ -1462,7 +1462,7 @@ function afficherObjectifs($idEnfant)
                 echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
             }
             if ($key == 'Intitule') {
-                echo '<h3>' . $value . '</h3>';
+                echo '<h3 class="titreObjectif">' . $value . '</h3>';
             }
             if ($key == 'Duree') {
                 echo '<p>' . dureeString($value) . '</p><br>';
@@ -1489,14 +1489,14 @@ function afficherObjectifs($idEnfant)
         echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" disabled>';
                 if ($res == 0) {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 } else {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . $i . ' jeton(s) à cet objectif ?\')";>?</button>';
             }
         }
         echo '</div></div>';
