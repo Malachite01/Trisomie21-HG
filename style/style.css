@@ -1290,9 +1290,91 @@ h3 .titreObjectif {
     border-radius: 50%;
     margin: -2px;
     padding: 0;
+    animation: apparitionJeton .6s forwards infinite cubic-bezier(.16,.83,.59,.91);
+    animation-iteration-count: 1;
+}
+@keyframes apparitionJeton {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+.tick-mark {
+    position: relative;
+    z-index: 1;
+    left: -2px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
+.tick-mark::before {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 50%;
+    height: 50%;
+    width: 3px;
+    background-color: var(--couleurBoutonValider);
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+}
+
+.tick-mark::after {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background-color: var(--couleurBoutonValider);
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+}
+.tick-mark-valide {
+    position: absolute;
+    right: 5%;
+    bottom: 50%;
+    z-index: 1;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+
+.tick-mark-valide::before {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 50%;
+    height: 50%;
+    width: 5px;
+    background-color: var(--couleurBoutonValider);
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+}
+
+.tick-mark-valide::after {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    height: 5px;
+    width: 100%;
+    background-color: var(--couleurBoutonValider);
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
 }
 .containerTampons::-webkit-scrollbar {
     width: 13px;
+}
+.containerTampons::-webkit-scrollbar::after {
+    content: "test";
 }
 .containerTampons::-webkit-scrollbar-track {
     background: #fff;
@@ -1323,21 +1405,31 @@ h3 .titreObjectif {
     align-items: center;
     justify-items: center;
 }
-.containerTableauDeBord {
-}
+/* .containerTableauDeBord {
+} */
 
 #containerObjectifs {
     margin: 50px;
     display: grid;
-    background-color: red;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .objectif {
+    position: relative;
     background-color: lightsalmon;
     margin: 20px;
     padding: 30px;
     border-radius: var(--globalRadius);
+}
+.msgObjectifValidé {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    top: 0;
+    right: 0;
+    color: var(--couleurBoutonValider);
+    font-size: 1.8em;
 }
 @media screen and (max-width: 1200px){
     #containerObjectifs {
@@ -1360,7 +1452,7 @@ h3 .titreObjectif {
     }
     .objectif {
         margin-top: 20px;
-        margin-bottom: 0px;
+        margin-bottom: 20px;
         margin-left: 0px;
         margin-right: 0px;
     }
@@ -1374,7 +1466,7 @@ h3 .titreObjectif {
     }
     .objectif {
         margin-top: 20px;
-        padding: 0px;
+        padding: 3px;
     }
     .imageObjectif {
         top:0;
