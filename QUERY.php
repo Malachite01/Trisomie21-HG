@@ -359,17 +359,29 @@ function dureeString($duree)
     $duree -= 24 * $j;
     $h = intdiv($duree, 1);
     if($s != 0) {
-        $s = $s . ' semaines ';
+        if($s == 1) {
+            $s = $s . ' semaine ';
+        } else {
+            $s = $s . ' semaines ';
+        }
     } else {
         $s = null;
     }
     if($j != 0) {
-        $j = $j . ' jours ';
+        if($j == 1) {
+            $j = $j . ' jour ';
+        } else {
+            $j = $j . ' jours ';
+        }
     } else {
         $j = null;
     }
     if($h != 0) {
-        $h = $h . ' heures';
+        if($h == 1) {
+            $h = $h . ' heure';
+        } else {
+            $h = $h . ' heures';
+        }
     } else {
         $h = null;
     }
@@ -1436,7 +1448,11 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
                 if($res != 0) {
-                    echo '<p style="color: grey;">'.$res.' jeton(s) à valider:</p>';
+                    if($res == 1) {
+                        echo '<p style="color: grey;">'.$res.' jeton à valider:</p>';
+                    } else {
+                        echo '<p style="color: grey;">'.$res.' jetons à valider:</p>';
+                    }
                 } else {
                     echo'<br>';
                 }
