@@ -18,6 +18,7 @@ require('QUERY.php');
 testConnexion();
 
 if (isset($_POST['boutonSupprimer'])) {
+  supprimerIdMembreDansObjectif($_POST['boutonSupprimer']);
   supprimerMembre($_POST['boutonSupprimer']);
   header("Location: gererMembre.php?params=suppr");
 };
@@ -63,15 +64,47 @@ if (isset($_GET['params'])) {
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
           <?php
-          if(isset($_POST['filtres'])) {
-            echo '<option value="1"';if($_POST['filtres'] == 1) {echo 'selected';}; echo'>Membres les plus récents</option>';
-            echo '<option value="2"';if($_POST['filtres'] == 2) {echo 'selected';}; echo'>Membres les plus anciens</option>';
-            echo '<option value="3"';if($_POST['filtres'] == 3) {echo 'selected';}; echo'>De A à Z</option>';
-            echo '<option value="4"';if($_POST['filtres'] == 4) {echo 'selected';}; echo'>De Z à A</option>';
-            echo '<option value="5"';if($_POST['filtres'] == 5) {echo 'selected';}; echo'>Membres validés</option>';
-            echo '<option value="6"';if($_POST['filtres'] == 6) {echo 'selected';}; echo'>Membres non validés</option>';
-            echo '<option value="7"';if($_POST['filtres'] == 7) {echo 'selected';}; echo'>Membres les plus jeunes</option>';
-            echo '<option value="8"';if($_POST['filtres'] == 8) {echo 'selected';}; echo'>Membres les plus agés</option>';
+          if (isset($_POST['filtres'])) {
+            echo '<option value="1"';
+            if ($_POST['filtres'] == 1) {
+              echo 'selected';
+            };
+            echo '>Membres les plus récents</option>';
+            echo '<option value="2"';
+            if ($_POST['filtres'] == 2) {
+              echo 'selected';
+            };
+            echo '>Membres les plus anciens</option>';
+            echo '<option value="3"';
+            if ($_POST['filtres'] == 3) {
+              echo 'selected';
+            };
+            echo '>De A à Z</option>';
+            echo '<option value="4"';
+            if ($_POST['filtres'] == 4) {
+              echo 'selected';
+            };
+            echo '>De Z à A</option>';
+            echo '<option value="5"';
+            if ($_POST['filtres'] == 5) {
+              echo 'selected';
+            };
+            echo '>Membres validés</option>';
+            echo '<option value="6"';
+            if ($_POST['filtres'] == 6) {
+              echo 'selected';
+            };
+            echo '>Membres non validés</option>';
+            echo '<option value="7"';
+            if ($_POST['filtres'] == 7) {
+              echo 'selected';
+            };
+            echo '>Membres les plus jeunes</option>';
+            echo '<option value="8"';
+            if ($_POST['filtres'] == 8) {
+              echo 'selected';
+            };
+            echo '>Membres les plus agés</option>';
           } else {
             echo '
             <option value="1">Membres les plus récents</option>
@@ -84,10 +117,10 @@ if (isset($_GET['params'])) {
             <option value="8">Membres les plus agés</option>
           ';
           }
-          
+
           ?>
         </select>
-        
+
       </div>
       <div class="centerIconeChamp">
         <img src="images/search.png" class="imageIcone" alt="icone de loupe">
