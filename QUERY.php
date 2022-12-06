@@ -1425,10 +1425,10 @@ function afficherObjectifs($idEnfant)
         echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . '>
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>
                 <img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value=' . $i . '.' . $idObjectif . '>?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
         echo '</div>
