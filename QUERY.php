@@ -1470,7 +1470,11 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                } else $places = $value;
+                    $places2 = 0;
+                } else {
+                    $places = $value;
+                    $places2 = $value;
+                }
             }
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
@@ -1496,7 +1500,7 @@ function afficherObjectifs($idEnfant)
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . $i . ' jeton(s) à cet objectif ?\')";>?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . ($i - $places2) . ' jeton(s) à cet objectif ?\')";>?</button>';
             }
         }
         echo '</div></div>';
