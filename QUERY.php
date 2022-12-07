@@ -2684,7 +2684,8 @@ function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
-function afficherMessage($idEnfant){
+function afficherMessage($idEnfant)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -2702,10 +2703,10 @@ function afficherMessage($idEnfant){
         echo '<table> <tr>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
-            
+
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom') {
-                  $nom = $value;
+                $nom = $value;
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
@@ -2719,13 +2720,11 @@ function afficherMessage($idEnfant){
             if ($key == 'Corps') {
                 $corps = $value;
             }
-            
         }
-        echo '<td>' . $nom ." ". $prenom . "-" ." ". $intitule . "-" ." ". $sujet . ": " . $corps . " ". '</td>';
+        echo '<td>' . $nom . " " . $prenom . "-" . " " . $intitule . "-" . " " . $sujet . ": " . $corps . " " . '</td>';
         echo '</tr>';
     }
     echo '</table>';
-    
 }
 
 /*                                                                

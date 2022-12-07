@@ -29,25 +29,25 @@
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
-    <?php afficherNomPrenomEnfant();?>
-<?php afficherNomPrenomMembre();?>
-<label for="champRole">Role :</label>
+      <?php afficherNomPrenomEnfant($_SESSION['enfant']); ?>
+      <?php afficherNomPrenomMembre(); ?>
+      <label for="champRole">Role :</label>
       <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
       <span></span>
 
       <div class="center" id="boutonsValiderAnnuler">
-      <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
-    </div>
-    <?php
-        
-    if (champRempli(array('champRole'))){
-           AjouterUneEquipe(
-            $_POST['idEnfant'],
-            $_POST['idMembre'],
-            time(),
-            $_POST['champRole']
-           );
-    }
-    ?>
-    </form>
+        <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+        <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+      </div>
+      <?php
+
+      if (champRempli(array('champRole'))) {
+        AjouterUneEquipe(
+          $_POST['idEnfant'],
+          $_POST['idMembre'],
+          time(),
+          $_POST['champRole']
+        );
+      }
+      ?>
+  </form>
