@@ -25,6 +25,8 @@
     --couleurMenuActif: rgb(154, 221, 254);
     --even: #cfe6cb;
     --odd: #e5f2e0;
+    --even1: #bcddb7;
+    --odd1: #d0e5c7;
 }
 
 @font-face {
@@ -221,6 +223,7 @@ select:not(.filtres select) {
 }
 
 button {
+    cursor: pointer;
     border-radius: var(--globalRadius);
     border-style: none;
     padding: 12px;
@@ -234,7 +237,7 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img:not(#imgDeconnexion,.tampon,.imageTamponValide),
+button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
@@ -1320,6 +1323,56 @@ div.miseEnForme label {
 }
 
 /*! TABLEAU DE BORD */
+#containerObjectifs {
+    margin: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.objectif {
+    position: relative;
+    display: grid;
+    background-color: var(--odd);
+    margin: 20px;
+    padding: 30px;
+    border-radius: var(--globalRadius);   
+}
+
+.objectif:nth-child(even) {
+    background-color: var(--even);
+    border: 2px dashed var(--even1);
+}
+
+.objectif:nth-child(odd) {
+    background-color: var(--odd);
+    border: 2px dashed var(--odd1);
+}
+
+.objectif > .imageValidationObjectif {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    justify-self: center;
+}
+
+.imgRedirect {
+    width: 25px;
+}
+
+.redirect {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: fit-content;
+}
+
+button.redirect {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
 .titreObjectif {
     font-size: 1.4em;
     position: relative;
@@ -1333,6 +1386,11 @@ div.miseEnForme label {
     top: -20px;
     left: -20px;
     border: 2px dashed var(--couleurBarActive);
+}
+
+.duree {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .tampon {
@@ -1364,40 +1422,21 @@ div.miseEnForme label {
         transform: scale(1.0);
     }
 }
-.tick-mark-valide {
+/* .imageValidationObjectif {
     position: absolute;
-    right: 2%;
-    bottom: 48%;
-    z-index: 1;
-    display: inline-block;
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 2;
+    filter: opacity(.25);
+} */
+.imageValidationObjectif {
+    position: absolute;
     width: 80px;
-    height: 80px;
-}
-
-.tick-mark-valide::before {
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 50%;
-    height: 50%;
-    width: 5px;
-    background-color: var(--couleurBoutonValider);
-    content: "";
-    transform: translateX(10px) rotate(-45deg);
-    transform-origin: left bottom;
-}
-
-.tick-mark-valide::after {
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    bottom: 0;
-    height: 5px;
-    width: 100%;
-    background-color: var(--couleurBoutonValider);
-    content: "";
-    transform: translateX(10px) rotate(-45deg);
-    transform-origin: left bottom;
+    top: 40px;
+    right: 10px;
+    z-index: 2;
 }
 .containerTampons::-webkit-scrollbar {
     width: 13px;
@@ -1425,7 +1464,7 @@ div.miseEnForme label {
     display: grid;
     height : 120px;
     overflow-y: auto;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     margin: 0px
 }
 
@@ -1437,27 +1476,14 @@ div.miseEnForme label {
 /* .containerTableauDeBord {
 } */
 
-#containerObjectifs {
-    margin: 50px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.objectif {
-    position: relative;
-    background-color: var(--couleurBoutonValider);
-    margin: 20px;
-    padding: 30px;
-    border-radius: var(--globalRadius);
-}
 .msgObjectifValidé {
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: column;
     float: right;
-    top: 0;
-    right: 0;
-    color: var(--couleurBoutonValider);
+    top: 10px;
+    right: 10px;
+    color: var(--couleurPopupEdit);
     font-size: 1.8em;
 }
 @media screen and (max-width: 1200px){
@@ -1482,8 +1508,8 @@ div.miseEnForme label {
     .objectif {
         margin-top: 20px;
         margin-bottom: 20px;
-        margin-left: 5px;
-        margin-right:   5px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
 }
 @media screen and (max-width: 360px){

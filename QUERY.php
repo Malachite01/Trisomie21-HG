@@ -1472,7 +1472,7 @@ function afficherObjectifs($idEnfant)
                 echo '<h3 class="titreObjectif">' . $value . '</h3>';
             }
             if ($key == 'Duree') {
-                echo '<div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><br>';
+                echo '<div><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
             }
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
@@ -1491,6 +1491,8 @@ function afficherObjectifs($idEnfant)
                     } else {
                         echo '<p style="color: grey;">' . $res . ' jetons à valider:</p>';
                     }
+                    echo '<button class="redirect" type="submit" name="redirect" value="' . $idObjectif . '.' . $idEnfant . '">
+                    <img class="imgRedirect" src="images/redirect.png"></button>';
                 } else {
                     echo '<br>';
                 }
@@ -1614,7 +1616,8 @@ function AfficherValidationObjectif($idObjectif)
             }
         }
         if ($res == 0) {
-            echo '<p class="msgObjectifValidé">Objectif validé! </p><div class="tick-mark-valide"></div>';
+            echo '<img class="imageValidationObjectif" src="images/timbreValide.png" alt="validation objectif">
+            <p class="msgObjectifValidé" >Objectif validé</p>';
         }
     }
 }
