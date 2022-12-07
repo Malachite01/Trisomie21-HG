@@ -1257,11 +1257,11 @@ div.miseEnForme label {
 }
 
 /*! TABLEAU DE BORD */
-h3 .titreObjectif {
+.titreObjectif {
+    font-size: 1.4em;
     position: relative;
-    top:-23px;
-    left:-23px;
-    font-size: 1.5em;
+    top: -10px;
+    left: -10px;
 }
 
 .imageObjectif {
@@ -1303,8 +1303,8 @@ h3 .titreObjectif {
 }
 .tick-mark-valide {
     position: absolute;
-    right: 5%;
-    bottom: 50%;
+    right: 2%;
+    bottom: 48%;
     z-index: 1;
     display: inline-block;
     width: 80px;
@@ -1360,7 +1360,7 @@ h3 .titreObjectif {
 }
 .containerTampons {
     display: grid;
-    height : 60px;
+    height : 120px;
     overflow-y: auto;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     margin: 0px
@@ -1424,11 +1424,11 @@ h3 .titreObjectif {
     }
 }
 @media screen and (max-width: 360px){
-    h3 .titreObjectif {
-        position: relative;
-        top:5px;
-        left:5px;
+    .titreObjectif {
         font-size: 1.2em;
+        position: relative;
+        top:0px;
+        left:0px;
     }
     .objectif {
         margin-top: 20px;
