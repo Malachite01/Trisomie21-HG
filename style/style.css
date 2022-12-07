@@ -7,9 +7,9 @@
     /* Couleurs Form */
     /* saumon rgb(244, 181, 156) */
     --couleurMiseEnForme: #e5f2e0;
-    --couleurBackMiseEnForme: #B8DACC;
-    /* --couleurMiseEnForme: #faded3;
-    --test: #d59d87; */
+    --couleurBackMiseEnForme: #79b19a;
+    --couleurConnexion: rgb(236, 234, 191);
+    --couleurFondConnexion: #374629;
     --couleurBouton: #718568;
     --couleurBoutonHover: #436129;
     --couleurBarActive: #30491a;
@@ -517,7 +517,6 @@ nav a {
     position:relative;
     display: grid;
     grid-template-columns: max-content 1fr;
-    float: left;
     align-items: center;
     justify-items: center;
     gap: 15px;
@@ -570,12 +569,32 @@ nav a {
     box-shadow: -10px 10px 0px .1px var(--couleurBackMiseEnForme);
 }
 
+.miseFormeConnexion {
+    background-color: var(--couleurConnexion);
+    border-radius: 10px;
+    padding: 15px;
+    align-items: center;
+    justify-items: center;
+    box-shadow: -10px 10px 0px .1px var(--couleurFondConnexion);
+}
+
 div.miseEnForme {
     /*ici responsive*/
     display: grid;
     grid-gap: 5px;
 }
 div.miseEnForme label {
+    text-align: left;
+    margin-left: 10%;
+    width: 100%;
+}
+
+div.miseFormeConnexion {
+    /*ici responsive*/
+    display: grid;
+    grid-gap: 5px;
+}
+div.miseFormeConnexion label {
     text-align: left;
     margin-left: 10%;
     width: 100%;
@@ -1684,7 +1703,7 @@ button.redirect {
     }
     #miseEnFormeFiltres {
         margin: 25%;
-        margin-top: 0px;
+        margin-top: 20px;
         margin-bottom: 1%;
     }
     #miseEnFormeEnfant {
