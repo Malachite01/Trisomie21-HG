@@ -18,10 +18,10 @@
   </div>
 
   <?php
-    session_start();
-    require('QUERY.php');
-    testConnexion();
-    faireMenu();
+  session_start();
+  require('QUERY.php');
+  testConnexion();
+  faireMenu();
   ?>
 
   <h1>Tableau de bord pour l'enfant:</h1>
@@ -41,15 +41,15 @@
     </div>
 
     <?php
-      if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
-        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
-      }
-      if (isset($_POST['valeurJetonsIdObjectif'])) {
-        $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
-        UpdateJetonsPlaces($valeur[0], $valeur[1]);
-      }
+    if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+    }
+    if (isset($_POST['valeurJetonsIdObjectif'])) {
+      $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+      UpdateJetonsPlaces($valeur[0], $valeur[1]);
+    }
     ?>
-    
+
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
         <?php

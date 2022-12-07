@@ -29,8 +29,9 @@
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
-      <?php afficherNomPrenomEnfant($_SESSION['enfant']); ?>
-      <?php afficherNomPrenomMembre(); ?>
+      <?php
+      afficherNomPrenomEnfant();
+      afficherNomPrenomMembre(); ?>
       <label for="champRole">Role :</label>
       <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
       <span></span>
