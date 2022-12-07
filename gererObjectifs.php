@@ -53,7 +53,7 @@ if (isset($_GET['params'])) {
 
   <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
 
-    <div class="miseEnForme" id="miseEnFormeFiltres">
+    <div class="filtres" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">

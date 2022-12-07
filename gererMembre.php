@@ -58,7 +58,7 @@ if (isset($_GET['params'])) {
 
   <form id="formGestionMembre" method="POST">
 
-    <div class="miseEnForme" id="miseEnFormeFiltres">
+    <div class="filtres" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
