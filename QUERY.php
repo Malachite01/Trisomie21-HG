@@ -1472,7 +1472,7 @@ function afficherObjectifs($idEnfant)
                 echo '<h3 class="titreObjectif">' . $value . '</h3>';
             }
             if ($key == 'Duree') {
-                echo '<p>' . dureeString($value) . '</p><br>';
+                echo '<div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><br>';
             }
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {

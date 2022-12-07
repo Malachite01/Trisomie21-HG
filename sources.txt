@@ -32,3 +32,5 @@ Connexion
 <a target="_blank" href="https://icons8.com/icon/QLL8CFimzQ57/rechercher-un-client">Rechercher un client</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
 <a target="_blank" href="https://icons8.com/icon/d97WRZyim1cD/child-safe-zone">Child Safe Zone</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+<a href="https://www.flaticon.com/fr/icones-gratuites/lhorloge" title="l'horloge icônes">L'horloge icônes créées par Gregor Cresnar - Flaticon</a>
