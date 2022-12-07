@@ -188,6 +188,9 @@ $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfa
 //?----------------------------------------------------MESSAGE-----------------------------------------------------------------
 $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
+$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+                        message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
+                        AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -2755,7 +2758,49 @@ function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
+function afficherMessage($idEnfant){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherMessage']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<table> <tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
 
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Nom') {
+                  $nom = $value;
+            }
+            if ($key == 'Prenom') {
+                $prenom = $value;
+            }
+            if ($key == 'Intitule') {
+                $intitule = $value;
+            }
+            if ($key == 'Sujet') {
+                $sujet = $value;
+            }
+            if ($key == 'Corps') {
+                $corps = $value;
+            }
+
+        }
+        echo '<td>' . $nom ." ". $prenom . "//" ." ". $intitule . "//" ." ". $sujet . ": " . $corps . " ". '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+
+}
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               
