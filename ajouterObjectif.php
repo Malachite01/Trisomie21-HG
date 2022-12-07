@@ -64,7 +64,7 @@
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champIntitule">Enfant concerné :</label>
       <?php
-      afficherNomPrenomEnfant();
+      afficherNomPrenomEnfantEquipe($_SESSION['idConnexion']);
       ?>
       <span></span>
 

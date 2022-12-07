@@ -32,11 +32,11 @@
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
     <?php if (isset($_POST['idEnfant'])) {
-            afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+            afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'],$_SESSION['idConnexion']);
             afficherIntituleObjectif(null, $_POST['idEnfant']);
             
         } else {
-            afficherNomPrenomEnfantSubmit(null);
+            afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
             echo "<p class='msgSelection'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif 
                 afin de lui ajouter une récompense !</p>";
         }?>
