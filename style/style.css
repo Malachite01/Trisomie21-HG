@@ -5,6 +5,7 @@
     --policeGrisee: rgb(142, 142, 142);
     --globalRadius: 8px;
     /* Couleurs Form */
+    /* saumon rgb(244, 181, 156) */
     --couleurMiseEnForme: #FCF2CD;
     --couleurBouton: #718568;
     --couleurBoutonHover: #436129;
@@ -20,7 +21,10 @@
     --couleurFondMenuMobile: rgba(243, 242, 242, 0.973);
     --couleurHover: lightgray;
     --couleurHoverMenuTexte: #30491a;
+    --couleurFiltres: #75bfdc;
     --couleurMenuActif: rgb(154, 221, 254);
+    --even: #cfe6cb;
+    --odd: #e5f2e0;
 }
 
 @font-face {
@@ -251,11 +255,11 @@ table {
 }
 
 table tbody tr:nth-child(even) {
-    background-color: #cfe6cb;
+    background-color: var(--even);
 }
 
 table tbody tr:nth-child(odd) {
-    background-color: #e5f2e0;
+    background-color: var(--odd);
 }
 
 td {
@@ -513,7 +517,7 @@ nav a {
     align-items: center;
     justify-items: center;
     gap: 15px;
-    background-color: #67c1e4;
+    background-color: var(--couleurFiltres);
     padding-left: 20px;
     border-radius: var(--globalRadius);
 }
@@ -523,9 +527,9 @@ nav a {
     position: absolute;
     width: 0px;
     height: 0px;
-    border-left: 10px solid #67c1e4;
+    border-left: 10px solid var(--couleurFiltres);
     border-right: 10px solid transparent;
-    border-top: 10px solid #67c1e4;
+    border-top: 10px solid var(--couleurFiltres);
     border-bottom: 10px solid transparent;
     bottom: -10px;
     left: 5px;
@@ -1441,7 +1445,7 @@ div.miseEnForme label {
 
 .objectif {
     position: relative;
-    background-color: lightsalmon;
+    background-color: var(--couleurBoutonValider);
     margin: 20px;
     padding: 30px;
     border-radius: var(--globalRadius);
