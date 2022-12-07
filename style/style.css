@@ -6,7 +6,10 @@
     --globalRadius: 8px;
     /* Couleurs Form */
     /* saumon rgb(244, 181, 156) */
-    --couleurMiseEnForme: #FCF2CD;
+    --couleurMiseEnForme: #e5f2e0;
+    --couleurBackMiseEnForme: #B8DACC;
+    /* --couleurMiseEnForme: #faded3;
+    --test: #d59d87; */
     --couleurBouton: #718568;
     --couleurBoutonHover: #436129;
     --couleurBarActive: #30491a;
@@ -564,7 +567,7 @@ nav a {
     padding: 15px;
     align-items: center;
     justify-items: center;
-    box-shadow: -10px 10px 0px .1px #01534f;
+    box-shadow: -10px 10px 0px .1px var(--couleurBackMiseEnForme);
 }
 
 div.miseEnForme {
@@ -1436,9 +1439,6 @@ button.redirect {
 }
 .containerTampons::-webkit-scrollbar {
     width: 13px;
-}
-.containerTampons::-webkit-scrollbar::after {
-    content: "test";
 }
 .containerTampons::-webkit-scrollbar-track {
     background: #fff;
