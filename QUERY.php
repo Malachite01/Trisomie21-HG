@@ -191,6 +191,9 @@ $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_M
 $qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
                         message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
                         AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant';
+$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
+AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -1993,6 +1996,44 @@ function afficherIntituleObjectif($objectifSelected, $idEnfant)
         foreach ($data as $key => $value) {
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
+
+            }
+            if ($key == 'Intitule') {
+                $Intitule = $value;
+            }
+        }
+        if ($idObjectif == $objectifSelected) {
+            echo '<option value=' . $idObjectif . ' selected>' . $Intitule . '</option>';
+        } else {
+            echo '<option value=' . $idObjectif . '>' . $Intitule . '</option>';
+        }
+    }
+    echo '</select>';
+}
+function afficherIntituleObjectifSubmit($objectifSelected, $idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherIntituleObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    echo '<select name="idObjectif"onchange="this.form.submit()">';
+    echo '<option>Veuillez choisir un objectif</option>';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+                
             }
             if ($key == 'Intitule') {
                 $Intitule = $value;
@@ -2768,6 +2809,52 @@ function afficherMessage($idEnfant){
     }
     // execution de la requete sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<table> <tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Nom') {
+                  $nom = $value;
+            }
+            if ($key == 'Prenom') {
+                $prenom = $value;
+            }
+            if ($key == 'Intitule') {
+                $intitule = $value;
+            }
+            if ($key == 'Sujet') {
+                $sujet = $value;
+            }
+            if ($key == 'Corps') {
+                $corps = $value;
+            }
+
+        }
+        echo '<td>' . $nom ." ". $prenom . "//" ." ". $intitule . "//" ." ". $sujet . ": " . $corps . " ". '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+
+}
+function afficherMessageParObjectif($idEnfant,$idObjectif){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherMessage']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idEnfant' => clean($idEnfant),
+        ':idObjectif' => clean($idObjectif)
+));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
