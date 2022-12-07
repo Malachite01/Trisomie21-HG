@@ -86,7 +86,7 @@
   <img src="images/logo.png" alt="logo application" class="iconeApp"> 
   
   <form id="formConnexion" action="indexConnexion.php" method="POST">
-    <div class="miseEnForme" id="miseEnFormeConnexion">
+    <div class="miseFormeConnexion" id="miseEnFormeConnexion">
       <label for="champIdentifiant">Identifiant :</label>
       <input type="email" name="champIdentifiant" id="champIdentifiant" placeholder="Entrez votre adresse mail"  minlength="1" maxlength="50"  required>
       <span></span>
