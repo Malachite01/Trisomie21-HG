@@ -59,9 +59,9 @@ if (isset($_GET['params'])) {
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
         if (isset($_POST['idEnfant'])) {
-          afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+          afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
         } else {
-          afficherNomPrenomEnfantSubmit(null);
+          afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
         }
         ?>
       </div>
@@ -136,28 +136,61 @@ if (isset($_GET['params'])) {
       <tbody id="tbodyGererObjectifs">
         <?php
 
-        if (isset($_POST['idEnfant'])) {
-          switch ($_POST['filtres']) {
+        if (isset($_POST['idEnfant']) || $_SESSION['enfant'] != null) {
+          if (!isset($_POST['filtres'])) {
+            $cas = 0;
+          } else {
+            $cas = $_POST['filtres'];
+          }
+          switch ($cas) {
             case 2:
-              afficherGererObjectifsAZ($_POST['idEnfant']);
+              if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifsAZ($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifsAZ($_POST['idEnfant']);
+              }
               break;
             case 3:
-              afficherGererObjectifsZA($_POST['idEnfant']);
+              if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifsZA($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifsZA($_POST['idEnfant']);
+              }
               break;
             case 4:
-              afficherGererObjectifsDureeCroissante($_POST['idEnfant']);
+              if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifsDureeCroissante($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifsDureeCroissante($_POST['idEnfant']);
+              }
               break;
             case 5:
-              afficherGererObjectifsDureeDecroissante($_POST['idEnfant']);
+              if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifsDureeDecroissante($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifsDureeDecroissante($_POST['idEnfant']);
+              }
               break;
             case 6:
-              afficherGererObjectifsStatutCroissant($_POST['idEnfant']);
+              if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifsStatutCroissant($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifsStatutCroissant($_POST['idEnfant']);
+              }
               break;
             case 7:
-              afficherGererObjectifsStatutDecroissant($_POST['idEnfant']);
+              if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifsStatutDecroissant($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifsStatutDecroissant($_POST['idEnfant']);
+              }
               break;
             default:
-              afficherGererObjectifs($_POST['idEnfant']);
+              if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifs($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifs($_POST['idEnfant']);
+              }
               break;
           }
         }
@@ -165,7 +198,7 @@ if (isset($_GET['params'])) {
       </tbody>
     </table>
     <?php
-    if (!isset($_POST['idEnfant']) || $_POST['idEnfant'] == "Veuillez choisir un enfant") {
+    if (!isset($_POST['idEnfant']) && !isset($_SESSION['enfant'])) {
       echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
     }
     ?>

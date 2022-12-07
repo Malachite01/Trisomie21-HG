@@ -30,8 +30,9 @@
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-      afficherNomPrenomEnfant();
-      afficherNomPrenomMembre(); ?>
+      afficherNomPrenomEnfant($_SESSION['enfant']);
+      afficherNomPrenomMembre();
+      ?>
       <label for="champRole">Role :</label>
       <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
       <span></span>

@@ -58,10 +58,10 @@ if (isset($_GET['params'])) {
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-        if(isset($_POST['idEnfant'])) {
+        if (isset($_POST['idEnfant'])) {
           afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
         } else {
-          afficherNomPrenomEnfantSubmit(null);
+          afficherNomPrenomEnfantSubmit($_SESSION['enfant']);
         }
         ?>
       </div>
@@ -82,14 +82,17 @@ if (isset($_GET['params'])) {
 
       <tbody id="tbodyGererObjectifs">
         <?php
+
         if (isset($_POST['idEnfant'])) {
-            afficherGererEquipe($_POST['idEnfant']);
+          afficherGererEquipe($_POST['idEnfant']);
+        } else {
+          afficherGererEquipe($_SESSION['enfant']);
         }
         ?>
       </tbody>
     </table>
     <?php
-    if (!isset($_POST['idEnfant']) || $_POST['idEnfant']=="Veuillez choisir un enfant") {
+    if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == "Veuillez choisir un enfant") {
       echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
     }
     ?>

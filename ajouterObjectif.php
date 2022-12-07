@@ -64,7 +64,12 @@
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champIntitule">Enfant concerné :</label>
       <?php
-      afficherNomPrenomEnfantEquipe($_SESSION['idConnexion']);
+      if (isset($_POST['idEnfant'])) {
+        afficherNomPrenomEnfantEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
+      } else {
+        afficherNomPrenomEnfantEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
+      }
+
       ?>
       <span></span>
 

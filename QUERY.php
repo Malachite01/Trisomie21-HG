@@ -316,7 +316,7 @@ function faireMenu()
 
             <li><a href="#" href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
-                    <li><a href="ajouterEquipe.php">Mes équipes</a></li>
+                    <li><a href="ajouterEquipe.php">Création d\'une équipe</a></li>
                     <li><a href="gererEquipe.php">Gérer une équipe</a></li>
                 </ul>
             </li>    
@@ -444,7 +444,7 @@ function enfantIdentique($nom, $prenom, $dateNaissance)
 }
 
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
-function afficherNomPrenomEnfant()
+function afficherNomPrenomEnfant($enfantSelect)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -469,7 +469,9 @@ function afficherNomPrenomEnfant()
             if ($key == 'Nom') {
                 $nom = $value;
             }
-            if ($key == 'Prenom') {
+            if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
+                echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
+            } else if ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -513,7 +515,7 @@ function afficherNomPrenomEnfantSubmit($enfantSelect)
     echo '</select>';
 }
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
-function afficherNomPrenomEnfantEquipe($id)
+function afficherNomPrenomEnfantEquipe($enfantSelect, $id)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -540,7 +542,9 @@ function afficherNomPrenomEnfantEquipe($id)
             if ($key == 'Nom') {
                 $nom = $value;
             }
-            if ($key == 'Prenom') {
+            if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
+                echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
+            } else if ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -549,7 +553,7 @@ function afficherNomPrenomEnfantEquipe($id)
 }
 
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
-function afficherNomPrenomEnfantSubmitEquipe($enfantSelect,$id)
+function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $id)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2703,7 +2707,6 @@ function afficherGererEquipe($idEnfant)
                 </button>
             </td>
         </tr>';
-        echo $idMembre . "," . $idEnfant;
     }
 }
 function supprimerMembreEquipe($chaineConcatene)
