@@ -25,13 +25,16 @@
   ?>
 
   <h1>Chat général youpi</h1>
-
+  <?php
+  afficherMessage($_POST['idEnfant']);
+    ?>
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
     <?php if (isset($_POST['idEnfant'])) {
             afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
             afficherIntituleObjectif(null, $_POST['idEnfant']);
+            
         } else {
             afficherNomPrenomEnfantSubmit(null);
             echo "<p class='msgSelection'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif 
@@ -45,12 +48,13 @@
       <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
       <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
     </div>
+    </form>
     <?php
         
     if (champRempli(array('champSujet','champCorps'))){
            ajouterMessage(
-            $_POST['champCorps'],
             $_POST['champSujet'],
+            $_POST['champCorps'],
             time(),
             $_POST['idObjectif'],
             $_SESSION['idConnexion']
