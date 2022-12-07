@@ -25,8 +25,6 @@
     --couleurMenuActif: rgb(154, 221, 254);
     --even: #cfe6cb;
     --odd: #e5f2e0;
-    --even1: #bcddb7;
-    --odd1: #d0e5c7;
 }
 
 @font-face {
@@ -1340,12 +1338,10 @@ div.miseEnForme label {
 
 .objectif:nth-child(even) {
     background-color: var(--even);
-    border: 2px dashed var(--even1);
 }
 
 .objectif:nth-child(odd) {
     background-color: var(--odd);
-    border: 2px dashed var(--odd1);
 }
 
 .objectif > .imageValidationObjectif {
