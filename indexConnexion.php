@@ -24,6 +24,7 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
                     //(password_verify($mdp,$data['Mdp'])) On met l'id au $_SESSION pour le réutiliser après
                     $_SESSION['idConnexion'] = $data['id_Membre'];
                     $_SESSION['prenomMembre'] = $data['Prenom'];
+                    $_SESSION['enfant'] = '';
                     //page d'accueil normalement tableau de bord
                     header('Location: tableauDeBord.php');
                     die();

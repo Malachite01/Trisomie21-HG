@@ -142,6 +142,8 @@ $qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre
 
 $qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
+$qAfficherUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif = :idObjectif';
+
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -440,7 +442,7 @@ function enfantIdentique($nom, $prenom, $dateNaissance)
 }
 
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
-function afficherNomPrenomEnfant()
+function afficherNomPrenomEnfant($enfantSelect)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -465,7 +467,9 @@ function afficherNomPrenomEnfant()
             if ($key == 'Nom') {
                 $nom = $value;
             }
-            if ($key == 'Prenom') {
+            if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
+                echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
+            } else if ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1503,6 +1507,76 @@ function afficherObjectifs($idEnfant)
     }
 }
 
+// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
+function afficherObjectifsZoom($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsTb']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<div class="objectif">';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Id_Objectif') {
+                $idObjectif = $value;
+            }
+            if ($key == 'Lien_Image') {
+                AfficherValidationObjectif($idObjectif);
+                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
+            }
+            if ($key == 'Intitule') {
+                echo '<h3>' . $value . '</h3>';
+            }
+            if ($key == 'Duree') {
+                echo '<p>' . dureeString($value) . '</p><br>';
+            }
+            if ($key == 'Nb_Jetons_Places') {
+                if (is_null($value)) {
+                    $places = 0;
+                } else $places = $value;
+            }
+            if ($key == 'Nb_Jetons') {
+                $res = $value - $places;
+                if ($res != 0) {
+                    if ($res == 1) {
+                        echo '<p style="color: grey;">' . $res . ' jeton à valider:</p>';
+                    } else {
+                        echo '<p style="color: grey;">' . $res . ' jetons à valider:</p>';
+                    }
+                } else {
+                    echo '<br>';
+                }
+                $places = 0;
+            }
+        }
+        echo '<div class="containerTampons">';
+        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
+                if ($res == 0) {
+                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                } else {
+                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                }
+            } else {
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
+            }
+        }
+        echo '</div></div>';
+    }
+}
+
 function AfficherValidationObjectif($idObjectif)
 {
     // connexion a la BD
@@ -1849,6 +1923,30 @@ function afficherIntituleObjectif($objectifSelected, $idEnfant)
         }
     }
     echo '</select>';
+}
+
+function afficherUnIntituleObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherUnIntituleObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
 }
 
 function afficherGererObjectifsAZ($idEnfant)
