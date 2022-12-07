@@ -32,9 +32,9 @@
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
         if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != "Veuillez choisir un enfant") {
-          afficherNomPrenomEnfantSubmit($_POST['idEnfant']);
+          afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'],$_SESSION['idConnexion']);
         } else {
-          afficherNomPrenomEnfantSubmit(null);
+          afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
         }
         ?>
       </div>
