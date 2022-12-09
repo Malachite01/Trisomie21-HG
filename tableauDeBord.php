@@ -31,10 +31,10 @@
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == null) {
-          $_SESSION['enfant'] = null;
+        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0) {
+          $_SESSION['enfant'] = 0;
         }
-        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != "Veuillez choisir un enfant") {
+        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != 0) {
           $_SESSION['enfant'] = $_POST['idEnfant'];
           afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
         } else {
@@ -45,7 +45,7 @@
     </div>
 
     <?php
-    if ($_SESSION['enfant'] == null) {
+    if ($_SESSION['enfant'] == 0 || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
       echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
     }
     if (isset($_POST['valeurJetonsIdObjectif'])) {

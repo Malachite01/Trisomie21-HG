@@ -237,12 +237,49 @@ if (isset($_POST['boutonValider'])) {
       </tbody>
     </table>
     <?php
-    if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == "Veuillez choisir un enfant") {
-      echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
+    if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
     }
     ?>
   </form>
- 
+  <?php
+
+  if (isset($_POST['boutonValider'])) {
+    if ($_FILES['champLienImage']['name'] == "") {
+      modifierObjectif(
+        $_POST['champIntitule'],
+        $_POST['champNbJetons'],
+        dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
+        $_POST['hiddenImageLink'],
+        $_POST['champTravaille'],
+        $_SESSION['idConnexion'],
+        $_POST['boutonValider']
+      );
+    } else {
+      $image = uploadImage($_FILES['champLienImage']);
+      if ($image != null) {
+        modifierObjectif(
+          $_POST['champIntitule'],
+          $_POST['champNbJetons'],
+          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
+          uploadImage($_FILES['champLienImage']),
+          $_POST['champTravaille'],
+          $_SESSION['idConnexion'],
+          $_POST['boutonValider']
+        );
+        unlink($_POST['hiddenImageLink']);
+      } else {
+        echo '
+        <div class="erreurPopup">
+          <h2 class="txtPopup">Erreur, image trop grande.</h2>
+          <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+        </div>';
+      }
+    }
+  }
+  
+  ?>
 </body>
 
 </html>

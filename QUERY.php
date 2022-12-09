@@ -516,7 +516,7 @@ function afficherNomPrenomEnfantSubmit($enfantSelect)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
     echo '<select name="idEnfant" onchange="this.form.submit()">';
-    echo '<option>Veuillez choisir un enfant</option>';
+    echo '<option value="0">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
@@ -591,7 +591,7 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $id)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
     echo '<select name="idEnfant" onchange="this.form.submit()">';
-    echo '<option value="null">Veuillez choisir un enfant</option>';
+    echo '<option value="0">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
@@ -2100,7 +2100,6 @@ function afficherIntituleObjectif($objectifSelected, $idEnfant)
         foreach ($data as $key => $value) {
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
-
             }
             if ($key == 'Intitule') {
                 $Intitule = $value;
@@ -2137,7 +2136,6 @@ function afficherIntituleObjectifSubmit($objectifSelected, $idEnfant)
         foreach ($data as $key => $value) {
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
-                
             }
             if ($key == 'Intitule') {
                 $Intitule = $value;
@@ -2930,7 +2928,8 @@ function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
-function afficherMessage($idEnfant){
+function afficherMessage($idEnfant)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -2951,7 +2950,7 @@ function afficherMessage($idEnfant){
 
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom') {
-                  $nom = $value;
+                $nom = $value;
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
@@ -2965,15 +2964,14 @@ function afficherMessage($idEnfant){
             if ($key == 'Corps') {
                 $corps = $value;
             }
-
         }
-        echo '<td>' . $nom ." ". $prenom . "//" ." ". $intitule . "//" ." ". $sujet . ": " . $corps . " ". '</td>';
+        echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . '</td>';
         echo '</tr>';
     }
     echo '</table>';
-
 }
-function afficherMessageParObjectif($idEnfant,$idObjectif){
+function afficherMessageParObjectif($idEnfant, $idObjectif)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -2985,7 +2983,7 @@ function afficherMessageParObjectif($idEnfant,$idObjectif){
     $req->execute(array(
         ':idEnfant' => clean($idEnfant),
         ':idObjectif' => clean($idObjectif)
-));
+    ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
@@ -2997,7 +2995,7 @@ function afficherMessageParObjectif($idEnfant,$idObjectif){
 
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom') {
-                  $nom = $value;
+                $nom = $value;
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
@@ -3011,13 +3009,11 @@ function afficherMessageParObjectif($idEnfant,$idObjectif){
             if ($key == 'Corps') {
                 $corps = $value;
             }
-
         }
-        echo '<td>' . $nom ." ". $prenom . "//" ." ". $intitule . "//" ." ". $sujet . ": " . $corps . " ". '</td>';
+        echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . '</td>';
         echo '</tr>';
     }
     echo '</table>';
-
 }
 /*                                                                
 /                                                                                   .                                                
