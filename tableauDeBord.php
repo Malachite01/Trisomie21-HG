@@ -31,7 +31,7 @@
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php
-        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == "Veuillez choisir un enfant") {
+        if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == null) {
           $_SESSION['enfant'] = null;
         }
         if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != "Veuillez choisir un enfant") {
@@ -57,7 +57,9 @@
     <div class="containerTableauDeBord">
       <div id="containerObjectifs">
         <?php
-        if (isset($_POST['idEnfant'])) {
+        if (!isset($_POST['idEnfant'])) {
+          afficherObjectifs($_SESSION['enfant']);
+        } else {
           afficherObjectifs($_POST['idEnfant']);
         }
         ?>

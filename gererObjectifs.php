@@ -198,7 +198,7 @@ if (isset($_GET['params'])) {
       </tbody>
     </table>
     <?php
-    if (!isset($_POST['idEnfant']) && !isset($_SESSION['enfant'])) {
+    if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == "Veuillez choisir un enfant") {
       echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
     }
     ?>

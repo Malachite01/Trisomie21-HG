@@ -21,7 +21,6 @@
   session_start();
   require('QUERY.php');
   testConnexion();
-  
   faireMenu();
   ?>
 
@@ -29,18 +28,32 @@
 
 
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
-    <?php
-    if (isset($_POST['idEnfant'])) {
 
-      afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'],$_SESSION['idConnexion']);
-      afficherIntituleObjectif(null, $_POST['idEnfant']);
-    } else {
-      afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
-      echo "<p class='msgSelection'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif afin de lui ajouter une récompense !</p>";
-    }
-
-    ?>
     <div class="miseEnForme" id="miseEnFormeFormulaire">
+      <?php
+      if (isset($_POST['idEnfant'])) {
+        echo '<label for="champEnfant">Enfant concerné :</label>';
+        afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
+        echo '<span></span>';
+        echo '<label for="champObjectif">Objectif concerné :</label>';
+        afficherIntituleObjectif(null, $_POST['idEnfant']);
+        echo '<span></span>';
+      } else {
+        if ($_SESSION['enfant'] == null) {
+          echo '<label for="champEnfant">Enfant concerné :</label>';
+          afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
+          echo '<span></span>';
+        } else {
+          echo '<label for="champEnfant">Enfant concerné :</label>';
+          afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
+          echo '<span></span>';
+          echo '<label for="champObjectif">Objectif concerné :</label>';
+          afficherIntituleObjectif(null, $_SESSION['enfant']);
+          echo '<span></span>';
+        }
+      }
+      ?>
+
       <label for="champIntitule">Intitule :</label>
       <input type="text" name="champIntitule" placeholder="Entrez intitule" minlength="1" maxlength="50" required>
       <span></span>

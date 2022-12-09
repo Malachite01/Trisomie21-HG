@@ -62,7 +62,7 @@
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
-      <label for="champIntitule">Enfant concerné :</label>
+      <label for="champEnfant">Enfant concerné :</label>
       <?php
       if (isset($_POST['idEnfant'])) {
         afficherNomPrenomEnfantEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);

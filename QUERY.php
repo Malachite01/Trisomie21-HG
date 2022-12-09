@@ -316,7 +316,7 @@ function faireMenu()
 
             <li><a href="#" href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
-                    <li><a href="ajouterEquipe.php">Création d\'une équipe</a></li>
+                    <li><a href="ajouterEquipe.php">Ajouter une équipe</a></li>
                     <li><a href="gererEquipe.php">Gérer une équipe</a></li>
                 </ul>
             </li>    
@@ -570,7 +570,7 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $id)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
     echo '<select name="idEnfant" onchange="this.form.submit()">';
-    echo '<option>Veuillez choisir un enfant</option>';
+    echo '<option value="null">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {

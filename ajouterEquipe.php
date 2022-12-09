@@ -24,32 +24,36 @@
   faireMenu();
   ?>
 
-  <h1>Ajouter d'une equipe</h1>
+  <h1>Ajouter une équipe</h1>
 
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
+      echo '<label for="champEnfant">Enfant concerné :</label>';
       afficherNomPrenomEnfant($_SESSION['enfant']);
+      echo '<span></span>';
+      echo '<label for="champEnfant">Enfant concerné :</label>';
       afficherNomPrenomMembre();
+      echo '<span></span>';
       ?>
       <label for="champRole">Role :</label>
       <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
       <span></span>
+    </div>
+    <div class="center" id="boutonsValiderAnnuler">
+      <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+      <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+    </div>
+    <?php
 
-      <div class="center" id="boutonsValiderAnnuler">
-        <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-        <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
-      </div>
-      <?php
-
-      if (champRempli(array('champRole'))) {
-        AjouterUneEquipe(
-          $_POST['idEnfant'],
-          $_POST['idMembre'],
-          time(),
-          $_POST['champRole']
-        );
-      }
-      ?>
+    if (champRempli(array('champRole'))) {
+      AjouterUneEquipe(
+        $_POST['idEnfant'],
+        $_POST['idMembre'],
+        time(),
+        $_POST['champRole']
+      );
+    }
+    ?>
   </form>
