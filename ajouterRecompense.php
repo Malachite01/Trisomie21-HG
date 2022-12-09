@@ -33,7 +33,7 @@
     if (isset($_POST['idEnfant'])) {
 
       afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'],$_SESSION['idConnexion']);
-      afficherIntituleObjectif(null, $_POST['idEnfant']);
+      afficherIntituleObjectif($_SESSION['objectif'], $_POST['idEnfant']);
     } else {
       afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
       echo "<p class='msgSelection'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif afin de lui ajouter une récompense !</p>";
