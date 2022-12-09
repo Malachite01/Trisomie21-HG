@@ -6,7 +6,10 @@
     --globalRadius: 8px;
     /* Couleurs Form */
     /* saumon rgb(244, 181, 156) */
-    --couleurMiseEnForme: #FCF2CD;
+    --couleurMiseEnForme: #e5f2e0;
+    --couleurBackMiseEnForme: #79b19a;
+    --couleurConnexion: rgb(236, 234, 191);
+    --couleurFondConnexion: #374629;
     --couleurBouton: #718568;
     --couleurBoutonHover: #436129;
     --couleurBarActive: #30491a;
@@ -23,8 +26,8 @@
     --couleurHoverMenuTexte: #30491a;
     --couleurFiltres: #75bfdc;
     --couleurMenuActif: rgb(154, 221, 254);
-    --even: #cfe6cb;
-    --odd: #e5f2e0;
+    --even: hsl(111, 35%, 85%);
+    --odd: hsl(103, 41%, 91%);
 }
 
 @font-face {
@@ -514,7 +517,6 @@ nav a {
     position:relative;
     display: grid;
     grid-template-columns: max-content 1fr;
-    float: left;
     align-items: center;
     justify-items: center;
     gap: 15px;
@@ -564,7 +566,16 @@ nav a {
     padding: 15px;
     align-items: center;
     justify-items: center;
-    box-shadow: -10px 10px 0px .1px #01534f;
+    box-shadow: -10px 10px 0px .1px var(--couleurBackMiseEnForme);
+}
+
+.miseFormeConnexion {
+    background-color: var(--couleurConnexion);
+    border-radius: 10px;
+    padding: 15px;
+    align-items: center;
+    justify-items: center;
+    box-shadow: -10px 10px 0px .1px var(--couleurFondConnexion);
 }
 
 div.miseEnForme {
@@ -573,6 +584,17 @@ div.miseEnForme {
     grid-gap: 5px;
 }
 div.miseEnForme label {
+    text-align: left;
+    margin-left: 10%;
+    width: 100%;
+}
+
+div.miseFormeConnexion {
+    /*ici responsive*/
+    display: grid;
+    grid-gap: 5px;
+}
+div.miseFormeConnexion label {
     text-align: left;
     margin-left: 10%;
     width: 100%;
@@ -1330,10 +1352,31 @@ div.miseEnForme label {
 .objectif {
     position: relative;
     display: grid;
-    background-color: var(--odd);
     margin: 20px;
+    border-radius: var(--globalRadius);
+    border: solid 5px rgb(253, 253, 253);   
+    /* Created with https://www.css-gradient.com Yu Gi Oh lol
+    background: #FCA92E;
+    background: -webkit-radial-gradient(center, #FCA92E, #A06501);
+    background: -moz-radial-gradient(center, #FCA92E, #A06501);
+    background: radial-gradient(ellipse at center, #FCA92E, #A06501); */
+    transition: all .8s;
+}
+
+/* .objectif:hover .imageObjectif,.objectif:hover .containerTampons,.objectif:hover .jetonsRestant,.objectif:hover .dureeObjectifs, .objectif:hover .titreObjectif{
+    opacity: 0;
+}
+.imageObjectif,.containerTampons,.jetonsRestant,.dureeObjectifs,.titreObjectif {
+    transition: all .6s;
+    opacity: 1;
+} */
+
+.objectif:not(.containerTampons) {
     padding: 30px;
-    border-radius: var(--globalRadius);   
+}
+
+.containerTampons>.objectif {
+    padding: 0px;
 }
 
 .objectif:nth-child(even) {
@@ -1344,25 +1387,15 @@ div.miseEnForme label {
     background-color: var(--odd);
 }
 
-.objectif > .imageValidationObjectif {
-    display: flex;
-    align-items: center;
-    align-self: center;
-    justify-content: center;
-    justify-self: center;
-}
-
 .imgRedirect {
     width: 25px;
 }
-
 .redirect {
     position: absolute;
     top: 10px;
     right: 10px;
     width: fit-content;
 }
-
 button.redirect {
     margin: 0;
     padding: 0;
@@ -1373,7 +1406,7 @@ button.redirect {
     font-size: 1.4em;
     position: relative;
     top: -10px;
-    left: -10px;
+    left: -15px;
 }
 
 .imageObjectif {
@@ -1381,7 +1414,15 @@ button.redirect {
     display: inline-block;
     top: -20px;
     left: -20px;
-    border: 2px dashed var(--couleurBarActive);
+    border: 2px solid rgba(0, 0, 0, 0.285);
+}
+
+.jetonsRestant {
+    position: relative;
+    color: grey; 
+    margin-bottom: 5px;
+    top: -12px;
+    
 }
 
 .duree {
@@ -1401,7 +1442,9 @@ button.redirect {
     width: 38px;
     height: 38px;
 }
-
+.tampon:hover {
+    background-color: lightgrey;
+}
 .imageTamponValide {
     width: 38px;
     border-radius: 50%;
@@ -1418,27 +1461,19 @@ button.redirect {
         transform: scale(1.0);
     }
 }
-/* .imageValidationObjectif {
-    position: absolute;
-    width: 90%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    z-index: 2;
-    filter: opacity(.25);
-} */
-.imageValidationObjectif {
-    position: absolute;
-    width: 80px;
-    top: 40px;
-    right: 10px;
-    z-index: 2;
+.containerTampons {
+    display: grid;
+    height : 120px;
+    overflow-y: auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    border-radius: var(--globalRadius);
+    border: solid 2px rgba(0, 0, 0, 0.166);
+    margin-top: 0;
+    margin: -15px;
+    padding-top: 5px;
 }
 .containerTampons::-webkit-scrollbar {
     width: 13px;
-}
-.containerTampons::-webkit-scrollbar::after {
-    content: "test";
 }
 .containerTampons::-webkit-scrollbar-track {
     background: #fff;
@@ -1456,21 +1491,12 @@ button.redirect {
 .containerTampons::-webkit-scrollbar-thumb:active {
     background-color: var(--couleurBarActive);
 }
-.containerTampons {
-    display: grid;
-    height : 120px;
-    overflow-y: auto;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin: 0px
-}
 
 #formTableauDeBord {
     display: grid;
     align-items: center;
     justify-items: center;
 }
-/* .containerTableauDeBord {
-} */
 
 .msgObjectifValidé {
     position: absolute;
@@ -1684,7 +1710,7 @@ button.redirect {
     }
     #miseEnFormeFiltres {
         margin: 25%;
-        margin-top: 0px;
+        margin-top: 20px;
         margin-bottom: 1%;
     }
     #miseEnFormeEnfant {
