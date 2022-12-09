@@ -85,7 +85,33 @@ if (isset($_POST['boutonSupprimer'])) {
     if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
       echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
     }
-    ?>
+
+    if (isset($_POST['boutonValider'])) {
+      if ($_FILES['champImage']['name'] == "") {
+        modifierRecompense(
+          $_POST['boutonValider'],
+          $_POST['champIntitule'],
+          $_POST['hiddenImageLink'],
+          $_POST['champDescriptif']
+        );
+      } else {
+        modifierRecompense(
+          $_POST['boutonValider'],
+          $_POST['champIntitule'],
+          uploadImage($_FILES['champImage']),
+          $_POST['champDescriptif']
+        );
+        unlink($_POST['hiddenImageLink']);
+        // } else {
+        //   echo '
+        //   <div class="erreurPopup">
+        //     <h2 class="txtPopup">Erreur, image trop grande.</h2>
+        //     <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+        //     <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+        //   </div>';
+      }
+  }
+  ?>
   </form>
 </body>
 

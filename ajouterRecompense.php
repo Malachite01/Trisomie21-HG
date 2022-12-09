@@ -82,10 +82,11 @@
   <?php
   if (isset($_POST['idEnfant'])) {
     if (champRempli(array('champIntitule', 'champDescriptif'))) {
-      if(uploadImage($_FILES['champImage']) != null) {
+      $image = uploadImage($_FILES['champImage']);
+      if($image != null) {
         ajouterRecompense(
           $_POST['champIntitule'],
-          uploadImage($_FILES['champImage']),
+          $image,
           $_POST['champDescriptif']
         );
         AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
