@@ -164,14 +164,16 @@ $qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompe
 $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
-$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Descriptif = :descriptif, Lien_Image = :lienImage , 
+$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif, 
                          WHERE id_Recompense = :idRecompense';
+
+$qAfficherImageRecompense = 'SELECT Lien_Image FROM recompense WHERE Id_Recompense = :idRecompense';
 
 // requete pour supprimer une recompense selon son id
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 
 // requete pour afficher toutes les recompenses d'un enfant donne
-$qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Intitule, recompense.Lien_Image, recompense.Descriptif FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
+$qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Lien_Image, recompense.Intitule, recompense.Descriptif FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
 // requete pour afficher toutes les informations d'un objectif selon son idObjectif
 $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -2580,7 +2582,7 @@ function ajouterRecompense($intitule, $lienImage, $descriptif)
 }
 
 // fonction qui permet de modifier les informations d'une recompense selon son Id_Recompense
-function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
+function modifierRecompense($idRecompense, $intitule, $lienImage, $descriptif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2591,12 +2593,10 @@ function modifierRecompense($intitule, $descriptif, $lienImage, $idRecompense)
     }
     // execution de la requete sql
     $req->execute(array(
-
+        ':idRecompense' => clean($idRecompense),
         ':intitule' => clean($intitule),
-        ':descriptif' => clean($descriptif),
         ':lienImage' => clean($lienImage),
-        ':idRecompense' => clean($idRecompense)
-
+        ':descriptif' => clean($descriptif)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour modifier une recompense');
@@ -2634,20 +2634,25 @@ function afficherInfoRecompense($idRecompense)
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Intitule') {
-                echo '<label for="champIntitule">Intitule :</label>
-                <input type="text" name="champIntitule" placeholder="Choisissez un intitule" minlength="1" maxlength="50" value="' . $value . '" required>
+                echo '<label for="champIntitule">Titre :</label>
+                <input type="text" name="champIntitule" placeholder="Entrez le titre de la récompense" minlength="1" maxlength="50" value="' . $value . '" required>
                 <span></span>';
             } elseif ($key == 'Descriptif') {
                 echo '<label for="champDescriptif">Descriptif :</label>
-                <input type="text" name="champDescriptif" placeholder="Choisissez un descriptif" minlength="1" maxlength="50" value="' . $value . '"required>
+                <input type="text" name="champDescriptif" placeholder="Entrez la description de la récompense" minlength="1" maxlength="50" value="' . $value . '"required>
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
                 echo '<label for="champImage">Image :</label>
-                <input type="file" name="champImage"  maxlength="50" value="' . $value . '"  required>
-                <span></span>';
+                <input type="file" name="champImage"  maxlength="50" value="' . $value . '">
+                <img src="' . AfficherImageRecompense($idRecompense) . '" alt=" " id="imageTampon">';
+                echo '<input type="hidden" value="' . AfficherImageRecompense($idRecompense) . '" name="hiddenImageLink">';
             }
         }
     }
+}
+
+function AfficherImageRecompense() {
+
 }
 
 // requete qui permet de supprimer une recompense selon son id
@@ -2702,8 +2707,8 @@ function afficherRecompense($idEnfant)
         }
         echo '
             <td>
-            <button name="boutonModifier" value="' . $idRecompense . '" 
-             class="boutonModifier" onclick="window.location=\'modifierRecompense.php\'" >
+            <button type="submit" name="boutonModifier" value="' . $idRecompense . '" 
+             class="boutonModifier" formaction="modifierRecompense.php" >
                 <img src="images/edit.png" class="imageIcone" alt="icone modifier">
                 <span>Modifier</span>
             </button>
