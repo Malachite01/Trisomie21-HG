@@ -22,6 +22,12 @@ $qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY N
 $qAfficherNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enfant,suivre 
 WHERE enfant.Id_Enfant = suivre.Id_Enfant AND suivre.Id_Membre = :id ORDER BY Nom';
 
+$qModifierImageEnfant = 'UPDATE enfant SET Lien_Jeton = :lienJeton where Id_Enfant = :idEnfant';
+
+$qSupprimerEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
+
+$qAfficherInformationEnfants = 'SELECT * From Enfant';
+
 //? ----------------------------------------------Membre---------------------------------------------------------------------
 
 // requete pour ajouter un membre a la BD
@@ -194,6 +200,8 @@ $qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.
 $qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
+
+
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -310,6 +318,7 @@ function faireMenu()
             <li><a href="#" id="Enfants">Enfants</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
+                    <li><a href="gererEnfant.php" >Gérer les enfants</a></li>
                 </ul>
             </li>        
             
@@ -598,6 +607,113 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $id)
     }
     echo '</select>';
 }
+function modifierImageEnfant($lienJeton,$idEnfant){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierImageEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un enfant a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':lienJeton' => clean($lienJeton),
+        ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+    }
+}
+function afficherImageTampon($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherImageTampon']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une image');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une image');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+function afficherInformationsEnfant(){
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qAfficherInformationEnfants']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+     }
+     // execution de la requete sql
+     $req->execute();
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+     }
+     // permet de parcourir toutes les lignes de la requete
+     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+         echo '<tr>';
+         // permet de parcourir toutes les colonnes de la requete
+         foreach ($data as $key => $value) {
+             // selectionne toutes les colonnes $key necessaires
+             if ($key == 'Nom' || $key == 'Prenom') {
+                 echo '<td>' . $value . '</td>';
+             }
+             if ($key == 'Date_Naissance') {
+                 echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
+             }
+             if ($key == 'Lien_Jeton') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+             // recuperation valeurs importantes dans des variables
+             if ($key == 'Id_Enfant') {
+                 $idEnfant = $value;
+             }
+         }
+         // creation du bouton supprimer dans le tableau
+         echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
+            class="boutonModifier" formaction="modifierEnfant.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+         </td>
+             <td>
+                 <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+                 " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
+                     <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                     <span>Supprimer</span>
+                 </button>
+             </td>
+         </tr>';
+    }
+}
+function supprimerEnfant($idEnfant){
+     // connexion a la base de donnees
+     $linkpdo = connexionBd();
+     //on supprime le membre
+     $req = $linkpdo->prepare($GLOBALS['qSupprimerEnfant']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un enfant de la BD');
+     }
+     // execution de la requete sql
+     $req->execute(array(':idEnfant' => clean($idEnfant)));
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un enfant de la BD');
+     }
+ }
+
+
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un membre a la BD
@@ -1499,28 +1615,7 @@ function afficherGererObjectifs($idEnfant)
     }
 }
 
-function afficherImageTampon($idEnfant)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherImageTampon']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une image');
-    }
-    // execution de la requete sql
-    $req->execute(array(':idEnfant' => clean($idEnfant)));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une image');
-    }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
-}
+
 
 // fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
 function afficherObjectifs($idEnfant)
@@ -2592,6 +2687,9 @@ function afficherRecompense($idEnfant)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }
