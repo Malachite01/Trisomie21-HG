@@ -1678,6 +1678,24 @@ button.redirect {
     #tbodyGererObjectifs td:nth-child(5)::before{
         content: "Statut :";
     }
+
+    #tbodyGererRecompenses td::before{
+        position: absolute;
+        font-weight: bold;
+        font-size: 1.05em;
+        left: 0;
+        width: 50%;
+        text-align: left;
+    }
+    #tbodyGererRecompenses td:first-child::before{
+        content: "Image :";
+    }
+    #tbodyGererRecompenses td:nth-child(2)::before{
+        content: "Intitulé :";
+    }
+    #tbodyGererRecompenses td:nth-child(3)::before{
+        content: "Descriptif :";
+    }
 }
 @media screen and (max-width: 700px) {
     .boutonSupprimer .imageIcone {

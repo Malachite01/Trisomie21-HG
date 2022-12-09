@@ -2594,6 +2594,9 @@ function afficherRecompense($idEnfant)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }

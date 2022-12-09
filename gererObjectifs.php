@@ -217,7 +217,8 @@ if (isset($_GET['params'])) {
         $_POST['boutonValider']
       );
     } else {
-      if(uploadImage($_FILES['champLienImage']) != null) {
+      $image = uploadImage($_FILES['champLienImage']);
+      if ($image != null) {
         modifierObjectif(
           $_POST['champIntitule'],
           $_POST['champNbJetons'],
@@ -238,6 +239,7 @@ if (isset($_GET['params'])) {
       }
     }
   }
+  
   ?>
 </body>
 

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="">
-  <title>Gérer les Recompenses</title>
+  <title>Gérer les Récompenses</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="style/style.css">
@@ -23,11 +23,11 @@ if (isset($_POST['boutonModifier'])) {
 if (isset($_POST['boutonSupprimer'])) {
   supprimerRecompense($_POST['boutonSupprimer']);
   echo '
-      <div class="supprPopup">
-        <h2 class="txtPopup">La Récompense a été supprimé !</h2>
-        <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
-        <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
-      </div>';
+    <div class="supprPopup">
+      <h2 class="txtPopup">La récompense a été supprimée !</h2>
+      <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
+      <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
+    </div>';
 }
 ?>
 
@@ -64,13 +64,14 @@ if (isset($_POST['boutonSupprimer'])) {
     </div>
     <table>
       <thead>
+        <th>Image récompense</th>
         <th>Intitulé</th>
         <th>Descriptif</th>
         <th>Modifier</th>
         <th>Suprimer</th>
       </thead>
 
-      <tbody id="tbodyGererObjectifs">
+      <tbody id="tbodyGererRecompenses">
         <?php
         if (!isset($_POST['idEnfant'])) {
           afficherRecompense($_SESSION['enfant']);
