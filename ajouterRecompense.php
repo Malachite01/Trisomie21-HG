@@ -31,7 +31,7 @@
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
-      if (isset($_POST['idEnfant'])) {
+      if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != 0) {
         echo '<label for="champEnfant">Enfant concerné :</label>';
         afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
         echo '<span></span>';
@@ -39,17 +39,23 @@
         afficherIntituleObjectif(null, $_POST['idEnfant']);
         echo '<span></span>';
       } else {
-        if ($_SESSION['enfant'] == null) {
+        if ($_SESSION['enfant'] == 0) {
           echo '<label for="champEnfant">Enfant concerné :</label>';
           afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
           echo '<span></span>';
         } else {
-          echo '<label for="champEnfant">Enfant concerné :</label>';
-          afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
-          echo '<span></span>';
-          echo '<label for="champObjectif">Objectif concerné :</label>';
-          afficherIntituleObjectif(null, $_SESSION['enfant']);
-          echo '<span></span>';
+          if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0) {
+            echo '<label for="champEnfant">Enfant concerné :</label>';
+            afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
+            echo '<span></span>';
+          } else {
+            echo '<label for="champEnfant">Enfant concerné :</label>';
+            afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
+            echo '<span></span>';
+            echo '<label for="champObjectif">Objectif concerné :</label>';
+            afficherIntituleObjectif(null, $_SESSION['enfant']);
+            echo '<span></span>';
+          }
         }
       }
       ?>

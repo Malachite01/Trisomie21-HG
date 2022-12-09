@@ -198,8 +198,8 @@ if (isset($_GET['params'])) {
       </tbody>
     </table>
     <?php
-    if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == "Veuillez choisir un enfant") {
-      echo "<p class='msgSelection'>Veuillez choisir un enfant !</p>";
+    if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
     }
     ?>
   </form>
@@ -217,7 +217,7 @@ if (isset($_GET['params'])) {
         $_POST['boutonValider']
       );
     } else {
-      if(uploadImage($_FILES['champLienImage']) != null) {
+      if (uploadImage($_FILES['champLienImage']) != null) {
         modifierObjectif(
           $_POST['champIntitule'],
           $_POST['champNbJetons'],
