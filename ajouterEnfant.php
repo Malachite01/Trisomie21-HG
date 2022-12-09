@@ -43,7 +43,7 @@
       <span></span>
 
       <label for="champImageJeton">Image du jeton :</label>
-      <input type="file" name="champImageJeton" id="champImageJeton" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageJeton','imageJeton')" required>
+      <input type="file" name="champImageJeton" id="champImageJeton" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageJeton','imageJeton');" required>
       <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
     </div>
 
@@ -60,12 +60,13 @@
       $_POST['champPrénom'],
       $_POST['champDateDeNaissance']
     ) == 0) {
-      if(uploadImage($_FILES['champImageJeton']) != null) {
+      $image = uploadImage($_FILES['champImageJeton']);
+      if($image != null) {
         ajouterEnfant(
           $_POST['champNom'],
           $_POST['champPrénom'],
           $_POST['champDateDeNaissance'],
-          uploadImage($_FILES['champImageJeton'])
+          $image
         );
         echo '
           <div class="validationPopup">

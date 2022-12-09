@@ -1,16 +1,3 @@
-
-// //*Tous les formulaires sauf connexion
-// const myForm = document.getElementById('form');
-// myForm.addEventListener('submit', handleSubmit);
-// var submitTimer;
-
-// function handleSubmit(event) {
-//   event.preventDefault();
-//   submitTimer = setTimeout(() => {
-//     this.submit();
-//   }, 1500)
-// }
-
 //*MENU 
 function menuMobile(nav) {
     navLinks = document.querySelector("." + nav);

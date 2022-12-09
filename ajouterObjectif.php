@@ -31,12 +31,13 @@
   if (champRempli(array('champIntitule', 'champNbJetons', 'champTravaille'))) {
     if (isset($_POST['boutonValider'])) {
       if (objectifIdentique($_POST['champIntitule'], $_POST['idEnfant']) == 0) {
-        if(uploadImage($_FILES['champImageTampon']) != null) {
+        $image = uploadImage($_FILES['champImageTampon']);
+        if($image != null) {
           ajouterObjectif(
             $_POST['champIntitule'],
             $_POST['champNbJetons'],
             dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-            uploadImage($_FILES['champImageTampon']),
+            $image,
             $_POST['champTravaille'],
             $_SESSION['idConnexion'],
             $_POST['idEnfant']

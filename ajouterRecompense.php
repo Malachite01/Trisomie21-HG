@@ -24,7 +24,7 @@
   faireMenu();
   ?>
 
-  <h1>Ajouter une recompense</h1>
+  <h1>Ajouter une récompense</h1>
 
 
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
@@ -54,18 +54,17 @@
       }
       ?>
 
-      <label for="champIntitule">Intitule :</label>
-      <input type="text" name="champIntitule" placeholder="Entrez intitule" minlength="1" maxlength="50" required>
+      <label for="champIntitule">Titre :</label>
+      <input type="text" name="champIntitule" placeholder="Entrez le titre de la récompense" minlength="1" maxlength="50" required>
       <span></span>
 
       <label for="champDescriptif">Descriptif :</label>
-      <input type="text" name="champDescriptif" placeholder="Entrez votre description" minlength="1" maxlength="50" required>
+      <input type="text" name="champDescriptif" placeholder="Entrez la description de la récompense" minlength="1" maxlength="50" required>
       <span></span>
 
-      <label for="champLienImage">Image Récompense:</label>
-      <input type="file" name="champLienImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageJeton','imageJeton')" required>
+      <label for="champImage">Image :</label>
+      <input type="file" name="champImage" id="champImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImage','imageJeton');" required>
       <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
-      <span></span>
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
@@ -77,29 +76,29 @@
   <?php
   if (isset($_POST['idEnfant'])) {
     if (champRempli(array('champIntitule', 'champDescriptif'))) {
-      ajouterRecompense(
-        $_POST['champIntitule'],
-        uploadImage($_FILES['champLienImage']),
-        $_POST['champDescriptif']
-
-      );
-      AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
-      echo '
-      <div class="validationPopup">
-        <h2 class="txtPopup">La Récompense a bien été ajouté à la base !</h2>
-        <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-        <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
-      </div>';
+      if(uploadImage($_FILES['champImage']) != null) {
+        ajouterRecompense(
+          $_POST['champIntitule'],
+          uploadImage($_FILES['champImage']),
+          $_POST['champDescriptif']
+        );
+        AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
+        echo '
+        <div class="validationPopup">
+          <h2 class="txtPopup">La récompense a bien été ajoutée à la base !</h2>
+          <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+        </div>';
+      } else {
+        echo '
+        <div class="erreurPopup">
+          <h2 class="txtPopup">Erreur, image trop grande.</h2>
+          <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+        </div>';
+      }
     }
-
-
-    // ici ca redirigera vers la liste des enfants
-
   }
-  if (isset($_POST['boutonDeco'])) {
-    session_destroy();
-    header('Location: index.php');
-  };
   ?>
 </body>
 
