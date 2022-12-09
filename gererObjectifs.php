@@ -217,16 +217,25 @@ if (isset($_GET['params'])) {
         $_POST['boutonValider']
       );
     } else {
-      modifierObjectif(
-        $_POST['champIntitule'],
-        $_POST['champNbJetons'],
-        dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-        uploadImage($_FILES['champLienImage']),
-        $_POST['champTravaille'],
-        $_SESSION['idConnexion'],
-        $_POST['boutonValider']
-      );
-      unlink($_POST['hiddenImageLink']);
+      if(uploadImage($_FILES['champLienImage']) != null) {
+        modifierObjectif(
+          $_POST['champIntitule'],
+          $_POST['champNbJetons'],
+          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
+          uploadImage($_FILES['champLienImage']),
+          $_POST['champTravaille'],
+          $_SESSION['idConnexion'],
+          $_POST['boutonValider']
+        );
+        unlink($_POST['hiddenImageLink']);
+      } else {
+        echo '
+        <div class="erreurPopup">
+          <h2 class="txtPopup">Erreur, image trop grande.</h2>
+          <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+        </div>';
+      }
     }
   }
   ?>

@@ -54,7 +54,7 @@
     }
     ?>
 
-    <div class="containerTableauDeBord">
+    <div id="containerTableauDeBord">
       <div id="containerObjectifs">
         <?php
         if (isset($_POST['idEnfant'])) {

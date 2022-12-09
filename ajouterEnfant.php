@@ -60,18 +60,27 @@
       $_POST['champPrénom'],
       $_POST['champDateDeNaissance']
     ) == 0) {
-      ajouterEnfant(
-        $_POST['champNom'],
-        $_POST['champPrénom'],
-        $_POST['champDateDeNaissance'],
-        uploadImage($_FILES['champImageJeton'])
-      );
-      echo '
-        <div class="validationPopup">
-          <h2 class="txtPopup">L\'enfant a bien été ajouté à la base !</h2>
-          <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-          <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+      if(uploadImage($_FILES['champImageJeton']) != null) {
+        ajouterEnfant(
+          $_POST['champNom'],
+          $_POST['champPrénom'],
+          $_POST['champDateDeNaissance'],
+          uploadImage($_FILES['champImageJeton'])
+        );
+        echo '
+          <div class="validationPopup">
+            <h2 class="txtPopup">L\'enfant a bien été ajouté à la base !</h2>
+            <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+            <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+          </div>';
+      } else {
+        echo '
+        <div class="erreurPopup">
+          <h2 class="txtPopup">Erreur, image trop grande.</h2>
+          <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
         </div>';
+      }
     } else {
       echo
       '<div class="erreurPopup">

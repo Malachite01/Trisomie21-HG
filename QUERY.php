@@ -272,6 +272,9 @@ function uploadImage($photo)
     } else {
         echo '<h1>erreur</h1>';
     }
+    if (!isset($result)) {
+        return null;
+    }
     return $result;
 }
 
@@ -1548,23 +1551,27 @@ function afficherObjectifs($idEnfant)
                 echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
             }
             if ($key == 'Intitule') {
-                echo '<h3>' . $value . '</h3>';
+                echo '<h3 class="titreObjectif">' . $value . '</h3>';
             }
             if ($key == 'Duree') {
-                echo '<div><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
             }
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                } else $places = $value;
+                    $places2 = 0;
+                } else {
+                    $places = $value;
+                    $places2 = $value;
+                }
             }
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
                 if ($res != 0) {
                     if ($res == 1) {
-                        echo '<p style="color: grey;">' . $res . ' jeton à valider:</p>';
+                        echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
                     } else {
-                        echo '<p style="color: grey;">' . $res . ' jetons à valider:</p>';
+                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                     }
                     echo '<button class="redirect" type="submit" name="redirect" value="' . $idObjectif . '.' . $idEnfant . '">
                     <img class="imgRedirect" src="images/redirect.png"></button>';
@@ -1584,7 +1591,7 @@ function afficherObjectifs($idEnfant)
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . ($i - $places2) . ' jeton(s) à cet objectif ?\')";>?</button>';
             }
         }
         echo '</div></div>';
@@ -1617,7 +1624,7 @@ function afficherObjectifsZoom($idEnfant)
             }
             if ($key == 'Lien_Image') {
                 AfficherValidationObjectif($idObjectif);
-                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
+                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" alt=" ">';
             }
             if ($key == 'Intitule') {
                 echo '<h3>' . $value . '</h3>';
@@ -1691,8 +1698,7 @@ function AfficherValidationObjectif($idObjectif)
             }
         }
         if ($res == 0) {
-            echo '<img class="imageValidationObjectif" src="images/timbreValide.png" alt="validation objectif">
-            <p class="msgObjectifValidé" >Objectif validé</p>';
+            echo '<p class="msgObjectifValidé" >Objectif validé</p>';
         }
     }
 }

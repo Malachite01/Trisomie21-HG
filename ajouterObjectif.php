@@ -31,21 +31,30 @@
   if (champRempli(array('champIntitule', 'champNbJetons', 'champTravaille'))) {
     if (isset($_POST['boutonValider'])) {
       if (objectifIdentique($_POST['champIntitule'], $_POST['idEnfant']) == 0) {
-        ajouterObjectif(
-          $_POST['champIntitule'],
-          $_POST['champNbJetons'],
-          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-          uploadImage($_FILES['champImageTampon']),
-          $_POST['champTravaille'],
-          $_SESSION['idConnexion'],
-          $_POST['idEnfant']
-        );
-        echo '
-          <div class="validationPopup">
-            <h2 class="txtPopup">L\'objectif a bien été ajouté à l\'enfant !</h2>
-            <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-            <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+        if(uploadImage($_FILES['champImageTampon']) != null) {
+          ajouterObjectif(
+            $_POST['champIntitule'],
+            $_POST['champNbJetons'],
+            dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
+            uploadImage($_FILES['champImageTampon']),
+            $_POST['champTravaille'],
+            $_SESSION['idConnexion'],
+            $_POST['idEnfant']
+          );
+          echo '
+            <div class="validationPopup">
+              <h2 class="txtPopup">L\'objectif a bien été ajouté à l\'enfant !</h2>
+              <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+              <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+            </div>';
+        } else {
+          echo '
+          <div class="erreurPopup">
+            <h2 class="txtPopup">Erreur, image trop grande.</h2>
+            <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+            <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
           </div>';
+        }
       } else {
         echo
         '<div class="erreurPopup">
