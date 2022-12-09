@@ -33,7 +33,7 @@
       echo '<label for="champEnfant">Enfant concerné :</label>';
       afficherNomPrenomEnfant($_SESSION['enfant']);
       echo '<span></span>';
-      echo '<label for="champEnfant">Enfant concerné :</label>';
+      echo '<label for="champEnfant">Membre concerné :</label>';
       afficherNomPrenomMembre();
       echo '<span></span>';
       ?>
