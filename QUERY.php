@@ -152,6 +152,8 @@ $qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE I
 
 $qAfficherUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif = :idObjectif';
 
+$qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
+
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -172,6 +174,7 @@ $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompe
 
 // requete pour afficher toutes les recompenses d'un enfant donne
 $qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Intitule, recompense.Lien_Image, recompense.Descriptif FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
+
 
 // requete pour afficher toutes les informations d'un objectif selon son idObjectif
 $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -2555,6 +2558,30 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
             </td>
         </tr>';
     }
+}
+function supprimerImageObjectif($idObjectif){
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qSupprimerImageObjectif']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+     }
+     // execution de la requete sql
+     $req->execute(array(
+         ':idObjectif' => clean($idObjectif)
+     ));
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+     }
+     // permet de parcourir toutes les lignes de la requete
+     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+         // permet de parcourir toutes les colonnes de la requete
+         foreach ($data as $value) {
+             // selectionne toutes les colonnes $key necessaires
+            return $value;
+         }
+     }
 }
 
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
