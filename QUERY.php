@@ -308,6 +308,9 @@ function faireMenu()
     } else if (stripos($get_url, "recompense")) {
         $idAChercher = "Recompenses";
     }
+    else if (stripos($get_url, "equipe")) {
+        $idAChercher = "Equipe";
+    }
     echo
     '
     <nav class="navbar">
@@ -337,7 +340,7 @@ function faireMenu()
 
             <div class="separateur"></div>
 
-            <li><a href="#" href="#" id="Equipe">Equipe</a>
+            <li><a href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEquipe.php">Ajouter une équipe</a></li>
                     <li><a href="gererEquipe.php">Gérer une équipe</a></li>
