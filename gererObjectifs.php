@@ -23,7 +23,7 @@ testConnexion();
 if (isset($_POST['boutonSupprimer'])) {
   unlink(supprimerImageObjectif($_POST['boutonSupprimer']));
   supprimerObjectif($_POST['boutonSupprimer']);
-  
+
   echo '
   <div class="supprPopup">
     <h2 class="txtPopup">L\'objectif a été supprimé !</h2>
@@ -54,42 +54,42 @@ if (isset($_GET['params'])) {
   <h1>Gérer les objectifs</h1>
   <?php
 
-if (isset($_POST['boutonValider'])) {
-  if ($_FILES['champLienImage']['name'] == "") {
-    modifierObjectif(
-      $_POST['champIntitule'],
-      $_POST['champNbJetons'],
-      dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-      $_POST['hiddenImageLink'],
-      $_POST['champTravaille'],
-      $_SESSION['idConnexion'],
-      $_POST['boutonValider']
-    );
-  } else {
-    $image = uploadImage($_FILES['champLienImage']);
-    if ($image != null) {
+  if (isset($_POST['boutonValider'])) {
+    if ($_FILES['champLienImage']['name'] == "") {
       modifierObjectif(
         $_POST['champIntitule'],
         $_POST['champNbJetons'],
         dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-        $image,
+        $_POST['hiddenImageLink'],
         $_POST['champTravaille'],
         $_SESSION['idConnexion'],
         $_POST['boutonValider']
       );
-      unlink($_POST['hiddenImageLink']);
     } else {
-      echo '
+      $image = uploadImage($_FILES['champLienImage']);
+      if ($image != null) {
+        modifierObjectif(
+          $_POST['champIntitule'],
+          $_POST['champNbJetons'],
+          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
+          $image,
+          $_POST['champTravaille'],
+          $_SESSION['idConnexion'],
+          $_POST['boutonValider']
+        );
+        unlink($_POST['hiddenImageLink']);
+      } else {
+        echo '
       <div class="erreurPopup">
         <h2 class="txtPopup">Erreur, image trop grande.</h2>
         <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
         <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
       </div>';
+      }
     }
   }
-}
 
-?>
+  ?>
   <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
 
     <div class="filtres" id="miseEnFormeFiltres">
@@ -242,44 +242,6 @@ if (isset($_POST['boutonValider'])) {
     }
     ?>
   </form>
-  <?php
-
-  if (isset($_POST['boutonValider'])) {
-    if ($_FILES['champLienImage']['name'] == "") {
-      modifierObjectif(
-        $_POST['champIntitule'],
-        $_POST['champNbJetons'],
-        dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-        $_POST['hiddenImageLink'],
-        $_POST['champTravaille'],
-        $_SESSION['idConnexion'],
-        $_POST['boutonValider']
-      );
-    } else {
-      $image = uploadImage($_FILES['champLienImage']);
-      if ($image != null) {
-        modifierObjectif(
-          $_POST['champIntitule'],
-          $_POST['champNbJetons'],
-          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-          uploadImage($_FILES['champLienImage']),
-          $_POST['champTravaille'],
-          $_SESSION['idConnexion'],
-          $_POST['boutonValider']
-        );
-        unlink($_POST['hiddenImageLink']);
-      } else {
-        echo '
-        <div class="erreurPopup">
-          <h2 class="txtPopup">Erreur, image trop grande.</h2>
-          <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
-          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-        </div>';
-      }
-    }
-  }
-  
-  ?>
 </body>
 
 </html>
