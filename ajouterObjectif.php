@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="">
-  <title>Création d'un objectif</title>
+  <title>Ajouter un objectif</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="style/style.css">
@@ -25,7 +25,7 @@
   ?>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
 
-  <h1 id="texteH1DemandeInscription">Ajouter un objectif à un enfant</h1>
+  <h1 id="texteH1DemandeInscription">Ajouter un objectif</h1>
 
   <?php
   if (champRempli(array('champIntitule', 'champNbJetons', 'champTravaille'))) {

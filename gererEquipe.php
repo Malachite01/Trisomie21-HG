@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="">
-  <title>Gérer les objectifs</title>
+  <title>Gérer les équipes</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="style/style.css">
@@ -17,28 +17,14 @@ session_start();
 require('QUERY.php');
 testConnexion();
 
-// if (isset($_POST['boutonModifier'])) {
-
-// }
 if (isset($_POST['boutonSupprimer'])) {
   supprimerMembreEquipe($_POST['boutonSupprimer']);
   echo '
   <div class="supprPopup">
-    <h2 class="txtPopup">Le membre a été supprimé !</h2>
+    <h2 class="txtPopup">Le membre a été retiré de l\'équipe!</h2>
     <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
     <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
   </div>';
-}
-if (isset($_GET['params'])) {
-  $err = clean($_GET['params']);
-  if ($err == 'modif') {
-    echo '
-    <div class="editPopup">
-      <h2 class="txtPopup">L\'objectif a bien été modifié !</h2>
-      <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
-      <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
-    </div>';
-  }
 }
 ?>
 
@@ -49,7 +35,7 @@ if (isset($_GET['params'])) {
 
   <?php faireMenu(); ?>
 
-  <h1>Les Equipes</h1>
+  <h1>Gérer les équipes</h1>
 
   <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
 
@@ -75,12 +61,12 @@ if (isset($_GET['params'])) {
     </div>
     <table>
       <thead>
-        <th>Nom</th>
-        <th>Prenom</th>
-        <th>Supprimer</th>
+        <th>Nom du membre</th>
+        <th>Prénom du membre</th>
+        <th>Retirer</th>
       </thead>
 
-      <tbody id="tbodyGererObjectifs">
+      <tbody id="tbodyGererEquipe">
         <?php
 
         if (isset($_POST['idEnfant'])) {
@@ -93,7 +79,7 @@ if (isset($_GET['params'])) {
     </table>
     <?php
     if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
-      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son équipe !</p>";
     }
     ?>
   </form>
