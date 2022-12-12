@@ -307,8 +307,7 @@ function faireMenu()
         $idAChercher = "Objectifs";
     } else if (stripos($get_url, "recompense")) {
         $idAChercher = "Recompenses";
-    }
-    else if (stripos($get_url, "equipe")) {
+    } else if (stripos($get_url, "equipe")) {
         $idAChercher = "Equipe";
     }
     echo
