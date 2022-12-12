@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -16,18 +16,28 @@
 session_start();
 require('QUERY.php');
 testConnexion();
-if (isset($_POST['boutonModifier'])) {
-  $test = $_POST['boutonModifier'];
-  header('Location: modifierRecompense.php?idRec=' . $test);
-}
+
 if (isset($_POST['boutonSupprimer'])) {
+  unlink(supprimerImageRecompense($_POST['boutonSupprimer']));
   supprimerRecompense($_POST['boutonSupprimer']);
+
   echo '
-    <div class="supprPopup">
-      <h2 class="txtPopup">La récompense a été supprimée !</h2>
-      <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
-      <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
+  <div class="supprPopup">
+    <h2 class="txtPopup">La récompense a été supprimé !</h2>
+    <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
+    <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
+  </div>';
+}
+if (isset($_GET['params'])) {
+  $err = clean($_GET['params']);
+  if ($err == 'modif') {
+    echo '
+    <div class="editPopup">
+      <h2 class="txtPopup">La récompense a bien été modifié !</h2>
+      <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
+      <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
     </div>';
+  }
 }
 ?>
 
@@ -39,8 +49,39 @@ if (isset($_POST['boutonSupprimer'])) {
   <?php faireMenu(); ?>
 
   <h1>Gérer les récompenses</h1>
+  <?php
 
-  <form id="formGestionMembre" method="POST">
+  if (isset($_POST['boutonValider'])) {
+    if ($_FILES['champLienImage']['name'] == "") {
+      modifierRecompense(
+        $_POST['boutonValider'],
+        $_POST['champIntitule'],
+        $_POST['hiddenImageLink'],
+        $_POST['champDescriptif']
+      );
+    } else {
+      $image = uploadImage($_FILES['champLienImage']);
+      if ($image != null) {
+        modifierRecompense(
+          $_POST['boutonValider'],
+          $_POST['champIntitule'],
+          $image,
+          $_POST['champDescriptif']
+        );
+        unlink($_POST['hiddenImageLink']);
+      } else {
+        echo '
+      <div class="erreurPopup">
+        <h2 class="txtPopup">Erreur, image trop grande.</h2>
+        <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+      </div>';
+      }
+    }
+  }
+
+  ?>
+  <form id="formGestionRecompense" method="POST" enctype="multipart/form-data">
 
     <div class="filtres" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
@@ -57,23 +98,22 @@ if (isset($_POST['boutonSupprimer'])) {
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
-          <option value="1">Filtre</option>
-          <option value="2">Filtre</option>
+          
         </select>
       </div>
     </div>
     <table>
       <thead>
-        <th>Image récompense</th>
+        <th>Image Recompense</th>
         <th>Intitulé</th>
         <th>Descriptif</th>
         <th>Modifier</th>
-        <th>Suprimer</th>
+        <th>Supprimer</th>
       </thead>
 
       <tbody id="tbodyGererRecompenses">
         <?php
-        if (!isset($_POST['idEnfant'])) {
+         if (!isset($_POST['idEnfant'])) {
           afficherRecompense($_SESSION['enfant']);
         } else {
           afficherRecompense($_POST['idEnfant']);
@@ -85,33 +125,7 @@ if (isset($_POST['boutonSupprimer'])) {
     if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
       echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
     }
-
-    if (isset($_POST['boutonValider'])) {
-      if ($_FILES['champImage']['name'] == "") {
-        modifierRecompense(
-          $_POST['boutonValider'],
-          $_POST['champIntitule'],
-          $_POST['hiddenImageLink'],
-          $_POST['champDescriptif']
-        );
-      } else {
-        modifierRecompense(
-          $_POST['boutonValider'],
-          $_POST['champIntitule'],
-          uploadImage($_FILES['champImage']),
-          $_POST['champDescriptif']
-        );
-        unlink($_POST['hiddenImageLink']);
-        // } else {
-        //   echo '
-        //   <div class="erreurPopup">
-        //     <h2 class="txtPopup">Erreur, image trop grande.</h2>
-        //     <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
-        //     <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-        //   </div>';
-      }
-  }
-  ?>
+    ?>
   </form>
 </body>
 

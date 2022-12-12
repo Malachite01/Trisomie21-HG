@@ -154,6 +154,8 @@ $qAfficherUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif 
 
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
+$qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
+
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -166,7 +168,7 @@ $qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompe
 $qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
-$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif, 
+$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif 
                          WHERE id_Recompense = :idRecompense';
 
 $qAfficherImageRecompense = 'SELECT Lien_Image FROM recompense WHERE Id_Recompense = :idRecompense';
@@ -2019,7 +2021,7 @@ function AfficherImageObjectif($idObjectif)
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
+        //echo '<tr>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
@@ -2649,13 +2651,41 @@ function rechercherRecompense($idRecompense)
     }
     return $req;
 }
+function afficherImageRecompense($idRecompense) {
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherImageRecompense']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idRecompense' => clean($idRecompense)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        //echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                $image = $value;
+            }
+        }
+        return $image;
+    }
+}
 
 // requete qui permet d'afficher un recompense selon son Id_Recompense
 function afficherInfoRecompense($idRecompense)
 {
     // recherche les informations d'une selon son id
     $req = rechercherRecompense($idRecompense); // retoune la recompense selon $idRecompense
-    // permet de parcourir la ligne de la requetes : rechercherRecompense($idRecompense);
+    // permet de parcourir la ligne de la requete : rechercherRecompense($idRecompense);
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete : rechercherRecompense($idRecompense);
         foreach ($data as $key => $value) {
@@ -2669,19 +2699,15 @@ function afficherInfoRecompense($idRecompense)
                 <input type="text" name="champDescriptif" placeholder="Entrez la description de la récompense" minlength="1" maxlength="50" value="' . $value . '"required>
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
-                echo '<label for="champImage">Image :</label>
-                <input type="file" name="champImage"  maxlength="50" value="' . $value . '">
-                <img src="' . AfficherImageRecompense($idRecompense) . '" alt=" " id="imageTampon">';
-                echo '<input type="hidden" value="' . AfficherImageRecompense($idRecompense) . '" name="hiddenImageLink">';
+                echo '
+                <label for="champLienImage">Image du tampon :</label>
+                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
+                <img src="' . afficherImageRecompense($idRecompense) . '" alt=" " id="imageTampon">';
+                echo '<input type="hidden" value="' . afficherImageRecompense($idRecompense) . '" name="hiddenImageLink">';
             }
         }
     }
 }
-
-function AfficherImageRecompense() {
-
-}
-
 // requete qui permet de supprimer une recompense selon son id
 function supprimerRecompense($idRecompense)
 {
@@ -2786,6 +2812,30 @@ function rechercherIdRecompenseSelonIntitule($intitule)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $value) {
             return $value;
+        }
+    }
+}
+function supprimerImageRecompense($idRecompense){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageRecompense']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idRecompense)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            // selectionne toutes les colonnes $key necessaires
+           return $value;
         }
     }
 }
