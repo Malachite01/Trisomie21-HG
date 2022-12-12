@@ -92,7 +92,7 @@
         AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
         echo '
         <div class="validationPopup">
-          <h2 class="txtPopup">La récompense a bien été ajoutée à la base !</h2>
+          <h2 class="txtPopup">La récompense a bien été ajoutée à la récompense !</h2>
           <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
           <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
         </div>';
