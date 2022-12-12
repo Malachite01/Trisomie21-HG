@@ -26,7 +26,7 @@ $qModifierImageEnfant = 'UPDATE enfant SET Lien_Jeton = :lienJeton where Id_Enfa
 
 $qSupprimerEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
 
-$qAfficherInformationEnfants = 'SELECT * From Enfant';
+$qAfficherInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance  From Enfant';
 
 //? ----------------------------------------------Membre---------------------------------------------------------------------
 

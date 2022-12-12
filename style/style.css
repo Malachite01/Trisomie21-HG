@@ -1696,6 +1696,28 @@ button.redirect {
     #tbodyGererRecompenses td:nth-child(3)::before{
         content: "Descriptif :";
     }
+
+    #tbodyGererEnfants td::before{
+        position: absolute;
+        font-weight: bold;
+        font-size: 1.05em;
+        left: 0;
+        width: 50%;
+        text-align: left;
+    }
+    #tbodyGererRecompenses td:first-child::before{
+        content: "Image jeton :";
+    }
+    #tbodyGererRecompenses td:nth-child(2)::before{
+        content: "Nom :";
+    }
+    #tbodyGererRecompenses td:nth-child(3)::before{
+        content: "Prénom :";
+    }
+    #tbodyGererRecompenses td:nth-child(4)::before{
+        content: "Date de naissance :";
+    }
+    
 }
 @media screen and (max-width: 700px) {
     .boutonSupprimer .imageIcone {

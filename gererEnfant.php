@@ -69,11 +69,11 @@ if (isset($_GET['params'])) {
     </div>
     <table>
       <thead>
+        <th>Image du jeton</th>
         <th>Nom</th>
         <th>Prénom</th>
         <th>Date de naissance</th>
-        <th>Image du jeton</th>
-        <th>Modifier l'image</th>
+        <th>Modifier le jeton</th>
         <th>Supprimer</th>
       </thead>
 
