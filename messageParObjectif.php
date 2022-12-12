@@ -26,20 +26,36 @@
 
   <h1>Chat général youpi</h1>
   <?php
-  afficherMessageParObjectif($_POST['idEnfant'],$_POST['idObjectif']);
+  if (isset($_POST['idEnfant']) && isset($_POST['idObjectif'])){
+    afficherMessageParObjectif($_POST['idEnfant'],$_POST['idObjectif']);
+  }
+  
     ?>
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
     <?php if (isset($_POST['idEnfant'])) {
             afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'],$_SESSION['idConnexion']);
-            afficherIntituleObjectifSubmit(null, $_POST['idEnfant']);
-            
+            if(isset($_POST['idObjectif'])){
+            afficherIntituleObjectifSubmit($_POST['idObjectif'], $_POST['idEnfant']);
+            }else{
+              afficherIntituleObjectifSubmit(null, $_POST['idEnfant']);
+            }
         } else {
             afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
             echo "<p class='msgSelection'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif 
                 afin de lui ajouter une récompense !</p>";
-        }?>
+        }
+        if (champRempli(array('champSujet','champCorps'))){
+               ajouterMessage(
+                $_POST['champSujet'],
+                $_POST['champCorps'],
+                time(),
+                $_POST['idObjectif'],
+                $_SESSION['idConnexion']
+               );
+        }
+        ?>
       <input type="text" name="champSujet" placeholder="Entrez votre sujet" minlength="1" maxlength="50" required>
       <input type="text" name="champCorps" placeholder="Ecrivez votre corps !" minlength="1" maxlength="500" required>
       <span></span>
@@ -49,15 +65,4 @@
       <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
     </div>
     </form>
-    <?php
-        
-    if (champRempli(array('champSujet','champCorps'))){
-           ajouterMessage(
-            $_POST['champSujet'],
-            $_POST['champCorps'],
-            time(),
-            $_POST['idObjectif'],
-            $_SESSION['idConnexion']
-           );
-    }
-    ?>
+    
