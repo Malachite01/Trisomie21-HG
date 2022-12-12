@@ -189,7 +189,7 @@ $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_J
 
 $qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
 
-$qAfficherRecompenseSelonObjectif = 'SELECT Intitule, Lien_Image, Descriptif WHERE Id_Objectif = :idObjectif';
+$qAfficherRecompenseSelonObjectif = 'SELECT recompense.Intitule, recompense.Lien_Image, recompense.Descriptif FROM recompense, lier, objectif WHERE objectif.Id_Objectif = lier.Id_Objectif AND lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif';
 
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
 $qAfficherImageTampon = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
@@ -2889,8 +2889,40 @@ function supprimerImageRecompense($idRecompense)
     }
 }
 
-function afficherRecompenseSelonObjectif()
+function afficherRecompenseSelonObjectif($idObjectif)
 {
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherRecompenseSelonObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Lien_Image') {
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+            }
+            if ($key == 'Intitule') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Descriptif') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Id_Recompense') {
+                $idRecompense = $value;
+            }
+        }
+    }
 }
 
 //! -------------------------------------------------EQUIPE------------------------------------------------------------
