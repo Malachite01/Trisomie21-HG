@@ -28,6 +28,7 @@
     --couleurMenuActif: rgb(154, 221, 254);
     --even: hsl(111, 35%, 85%);
     --odd: hsl(103, 41%, 91%);
+    --chatButton: #718568;
 }
 
 @font-face {
@@ -238,7 +239,7 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect),
+button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect,#openChatButton img),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
@@ -1791,6 +1792,33 @@ button.redirect {
         margin-right: 30%;
     }
 }
+
+/*! CHAT */
+
+#chat {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: red;
+}
+
+#chatBox {
+    display: none;
+    opacity: 0;
+}
+
+#openChatButton {
+    position: relative;
+    bottom: -5px;
+    right: -5px;
+    background-color: var(--chatButton);
+    border-radius: 100px;
+    border-bottom-right-radius: 0;
+    vertical-align: middle;
+}
+
+
+
 
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;

@@ -22,45 +22,55 @@
   require('QUERY.php');
   testConnexion();
   faireMenu();
+
+  if (champRempli(array('champSujet','champCorps'))){
+          ajouterMessage(
+          $_POST['champSujet'],
+          $_POST['champCorps'],
+          time(),
+          $_POST['idObjectif'],
+          $_SESSION['idConnexion']
+          );
+  }
+  if (isset($_POST['idEnfant']) && isset($_POST['idObjectif'])){
+    afficherMessage($_POST['idEnfant']);
+  }
+
   ?>
 
-  <h1>Chat général youpi</h1>
+  <h1>Test chat par équipe</h1>
   
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
-    <?php if (isset($_POST['idEnfant'])) {
-            afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'],$_SESSION['idConnexion']);
-            afficherIntituleObjectif(null, $_POST['idEnfant']);
-            
-        } else {
-            afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
-            echo "<p class='msgSelection'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif 
-                afin de lui ajouter une récompense !</p>";
-        }?>
+      <?php 
+      if (isset($_POST['idEnfant'])) {
+        afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'],$_SESSION['idConnexion']);
+        afficherIntituleObjectif(null, $_POST['idEnfant']);    
+      } else {
+        afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
+        echo '
+        <p class=\'msgSelection\'>Veuillez choisir un enfant pour pouvoir sélectionner un objectif 
+        afin de lui ajouter une récompense !</p>';
+      }
+      ?>
       <input type="text" name="champSujet" placeholder="Entrez votre sujet" minlength="1" maxlength="50" required>
       <input type="text" name="champCorps" placeholder="Ecrivez votre corps !" minlength="1" maxlength="500" required>
       <span></span>
 
-      <div class="center" id="boutonsValiderAnnuler">
-      <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
-    </div>
-    </form>
-    <?php
+      <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/envoi.png" class="imageIcone" alt="icone valider"><span>Envoi</span></button>
+      
+      <!-- Mathieu -->
+      <div id="chat">
+        <div id="chatBox">
+          <p>Message</p>
+        </div>
         
-    if (champRempli(array('champSujet','champCorps'))){
-           ajouterMessage(
-            $_POST['champSujet'],
-            $_POST['champCorps'],
-            time(),
-            $_POST['idObjectif'],
-            $_SESSION['idConnexion']
-           );
-    }
-    <?php
-  if (isset($_POST['idEnfant']) && isset($_POST['idObjectif'])){
-    afficherMessage($_POST['idEnfant']);
-  }
-    ?>
-    ?>
+        <button type="button" id="openChatButton" onclick="chat('chatBox')"><img src="images/message.png" class="imageIcone" alt=""></button>
+      </div>
+      
+    </form>
+    <script src="js/javascript.js"></script>
+</body>
+</html>
+    

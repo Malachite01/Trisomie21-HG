@@ -1,4 +1,4 @@
-Connexion
+
 <a target="_blank" href="https://icons8.com/icon/4yf9X1E8Zd73/unlock">Unlock</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
 <a target="_blank" href="https://icons8.com/icon/jhSQZwuwQGrJ/eyes">Eyes</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
@@ -36,3 +36,7 @@ Connexion
 <a href="https://www.flaticon.com/fr/icones-gratuites/lhorloge" title="l'horloge icônes">L'horloge icônes créées par Gregor Cresnar - Flaticon</a>
 
 <a href="https://www.flaticon.com/free-icons/redirect" title="redirect icons">Redirect icons created by IconKanan - Flaticon</a>
+
+<a target="_blank" href="https://icons8.com/icon/100004/envoi-de-courriel">Envoi de courriel</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+<a target="_blank" href="https://icons8.com/icon/114083/message">Message</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>

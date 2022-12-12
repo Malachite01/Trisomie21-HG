@@ -90,3 +90,8 @@ function validerConfirmationMdpProfil(champ1,champ2,message,bouton) {
 function Disable(ctrl){
     ctrl.setAttribute('disabled',true);
 }
+
+function chat(chat) {
+    chatMsg = document.querySelector("." + chat);
+    chatMsg.style.display = 'block';
+}
