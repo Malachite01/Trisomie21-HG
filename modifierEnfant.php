@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="">
-  <title>Modifier Image</title>
+  <title>Modifier l'image du jeton</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="style/style.css">
@@ -17,7 +17,7 @@
     <div class="svgWave"></div>
   </div>
 
-  <h1>Modifier l'image</h1>
+  <h1>Modifier l'image du jeton</h1>
   <?php
   session_start();
   require('QUERY.php');
