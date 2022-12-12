@@ -57,14 +57,17 @@
       <input type="text" name="champSujet" placeholder="Entrez votre sujet" minlength="1" maxlength="50" required>
       <input type="text" name="champCorps" placeholder="Ecrivez votre corps !" minlength="1" maxlength="500" required>
       <span></span>
-
-      <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/envoi.png" class="imageIcone" alt="icone valider"><span>Envoi</span></button>
       
       <!-- Mathieu -->
       <div id="chat">
         <div class="chatBox">
           <button id="closeChatbox" type="button" onclick="chatClose('chatBox','openChatButton')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
           <p>Message</p>
+          <textarea type="text" size=2></textarea>
+          <div id="containerBoutonsChat">
+            <button type="button" name="boutonSelecteurs" id="boutonSelecteurs"><img src="images/enfant.png" class="imageIcone" alt="icone selecteurs"></button>
+            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm('Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un destinataire et un objectif ?')" id="boutonEnvoiMessage"><img src="images/envoi.png" class="imageIcone" alt="icone envoi"></button>
+          </div>
         </div>
         
         <button type="button" id="openChatButton" onclick="chatOpen('chatBox','openChatButton')"><img src="images/message.png" class="imageIcone" alt=""></button>

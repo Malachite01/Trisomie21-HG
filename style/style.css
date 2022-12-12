@@ -29,6 +29,7 @@
     --even: hsl(111, 35%, 85%);
     --odd: hsl(103, 41%, 91%);
     --chatButton: #718568;
+    --chatButtonHover: #436129;
 }
 
 @font-face {
@@ -1814,6 +1815,7 @@ button.redirect {
     background-color: red;
     border-radius: var(--globalRadius);
     opacity: 0;
+    overflow-y: auto;
 }
 .chatBoxOn {
     animation: chatApparition .8s forwards;
@@ -1877,6 +1879,13 @@ button.redirect {
             width: 0;
         }
     }
+    button#boutonEnvoiMessage {
+        padding: 0px; 
+    }
+    
+    button#boutonSelecteurs {
+        padding: 0px; 
+    }
 }
 
 #openChatButton {
@@ -1887,6 +1896,9 @@ button.redirect {
     border-radius: 100px;
     border-bottom-right-radius: 0;
     vertical-align: middle;
+}
+#openChatButton:hover {
+    background-color: var(--chatButtonHover);
 }
 
 .chatButtonOn {
@@ -1926,8 +1938,43 @@ button#closeChatbox {
     right: -5px;
     padding: 0;
 }
+#containerBoutonsChat {
+    position: sticky;
+    background-color: grey;
+    border-radius: var(--globalRadius);
+    top: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 80px;
+}
+button#boutonEnvoiMessage {
+    position: absolute;
+    background-color: blue;
+    width: 40px;
+    height: 40px;
+    border-radius: 200px;
+    bottom: 0px;
+    right: -10px;
+    padding: 5px; 
+}
+button#boutonEnvoiMessage:hover {
+    background-color: darkblue;
+}
 
-
+button#boutonSelecteurs {
+    position: absolute;
+    background-color: blue;
+    width: 40px;
+    height: 40px;
+    border-radius: 200px;
+    bottom: 0px;
+    left: -10px;
+    padding: 5px; 
+}
+button#boutonSelecteurs:hover {
+    background-color: darkblue;
+}
 
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;
