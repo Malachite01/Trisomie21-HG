@@ -1,6 +1,13 @@
 # Ignorer tous les fichiers sous le répertoire "/upload/"
-*
+
+*.jpeg 
+*.png
+*.webp
+*.jpg
+*.gif
+*.svg
+*.bmp
+
+
 !.gitignore
-!.index.html
-!.script.js
-!.style.css
+
