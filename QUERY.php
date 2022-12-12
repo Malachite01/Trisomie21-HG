@@ -112,6 +112,8 @@ $qAfficherObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Travaill
 
 $qAfficherObjectifsTb = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
 
+$qAfficherObjectifsZoom = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
+
 $qAfficherValidationTb = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
 
 $qAfficherObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
@@ -186,6 +188,8 @@ $qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Lien_Image, 
 $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
 $qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
+
+$qAfficherRecompenseSelonObjectif = 'SELECT Intitule, Lien_Image, Descriptif WHERE Id_Objectif = :idObjectif';
 
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
 $qAfficherImageTampon = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
@@ -1737,17 +1741,17 @@ function afficherObjectifs($idEnfant)
 }
 
 // fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
-function afficherObjectifsZoom($idEnfant)
+function afficherObjectifsZoom($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsTb']);
+    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsZoom']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
     // execution de la requete sql
-    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
@@ -1762,26 +1766,27 @@ function afficherObjectifsZoom($idEnfant)
             }
             if ($key == 'Lien_Image') {
                 AfficherValidationObjectif($idObjectif);
-                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" alt=" ">';
-            }
-            if ($key == 'Intitule') {
-                echo '<h3>' . $value . '</h3>';
+                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
             }
             if ($key == 'Duree') {
-                echo '<p>' . dureeString($value) . '</p><br>';
+                echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
             }
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                } else $places = $value;
+                    $places2 = 0;
+                } else {
+                    $places = $value;
+                    $places2 = $value;
+                }
             }
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
                 if ($res != 0) {
                     if ($res == 1) {
-                        echo '<p style="color: grey;">' . $res . ' jeton à valider:</p>';
+                        echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
                     } else {
-                        echo '<p style="color: grey;">' . $res . ' jetons à valider:</p>';
+                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                     }
                 } else {
                     echo '<br>';
@@ -1794,12 +1799,12 @@ function afficherObjectifsZoom($idEnfant)
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
                 echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
                 if ($res == 0) {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 } else {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . ($i - $places2) . ' jeton(s) à cet objectif ?\')";>?</button>';
             }
         }
         echo '</div></div>';
@@ -2876,6 +2881,10 @@ function supprimerImageRecompense($idRecompense)
             return $value;
         }
     }
+}
+
+function afficherRecompenseSelonObjectif()
+{
 }
 
 //! -------------------------------------------------EQUIPE------------------------------------------------------------
