@@ -25,9 +25,7 @@
   ?>
 
   <h1>Chat général youpi</h1>
-  <?php
-  afficherMessage($_POST['idEnfant']);
-    ?>
+  
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
@@ -60,4 +58,9 @@
             $_SESSION['idConnexion']
            );
     }
+    <?php
+  if (isset($_POST['idEnfant']) && isset($_POST['idObjectif'])){
+    afficherMessage($_POST['idEnfant']);
+  }
+    ?>
     ?>
