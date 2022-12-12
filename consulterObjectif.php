@@ -24,11 +24,29 @@ testConnexion();
     </div>
 
     <?php faireMenu();
+    if (isset($_POST['valeurJetonsIdObjectif'])) {
+        $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+    }
     ?>
     <form method="POST">
 
-        <h1><?php echo afficherUnIntituleObjectif($_POST['redirect']) . "  " . nomPrenomEnfant($_SESSION['enfant']); ?></h1>
+        <h1><?php
+            if (isset($_POST['redirect'])) {
+                echo afficherUnIntituleObjectif($_POST['redirect']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
+            } else {
+                echo afficherUnIntituleObjectif($valeur[1]) . "  " . nomPrenomEnfant($_SESSION['enfant']);
+            } ?></h1>
+        <?php
+        if (isset($_POST['valeurJetonsIdObjectif'])) {
+            UpdateJetonsPlaces($valeur[0], $valeur[1]);
+        }
+        if (isset($_POST['redirect'])) {
+            afficherObjectifsZoom($_POST['redirect']);
+        } else {
+            afficherObjectifsZoom($valeur[1]);
+        }
 
+        ?>
     </form>
 </body>
 
