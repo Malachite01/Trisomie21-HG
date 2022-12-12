@@ -43,6 +43,33 @@ if (isset($_GET['params'])) {
 ?>
 
 <body>
+<?php
+
+if (isset($_POST['boutonValider'])) {
+  if ($_FILES['champLienJeton']['name'] == "") {
+    modifierImageEnfant(
+      $_POST['hiddenImageLink'],
+      $_POST['boutonValider']
+    );
+  } else {
+    $image = uploadImage($_FILES['champLienJeton']);
+    if($image != null) {
+      modifierImageEnfant(
+        $image,
+        $_POST['boutonValider']
+      );
+      unlink($_POST['hiddenImageLink']);
+    } else {
+      echo '
+      <div class="erreurPopup">
+        <h2 class="txtPopup">Erreur, image trop grande.</h2>
+        <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+      </div>';
+    }
+  }
+}
+?>
   <div class="svgWaveContains">
     <div class="svgWave"></div>
   </div>
@@ -53,27 +80,24 @@ if (isset($_GET['params'])) {
 
   <form id="formGestionEnfants" method="POST" enctype="multipart/form-data">
 
-    <div class="filtres" id="miseEnFormeFiltres">
+    <div class="filtres" id="miseEnFormeFiltresEnfants">
       <label for="Recherche">Filtres :</label>
-      <div class="centerIconeChamp">
-        <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
-
-      </div>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
           <?php
           ?>
+          <option value="">Vide</option>
         </select>
       </div>
     </div>
     <table>
       <thead>
+        <th>Image du jeton</th>
         <th>Nom</th>
         <th>Prénom</th>
         <th>Date de naissance</th>
-        <th>Image du jeton</th>
-        <th>Modifier l'image</th>
+        <th>Modifier le jeton</th>
         <th>Supprimer</th>
       </thead>
 
@@ -84,32 +108,7 @@ if (isset($_GET['params'])) {
       </tbody>
     </table>
   </form>
-  <?php
-
-  if (isset($_POST['boutonValider'])) {
-    if ($_FILES['champLienJeton']['name'] == "") {
-      modifierImageEnfant(
-        $_POST['hiddenImageLink'],
-        $_POST['boutonValider']
-      );
-    } else {
-      if(uploadImage($_FILES['champLienJeton']) != null) {
-        modifierImageEnfant(
-          uploadImage($_FILES['champLienJeton']),
-          $_POST['boutonValider']
-        );
-        unlink($_POST['hiddenImageLink']);
-      } else {
-        echo '
-        <div class="erreurPopup">
-          <h2 class="txtPopup">Erreur, image trop grande.</h2>
-          <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
-          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-        </div>';
-      }
-    }
-  }
-  ?>
+  
 </body>
 
 </html>
