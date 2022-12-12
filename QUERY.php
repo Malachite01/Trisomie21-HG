@@ -427,6 +427,12 @@ function testConnexion()
     if ($_SESSION['idConnexion'] == null) {
         header('Location: index.php');
     }
+    $get_url = $_SERVER['REQUEST_URI'];
+    $idAChercher = "";
+    if (stripos($get_url, "upload")) {
+        header('Location: index.php');
+    }
+
 }
 
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
