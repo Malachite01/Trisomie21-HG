@@ -41,6 +41,7 @@
           afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
         }
         ?>
+
       </div>
     </div>
 
@@ -62,6 +63,7 @@
         } else {
           afficherObjectifs($_POST['idEnfant']);
         }
+
         ?>
       </div>
     </div>

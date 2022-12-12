@@ -28,6 +28,8 @@ $qSupprimerEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
 
 $qAfficherInformationEnfants = 'SELECT * From Enfant';
 
+$qNomPrenomEnfant = 'SELECT Nom, Prenom FROM enfant WHERE Id_Enfant = :idEnfant';
+
 //? ----------------------------------------------Membre---------------------------------------------------------------------
 
 // requete pour ajouter un membre a la BD
@@ -612,7 +614,8 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $id)
     }
     echo '</select>';
 }
-function modifierImageEnfant($lienJeton,$idEnfant){
+function modifierImageEnfant($lienJeton, $idEnfant)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -651,41 +654,42 @@ function afficherImageTampon($idEnfant)
         }
     }
 }
-function afficherInformationsEnfant(){
-     // connexion a la BD
-     $linkpdo = connexionBd();
-     // preparation de la requete sql
-     $req = $linkpdo->prepare($GLOBALS['qAfficherInformationEnfants']);
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
-     }
-     // execution de la requete sql
-     $req->execute();
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
-     }
-     // permet de parcourir toutes les lignes de la requete
-     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-         echo '<tr>';
-         // permet de parcourir toutes les colonnes de la requete
-         foreach ($data as $key => $value) {
-             // selectionne toutes les colonnes $key necessaires
-             if ($key == 'Nom' || $key == 'Prenom') {
-                 echo '<td>' . $value . '</td>';
-             }
-             if ($key == 'Date_Naissance') {
-                 echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
-             }
-             if ($key == 'Lien_Jeton') {
+function afficherInformationsEnfant()
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAfficherInformationEnfants']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute();
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Nom' || $key == 'Prenom') {
+                echo '<td>' . $value . '</td>';
+            }
+            if ($key == 'Date_Naissance') {
+                echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
+            }
+            if ($key == 'Lien_Jeton') {
                 echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
             }
-             // recuperation valeurs importantes dans des variables
-             if ($key == 'Id_Enfant') {
-                 $idEnfant = $value;
-             }
-         }
-         // creation du bouton supprimer dans le tableau
-         echo '
+            // recuperation valeurs importantes dans des variables
+            if ($key == 'Id_Enfant') {
+                $idEnfant = $value;
+            }
+        }
+        // creation du bouton supprimer dans le tableau
+        echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
             class="boutonModifier" formaction="modifierEnfant.php">
@@ -703,20 +707,50 @@ function afficherInformationsEnfant(){
          </tr>';
     }
 }
-function supprimerEnfant($idEnfant){
-     // connexion a la base de donnees
-     $linkpdo = connexionBd();
-     //on supprime le membre
-     $req = $linkpdo->prepare($GLOBALS['qSupprimerEnfant']);
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un enfant de la BD');
-     }
-     // execution de la requete sql
-     $req->execute(array(':idEnfant' => clean($idEnfant)));
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un enfant de la BD');
-     }
- }
+function supprimerEnfant($idEnfant)
+{
+    // connexion a la base de donnees
+    $linkpdo = connexionBd();
+    //on supprime le membre
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un enfant de la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un enfant de la BD');
+    }
+}
+
+function nomPrenomEnfant($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qNomPrenomEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => $idEnfant));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Nom') {
+                $nom = $value;
+            }
+            if ($key == 'Prenom') {
+                $prenom = $value;
+            }
+        }
+    }
+    return ' - ' . $nom . ' ' . $prenom;
+}
 
 
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
@@ -1673,7 +1707,7 @@ function afficherObjectifs($idEnfant)
                     } else {
                         echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                     }
-                    echo '<button class="redirect" type="submit" name="redirect" value="' . $idObjectif . '.' . $idEnfant . '">
+                    echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
                     <img class="imgRedirect" src="images/redirect.png"></button>';
                 } else {
                     echo '<br>';
@@ -2559,29 +2593,30 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
         </tr>';
     }
 }
-function supprimerImageObjectif($idObjectif){
-     // connexion a la BD
-     $linkpdo = connexionBd();
-     // preparation de la requete sql
-     $req = $linkpdo->prepare($GLOBALS['qSupprimerImageObjectif']);
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
-     }
-     // execution de la requete sql
-     $req->execute(array(
-         ':idObjectif' => clean($idObjectif)
-     ));
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
-     }
-     // permet de parcourir toutes les lignes de la requete
-     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-         // permet de parcourir toutes les colonnes de la requete
-         foreach ($data as $value) {
-             // selectionne toutes les colonnes $key necessaires
+function supprimerImageObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            // selectionne toutes les colonnes $key necessaires
             return $value;
-         }
-     }
+        }
+    }
 }
 
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
@@ -2678,8 +2713,8 @@ function afficherInfoRecompense($idRecompense)
     }
 }
 
-function AfficherImageRecompense() {
-
+function AfficherImageRecompense()
+{
 }
 
 // requete qui permet de supprimer une recompense selon son id
