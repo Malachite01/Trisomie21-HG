@@ -45,7 +45,11 @@ testConnexion();
         } else {
             afficherObjectifsZoom($valeur[1]);
         }
-
+        if (isset($_POST['redirect'])) {
+            afficherRecompenseSelonObjectif($_POST['redirect']);
+        } else {
+            afficherRecompenseSelonObjectif($valeur[1]);
+        }
         ?>
     </form>
 </body>
