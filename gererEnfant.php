@@ -53,17 +53,14 @@ if (isset($_GET['params'])) {
 
   <form id="formGestionEnfants" method="POST" enctype="multipart/form-data">
 
-    <div class="filtres" id="miseEnFormeFiltres">
+    <div class="filtres" id="miseEnFormeFiltresEnfants">
       <label for="Recherche">Filtres :</label>
-      <div class="centerIconeChamp">
-        <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
-
-      </div>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
           <?php
           ?>
+          <option value="">Vide</option>
         </select>
       </div>
     </div>

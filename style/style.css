@@ -505,7 +505,12 @@ nav a {
     margin-bottom: 5%;
     grid-template-columns: 1fr;
 }
-
+#miseEnFormeFiltresEnfants  {
+    margin: 12%;
+    margin-top: 40px;
+    margin-bottom: 5%;
+    grid-template-columns: 1fr;
+}
 #miseEnFormeEnfant {
     margin: 12%;
     margin-top: 40px;
@@ -1591,6 +1596,9 @@ button.redirect {
     #miseEnFormeFiltres {
         grid-template-columns: max-content 1fr 1fr;
     }
+    #miseEnFormeFiltresEnfants  {
+        grid-template-columns: max-content 1fr;
+    }
     #miseEnFormeEnfant {
         grid-template-columns: max-content 1fr;
     }
@@ -1717,6 +1725,21 @@ button.redirect {
     #tbodyGererRecompenses td:nth-child(4)::before{
         content: "Date de naissance :";
     }
+
+    #tbodyGererEquipe td::before{
+        position: absolute;
+        font-weight: bold;
+        font-size: 1.05em;
+        left: 0;
+        width: 50%;
+        text-align: left;
+    }
+    #tbodyGererEquipe td:first-child::before{
+        content: "Nom membre :";
+    }
+    #tbodyGererEquipe td:nth-child(2)::before{
+        content: "Prénom membre :";
+    }
     
 }
 @media screen and (max-width: 700px) {
@@ -1749,6 +1772,11 @@ button.redirect {
         margin-bottom: 5%;
     }
     #miseEnFormeFiltres {
+        margin: 25%;
+        margin-top: 20px;
+        margin-bottom: 1%;
+    }
+    #miseEnFormeFiltresEnfants {
         margin: 25%;
         margin-top: 20px;
         margin-bottom: 1%;

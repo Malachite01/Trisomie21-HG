@@ -341,7 +341,7 @@ function faireMenu()
 
             <li><a href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
-                    <li><a href="ajouterEquipe.php">Ajouter une équipe</a></li>
+                    <li><a href="ajouterEquipe.php">Ajouter un enfant à une équipe</a></li>
                     <li><a href="gererEquipe.php">Gérer une équipe</a></li>
                 </ul>
             </li>    
@@ -2021,7 +2021,6 @@ function AfficherImageObjectif($idObjectif)
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
@@ -2807,7 +2806,7 @@ function afficherNomPrenomMembre()
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
-    echo '<select name="idMembre"required>';
+    echo '<select name="idMembre" required>';
     echo '<option value="">Veuillez choisir un Membre</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
@@ -2884,9 +2883,9 @@ function afficherGererEquipe($idEnfant)
         echo '
             <td>
                 <button type="submit" name="boutonSupprimer" value="' . $idMembre . ',' . $idEnfant . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre de cette équipe ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
+                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir retirer ce membre de cette équipe ?\');" >
+                    <img src="images/annuler.png" class="imageIcone" alt="icone supprimer">
+                    <span>Retirer</span>
                 </button>
             </td>
         </tr>';
