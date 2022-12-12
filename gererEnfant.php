@@ -17,9 +17,6 @@ session_start();
 require('QUERY.php');
 testConnexion();
 
-// if (isset($_POST['boutonModifier'])) {
-
-// }
 if (isset($_POST['boutonSupprimer'])) {
   supprimerEnfant($_POST['boutonSupprimer']);
   echo '
@@ -34,16 +31,12 @@ if (isset($_GET['params'])) {
   if ($err == 'modif') {
     echo '
     <div class="editPopup">
-      <h2 class="txtPopup">L\'enfant a bien été modifié !</h2>
+      <h2 class="txtPopup">Le jeton de l\'enfant a bien été modifié !</h2>
       <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
       <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
     </div>';
   }
 }
-?>
-
-<body>
-<?php
 
 if (isset($_POST['boutonValider'])) {
   if ($_FILES['champLienJeton']['name'] == "") {
@@ -70,6 +63,8 @@ if (isset($_POST['boutonValider'])) {
   }
 }
 ?>
+
+<body>
   <div class="svgWaveContains">
     <div class="svgWave"></div>
   </div>

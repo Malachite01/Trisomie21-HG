@@ -210,7 +210,7 @@ $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_M
 $qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
                         message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
                         AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant';
-$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
 
@@ -3077,7 +3077,7 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMessage']);
+    $req = $linkpdo->prepare($GLOBALS['qAfficherMessageParObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
