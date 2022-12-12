@@ -62,11 +62,12 @@
       
       <!-- Mathieu -->
       <div id="chat">
-        <div id="chatBox">
+        <div class="chatBox">
+          <button id="closeChatbox" type="button" onclick="chatClose('chatBox','openChatButton')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
           <p>Message</p>
         </div>
         
-        <button type="button" id="openChatButton" onclick="chat('chatBox')"><img src="images/message.png" class="imageIcone" alt=""></button>
+        <button type="button" id="openChatButton" onclick="chatOpen('chatBox','openChatButton')"><img src="images/message.png" class="imageIcone" alt=""></button>
       </div>
       
     </form>

@@ -239,7 +239,7 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect,#openChatButton img),
+button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect,#openChatButton img, .chatBox button img),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
@@ -1799,24 +1799,133 @@ button.redirect {
     position: fixed;
     bottom: 0;
     right: 0;
-    background-color: red;
+    background-color: transparent;
 }
 
-#chatBox {
-    display: none;
+.chatBox {
+    z-index: 2;
+    display: block;
+    width: 0px;
+    height: 0px;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: all .6s;
+    background-color: red;
+    border-radius: var(--globalRadius);
     opacity: 0;
+}
+.chatBoxOn {
+    animation: chatApparition .8s forwards;
+    animation-iteration-count: 1;
+}
+.chatBoxOff {
+    animation: chatDisparition .8s forwards;
+    animation-iteration-count: 1;
+}
+@keyframes chatApparition {
+    0% {
+        clip-path: circle(0% at center);
+        opacity: 1;
+    }
+    100% {
+        clip-path: circle(100% at center);
+        opacity: 1;
+        width: 250px;
+        height: 350px;
+    }
+}
+
+@keyframes chatDisparition {
+    0% {
+        clip-path: circle(100% at center);
+        opacity: 1;
+        width: 250px;
+        height: 350px;
+    }
+    100% {
+        clip-path: circle(0% at center);
+        height: 0;
+        width: 0;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    @keyframes chatApparition {
+        0% {
+            clip-path: circle(0% at center);
+            opacity: 1;
+        }
+        100% {
+            clip-path: circle(100% at center);
+            opacity: 1;
+            width: 350px;
+            height: 500px;
+        }
+    }
+    
+    @keyframes chatDisparition {
+        0% {
+            clip-path: circle(100% at center);
+            opacity: 1;
+            width: 350px;
+            height: 500px;
+        }
+        100% {
+            clip-path: circle(0% at center);
+            height: 0;
+            width: 0;
+        }
+    }
 }
 
 #openChatButton {
-    position: relative;
-    bottom: -5px;
-    right: -5px;
+    position: fixed;
+    bottom: -10px;
+    right: -10px;
     background-color: var(--chatButton);
     border-radius: 100px;
     border-bottom-right-radius: 0;
     vertical-align: middle;
 }
 
+.chatButtonOn {
+    animation: chatBoutonApparition .6s forwards;
+    animation-iteration-count: 1;
+}
+.chatButtonOff {
+    animation: chatBoutonDisparition .6s forwards;
+    animation-iteration-count: 1;
+}
+@keyframes chatBoutonApparition {
+    0% {
+        clip-path: circle(0% at center);
+
+    }
+    100% {
+        clip-path: circle(100% at center);
+        width: fit-content;
+        height: fit-content;
+    }
+}
+@keyframes chatBoutonDisparition {
+    0% {
+        clip-path: circle(100% at center);
+    }
+    100% {
+        clip-path: circle(0% at center);
+        width: 0%;
+        height: 0%;
+    }
+}
+
+button#closeChatbox {
+    position: absolute;
+    background-color: transparent;
+    top: -13px;
+    right: -5px;
+    padding: 0;
+}
 
 
 
