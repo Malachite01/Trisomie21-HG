@@ -1793,12 +1793,13 @@ button.redirect {
     opacity: 0;
 }
 #scrollChat {
+    display: flex;
+    flex-direction: column;
     width: 250px;
     height: 280px;
     scroll-behavior: smooth;
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: goldenrod;
 }
 #containerBoutonsChat {
     position: absolute;
@@ -1808,8 +1809,9 @@ button.redirect {
     right: 10px;
     padding: 0;
     margin: 0;
-    width: 350px;
-    height: 80px;
+    width: 0px;
+    height: 0px;
+    transition: all .6s;
 }
 .chatBoxOn {
     animation: chatApparition .8s forwards;
@@ -1818,6 +1820,10 @@ button.redirect {
 .chatBoxOff {
     animation: chatDisparition .8s forwards;
     animation-iteration-count: 1;
+}
+.chatBoxOn #containerBoutonsChat {
+    width: 350px;
+    height: 80px;
 }
 @keyframes chatApparition {
     0% {
@@ -1879,8 +1885,9 @@ button.redirect {
     }
 }
 @media screen and (max-width: 901px) {
-    #containerBoutonsChat {
+    .chatBoxOn #containerBoutonsChat {
         width: 250px;
+        height: 70px;
     }
 }
 
@@ -1928,6 +1935,7 @@ button.redirect {
 }
 
 button#closeChatbox {
+    z-index: 2;
     position: absolute;
     background-color: transparent;
     top: 10px;
@@ -1988,7 +1996,7 @@ button#boutonSelecteurs:hover {
         left: -1px;
     }
     #containerBoutonsChat {
-        height: 70px;
+        
     }
 }
 
@@ -2012,6 +2020,44 @@ button#boutonSelecteurs:hover {
     background-color: var(--couleurBarActive);
 }
 
+.objetMsg {
+    text-decoration: underline;
+}
+
+.msgEntrant {
+    width: fit-content;
+    max-width: 250px;
+    height: fit-content;
+    background-color: goldenrod;
+    padding: 5px;
+    margin: 10px;
+    margin-right: auto;
+    margin-top: 40px;
+    border-radius: var(--globalRadius) var(--globalRadius) var(--globalRadius) 0;
+}
+
+.msgSortant {
+    position: relative;
+    width: fit-content;
+    max-width: 250px;
+    height: fit-content;
+    background-color: goldenrod;
+    padding: 5px;
+    margin: 10px;
+    margin-left: auto;
+    margin-top: 40px;
+    border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
+}
+
+@media screen and (max-width: 900px) {
+    .msgEntrant {
+        max-width: 190px;
+    }
+    
+    .msgSortant {
+        max-width: 190px;
+    }
+}
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;
 

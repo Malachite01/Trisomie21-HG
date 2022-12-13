@@ -64,9 +64,11 @@
           <button id="closeChatbox" type="button" onclick="chatClose('chatBox','openChatButton')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
           
           <div id="scrollChat">     
-            <p class="msgEntrant">Message</p>
-            <p class="msgSortant">Message</p>
-            <p id="lastMsg">Message</p>
+            <p class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ce message est vraiment super long. En effet je veux tester le système de message et voir si c'est bien.</p>
+            <p class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ce message est plus court que l'autre.</p>
+            <p class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ratio + tu es cringe.</p>
+            <p class="msgSortant"><strong class="objetMsg">Objet</strong><br>Je suis en train de te répondre grand fou.</p>
+            <p id="lastMsg" class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ce message est vraiment super long. En effet je veux tester le système de message et voir si c'est bien.</p>
           </div>
 
           <div id="containerBoutonsChat">
