@@ -62,15 +62,20 @@
       <div id="chat">
         <div class="chatBox">
           <button id="closeChatbox" type="button" onclick="chatClose('chatBox','openChatButton')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
-          <p>Message</p>
-          <textarea type="text" size=2></textarea>
+          
+          <div id="scrollChat">     
+            <p class="msgEntrant">Message</p>
+            <p class="msgSortant">Message</p>
+            <p id="lastMsg">Message</p>
+          </div>
+
           <div id="containerBoutonsChat">
             <button type="button" name="boutonSelecteurs" id="boutonSelecteurs"><img src="images/enfant.png" class="imageIcone" alt="icone selecteurs"></button>
             <button type="submit" name="boutonEnvoiMessage" onclick="return confirm('Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un destinataire et un objectif ?')" id="boutonEnvoiMessage"><img src="images/envoi.png" class="imageIcone" alt="icone envoi"></button>
           </div>
         </div>
         
-        <button type="button" id="openChatButton" onclick="chatOpen('chatBox','openChatButton')"><img src="images/message.png" class="imageIcone" alt=""></button>
+        <button type="button" id="openChatButton" onclick="chatOpen('chatBox','openChatButton'),scrollToLastMsg('lastMsg')"><img src="images/message.png" class="imageIcone" alt=""></button>
       </div>
       
     </form>
