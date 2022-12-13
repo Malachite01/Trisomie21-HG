@@ -52,6 +52,7 @@
     if (isset($_POST['valeurJetonsIdObjectif'])) {
       $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
       UpdateJetonsPlaces($valeur[0], $valeur[1]);
+      ajouterJeton($valeur[1],time(),$_SESSION['idConnexion']);
     }
     ?>
 
