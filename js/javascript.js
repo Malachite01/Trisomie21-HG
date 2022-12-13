@@ -90,3 +90,24 @@ function validerConfirmationMdpProfil(champ1,champ2,message,bouton) {
 function Disable(ctrl){
     ctrl.setAttribute('disabled',true);
 }
+
+function chatOpen(chat,chatButton) {
+    chatMsg = document.querySelector("." + chat);
+    chatMsg.classList.toggle('chatBoxOn');
+    chatMsg.classList.remove('chatBoxOff')
+    
+    oChatButton = document.querySelector("#" + chatButton);
+    oChatButton.classList.toggle('chatButtonOff');
+    oChatButton.classList.remove('chatButtonOn');
+}
+
+
+function chatClose(chat,chatButton) {
+    chatMsg = document.querySelector("." + chat);
+    chatMsg.classList.toggle('chatBoxOn');
+    chatMsg.classList.add('chatBoxOff')
+
+    oChatButton = document.querySelector("#" + chatButton);
+    oChatButton.classList.toggle('chatButtonOff');
+    oChatButton.classList.add('chatButtonOn');
+}

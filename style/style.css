@@ -28,6 +28,8 @@
     --couleurMenuActif: rgb(154, 221, 254);
     --even: hsl(111, 35%, 85%);
     --odd: hsl(103, 41%, 91%);
+    --chatButton: #718568;
+    --chatButtonHover: #436129;
 }
 
 @font-face {
@@ -238,7 +240,7 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect),
+button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect,#openChatButton img, .chatBox button img),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
@@ -1790,6 +1792,188 @@ button.redirect {
         margin-left: 30%;
         margin-right: 30%;
     }
+}
+
+/*! CHAT */
+
+#chat {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: transparent;
+}
+
+.chatBox {
+    z-index: 2;
+    display: block;
+    width: 0px;
+    height: 0px;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: all .6s;
+    background-color: red;
+    border-radius: var(--globalRadius);
+    opacity: 0;
+    overflow-y: auto;
+}
+.chatBoxOn {
+    animation: chatApparition .8s forwards;
+    animation-iteration-count: 1;
+}
+.chatBoxOff {
+    animation: chatDisparition .8s forwards;
+    animation-iteration-count: 1;
+}
+@keyframes chatApparition {
+    0% {
+        clip-path: circle(0% at center);
+        opacity: 1;
+    }
+    100% {
+        clip-path: circle(100% at center);
+        opacity: 1;
+        width: 250px;
+        height: 350px;
+    }
+}
+
+@keyframes chatDisparition {
+    0% {
+        clip-path: circle(100% at center);
+        opacity: 1;
+        width: 250px;
+        height: 350px;
+    }
+    100% {
+        clip-path: circle(0% at center);
+        height: 0;
+        width: 0;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    @keyframes chatApparition {
+        0% {
+            clip-path: circle(0% at center);
+            opacity: 1;
+        }
+        100% {
+            clip-path: circle(100% at center);
+            opacity: 1;
+            width: 350px;
+            height: 500px;
+        }
+    }
+    
+    @keyframes chatDisparition {
+        0% {
+            clip-path: circle(100% at center);
+            opacity: 1;
+            width: 350px;
+            height: 500px;
+        }
+        100% {
+            clip-path: circle(0% at center);
+            height: 0;
+            width: 0;
+        }
+    }
+    button#boutonEnvoiMessage {
+        padding: 0px; 
+    }
+    
+    button#boutonSelecteurs {
+        padding: 0px; 
+    }
+}
+
+#openChatButton {
+    position: fixed;
+    bottom: -10px;
+    right: -10px;
+    background-color: var(--chatButton);
+    border-radius: 100px;
+    border-bottom-right-radius: 0;
+    vertical-align: middle;
+}
+#openChatButton:hover {
+    background-color: var(--chatButtonHover);
+}
+
+.chatButtonOn {
+    animation: chatBoutonApparition .6s forwards;
+    animation-iteration-count: 1;
+}
+.chatButtonOff {
+    animation: chatBoutonDisparition .6s forwards;
+    animation-iteration-count: 1;
+}
+@keyframes chatBoutonApparition {
+    0% {
+        clip-path: circle(0% at center);
+
+    }
+    100% {
+        clip-path: circle(100% at center);
+        width: fit-content;
+        height: fit-content;
+    }
+}
+@keyframes chatBoutonDisparition {
+    0% {
+        clip-path: circle(100% at center);
+    }
+    100% {
+        clip-path: circle(0% at center);
+        width: 0%;
+        height: 0%;
+    }
+}
+
+button#closeChatbox {
+    position: absolute;
+    background-color: transparent;
+    top: -13px;
+    right: -5px;
+    padding: 0;
+}
+#containerBoutonsChat {
+    position: sticky;
+    background-color: grey;
+    border-radius: var(--globalRadius);
+    top: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 80px;
+}
+button#boutonEnvoiMessage {
+    position: absolute;
+    background-color: blue;
+    width: 40px;
+    height: 40px;
+    border-radius: 200px;
+    bottom: 0px;
+    right: -10px;
+    padding: 5px; 
+}
+button#boutonEnvoiMessage:hover {
+    background-color: darkblue;
+}
+
+button#boutonSelecteurs {
+    position: absolute;
+    background-color: blue;
+    width: 40px;
+    height: 40px;
+    border-radius: 200px;
+    bottom: 0px;
+    left: -10px;
+    padding: 5px; 
+}
+button#boutonSelecteurs:hover {
+    background-color: darkblue;
 }
 
 /* Scroll si le contenu est trop grand
