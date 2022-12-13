@@ -5,7 +5,7 @@ $linkpdo = connexionBd();
 if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // Si il existe les champs email, password et qu'il sont pas vides
 {
     $courriel = $_POST['champIdentifiant'];
-    $mdp = $_POST['champMotDePasse'];
+    $mdp = saltHash($_POST['champMotDePasse']);
     $check = $linkpdo->prepare('SELECT courriel, Mdp, id_Membre, Prenom from membre where courriel = ?');
     $check->execute(array($courriel));
     $data = $check->fetch();

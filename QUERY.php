@@ -265,6 +265,12 @@ function clean($champEntrant)
     return $champEntrant;
 }
 
+function saltHash($mdp)
+{
+    $code = clean($mdp) . "BrIc3 4rNaUlT 3sT Le MeIlLeUr d3s pRoFesSeUrs !";
+    return hash('ripemd320', $code);
+}
+
 function uploadImage($photo)
 {
 
@@ -432,7 +438,6 @@ function testConnexion()
     if (stripos($get_url, "upload")) {
         header('Location: index.php');
     }
-
 }
 
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------

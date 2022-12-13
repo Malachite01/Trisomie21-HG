@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<meta name="description" content="">
-	<title>Demande inscription</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="">
+  <title>Demande inscription</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
-	<link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
+
 <body>
   <div class="svgWaveContains">
     <div class="svgWave"></div>
@@ -18,32 +20,32 @@
   <?php
   require('QUERY.php');
   if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp', 'champPro'))) {
-      if (membreIdentique(
-          $_POST['champNom'],
-          $_POST['champPrénom'],
-          $_POST['champDateDeNaissance'],
-          $_POST['champMail']
-      ) == 0) {
-          ajouterMembre(
-              $_POST['champNom'],
-              $_POST['champPrénom'],
-              $_POST['champAdresse'],
-              $_POST['champCp'],
-              $_POST['champVille'],
-              $_POST['champMail'],
-              $_POST['champDateDeNaissance'],
-              $_POST['champMdp'],
-              $_POST['champPro']
-          );
-          header('Location: index.php?login_err=ajoutMembre');
-      } else {
-        echo 
-        '<div class="erreurPopup">
+    if (membreIdentique(
+      $_POST['champNom'],
+      $_POST['champPrénom'],
+      $_POST['champDateDeNaissance'],
+      $_POST['champMail']
+    ) == 0) {
+      ajouterMembre(
+        $_POST['champNom'],
+        $_POST['champPrénom'],
+        $_POST['champAdresse'],
+        $_POST['champCp'],
+        $_POST['champVille'],
+        $_POST['champMail'],
+        $_POST['champDateDeNaissance'],
+        saltHash($_POST['champMdp']),
+        $_POST['champPro']
+      );
+      header('Location: index.php?login_err=ajoutMembre');
+    } else {
+      echo
+      '<div class="erreurPopup">
           <h2 class="txtPopup">Le membre n\'a pas été ajouté à la base car il existe déja.</h2>
           <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
           <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
         </div>';
-      }
+    }
   }
   ?>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
@@ -88,7 +90,7 @@
         </span>
       </div>
       <span></span>
-      
+
 
       <label for="champMail">Adresse mail :</label>
       <input type="email" name="champMail" placeholder="Ex: exemple@xyz.com" minlength="3" maxlength="50" required>
@@ -103,7 +105,7 @@
       <span></span>
       <p id="messageVerifMdp" style="color: red;"></p>
 
-    </div>    
+    </div>
 
     <div class="center" id="boutonsValiderAnnuler">
       <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
@@ -112,4 +114,5 @@
   </form>
   <script src="js/javascript.js"></script>
 </body>
+
 </html>
