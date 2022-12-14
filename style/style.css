@@ -678,6 +678,8 @@ div.miseFormeConnexion label {
     background-color: var(--couleurBoutonAnnuler);
     color:var(--policeBlanche);
     padding: 9px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 .boutonAnnuler:hover {
     animation: hoverWaveAnnuler .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -691,6 +693,8 @@ div.miseFormeConnexion label {
     background-color: var(--couleurBoutonValider);
     color:var(--policeBlanche);
     padding: 9px;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 .boutonValider:hover {
     animation: hoverWaveValider .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -1476,6 +1480,28 @@ button.redirect {
     margin: -15px;
     padding-top: 5px;
 }
+
+
+.containerTampons::-webkit-scrollbar {
+    width: 8px;
+}
+.containerTampons::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+    border-radius: 5px;
+}
+.containerTampons::-webkit-scrollbar-thumb {
+    background-color: var(--couleurBouton);
+    border: 2px solid transparent;
+    border-radius: 50px;
+}
+.containerTampons::-webkit-scrollbar-thumb:hover {
+    background-color: var(--couleurBoutonHover);
+}
+.containerTampons::-webkit-scrollbar-thumb:active {
+    background-color: var(--couleurBarActive);
+}
+
 
 #formTableauDeBord {
     display: grid;
