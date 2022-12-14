@@ -216,6 +216,8 @@ $qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitu
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
 
+//?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
+$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre)';
 
 //----------------------------------------------------------------------------------------------------------------------------
 /*
@@ -3180,6 +3182,27 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
         echo '</tr>';
     }
     echo '</table>';
+}
+
+//!------------------------------------------------PLACER JETON----------------------------------------------------------------------
+
+function ajouterJeton($idObjectif,$dateHeure,$idMembre){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterJeton']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un jeton a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif),
+        ':dateHeure' => clean($dateHeure),//Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':idMembre' => clean($idMembre)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+    }
 }
 /*                                                                
 /                                                                                   .                                                

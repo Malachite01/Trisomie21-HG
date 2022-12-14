@@ -230,12 +230,10 @@ button {
     border-radius: var(--globalRadius);
     border-style: none;
     padding: 12px;
-    margin: 20px;
     color: var(--policeGrisee);
     font-family: Georama;
     font-size: 1em;
 }
-
 button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
@@ -1478,25 +1476,6 @@ button.redirect {
     margin: -15px;
     padding-top: 5px;
 }
-.containerTampons::-webkit-scrollbar {
-    width: 13px;
-}
-.containerTampons::-webkit-scrollbar-track {
-    background: #fff;
-    margin: 5px;
-    border-radius: 5px;
-}
-.containerTampons::-webkit-scrollbar-thumb {
-    background-color: var(--couleurBouton);
-    border: 2px solid #fff;
-    border-radius: 50px;
-}
-.containerTampons::-webkit-scrollbar-thumb:hover {
-    background-color: var(--couleurBoutonHover);
-}
-.containerTampons::-webkit-scrollbar-thumb:active {
-    background-color: var(--couleurBarActive);
-}
 
 #formTableauDeBord {
     display: grid;
@@ -1802,20 +1781,37 @@ button.redirect {
     right: 0;
     background-color: transparent;
 }
-
 .chatBox {
     z-index: 2;
-    display: block;
     width: 0px;
     height: 0px;
-    padding: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
     transition: all .6s;
     background-color: red;
     border-radius: var(--globalRadius);
     opacity: 0;
+}
+#scrollChat {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 280px;
+    scroll-behavior: smooth;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+#containerBoutonsChat {
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.593);
+    border-radius: var(--globalRadius);
+    bottom: 10px;
+    right: 10px;
+    padding: 0;
+    margin: 0;
+    width: 0px;
+    height: 0px;
+    transition: all .6s;
 }
 .chatBoxOn {
     animation: chatApparition .8s forwards;
@@ -1824,6 +1820,10 @@ button.redirect {
 .chatBoxOff {
     animation: chatDisparition .8s forwards;
     animation-iteration-count: 1;
+}
+.chatBoxOn #containerBoutonsChat {
+    width: 350px;
+    height: 80px;
 }
 @keyframes chatApparition {
     0% {
@@ -1837,7 +1837,6 @@ button.redirect {
         height: 350px;
     }
 }
-
 @keyframes chatDisparition {
     0% {
         clip-path: circle(100% at center);
@@ -1851,8 +1850,7 @@ button.redirect {
         width: 0;
     }
 }
-
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 901px) {
     @keyframes chatApparition {
         0% {
             clip-path: circle(0% at center);
@@ -1879,19 +1877,24 @@ button.redirect {
             width: 0;
         }
     }
-    button#boutonEnvoiMessage {
-        padding: 0px; 
+    #scrollChat {
+        width: 350px;
+        height: 420px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
-    
-    button#boutonSelecteurs {
-        padding: 0px; 
+}
+@media screen and (max-width: 901px) {
+    .chatBoxOn #containerBoutonsChat {
+        width: 250px;
+        height: 70px;
     }
 }
 
 #openChatButton {
     position: fixed;
-    bottom: -10px;
-    right: -10px;
+    bottom: 10px;
+    right: 10px;
     background-color: var(--chatButton);
     border-radius: 100px;
     border-bottom-right-radius: 0;
@@ -1932,21 +1935,12 @@ button.redirect {
 }
 
 button#closeChatbox {
+    z-index: 2;
     position: absolute;
     background-color: transparent;
-    top: -13px;
-    right: -5px;
+    top: 10px;
+    right: 20px;
     padding: 0;
-}
-#containerBoutonsChat {
-    position: sticky;
-    background-color: grey;
-    border-radius: var(--globalRadius);
-    top: 100%;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 80px;
 }
 button#boutonEnvoiMessage {
     position: absolute;
@@ -1957,6 +1951,8 @@ button#boutonEnvoiMessage {
     bottom: 0px;
     right: -10px;
     padding: 5px; 
+    margin: 20px;
+    margin-left: 0px;
 }
 button#boutonEnvoiMessage:hover {
     background-color: darkblue;
@@ -1970,12 +1966,95 @@ button#boutonSelecteurs {
     border-radius: 200px;
     bottom: 0px;
     left: -10px;
-    padding: 5px; 
+    padding: 5px;
+    margin: 20px;
+    margin-right: 0px; 
 }
 button#boutonSelecteurs:hover {
     background-color: darkblue;
 }
 
+@media screen and (max-width: 900px) {
+    button#boutonEnvoiMessage {
+        padding: 0px;
+        margin: 14px; 
+        margin-left: 0px;
+    }
+    button#boutonEnvoiMessage > img {
+        position: relative;
+        bottom: -1px;
+        left: -1px;
+    }
+    button#boutonSelecteurs {
+        padding: 0px; 
+        margin: 14px;
+        margin-right: 0px;  
+    }
+    button#boutonSelecteurs > img {
+        position: relative;
+        bottom: -1px;
+        left: -1px;
+    }
+}
+
+#scrollChat::-webkit-scrollbar {
+    width: 8px;
+}
+#scrollChat::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+    border-radius: 5px;
+}
+#scrollChat::-webkit-scrollbar-thumb {
+    background-color: var(--couleurBouton);
+    border: 2px solid transparent;
+    border-radius: 50px;
+}
+#scrollChat::-webkit-scrollbar-thumb:hover {
+    background-color: var(--couleurBoutonHover);
+}
+#scrollChat::-webkit-scrollbar-thumb:active {
+    background-color: var(--couleurBarActive);
+}
+
+.objetMsg {
+    text-decoration: underline;
+}
+
+.msgEntrant {
+    width: fit-content;
+    max-width: 250px;
+    height: fit-content;
+    background-color: goldenrod;
+    padding: 5px;
+    margin: 10px;
+    margin-right: auto;
+    margin-top: 40px;
+    border-radius: var(--globalRadius) var(--globalRadius) var(--globalRadius) 0;
+}
+
+.msgSortant {
+    position: relative;
+    width: fit-content;
+    max-width: 250px;
+    height: fit-content;
+    background-color: goldenrod;
+    padding: 5px;
+    margin: 10px;
+    margin-left: auto;
+    margin-top: 40px;
+    border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
+}
+
+@media screen and (max-width: 900px) {
+    .msgEntrant {
+        max-width: 190px;
+    }
+    
+    .msgSortant {
+        max-width: 190px;
+    }
+}
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;
 

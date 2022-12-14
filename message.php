@@ -62,15 +62,22 @@
       <div id="chat">
         <div class="chatBox">
           <button id="closeChatbox" type="button" onclick="chatClose('chatBox','openChatButton')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
-          <p>Message</p>
-          <textarea type="text" size=2></textarea>
+          
+          <div id="scrollChat">     
+            <p class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ce message est vraiment super long. En effet je veux tester le système de message et voir si c'est bien.</p>
+            <p class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ce message est plus court que l'autre.</p>
+            <p class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ratio + tu es cringe.</p>
+            <p class="msgSortant"><strong class="objetMsg">Objet</strong><br>Je suis en train de te répondre grand fou.</p>
+            <p id="lastMsg" class="msgEntrant"><strong class="objetMsg">Objet</strong><br>Ce message est vraiment super long. En effet je veux tester le système de message et voir si c'est bien.</p>
+          </div>
+
           <div id="containerBoutonsChat">
             <button type="button" name="boutonSelecteurs" id="boutonSelecteurs"><img src="images/enfant.png" class="imageIcone" alt="icone selecteurs"></button>
             <button type="submit" name="boutonEnvoiMessage" onclick="return confirm('Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un destinataire et un objectif ?')" id="boutonEnvoiMessage"><img src="images/envoi.png" class="imageIcone" alt="icone envoi"></button>
           </div>
         </div>
         
-        <button type="button" id="openChatButton" onclick="chatOpen('chatBox','openChatButton')"><img src="images/message.png" class="imageIcone" alt=""></button>
+        <button type="button" id="openChatButton" onclick="chatOpen('chatBox','openChatButton'),scrollToLastMsg('lastMsg')"><img src="images/message.png" class="imageIcone" alt=""></button>
       </div>
       
     </form>

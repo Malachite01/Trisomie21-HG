@@ -111,3 +111,7 @@ function chatClose(chat,chatButton) {
     oChatButton.classList.toggle('chatButtonOff');
     oChatButton.classList.add('chatButtonOn');
 }
+
+function scrollToLastMsg(id) {
+    document.getElementById(id).scrollIntoView();
+}

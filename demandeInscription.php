@@ -108,7 +108,7 @@
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
-      <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+      <button type="button" name="boutonAnnuler" onclick="document.location.href = 'index.php'" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
       <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
     </div>
   </form>
