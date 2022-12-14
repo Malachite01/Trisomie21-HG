@@ -223,7 +223,7 @@ $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance 
 
 $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
 
-$qRechercherIdMembreMessage = 'SELECT Id_Membre From message '
+$qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
