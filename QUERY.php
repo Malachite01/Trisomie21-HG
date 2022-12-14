@@ -209,10 +209,10 @@ $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfa
 //?----------------------------------------------------MESSAGE-----------------------------------------------------------------
 $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
-$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
                         message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
                         AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant';
-$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
 
@@ -223,6 +223,7 @@ $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance 
 
 $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
 
+$qRechercherIdMembreMessage = 'SELECT Id_Membre From message '
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -3259,6 +3260,7 @@ function afficherMessage($idEnfant)
             if ($key == 'Date_Heure'){
                 $dateheure = $value;
             }
+            if
         }
         echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . $dateheure . '</td>';
         echo '</tr>';
