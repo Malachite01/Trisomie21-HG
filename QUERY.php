@@ -3091,7 +3091,6 @@ function afficherMessage($idEnfant)
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<table> <tr>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
 
@@ -3101,6 +3100,12 @@ function afficherMessage($idEnfant)
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
+                // if(entrant) {
+
+                // } else {
+
+                // }
+                echo '<p class="msgPrenomEntrant">'.$nom .' '.$prenom.'</p>';
             }
             if ($key == 'Intitule') {
                 $intitule = $value;
@@ -3111,11 +3116,15 @@ function afficherMessage($idEnfant)
             if ($key == 'Corps') {
                 $corps = $value;
             }
+            if ($key == 'Date_Heure') {
+                // if(entrant) {
+                    echo '<p class="msgEntrant"><strong class="objetMsg">'.$intitule.' : '.$sujet.'</strong><br>'.$corps.'</p><p class="msgHeureEntrant">'.$value.'</p>';
+                // } else {
+
+                // }
+            }
         }
-        echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . '</td>';
-        echo '</tr>';
     }
-    echo '</table>';
 }
 function afficherMessageParObjectif($idEnfant, $idObjectif)
 {

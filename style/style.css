@@ -1821,9 +1821,14 @@ button.redirect {
     animation: chatDisparition .8s forwards;
     animation-iteration-count: 1;
 }
+#containerBoutonsChat {
+    width: 0px;
+    height: 0px;
+    transition: all .8s;
+}
 .chatBoxOn #containerBoutonsChat {
     width: 350px;
-    height: 80px;
+    height: 85px;
 }
 @keyframes chatApparition {
     0% {
@@ -1887,7 +1892,7 @@ button.redirect {
 @media screen and (max-width: 901px) {
     .chatBoxOn #containerBoutonsChat {
         width: 250px;
-        height: 70px;
+        height: 80px;
     }
 }
 
@@ -1942,58 +1947,87 @@ button#closeChatbox {
     right: 20px;
     padding: 0;
 }
-button#boutonEnvoiMessage {
-    position: absolute;
-    background-color: blue;
-    width: 40px;
-    height: 40px;
+
+#boutonsImgMsg {
+    width: 28px;
+    padding: 2px;
     border-radius: 200px;
-    bottom: 0px;
-    right: -10px;
-    padding: 5px; 
-    margin: 20px;
-    margin-left: 0px;
+}
+.chatBoxOn button#boutonEnvoiMessage {
+    position: relative;
+    background-color: blue;
+    width: 32px;
+    height: 32px;
+    border-radius: 200px;
+    padding: 0;
+    bottom: 30%;
+    right: -13px;
 }
 button#boutonEnvoiMessage:hover {
     background-color: darkblue;
 }
 
-button#boutonSelecteurs {
-    position: absolute;
+.chatBoxOn button#boutonSelecteurs {
+    position: relative;
     background-color: blue;
-    width: 40px;
-    height: 40px;
     border-radius: 200px;
-    bottom: 0px;
-    left: -10px;
-    padding: 5px;
-    margin: 20px;
-    margin-right: 0px; 
+    padding: 0;
+    margin-bottom: 10px;
+    margin: 10px;
+    padding-top: 2px;
 }
 button#boutonSelecteurs:hover {
     background-color: darkblue;
 }
-
+#selecteursMsg {
+    position: relative;
+    height: 0;
+    width: 0;
+    display: none;
+    background-color: green;
+    border-radius: var(--globalRadius);
+}
+.selecteursMsgOn#selecteursMsg {
+    display: block;
+    animation: selecteursMsgApparition .6s forwards;
+    animation-iteration-count: 1;
+}
+.selecteursMsgOff#selecteursMsg {
+    animation: selecteursMsgDisparition .6s forwards;
+    animation-iteration-count: 1;
+}
+@keyframes selecteursMsgApparition {
+    0% {
+        clip-path: circle(0% at center);
+    }
+    100% {
+        clip-path: circle(100% at center);
+        width: fit-content;
+        height: fit-content;
+    }
+}
+@keyframes selecteursMsgDisparition {
+    0% {
+        clip-path: circle(100% at center);
+    }
+    100% {
+        clip-path: circle(0% at center);
+        width: 0%;
+        height: 0%;
+    }
+}
 @media screen and (max-width: 900px) {
     button#boutonEnvoiMessage {
         padding: 0px;
-        margin: 14px; 
-        margin-left: 0px;
-    }
-    button#boutonEnvoiMessage > img {
-        position: relative;
-        bottom: -1px;
-        left: -1px;
+        margin-left: -10px;
     }
     button#boutonSelecteurs {
         padding: 0px; 
-        margin: 14px;
-        margin-right: 0px;  
+        margin-bottom: 15px;
+        margin-right: 8px;  
     }
-    button#boutonSelecteurs > img {
-        position: relative;
-        bottom: -1px;
-        left: -1px;
+    #containerBoutonsChat {
+        padding-bottom: 3px;
     }
 }
 
@@ -2028,6 +2062,7 @@ button#boutonSelecteurs:hover {
     background-color: goldenrod;
     padding: 5px;
     margin: 10px;
+    margin-bottom: 2px;
     margin-right: auto;
     margin-top: 40px;
     border-radius: var(--globalRadius) var(--globalRadius) var(--globalRadius) 0;
@@ -2041,9 +2076,129 @@ button#boutonSelecteurs:hover {
     background-color: goldenrod;
     padding: 5px;
     margin: 10px;
+    margin-bottom: 2px;
     margin-left: auto;
     margin-top: 40px;
     border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
+}
+
+.msgHeureSortant {
+    color: grey;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+    margin-top: 0;
+    margin-left: auto;
+}
+
+.msgHeureEntrant {
+    color: grey;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+    margin-top: 0;
+    margin-right: auto;
+}
+
+.msgPrenomEntrant {
+    color: black;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+    margin-bottom: -40px;
+    margin-right: auto;
+    font-style: italic;
+}
+.msgPrenomSortant {
+    color: black;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+    margin-bottom: -40px;
+    margin-left: auto;   
+    font-style: italic;
+}
+
+#selecteursMsg select {
+    border-radius: var(--globalRadius);
+    border-style: none;
+    padding: 5px;
+    margin: 10px;
+    font-family: Georama;
+    font-size: 1em;
+    color: var(--policeNoire);
+    width: 90%;
+}
+
+#selecteursMsg input {
+    border-radius: var(--globalRadius);
+    border-style: none;
+    padding: 5px;
+    margin: 10px;
+    font-family: Georama;
+    font-size: 1em;
+    color: var(--policeNoire);
+    width: 90%;
+}
+
+#msgObjet {
+    width: 80%;
+    height: 20px;
+    resize: none;
+    border-radius: var(--globalRadius) var(--globalRadius) 0 0;
+    font-family: Georama;
+    border-style: none;
+    border-bottom: 1px solid black;
+    color: var(--policeNoire);
+    padding: 1px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#msgTextArea {
+    position: relative;
+    width: 80%;
+    height: 50px;
+    resize: none;
+    border-radius: 0 0 var(--globalRadius) var(--globalRadius);
+    font-family: Georama;
+    border-style: none;
+    color: var(--policeNoire);
+    padding: 1px;
+    margin-left: 5px;
+    bottom: 3px;
+}
+
+#msgObjet:focus {
+    outline: var(--couleurFocus) solid 2px;
+}
+
+#msgTextArea:focus {
+    outline: var(--couleurFocus) solid 2px;
+}
+
+#msgTextArea::-webkit-scrollbar {
+    width: 8px;
+}
+#msgTextArea::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+    border-radius: 5px;
+}
+#msgTextArea::-webkit-scrollbar-thumb {
+    background-color: var(--couleurBouton);
+    border: 2px solid transparent;
+    border-radius: 50px;
+}
+#msgTextArea::-webkit-scrollbar-thumb:hover {
+    background-color: var(--couleurBoutonHover);
+}
+#msgTextArea::-webkit-scrollbar-thumb:active {
+    background-color: var(--couleurBarActive);
 }
 
 @media screen and (max-width: 900px) {
