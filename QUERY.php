@@ -219,7 +219,7 @@ message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif ORDER BY message.Date_Heure';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
-$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre)';
+$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre,:jetons)';
 
 $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
