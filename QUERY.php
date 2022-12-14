@@ -3279,10 +3279,10 @@ function afficherMessage($idEnfant)
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
-                if($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgPrenomSortant">'.$nom .' '.$prenom.'</p>';
+                if ($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgPrenomSortant">' . $nom . ' ' . $prenom . '</p>';
                 } else {
-                    echo '<p class="msgPrenomEntrant">'.$nom .' '.$prenom.'</p>';
+                    echo '<p class="msgPrenomEntrant">' . $nom . ' ' . $prenom . '</p>';
                 }
             }
             if ($key == 'Intitule') {
@@ -3293,22 +3293,22 @@ function afficherMessage($idEnfant)
             }
             if ($key == 'Corps') {
                 $corps = $value;
-                if($i == $count) {
+                if ($i == $count) {
                     $lastMsg = "id='lastMsg'";
                 } else {
-                    $lastMsg = " "; 
+                    $lastMsg = " ";
                 }
-                if($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgSortant"'. $lastMsg .'><strong class="objetMsg">'.$intitule.' : '.$sujet.'</strong><br>'.$corps.'</p>';
+                if ($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgSortant"' . $lastMsg . '><strong class="objetMsg">' . $intitule . ' : ' . $sujet . '</strong><br>' . $corps . '</p>';
                 } else {
-                    echo '<p class="msgEntrant"'. $lastMsg .'><strong class="objetMsg">'.$intitule.' : '.$sujet.'</strong><br>'.$corps.'</p>';
+                    echo '<p class="msgEntrant"' . $lastMsg . '><strong class="objetMsg">' . $intitule . ' : ' . $sujet . '</strong><br>' . $corps . '</p>';
                 }
             }
             if ($key == 'Date_Heure') {
-                if($idMembre == $_SESSION['idConnexion']) {
-                    echo'<p class="msgHeureSortant">'.$value.'</p>';
+                if ($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgHeureSortant">' . $value . '</p>';
                 } else {
-                    echo'<p class="msgHeureEntrant">'.$value.'</p>';
+                    echo '<p class="msgHeureEntrant">' . $value . '</p>';
                 }
             }
         }
@@ -3316,32 +3316,36 @@ function afficherMessage($idEnfant)
     }
 }
 
-function faireChatTb() {
+function faireChatTb()
+{
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
       <div id="chat">
         <div class="chatBox">
           <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
           
-          <div id="scrollChat">';     
-            if (isset($_POST['idEnfant']) && isset($_POST['idObjectif'])){
-            afficherMessage($_POST['idEnfant']);
-            }
-            
-            echo '
+          <div id="scrollChat">';
+    if (isset($_POST['idObjectif'])) {
+        afficherMessage($_SESSION['enfant']);
+    }
+
+    echo '
             <div id="selecteursMsg">
             ';
-            if (isset($_SESSION['enfant'])) {
-                afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'],$_SESSION['idConnexion']);
-                afficherIntituleObjectif(null, $_SESSION['enfant']);    
-            } else {
-                afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
-                echo '
-                <p class=\'msgSelection\'>Choisissez un enfant pour pouvoir sélectionner un objectif 
-                afin de lui ajouter une récompense !</p>';
-            }  
-            
-            echo '
+    if (isset($_POST['idObjectif'])) {
+        afficherIntituleObjectifSubmit($_POST['idObjectif'], $_SESSION['enfant']);
+    } else {
+        afficherIntituleObjectifSubmit(null, $_SESSION['enfant']);
+    }
+    if ($_SESSION['enfant'] == 0) {
+        echo '
+        <p class=\'msgSelection\'>Choisissez un enfant pour pouvoir sélectionner un objectif 
+        afin de lui ajouter une récompense !</p>';
+    }
+
+
+
+    echo '
             </div>
             <button type="button" id="boutonSelecteurs" onclick="selectMsgToggle(\'selecteursMsg\'),scrollToButton(\'boutonSelecteurs\')"><img src="images/enfant.png" id="boutonsImgMsg" alt="icone selecteurs"></button>
           </div>
