@@ -123,8 +123,8 @@ if (isset($_GET['params'])) {
 
       </div>
       <div class="centerIconeChamp">
-        <img src="images/search.png" class="imageIcone" alt="icone de loupe">
         <input type="text" name="Recherche">
+        <button type="submit"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
       </div>
     </div>
     <table>

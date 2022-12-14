@@ -46,7 +46,7 @@ if (isset($_POST['boutonValider'])) {
     );
   } else {
     $image = uploadImage($_FILES['champLienJeton']);
-    if($image != null) {
+    if ($image != null) {
       modifierImageEnfant(
         $image,
         $_POST['boutonValider']
@@ -78,17 +78,10 @@ if (isset($_POST['boutonValider'])) {
     <div class="filtres" id="miseEnFormeFiltresEnfants">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
-        <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
-        <select name="filtres" id="filtres" onchange="this.form.submit()">
-          <?php
-          ?>
-          <option value="">Vide</option>
-        </select>
         <div class="centerIconeChamp">
-        <img src="images/search.png" class="imageIcone" alt="icone de loupe">
-        <input type="text" name="Recherche">
-        <button type="submit"></button>
-      </div>
+          <input type="text" name="Recherche">
+        </div>
+        <button type="submit"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
       </div>
     </div>
     <table>
@@ -103,19 +96,23 @@ if (isset($_POST['boutonValider'])) {
 
       <tbody id="tbodyGererEnfants">
         <?php
-            if(isset($_POST['Recherche'])){
-              $a = rechercherEnfant($_POST['Recherche']);
-            } else {
-              afficherInformationsEnfant();
-            }
-             
+        if (isset($_POST['Recherche'])) {
+          $a = rechercherEnfant($_POST['Recherche']);
+        } else {
+          afficherInformationsEnfant();
+        }
+
         ?>
       </tbody>
     </table>
   </form>
-  <?php if ($a==0){
-                echo "<p class='msgSelection'>Aucun enfant trouvé !</p>";
-              } ?>
+  <?php
+  if (isset($_POST['Recherche'])) {
+    if ($a == 0) {
+      echo "<p class='msgSelection'>Aucun enfant trouvé !</p>";
+    }
+  }
+  ?>
 </body>
 
 </html>
