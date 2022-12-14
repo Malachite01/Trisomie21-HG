@@ -123,7 +123,7 @@ if (isset($_GET['params'])) {
 
       </div>
       <div class="centerIconeChamp">
-        <input type="text" name="Recherche">
+        <input type="text" name="Recherche" placeholder="Rechercher par Nom">
         <button type="submit"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
       </div>
     </div>
@@ -139,51 +139,80 @@ if (isset($_GET['params'])) {
 
       <tbody id="tbodyGererMembres">
         <?php
+        if (!isset($_POST['filtres'])) {
+          AfficherMembres();
+        }
         if (isset($_POST['filtres'])) {
           switch ($_POST['filtres']) {
             case 1:
-              AfficherMembres();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembres();
+              }
               break;
             case 2:
-              AfficherMembresIdMembreDecroissante();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembresIdMembreDecroissante();
+              }
               break;
             case 3:
-              AfficherMembresAZ();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembresAZ();
+              }
               break;
             case 4:
-              AfficherMembresZA();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembresZA();
+              }
               break;
             case 5:
-              AfficherMembresCompteValideDecroissante();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembresCompteValideDecroissante();
+              }
               break;
             case 6:
-              AfficherMembresCompteValideCroissante();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembresCompteValideCroissante();
+              }
               break;
             case 7:
-              AfficherMembresDateNaissanceCroissante();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembresDateNaissanceCroissante();
+              }
               break;
             case 8:
-              AfficherMembresDateNaissanceDecroissante();
-              break;
-            default:
-              AfficherMembres();
+              if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+                $a = rechercheMembre($_POST['Recherche']);
+              } else {
+                AfficherMembresDateNaissanceDecroissante();
+              }
               break;
           }
         }
-        if(isset($_POST['Recherche'])){
-          $a = rechercheMembre($_POST['Recherche']);
-        } else {
-          AfficherMembres();
-        }
-
         ?>
       </tbody>
     </table>
   </form>
-  <?php 
-    if ($a==0){
-      echo "<p class='msgSelection'>Aucun Membre trouvé !</p>";         
-   } ?>
+  <?php
+  if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
+    if ($a == 0) {
+      echo "<p class='msgSelection'>Aucun enfant trouvé !</p>";
+    }
+  }
+  ?>
 </body>
 
 </html>
