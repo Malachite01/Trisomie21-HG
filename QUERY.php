@@ -964,7 +964,7 @@ function AfficherMembres()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembres']);
+    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresIdMembreDecroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1419,7 +1419,7 @@ function AfficherMembresIdMembreDecroissante()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresIdMembreDecroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qAfficherMembres']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }

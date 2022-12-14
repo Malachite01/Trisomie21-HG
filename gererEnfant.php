@@ -79,7 +79,7 @@ if (isset($_POST['boutonValider'])) {
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
         <div class="centerIconeChamp">
-          <input type="text" name="Recherche">
+          <input type="text" name="Recherche" placeholder="Rechercher par Nom">
         </div>
         <button type="submit"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
       </div>
