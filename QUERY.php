@@ -3482,10 +3482,12 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un enfant existe deja');
     }
     $cout = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
-        // permet de parcourir toutes les lignes de la requete
-        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            // permet de parcourir toutes les colonnes de la requete
-            foreach ($data as $key => $value) {}
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+        }
+    }
 }
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
