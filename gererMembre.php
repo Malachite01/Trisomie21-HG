@@ -169,6 +169,9 @@ if (isset($_GET['params'])) {
               AfficherMembres();
               break;
           }
+        }
+        if(isset($_POST['Recherche'])){
+          $a = rechercheMembre($_POST['Recherche']);
         } else {
           AfficherMembres();
         }
@@ -177,6 +180,10 @@ if (isset($_GET['params'])) {
       </tbody>
     </table>
   </form>
+  <?php 
+    if ($a==0){
+      echo "<p class='msgSelection'>Aucun Membre trouvé !</p>";         
+   } ?>
 </body>
 
 </html>

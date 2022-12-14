@@ -18,7 +18,6 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
     if ($row > 0) {
         // Se le courriel est au bon format
         if (filter_var($courriel, FILTER_VALIDATE_EMAIL)) {
-            // Si le mdp est bon (pas sécurisé faudra mettre un hash après)
             if ($mdp === $data['Mdp']) {
                 if (verifierValidationMembre($courriel, $mdp)) {
                     //(password_verify($mdp,$data['Mdp'])) On met l'id au $_SESSION pour le réutiliser après
@@ -26,7 +25,7 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
                     $_SESSION['prenomMembre'] = $data['Prenom'];
                     $_SESSION['enfant'] = null;
                     $_SESSION['objectif'] = null;
-                    //page d'accueil normalement tableau de bord
+                    //page d'accueil  tableau de bord
                     header('Location: tableauDeBord.php');
                     die();
                 } else {
