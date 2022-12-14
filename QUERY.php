@@ -218,6 +218,8 @@ $qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Preno
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif ORDER BY message.Date_Heure';
 
+$qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
+
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
 $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre,:jetons)';
 
@@ -3282,7 +3284,7 @@ function afficherMessage($idEnfant)
             if ($key == 'Prenom') {
                 $prenom = $value;
                 if ($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgPrenomSortant">' . $nom . ' ' . $prenom . '</p>';
+                    echo '<p class="msgPrenomSortant">Vous</p>';
                 } else {
                     echo '<p class="msgPrenomEntrant">' . $nom . ' ' . $prenom . '</p>';
                 }
@@ -3301,16 +3303,16 @@ function afficherMessage($idEnfant)
                     $lastMsg = " ";
                 }
                 if ($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgSortant"' . $lastMsg . '><strong class="objetMsg">' . $intitule . ' : ' . $sujet . '</strong><br>' . $corps . '</p>';
+                    echo '<p class="msgSortant"' . $lastMsg . '><i class="objetMsg">' . $intitule . ' : ' . $sujet . '</i><br>' . $corps . '</p>';
                 } else {
-                    echo '<p class="msgEntrant"' . $lastMsg . '><strong class="objetMsg">' . $intitule . ' : ' . $sujet . '</strong><br>' . $corps . '</p>';
+                    echo '<p class="msgEntrant"' . $lastMsg . '><i class="objetMsg">' . $intitule . ' : ' . $sujet . '</i><br>' . $corps . '</p>';
                 }
             }
             if ($key == 'Date_Heure') {
                 if ($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgHeureSortant">' . $value . '</p>';
+                    echo '<p class="msgHeureSortant">' . strtolower($value) . '</p>';
                 } else {
-                    echo '<p class="msgHeureEntrant">' . $value . '</p>';
+                    echo '<p class="msgHeureEntrant">' . strtolower($value) . '</p>';
                 }
             }
         }
@@ -3325,20 +3327,18 @@ function faireChatTb()
     <div id="chat">
         <div class="chatBox">
         <p id="txtChatType">Chat par équipe</p>  
-          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
+          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler2.png" alt="annuler" class="imageIcone"></button>
           
           <div id="scrollChat">';
-    if (isset($_POST['idObjectif'])) {
         afficherMessage($_SESSION['enfant']);
-    }
 
     echo '
             <div id="selecteursMsg">
             <label>Objectifs : </label>';
     if (isset($_POST['idObjectif'])) {
-        afficherIntituleObjectifSubmit($_POST['idObjectif'], $_SESSION['enfant']);
+        afficherIntituleObjectif($_POST['idObjectif'], $_SESSION['enfant']);
     } else {
-        afficherIntituleObjectifSubmit(null, $_SESSION['enfant']);
+        afficherIntituleObjectif(null, $_SESSION['enfant']);
     }
     if ($_SESSION['enfant'] == 0) {
         echo '
@@ -3459,6 +3459,35 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
         echo '</tr>';
     }
     echo '</table>';
+}
+
+// fonction qui retourne les lignes si un enfant a le meme nom, prenom, date naissance qu'un enfant de la BD
+function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qMessageIdentique']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un enfant existe deja');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':sujet' => clean($sujet),
+        ':corps' => clean($corps),
+        ':idObjectif' => clean($idObjectif),
+        ':idMembre' => clean($idMembre)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un enfant existe deja');
+    }
+    $cout = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+        }
+    }
 }
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------

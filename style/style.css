@@ -28,8 +28,14 @@
     --couleurMenuActif: rgb(154, 221, 254);
     --even: hsl(111, 35%, 85%);
     --odd: hsl(103, 41%, 91%);
-    --chatButton: #718568;
-    --chatButtonHover: #436129;
+    --chatButton: #5aabcb;
+    --chatButtonHover: #2f718b;
+    --chatMsgEntrant: #d5d5d5;
+    --chatMsgSortant: #5aabcb;
+    --chatMsgSortantHover: #2f718b;
+    --fondChat: rgb(240, 240, 240);
+    --chatContainerTxt: rgb(186, 199, 200);
+    --chatCouleurTxt: rgb(247, 247, 247);
 }
 
 @font-face {
@@ -1806,6 +1812,7 @@ button.redirect {
     bottom: 0;
     right: 0;
     background-color: transparent;
+    z-index: 1;
 }
 .chatBox {
     z-index: 2;
@@ -1814,7 +1821,7 @@ button.redirect {
     margin-right: 10px;
     margin-bottom: 10px;
     transition: all .6s;
-    background-color: red;
+    background-color: var(--fondChat);
     border-radius: var(--globalRadius);
     opacity: 0;
 }
@@ -1829,7 +1836,7 @@ button.redirect {
 }
 #containerBoutonsChat {
     position: absolute;
-    background-color: rgba(128, 128, 128, 0.593);
+    background-color: var(--chatContainerTxt);
     border-radius: var(--globalRadius);
     bottom: 10px;
     right: 10px;
@@ -1981,7 +1988,7 @@ button#closeChatbox {
 }
 .chatBoxOn button#boutonEnvoiMessage {
     position: relative;
-    background-color: blue;
+    background-color: var(--chatMsgSortant);
     width: 32px;
     height: 32px;
     border-radius: 200px;
@@ -1990,12 +1997,12 @@ button#closeChatbox {
     right: -13px;
 }
 button#boutonEnvoiMessage:hover {
-    background-color: darkblue;
+    background-color: var(--chatMsgSortantHover);
 }
 
 .chatBoxOn button#boutonSelecteurs {
     position: relative;
-    background-color: blue;
+    background-color: var(--chatMsgSortant);
     border-radius: 200px;
     padding: 0;
     margin-bottom: 10px;
@@ -2003,14 +2010,14 @@ button#boutonEnvoiMessage:hover {
     padding-top: 2px;
 }
 button#boutonSelecteurs:hover {
-    background-color: darkblue;
+    background-color: var(--chatMsgSortantHover);
 }
 #selecteursMsg {
     position: relative;
     height: 0;
     width: 0;
     display: none;
-    background-color: green;
+    background-color: var(--chatMsgSortant);
     border-radius: var(--globalRadius);
     margin-top: 50px;
 }
@@ -2086,12 +2093,13 @@ button#boutonSelecteurs:hover {
     width: fit-content;
     max-width: 250px;
     height: fit-content;
-    background-color: goldenrod;
+    background-color: var(--chatMsgEntrant);
+    color: rgb(59, 59, 59);
     padding: 5px;
     margin: 10px;
     margin-bottom: 2px;
     margin-right: auto;
-    margin-top: 40px;
+    margin-top: 50px;
     border-radius: var(--globalRadius) var(--globalRadius) var(--globalRadius) 0;
 }
 
@@ -2100,12 +2108,13 @@ button#boutonSelecteurs:hover {
     width: fit-content;
     max-width: 250px;
     height: fit-content;
-    background-color: goldenrod;
+    background-color: var(--chatMsgSortant);
+    color: var(--chatCouleurTxt);
     padding: 5px;
     margin: 10px;
     margin-bottom: 2px;
     margin-left: auto;
-    margin-top: 40px;
+    margin-top: 50px;
     border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
 }
 
@@ -2117,6 +2126,7 @@ button#boutonSelecteurs:hover {
     margin: 10px;
     margin-top: 0;
     margin-left: auto;
+    font-size: .75em;
 }
 
 .msgHeureEntrant {
@@ -2127,20 +2137,22 @@ button#boutonSelecteurs:hover {
     margin: 10px;
     margin-top: 0;
     margin-right: auto;
+    font-size: .75em;
 }
 
 .msgPrenomEntrant {
-    color: black;
+    color: rgb(28, 28, 28);
     position: relative;
     width: fit-content;
     height: fit-content;
     margin: 10px;
-    margin-bottom: -40px;
+    margin-bottom: -45px;
     margin-right: auto;
     font-style: italic;
+    font-weight: bold;
 }
 .msgPrenomSortant {
-    color: black;
+    color: rgb(28, 28, 28);
     position: relative;
     width: fit-content;
     height: fit-content;
@@ -2148,6 +2160,7 @@ button#boutonSelecteurs:hover {
     margin-bottom: -40px;
     margin-left: auto;   
     font-style: italic;
+    font-weight: bold;
 }
 
 #selecteursMsg select {
@@ -2179,7 +2192,7 @@ button#boutonSelecteurs:hover {
     border-radius: var(--globalRadius) var(--globalRadius) 0 0;
     font-family: Georama;
     border-style: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(179, 179, 179);
     color: var(--policeNoire);
     padding: 1px;
     margin-top: 5px;
@@ -2242,29 +2255,18 @@ button#boutonSelecteurs:hover {
     z-index: 1;
     font-family: Georama;
     font-size: 1.5em;
-    color: black;
+    color: var(--couleurBarActive);
     position: absolute;
     margin-top: -20px;
     padding: 3px;
     margin-left: -10px;
     height: fit-content;
     width: fit-content;
-    background-color: lightgray;
-    border-radius: var(--globalRadius);
+    background-color: var(--chatContainerTxt);
+    border-radius: var(--globalRadius)var(--globalRadius)var(--globalRadius)0;
+    border: 2px solid var(--couleurBarActive);
 }
-#txtChatType::before {
-    content: " ";
-    z-index: -1;
-    position: absolute;
-    width: 0px;
-    height: 0px;
-    border-left: 10px solid lightgray;
-    border-right: 10px solid transparent;
-    border-top: 10px solid lightgray;
-    border-bottom: 10px solid transparent;
-    bottom: -10px;
-    left: 2px;
-}
+
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;
 
