@@ -219,6 +219,8 @@ AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfan
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
 $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre)';
 
+$qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
+
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -443,7 +445,63 @@ function testConnexion()
         header('Location: index.php');
     }
 }
-
+function rechercherEnfant($champ){
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
+    }
+    // execution de la requete sql
+    $req->execute(array("%".$champ."%"));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    if($req->rowCount()==0){
+        return 0;
+    } else {
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Nom' || $key == 'Prenom') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Date_Naissance') {
+                    echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
+                }
+                if ($key == 'Lien_Jeton') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                }
+                // recuperation valeurs importantes dans des variables
+                if ($key == 'Id_Enfant') {
+                    $idEnfant = $value;
+                }
+            }
+            // creation du bouton supprimer dans le tableau
+            echo '
+                <td>
+                <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
+                class="boutonModifier" formaction="modifierEnfant.php">
+                    <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                    <span>Modifier</span>
+                </button>
+             </td>
+                 <td>
+                     <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+                     " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
+                         <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                         <span>Supprimer</span>
+                     </button>
+                 </td>
+             </tr>';
+        }
+        return 1;
+    }
+    // permet de parcourir toutes les lignes de la requete
+    
+}
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un enfant a la BD

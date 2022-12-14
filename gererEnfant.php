@@ -84,6 +84,11 @@ if (isset($_POST['boutonValider'])) {
           ?>
           <option value="">Vide</option>
         </select>
+        <div class="centerIconeChamp">
+        <img src="images/search.png" class="imageIcone" alt="icone de loupe">
+        <input type="text" name="Recherche">
+        <button type="submit"></button>
+      </div>
       </div>
     </div>
     <table>
@@ -98,12 +103,19 @@ if (isset($_POST['boutonValider'])) {
 
       <tbody id="tbodyGererEnfants">
         <?php
-             afficherInformationsEnfant();
+            if(isset($_POST['Recherche'])){
+              $a = rechercherEnfant($_POST['Recherche']);
+            } else {
+              afficherInformationsEnfant();
+            }
+             
         ?>
       </tbody>
     </table>
   </form>
-  
+  <?php if ($a==0){
+                echo "<p class='msgSelection'>Aucun enfant trouvé !</p>";
+              } ?>
 </body>
 
 </html>
