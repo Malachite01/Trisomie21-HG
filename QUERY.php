@@ -209,12 +209,12 @@ $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfa
 //?----------------------------------------------------MESSAGE-----------------------------------------------------------------
 $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
-$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessage = 'SELECT message.Id_Membre, membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
                         message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
-                        AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant';
-$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+                        AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant ORDER BY message.Date_Heure';
+$qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
-AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
+AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif ORDER BY message.Date_Heure';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
 $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre)';
@@ -3236,22 +3236,25 @@ function afficherMessage($idEnfant)
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
     // permet de parcourir toutes les lignes de la requete
+    $i = 1;
+    $count = $req->rowCount();
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
-
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Id_Membre') {
+                $idMembre = $value;
+            }
             if ($key == 'Nom') {
                 $nom = $value;
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
-                // if(entrant) {
-
-                // } else {
-
-                // }
-                echo '<p class="msgPrenomEntrant">'.$nom .' '.$prenom.'</p>';
+                if($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgPrenomSortant">'.$nom .' '.$prenom.'</p>';
+                } else {
+                    echo '<p class="msgPrenomEntrant">'.$nom .' '.$prenom.'</p>';
+                }
             }
             if ($key == 'Intitule') {
                 $intitule = $value;
@@ -3261,17 +3264,71 @@ function afficherMessage($idEnfant)
             }
             if ($key == 'Corps') {
                 $corps = $value;
+                if($i == $count) {
+                    $lastMsg = "id='lastMsg'";
+                } else {
+                    $lastMsg = " "; 
+                }
+                if($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgSortant"'. $lastMsg .'><strong class="objetMsg">'.$intitule.' : '.$sujet.'</strong><br>'.$corps.'</p>';
+                } else {
+                    echo '<p class="msgEntrant"'. $lastMsg .'><strong class="objetMsg">'.$intitule.' : '.$sujet.'</strong><br>'.$corps.'</p>';
+                }
             }
             if ($key == 'Date_Heure') {
-                // if(entrant) {
-                    echo '<p class="msgEntrant"><strong class="objetMsg">'.$intitule.' : '.$sujet.'</strong><br>'.$corps.'</p><p class="msgHeureEntrant">'.$value.'</p>';
-                // } else {
-
-                // }
+                if($idMembre == $_SESSION['idConnexion']) {
+                    echo'<p class="msgHeureSortant">'.$value.'</p>';
+                } else {
+                    echo'<p class="msgHeureEntrant">'.$value.'</p>';
+                }
             }
         }
+        $i++;
     }
 }
+
+function faireChatTb() {
+    echo '
+    <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
+      <div id="chat">
+        <div class="chatBox">
+          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
+          
+          <div id="scrollChat">';     
+            if (isset($_POST['idEnfant']) && isset($_POST['idObjectif'])){
+            afficherMessage($_POST['idEnfant']);
+            }
+            
+            echo '
+            <div id="selecteursMsg">
+            ';
+            if (isset($_SESSION['enfant'])) {
+                afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'],$_SESSION['idConnexion']);
+                afficherIntituleObjectif(null, $_SESSION['enfant']);    
+            } else {
+                afficherNomPrenomEnfantSubmitEquipe(null,$_SESSION['idConnexion']);
+                echo '
+                <p class=\'msgSelection\'>Choisissez un enfant pour pouvoir sélectionner un objectif 
+                afin de lui ajouter une récompense !</p>';
+            }  
+            
+            echo '
+            </div>
+            <button type="button" id="boutonSelecteurs" onclick="selectMsgToggle(\'selecteursMsg\'),scrollToButton(\'boutonSelecteurs\')"><img src="images/enfant.png" id="boutonsImgMsg" alt="icone selecteurs"></button>
+          </div>
+
+          <div id="containerBoutonsChat">
+            <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
+            <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
+            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un destinataire et un objectif ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+          </div>
+        </div>
+        
+        <button type="button" id="openChatButton" onclick="chatOpen(\'chatBox\',\'openChatButton\'),scrollToLastMsg(\'lastMsg\')"><img src="images/message.png" class="imageIcone" alt=""></button>
+    </form>
+    ';
+}
+
 function afficherMessageParObjectif($idEnfant, $idObjectif)
 {
     // connexion a la BD

@@ -22,6 +22,7 @@
   require('QUERY.php');
   testConnexion();
   faireMenu();
+
   ?>
 
   <h1>Tableau de bord pour l'enfant:</h1>
@@ -46,13 +47,13 @@
     </div>
 
     <?php
-    if ($_SESSION['enfant'] == 0 || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
-      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
-    }
-    if (isset($_POST['valeurJetonsIdObjectif'])) {
-      $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
-      UpdateJetonsPlaces($valeur[0], $valeur[1]);
-      ajouterJeton($valeur[1],time(),$_SESSION['idConnexion']);
+      if ($_SESSION['enfant'] == 0 || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
+        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+      }
+      if (isset($_POST['valeurJetonsIdObjectif'])) {
+        $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+        UpdateJetonsPlaces($valeur[0], $valeur[1]);
+        ajouterJeton($valeur[1],time(),$_SESSION['idConnexion']);
     }
     ?>
 
@@ -68,8 +69,21 @@
         ?>
       </div>
     </div>
-
   </form>
+
+  <?php
+ //!CHAT
+ if (champRempli(array('champSujet','champCorps'))){
+  ajouterMessage(
+    $_POST['champSujet'],
+    $_POST['champCorps'],
+    time(),
+    $_POST['idObjectif'],
+    $_SESSION['idConnexion']
+  );
+}
+faireChatTb();
+?>
   <script src="js/javascript.js"></script>
 </body>
 
