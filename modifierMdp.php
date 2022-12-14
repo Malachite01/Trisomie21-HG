@@ -13,12 +13,25 @@
 </head>
 
 <body>
+    <?php
+    session_start();
+    require('QUERY.php');
+    if (isset($_POST['boutonValider'])) {
+        echo '<div class="editPopup">
+            <h2 class="txtPopup">Mot de passe modifié !</h2>
+            <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
+            <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
+            </div>';
+        modifierMdp($_POST['champMdp'], $_SESSION['idConnexion']);
+        header('refresh: 1;url=modifierProfil.php');
+    }
+    ?>
     <div class="svgWaveContains">
         <div class="svgWave"></div>
     </div>
     <div class="test"></div>
     <img src="images/logo.png" alt="logo application" class="iconeApp">
-    <form id="formConnexion" action="indexConnexion.php" method="POST">
+    <form id="formConnexion" method="POST">
         <div class="miseFormeConnexion" id="miseEnFormeConnexion">
             <label for="champMdp">Mot de passe :</label>
             <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp('champMdp','champConfirmerMdp','messageVerifMdp','boutonValider')" required>
@@ -30,8 +43,8 @@
             <p id="messageVerifMdp" style="color: red;"></p>
         </div>
         <div class="center" id="boutonsValiderAnnuler">
-            <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
-            <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider" onclick="return confirm('Êtes vous sûr de vouloir appliquer ces modifications ?');"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
+            <button type="reset" name="boutonAnnuler" class="boutonAnnuler" onclick="document.location.href = 'modifierProfil.php'"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
+            <button type="submit" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
         </div>
     </form>
     <script src="js/javascript.js"></script>

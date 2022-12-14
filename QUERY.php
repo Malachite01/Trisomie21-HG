@@ -98,7 +98,7 @@ $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre'
 // requete pour rechercher le prenom du membre connecté
 $qAfficherNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
-$qModifierMdp = 'UPDATE membre SET Mdp = :$mdp WHERE Id_Membre = :idMembre';
+$qModifierMdp = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -3186,7 +3186,8 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
 
-function ajouterJeton($idObjectif,$dateHeure,$idMembre){
+function ajouterJeton($idObjectif, $dateHeure, $idMembre)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -3197,7 +3198,7 @@ function ajouterJeton($idObjectif,$dateHeure,$idMembre){
     // execution de la requete sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif),
-        ':dateHeure' => clean($dateHeure),//Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
