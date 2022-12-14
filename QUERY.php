@@ -226,6 +226,8 @@ $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance 
 $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
 
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
+
+$qNombreJetonsPlaces = 
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -3461,7 +3463,7 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
 
-function ajouterJeton($idObjectif, $dateHeure, $idMembre)
+function ajouterJeton($idObjectif, $dateHeure, $idMembre,$jetons)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3474,7 +3476,8 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre)
     $req->execute(array(
         ':idObjectif' => clean($idObjectif),
         ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
-        ':idMembre' => clean($idMembre)
+        ':idMembre' => clean($idMembre),
+        ':jetons' => clean($jetons)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
