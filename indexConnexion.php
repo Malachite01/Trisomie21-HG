@@ -25,7 +25,7 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
                     $_SESSION['prenomMembre'] = $data['Prenom'];
                     $_SESSION['enfant'] = null;
                     $_SESSION['objectif'] = null;
-                    //page d'accueil normalement tableau de bord
+                    //page d'accueil  tableau de bord
                     header('Location: tableauDeBord.php');
                     die();
                 } else {

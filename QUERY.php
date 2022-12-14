@@ -211,10 +211,10 @@ $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfa
 //?----------------------------------------------------MESSAGE-----------------------------------------------------------------
 $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
-$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
                         message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
                         AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant';
-$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
 
@@ -223,6 +223,9 @@ $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre) VA
 
 $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
+$qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
+
+$qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -504,6 +507,71 @@ function rechercherEnfant($champ)
     }
     // permet de parcourir toutes les lignes de la requete
 
+}
+function rechercheMembre($champ)
+{
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
+    }
+    // execution de la requete sql
+    $req->execute(array("%" . $champ . "%"));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    if ($req->rowCount() == 0) {
+        return 0;
+    } else {
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Date_Naissance') {
+                    echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
+                }
+                // recuperation valeurs importantes dans des variables
+                if ($key == 'Id_Membre') {
+                    $idMembre = $value;
+                }
+                if ($key == 'Compte_Valide') {
+                    $compteValide = $value;
+                }
+            }
+            // permet de dire si un membre a son compte valide ou non 
+            if ($compteValide == Null) {
+                echo '
+                <td>
+                    <button type="submit" name="boutonValider" value=' . $idMembre . '
+                    class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
+                        <img src="images/valider.png" class="imageIcone" alt="icone valider">
+                        <span>Valider</span>
+                    </button>
+                </td>';  // compte doit etre validé
+            } else {
+                echo '
+                <td>
+                    <p style="color: green">Compte valide !</p>
+                </td>'; // compte valide donc bouton innactif
+            }
+            // creation du bouton supprimer dans le tableau
+            echo '
+                <td>
+                    <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+                    " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                        <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                        <span>Supprimer</span>
+                    </button>
+                </td>
+            </tr>';
+        }
+    }
+    return 1;
 }
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
 
@@ -3198,7 +3266,6 @@ function afficherMessage($idEnfant)
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<table> <tr>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
 
@@ -3208,6 +3275,12 @@ function afficherMessage($idEnfant)
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
+                // if(entrant) {
+
+                // } else {
+
+                // }
+                echo '<p class="msgPrenomEntrant">' . $nom . ' ' . $prenom . '</p>';
             }
             if ($key == 'Intitule') {
                 $intitule = $value;
@@ -3219,13 +3292,14 @@ function afficherMessage($idEnfant)
                 $corps = $value;
             }
             if ($key == 'Date_Heure') {
-                $dateheure = $value;
+                // if(entrant) {
+                echo '<p class="msgEntrant"><strong class="objetMsg">' . $intitule . ' : ' . $sujet . '</strong><br>' . $corps . '</p><p class="msgHeureEntrant">' . $value . '</p>';
+                // } else {
+
+                // }
             }
         }
-        echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . $dateheure . '</td>';
-        echo '</tr>';
     }
-    echo '</table>';
 }
 function afficherMessageParObjectif($idEnfant, $idObjectif)
 {

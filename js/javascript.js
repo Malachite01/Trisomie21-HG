@@ -94,7 +94,7 @@ function Disable(ctrl){
 function chatOpen(chat,chatButton) {
     chatMsg = document.querySelector("." + chat);
     chatMsg.classList.toggle('chatBoxOn');
-    chatMsg.classList.remove('chatBoxOff')
+    chatMsg.classList.remove('chatBoxOff');
     
     oChatButton = document.querySelector("#" + chatButton);
     oChatButton.classList.toggle('chatButtonOff');
@@ -105,7 +105,7 @@ function chatOpen(chat,chatButton) {
 function chatClose(chat,chatButton) {
     chatMsg = document.querySelector("." + chat);
     chatMsg.classList.toggle('chatBoxOn');
-    chatMsg.classList.add('chatBoxOff')
+    chatMsg.classList.add('chatBoxOff');
 
     oChatButton = document.querySelector("#" + chatButton);
     oChatButton.classList.toggle('chatButtonOff');
@@ -114,4 +114,21 @@ function chatClose(chat,chatButton) {
 
 function scrollToLastMsg(id) {
     document.getElementById(id).scrollIntoView();
+}
+
+function selectMsgToggle(select) {
+    selectMsg = document.querySelector("#" + select);
+    if(selectMsg.classList.contains('selecteursMsgOn')) {
+        selectMsg.classList.remove('selecteursMsgOn');
+        selectMsg.classList.add('selecteursMsgOff');
+    } else {
+        selectMsg.classList.add('selecteursMsgOn');
+        selectMsg.classList.remove('selecteursMsgOff');
+    }
+}
+
+function scrollToButton(id) {
+    setTimeout(function () {
+        document.getElementById(id).scrollIntoView();
+    }, 300);
 }
