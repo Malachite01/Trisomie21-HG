@@ -3320,8 +3320,56 @@ function faireChatTb()
 {
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
-      <div id="chat">
+    <div id="chat">
         <div class="chatBox">
+        <p id="txtChatType">Chat par équipe</p>  
+          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
+          
+          <div id="scrollChat">';
+    if (isset($_POST['idObjectif'])) {
+        afficherMessage($_SESSION['enfant']);
+    }
+
+    echo '
+            <div id="selecteursMsg">
+            ';
+    if (isset($_POST['idObjectif'])) {
+        afficherIntituleObjectifSubmit($_POST['idObjectif'], $_SESSION['enfant']);
+    } else {
+        afficherIntituleObjectifSubmit(null, $_SESSION['enfant']);
+    }
+    if ($_SESSION['enfant'] == 0) {
+        echo '
+        <p class=\'msgSelection\'>Choisissez un enfant pour pouvoir sélectionner un objectif 
+        afin de lui ajouter une récompense !</p>';
+    }
+
+
+
+    echo '
+            </div>
+            <button type="button" id="boutonSelecteurs" onclick="selectMsgToggle(\'selecteursMsg\'),scrollToButton(\'boutonSelecteurs\')"><img src="images/enfant.png" id="boutonsImgMsg" alt="icone selecteurs"></button>
+          </div>
+
+          <div id="containerBoutonsChat">
+            <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
+            <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
+            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un destinataire et un objectif ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+          </div>
+        </div>
+        
+        <button type="button" id="openChatButton" onclick="chatOpen(\'chatBox\',\'openChatButton\'),scrollToLastMsg(\'lastMsg\')"><img src="images/message.png" class="imageIcone" alt=""></button>
+    </form>
+    ';
+}
+
+function faireChatObjectif()
+{
+    echo '
+    <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
+    <div id="chat">
+        <div class="chatBox">
+        <p id="txtChatType">Chat par objectif</p>  
           <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
           
           <div id="scrollChat">';

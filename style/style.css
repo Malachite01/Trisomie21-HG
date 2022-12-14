@@ -1486,13 +1486,13 @@ button.redirect {
     width: 8px;
 }
 .containerTampons::-webkit-scrollbar-track {
-    background: transparent;
+    background: white;
     margin: 5px;
     border-radius: 5px;
 }
 .containerTampons::-webkit-scrollbar-thumb {
     background-color: var(--couleurBouton);
-    border: 2px solid transparent;
+    border: 2px solid white;
     border-radius: 50px;
 }
 .containerTampons::-webkit-scrollbar-thumb:hover {
@@ -2012,6 +2012,7 @@ button#boutonSelecteurs:hover {
     display: none;
     background-color: green;
     border-radius: var(--globalRadius);
+    margin-top: 50px;
 }
 .selecteursMsgOn#selecteursMsg {
     display: block;
@@ -2028,7 +2029,7 @@ button#boutonSelecteurs:hover {
     }
     100% {
         clip-path: circle(100% at center);
-        width: fit-content;
+        width: 100%;
         height: fit-content;
     }
 }
@@ -2235,6 +2236,34 @@ button#boutonSelecteurs:hover {
     .msgSortant {
         max-width: 190px;
     }
+}
+
+#txtChatType {
+    z-index: 1;
+    font-family: Georama;
+    font-size: 1.5em;
+    color: black;
+    position: absolute;
+    margin-top: -20px;
+    padding: 3px;
+    margin-left: -10px;
+    height: fit-content;
+    width: fit-content;
+    background-color: lightgray;
+    border-radius: var(--globalRadius);
+}
+#txtChatType::before {
+    content: " ";
+    z-index: -1;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-left: 10px solid lightgray;
+    border-right: 10px solid transparent;
+    border-top: 10px solid lightgray;
+    border-bottom: 10px solid transparent;
+    bottom: -10px;
+    left: 2px;
 }
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;
