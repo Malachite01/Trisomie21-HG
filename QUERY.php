@@ -3280,7 +3280,7 @@ function afficherMessage($idEnfant)
             if ($key == 'Prenom') {
                 $prenom = $value;
                 if ($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgPrenomSortant">' . $nom . ' ' . $prenom . '</p>';
+                    echo '<p class="msgPrenomSortant">Vous</p>';
                 } else {
                     echo '<p class="msgPrenomEntrant">' . $nom . ' ' . $prenom . '</p>';
                 }
@@ -3299,16 +3299,16 @@ function afficherMessage($idEnfant)
                     $lastMsg = " ";
                 }
                 if ($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgSortant"' . $lastMsg . '><strong class="objetMsg">' . $intitule . ' : ' . $sujet . '</strong><br>' . $corps . '</p>';
+                    echo '<p class="msgSortant"' . $lastMsg . '><i class="objetMsg">' . $intitule . ' : ' . $sujet . '</i><br>' . $corps . '</p>';
                 } else {
-                    echo '<p class="msgEntrant"' . $lastMsg . '><strong class="objetMsg">' . $intitule . ' : ' . $sujet . '</strong><br>' . $corps . '</p>';
+                    echo '<p class="msgEntrant"' . $lastMsg . '><i class="objetMsg">' . $intitule . ' : ' . $sujet . '</i><br>' . $corps . '</p>';
                 }
             }
             if ($key == 'Date_Heure') {
                 if ($idMembre == $_SESSION['idConnexion']) {
-                    echo '<p class="msgHeureSortant">' . $value . '</p>';
+                    echo '<p class="msgHeureSortant">' . strtolower($value) . '</p>';
                 } else {
-                    echo '<p class="msgHeureEntrant">' . $value . '</p>';
+                    echo '<p class="msgHeureEntrant">' . strtolower($value) . '</p>';
                 }
             }
         }
@@ -3323,7 +3323,7 @@ function faireChatTb()
     <div id="chat">
         <div class="chatBox">
         <p id="txtChatType">Chat par équipe</p>  
-          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
+          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler2.png" alt="annuler" class="imageIcone"></button>
           
           <div id="scrollChat">';
     if (isset($_POST['idObjectif'])) {
