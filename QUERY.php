@@ -218,6 +218,8 @@ $qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Preno
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif ORDER BY message.Date_Heure';
 
+$qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
+
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
 $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre)';
 
@@ -3457,6 +3459,33 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
         echo '</tr>';
     }
     echo '</table>';
+}
+
+// fonction qui retourne les lignes si un enfant a le meme nom, prenom, date naissance qu'un enfant de la BD
+function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qMessageIdentique']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un enfant existe deja');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':sujet' => clean($sujet),
+        ':corps' => clean($corps),
+        ':idObjectif' => clean($idObjectif),
+        ':idMembre' => clean($idMembre)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un enfant existe deja');
+    }
+    $cout = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {}
 }
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
