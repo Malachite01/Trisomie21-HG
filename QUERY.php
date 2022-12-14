@@ -3332,7 +3332,7 @@ function faireChatTb()
 
     echo '
             <div id="selecteursMsg">
-            ';
+            <label>Objectifs : </label>';
     if (isset($_POST['idObjectif'])) {
         afficherIntituleObjectifSubmit($_POST['idObjectif'], $_SESSION['enfant']);
     } else {
@@ -3348,7 +3348,7 @@ function faireChatTb()
 
     echo '
             </div>
-            <button type="button" id="boutonSelecteurs" onclick="selectMsgToggle(\'selecteursMsg\'),scrollToButton(\'boutonSelecteurs\')"><img src="images/enfant.png" id="boutonsImgMsg" alt="icone selecteurs"></button>
+            <button type="button" id="boutonSelecteurs" onclick="selectMsgToggle(\'selecteursMsg\'),scrollToButton(\'boutonSelecteurs\')"><img src="images/objectifs.png" id="boutonsImgMsg" alt="icone selecteurs"></button>
           </div>
 
           <div id="containerBoutonsChat">
