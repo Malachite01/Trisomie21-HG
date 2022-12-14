@@ -3328,17 +3328,15 @@ function faireChatTb()
           <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler2.png" alt="annuler" class="imageIcone"></button>
           
           <div id="scrollChat">';
-    if (isset($_POST['idObjectif'])) {
         afficherMessage($_SESSION['enfant']);
-    }
 
     echo '
             <div id="selecteursMsg">
             <label>Objectifs : </label>';
     if (isset($_POST['idObjectif'])) {
-        afficherIntituleObjectifSubmit($_POST['idObjectif'], $_SESSION['enfant']);
+        afficherIntituleObjectif($_POST['idObjectif'], $_SESSION['enfant']);
     } else {
-        afficherIntituleObjectifSubmit(null, $_SESSION['enfant']);
+        afficherIntituleObjectif(null, $_SESSION['enfant']);
     }
     if ($_SESSION['enfant'] == 0) {
         echo '
