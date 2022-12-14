@@ -77,7 +77,7 @@ $qAfficherMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel
 $qValiderMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMembre';
 
 // requete pour vérifier la validite du compte d'un membre selon son courriel et son mdp dans la BD
-$qVerifierValidationMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Mdp = :mdp AND Compte_Valide = 1';
+$qVerifierValidationMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Compte_Valide = 1';
 
 // requete pour rechercher un membre dans la BD
 $qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_naissance, Code_Postal, Ville, Pro, Mdp FROM membre WHERE Id_Membre = :id';
@@ -99,6 +99,8 @@ $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre'
 $qAfficherNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
 $qModifierMdp = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
+
+$qRecupererMdp = 'SELECT Mdp FROM membre WHERE Courriel = :courriel';
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -276,8 +278,8 @@ function clean($champEntrant)
 
 function saltHash($mdp)
 {
-    $code = clean($mdp) . "BrIc3 4rNaUlT 3sT Le MeIlLeUr d3s pRoFesSeUrs !";
-    return hash('ripemd320', $code);
+    $code = $mdp . "BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !";
+    return password_hash($code, PASSWORD_DEFAULT);
 }
 
 function uploadImage($photo)
@@ -448,7 +450,8 @@ function testConnexion()
         header('Location: index.php');
     }
 }
-function rechercherEnfant($champ){
+function rechercherEnfant($champ)
+{
     $linkpdo = connexionBd();
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qRechercherEnfant']);
@@ -456,11 +459,11 @@ function rechercherEnfant($champ){
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
     }
     // execution de la requete sql
-    $req->execute(array("%".$champ."%"));
+    $req->execute(array("%" . $champ . "%"));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
-    if($req->rowCount()==0){
+    if ($req->rowCount() == 0) {
         return 0;
     } else {
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -503,9 +506,10 @@ function rechercherEnfant($champ){
         return 1;
     }
     // permet de parcourir toutes les lignes de la requete
-    
+
 }
-function rechercheMembre($champ){
+function rechercheMembre($champ)
+{
     $linkpdo = connexionBd();
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qRechercherMembre']);
@@ -513,11 +517,11 @@ function rechercheMembre($champ){
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
     }
     // execution de la requete sql
-    $req->execute(array("%".$champ."%"));
+    $req->execute(array("%" . $champ . "%"));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
-    if($req->rowCount()==0){
+    if ($req->rowCount() == 0) {
         return 0;
     } else {
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -1491,7 +1495,7 @@ function validerMembre($idMembre)
 }
 
 // fonction qui permet de vérifier si un membre est validé ou non avant de se connecter
-function verifierValidationMembre($courriel, $mdp)
+function verifierValidationMembre($courriel)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1501,7 +1505,7 @@ function verifierValidationMembre($courriel, $mdp)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
     }
     // execution de la requete sql
-    $req->execute(array(':courriel' => clean($courriel), ':mdp' => clean($mdp)));
+    $req->execute(array(':courriel' => clean($courriel)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
     }
@@ -1704,6 +1708,31 @@ function modifierMdp($mdp, $idMembre)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+}
+
+function recupererMdp($courriel)
+{
+    // connexion a la base de donnees
+    $linkpdo = connexionBd();
+    //on supprime le membre
+    $req = $linkpdo->prepare($GLOBALS['qRecupererMdp']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':courriel' => $courriel
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $value) {
+            // recuperation de toutes les informations du membre de la session dans des inputs 
+            return $value;
+        }
     }
 }
 
@@ -3368,7 +3397,7 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
             if ($key == 'Corps') {
                 $corps = $value;
             }
-            if ($key== 'Date_Heure'){
+            if ($key == 'Date_Heure') {
                 $dateheure = $value;
             }
         }
