@@ -5,7 +5,7 @@ $linkpdo = connexionBd();
 if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // Si il existe les champs email, password et qu'il sont pas vides
 {
     $courriel = $_POST['champIdentifiant'];
-    $mdp = saltHash($_POST['champMotDePasse']);
+    $mdp = $_POST['champMotDePasse'] . 'BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !';
     $check = $linkpdo->prepare('SELECT courriel, Mdp, id_Membre, Prenom from membre where courriel = ?');
     $check->execute(array($courriel));
     $data = $check->fetch();
@@ -13,14 +13,13 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
 
     $courriel = strtolower($courriel);
     $courriel = clean($courriel);
-    $mdp = clean($mdp);
 
     if ($row > 0) {
         // Se le courriel est au bon format
         if (filter_var($courriel, FILTER_VALIDATE_EMAIL)) {
             // Si le mdp est bon (pas sécurisé faudra mettre un hash après)
-            if ($mdp === $data['Mdp']) {
-                if (verifierValidationMembre($courriel, $mdp)) {
+            if (password_verify($mdp, $data['Mdp'])) {
+                if (verifierValidationMembre($courriel)) {
                     //(password_verify($mdp,$data['Mdp'])) On met l'id au $_SESSION pour le réutiliser après
                     $_SESSION['idConnexion'] = $data['id_Membre'];
                     $_SESSION['prenomMembre'] = $data['Prenom'];
