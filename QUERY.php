@@ -87,7 +87,7 @@ $qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :id';
 
 // requete pour modifier les données d'un membre de la BD
 $qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, 
-                                Ville = :ville, Mdp = :mdp WHERE Id_Membre = :idMembre';
+                                Ville = :ville WHERE Id_Membre = :idMembre';
 
 // requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
 $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre 
@@ -97,6 +97,8 @@ $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre
 $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
 // requete pour rechercher le prenom du membre connecté
 $qAfficherNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
+
+$qModifierMdp = 'UPDATE membre SET Mdp = :$mdp WHERE Id_Membre = :idMembre';
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -1491,11 +1493,12 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Mdp') {
                 //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
-                <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
-                <span><img src="images/oeilFermé.png" id="oeilMdp" alt="oeil" onclick="afficherMDP(\'champMdp\',\'oeilMdp\')"></span>';
-                echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
-                <input type="password" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
-                <span><img src="images/oeilFermé.png" id="oeilMdp2" alt="oeil" onclick="afficherMDP(\'champConfirmerMdp\',\'oeilMdp2\')"></span>';
+                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="*******" readonly required>
+                <span></span>
+                <a href="modifierMdp.php" class="texteAccueil"> Changer votre mot de passe ?</a>';
+                // echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
+                // <input type="password" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
+                // <span><img src="images/oeilFermé.png" id="oeilMdp2" alt="oeil" onclick="afficherMDP(\'champConfirmerMdp\',\'oeilMdp2\')"></span>';
                 echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
             }
         }
@@ -1503,7 +1506,7 @@ function AfficherInformationsMembreSession($idMembre)
 }
 
 // fonction qui permet de modifier les informations du membre de la session
-function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $mdp)
+function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1520,7 +1523,6 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
         ':adresse' => clean($adresse),
         ':codePostal' => clean($codePostal),
         ':ville' => clean($ville),
-        ':mdp' => clean($mdp),
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
@@ -1556,6 +1558,25 @@ function supprimerMembre($idMembre)
     }
     // execution de la requete sql
     $req->execute(array(':id' => clean($idMembre)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+}
+
+function modifierMdp($mdp, $idMembre)
+{
+    // connexion a la base de donnees
+    $linkpdo = connexionBd();
+    //on supprime le membre
+    $req = $linkpdo->prepare($GLOBALS['qModifierMdp']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':mdp' => saltHash($mdp),
+        ':idMembre' => $idMembre
+    ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
