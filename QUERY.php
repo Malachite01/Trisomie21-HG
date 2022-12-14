@@ -87,7 +87,7 @@ $qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :id';
 
 // requete pour modifier les données d'un membre de la BD
 $qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, 
-                                Ville = :ville, Mdp = :mdp WHERE Id_Membre = :idMembre';
+                                Ville = :ville WHERE Id_Membre = :idMembre';
 
 // requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
 $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre 
@@ -97,6 +97,8 @@ $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre
 $qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
 // requete pour rechercher le prenom du membre connecté
 $qAfficherNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
+
+$qModifierMdp = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -207,16 +209,21 @@ $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfa
 //?----------------------------------------------------MESSAGE-----------------------------------------------------------------
 $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
-$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessage = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
                         message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
                         AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant';
-$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
+$qAfficherMessageParObjectif = 'SELECT membre.Nom,membre.Prenom, objectif.Intitule,message.Id_Membre,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
 $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre)';
 
+$qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
+
+$qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
+
+$qRechercherIdMembreMessage = 'SELECT Id_Membre From message '
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -441,7 +448,127 @@ function testConnexion()
         header('Location: index.php');
     }
 }
-
+function rechercherEnfant($champ){
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
+    }
+    // execution de la requete sql
+    $req->execute(array("%".$champ."%"));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    if($req->rowCount()==0){
+        return 0;
+    } else {
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Nom' || $key == 'Prenom') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Date_Naissance') {
+                    echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
+                }
+                if ($key == 'Lien_Jeton') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                }
+                // recuperation valeurs importantes dans des variables
+                if ($key == 'Id_Enfant') {
+                    $idEnfant = $value;
+                }
+            }
+            // creation du bouton supprimer dans le tableau
+            echo '
+                <td>
+                <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
+                class="boutonModifier" formaction="modifierEnfant.php">
+                    <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                    <span>Modifier</span>
+                </button>
+             </td>
+                 <td>
+                     <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
+                     " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
+                         <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                         <span>Supprimer</span>
+                     </button>
+                 </td>
+             </tr>';
+        }
+        return 1;
+    }
+    // permet de parcourir toutes les lignes de la requete
+    
+}
+function rechercheMembre($champ){
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
+    }
+    // execution de la requete sql
+    $req->execute(array("%".$champ."%"));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+    }
+    if($req->rowCount()==0){
+        return 0;
+    } else {
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Date_Naissance') {
+                    echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
+                }
+                // recuperation valeurs importantes dans des variables
+                if ($key == 'Id_Membre') {
+                    $idMembre = $value;
+                }
+                if ($key == 'Compte_Valide') {
+                    $compteValide = $value;
+                }
+            }
+            // permet de dire si un membre a son compte valide ou non 
+            if ($compteValide == Null) {
+                echo '
+                <td>
+                    <button type="submit" name="boutonValider" value=' . $idMembre . '
+                    class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
+                        <img src="images/valider.png" class="imageIcone" alt="icone valider">
+                        <span>Valider</span>
+                    </button>
+                </td>';  // compte doit etre validé
+            } else {
+                echo '
+                <td>
+                    <p style="color: green">Compte valide !</p>
+                </td>'; // compte valide donc bouton innactif
+            }
+            // creation du bouton supprimer dans le tableau
+            echo '
+                <td>
+                    <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+                    " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                        <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                        <span>Supprimer</span>
+                    </button>
+                </td>
+            </tr>';
+        }
+    }
+    return 1;
+}
 //! -----------------------------------------------ENFANT--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un enfant a la BD
@@ -1491,11 +1618,12 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Mdp') {
                 //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
-                <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '"  required>
-                <span><img src="images/oeilFermé.png" id="oeilMdp" alt="oeil" onclick="afficherMDP(\'champMdp\',\'oeilMdp\')"></span>';
-                echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
-                <input type="password" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
-                <span><img src="images/oeilFermé.png" id="oeilMdp2" alt="oeil" onclick="afficherMDP(\'champConfirmerMdp\',\'oeilMdp2\')"></span>';
+                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="*******" readonly required>
+                <span></span>
+                <a href="modifierMdp.php" class="texteAccueil"> Changer votre mot de passe ?</a>';
+                // echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
+                // <input type="password" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
+                // <span><img src="images/oeilFermé.png" id="oeilMdp2" alt="oeil" onclick="afficherMDP(\'champConfirmerMdp\',\'oeilMdp2\')"></span>';
                 echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
             }
         }
@@ -1503,7 +1631,7 @@ function AfficherInformationsMembreSession($idMembre)
 }
 
 // fonction qui permet de modifier les informations du membre de la session
-function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $mdp)
+function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1520,7 +1648,6 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
         ':adresse' => clean($adresse),
         ':codePostal' => clean($codePostal),
         ':ville' => clean($ville),
-        ':mdp' => clean($mdp),
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
@@ -1556,6 +1683,25 @@ function supprimerMembre($idMembre)
     }
     // execution de la requete sql
     $req->execute(array(':id' => clean($idMembre)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+    }
+}
+
+function modifierMdp($mdp, $idMembre)
+{
+    // connexion a la base de donnees
+    $linkpdo = connexionBd();
+    //on supprime le membre
+    $req = $linkpdo->prepare($GLOBALS['qModifierMdp']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':mdp' => saltHash($mdp),
+        ':idMembre' => $idMembre
+    ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
@@ -3165,8 +3311,11 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
             if ($key == 'Corps') {
                 $corps = $value;
             }
+            if ($key== 'Date_Heure'){
+                $dateheure = $value;
+            }
         }
-        echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . '</td>';
+        echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . $dateheure . '</td>';
         echo '</tr>';
     }
     echo '</table>';
@@ -3174,7 +3323,8 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
 
-function ajouterJeton($idObjectif,$dateHeure,$idMembre){
+function ajouterJeton($idObjectif, $dateHeure, $idMembre)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -3185,7 +3335,7 @@ function ajouterJeton($idObjectif,$dateHeure,$idMembre){
     // execution de la requete sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif),
-        ':dateHeure' => clean($dateHeure),//Il faut mettre le timestamp, on le demande pas a l'utilisateur
+        ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
