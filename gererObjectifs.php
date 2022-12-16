@@ -17,9 +17,6 @@ session_start();
 require('QUERY.php');
 testConnexion();
 
-// if (isset($_POST['boutonModifier'])) {
-
-// }
 if (isset($_POST['boutonSupprimer'])) {
   unlink(supprimerImageObjectif($_POST['boutonSupprimer']));
   supprimerObjectif($_POST['boutonSupprimer']);

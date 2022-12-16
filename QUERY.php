@@ -229,7 +229,7 @@ $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, C
 
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 
-$qNombreJetonsPlaces = 
+$qNombreJetonsPlaces = '';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -491,7 +491,7 @@ function rechercherEnfant($champ)
             }
             // creation du bouton supprimer dans le tableau
             echo '
-                <td>
+            <td>
                 <button type="submit" name="boutonModifier" value="' . $idEnfant . '" 
                 class="boutonModifier" formaction="modifierEnfant.php">
                     <img src="images/edit.png" class="imageIcone" alt="icone modifier">
