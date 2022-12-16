@@ -1,167 +1,172 @@
 <?php
 
 /*
-/ --------------------------------------------------------------------------------------------------------------------------
-/ -----------------------------------------------Liste des requetes---------------------------------------------------------
-/ --------------------------------------------------------------------------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------
+* -----------------------------------------------Liste des requetes---------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------
 */
 
 //? ----------------------------------------------Enfant---------------------------------------------------------------------
 
 // requete pour ajouter un enfant a la BD
-$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) 
-                    VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
+$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
 
 // requete pour verifier qu'un enfant avec les données en parametre n'existe pas deja dans la BD
-$qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant 
-                    WHERE Nom = :nom AND Prenom = :prenom AND Date_Naissance = :dateNaissance';
+$qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant WHERE Nom = :nom AND Prenom = :prenom AND Date_Naissance = :dateNaissance';
 
-// requete pour afficher le nom prenom de tous les enfants dont un membre s'occupe (pour le moment ca affiche tout le monde)
-$qAfficherNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
-
-$qAfficherNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enfant,suivre 
-WHERE enfant.Id_Enfant = suivre.Id_Enfant AND suivre.Id_Membre = :id ORDER BY Nom';
-
-$qModifierImageEnfant = 'UPDATE enfant SET Lien_Jeton = :lienJeton where Id_Enfant = :idEnfant';
-
+// requete pour supprimer un enfant de la BD selon son Id_Enfant
 $qSupprimerEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
 
-$qAfficherInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance  From Enfant';
+// requete pour recuperer l'Id_enfant, l'image du jeton, le nom, le prenom et la date de naissance de tout les enfants de la BD
+$qRecupererInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance  From Enfant';
 
-$qNomPrenomEnfant = 'SELECT Nom, Prenom FROM enfant WHERE Id_Enfant = :idEnfant';
+// requete pour recuperer le nom, prenom de tous les enfants ( trie par nom )
+$qRecupererNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
+
+// requete pour recuperer le nom, prenom d'un enfant selon son Id_Enfant
+$qRecupererNomPrenomUnEnfant = 'SELECT Nom, Prenom FROM enfant WHERE Id_Enfant = :idEnfant';
+
+// requete pour recuperer le nom prenom de tous les enfants que suis le membre de la session ( trie par nom )
+$qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enfant,suivre WHERE enfant.Id_Enfant = suivre.Id_Enfant AND suivre.Id_Membre = :idMembre ORDER BY Nom';
+
+// requete pour modifier l'image du jeton d'un enfant selon son Id_Enfant
+$qModifierImageEnfant = 'UPDATE enfant SET Lien_Jeton = :lienJeton where Id_Enfant = :idEnfant';
+
 
 //? ----------------------------------------------Membre---------------------------------------------------------------------
 
+
 // requete pour ajouter un membre a la BD
-$qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Pro) 
-                    VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:pro)';
+$qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Pro) VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:pro)';
 
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD
-$qAfficherMembres = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre';
+// requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
+$qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre WHERE Nom = :nom AND Prenom = :prenom AND Date_Naissance = :dateNaissance AND Courriel = :courriel';
 
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD le tout trie par Nom croissant puis prenom croissant
-$qAfficherMembresAZ = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Nom, Prenom';
+// requete pour supprimer un membre de la BD
+$qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :idMembre';
 
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD le tout trie par Nom decroissant puis prenom croissant
-$qAfficherMembresZA = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Nom DESC, Prenom';
-
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD le tout trie par date naissance croissante puis nom puis prenom
-$qAfficherMembresDateNaissanceCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM 
-                                            Membre ORDER BY Date_Naissance, Nom, Prenom';
-
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD le tout trie par date naissance decroissante puis nom puis prenom
-$qAfficherMembresDateNaissanceDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM 
-                                            Membre ORDER BY Date_Naissance DESC , Nom, Prenom';
-
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD le tout trie par validation croissant puis nom puis prenom
-$qAfficherMembresCompteValideCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM 
-                                            Membre ORDER BY Compte_Valide, Nom, Prenom';
-
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD le tout trie par validation decroissant puis nom puis prenom
-$qAfficherMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM 
-                                            Membre ORDER BY Compte_Valide DESC, Nom, Prenom';
-
-// requete pour afficher l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des 
-// membres de la BD le tout trie par Id_Membre decroissant
-$qAfficherMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM 
-                                            Membre ORDER BY Id_Membre DESC';
-
-// requete pour valider un membre de la BD
+// requete pour valider le compte d'un membre de la BD
 $qValiderMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMembre';
 
-// requete pour vérifier la validite du compte d'un membre selon son courriel et son mdp dans la BD
+// requete pour vérifier la validite du compte d'un membre selon son courriel dans la BD
 $qVerifierValidationMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Compte_Valide = 1';
 
 // requete pour rechercher un membre dans la BD
-$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_naissance, Code_Postal, Ville, Pro, Mdp FROM membre WHERE Id_Membre = :id';
-
-// requete pour supprimer un membre de la BD
-$qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :id';
+$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_naissance, Code_Postal, Ville, Pro, Mdp FROM membre WHERE Id_Membre = :idMembre';
 
 // requete pour modifier les données d'un membre de la BD
-$qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, 
-                                Ville = :ville WHERE Id_Membre = :idMembre';
+$qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, Ville = :ville WHERE Id_Membre = :idMembre';
 
-// requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
-$qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre 
-                    WHERE Nom = :nom AND Prenom = :prenom AND Date_Naissance = :dateNaissance AND Courriel = :courriel';
+// requete pour recuperer le prenom du membre connecté
+$qRecupererPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
-// requete pour rechercher le prenom du membre connecté
-$qAfficherPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
-// requete pour rechercher le prenom du membre connecté
-$qAfficherNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
+// requete pour recuperer le prenom du membre connecté
+$qRecupererNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
-$qModifierMdp = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
+// requete pour modifier le mot de passe du membre de connexion
+$qModifierMotDePasse = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
 
-$qRecupererMdp = 'SELECT Mdp FROM membre WHERE Courriel = :courriel';
+// requete pour recuperer le mot de passe d'un membre selon son courriel
+$qRecupererMotDePasse = 'SELECT Mdp FROM membre WHERE Courriel = :courriel';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD
+$qRecupererInformationsMembres = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des  membres de la BD ( trie par Nom croissant puis prenom croissant )
+$qRecupererInformationsMembresAZ = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Nom, Prenom';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Nom decroissant puis prenom croissant )
+$qRecupererInformationsMembresZA = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Nom DESC, Prenom';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par date naissance croissante puis nom puis prenom )
+$qRecupererInformationsMembresDateNaissanceCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Date_Naissance, Nom, Prenom';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par date naissance decroissante puis nom puis prenom )
+$qRecupererInformationsMembresDateNaissanceDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Date_Naissance DESC , Nom, Prenom';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par validation croissant puis nom puis prenom )
+$qRecupererInformationsMembresCompteValideCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Compte_Valide, Nom, Prenom';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par validation decroissant puis nom puis prenom )
+$qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Compte_Valide DESC, Nom, Prenom';
+
+// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Id_Membre decroissant )
+$qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Id_Membre DESC';
+
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
-// requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant) 
-                    VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :idMembre, :idEnfant)';
 
-// requete qui permet de vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
+// requete pour ajouter un objectif a la BD
+$qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant) VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :idMembre, :idEnfant)';
+
+// requete pour vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
 $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
 
-// requete pour afficher les objectifs de la BD
-$qAfficherObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Travaille, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant';
+// requete pour recuperer les informations des objectifs de la BD selon un Id_Enfant
+$qRecupererInformationsObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Travaille, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant';
 
-$qAfficherObjectifsTb = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
+// requete pour recuperer les informations des objectifs de la BD selon un Id_Enfant et qui sont "en cours"
+$qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
 
-$qAfficherObjectifsZoom = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
+// requete pour recuperer les informations d'un objectif de la BD selon un Id_Objectif
+$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qAfficherValidationTb = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
+// requete pour recuperer Nb_Jetons_Places, Nb_Jetons d'un objectif en cours selon son Id_Objectif 
+$qRecupererJetonsUnObjectif = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
 
-$qAfficherObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
+// requete pour recuperer les informations d'un objectif pour un enfant ( trie par intitule )
+$qRecupererInformationsObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
-$qAfficherObjectifsZA = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule DESC';
+// requete pour recuperer les informations d'un objectif pour un enfant ( trie par intitule decroissant )
+$qRecupererInformationsObjectifsZA = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule DESC';
 
-$qAfficherObjectifsDureeCroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree';
+// requete pour recuperer les informations d'un objectif pour un enfant ( trie par duree )
+$qRecupererInformationsObjectifsDureeCroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree';
 
-$qAfficherObjectifsDureeDecroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree DESC';
+// requete pour recuperer les informations d'un objectif pour un enfant ( trie par duree decroissante )
+$qRecupererInformationsObjectifsDureeDecroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree DESC';
 
-$qAfficherObjectifsStatutCroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille';
+// requete pour recuperer les informations d'un objectif pour un enfant ( trie par statut )
+$qRecupererInformationsObjectifsStatutCroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille';
 
-$qAfficherObjectifsStatutDecroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille DESC';
+// requete pour recuperer les informations d'un objectif pour un enfant ( trie par statut decroissant )
+$qRecupererInformationsObjectifsStatutDecroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille DESC';
 
-//requete de modification d'Objectif
-$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, 
-                                Lien_Image = :lienImage, Travaille = :travaille, Id_Membre = :idMembre WHERE id_Objectif = :idObjectif';
+//requete pour modifier un objectif
+$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, Lien_Image = :lienImage, Travaille = :travaille, Id_Membre = :idMembre WHERE id_Objectif = :idObjectif';
 
 // requete pour supprimer un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour afficher les objectifs de la BD
-$qAfficherInformationUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons
-                                    FROM objectif WHERE Id_Objectif = :idObjectif';
+// requete pour recuperer les informations d'un objectif selon son Id_Objectif
+$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete qui permet de récupérer l'image d'un objectif 
-$qAfficherImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
+// requete pour recuperer l'image d'un objectif 
+$qRecupererImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// raquete qui permet de récupérer le nombre de tampon pour un objectif donné
-$qNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
+// requete pour recuperer le nombre de jetons pour un objectif selon son Id_Objectif
+$qRecupererNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// raquete qui permet de récupérer le nombre de tampon pour un objectif donné
-$qNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+// requete pour recuperer le nombre de jetons places pour un objectif selon son Id_Objectif
+$qRecupererNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qUpdateJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
+// requete pour modifier le nombre de jetons places pour un objectif selon son Id_Objectif
+$qModifierJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
 
-$qSupprimerInfosIdMembre = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
+// requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
+$qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
 
-$qAfficherIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
+// requete pour recuperer l'intitule d'un objectif selon son Id_Enfant ( trie par intitule )
+$qRecupererIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
-$qAfficherUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif = :idObjectif';
+// requete pour recuperer l'intitule d'un objectif selon son Id_Objectif
+$qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif = :idObjectif';
 
+// requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
+//! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
@@ -623,12 +628,12 @@ function enfantIdentique($nom, $prenom, $dateNaissance)
 }
 
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
-function afficherNomPrenomEnfant($enfantSelect)
+function afficherNomPrenomEnfantSelect($enfantSelect)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomEnfant']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfant']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
@@ -664,7 +669,7 @@ function afficherNomPrenomEnfantSubmit($enfantSelect)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomEnfant']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfant']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
@@ -694,18 +699,18 @@ function afficherNomPrenomEnfantSubmit($enfantSelect)
     echo '</select>';
 }
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
-function afficherNomPrenomEnfantEquipe($enfantSelect, $id)
+function afficherNomPrenomEnfantEquipe($enfantSelect, $idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomEnfantEquipe']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfantEquipe']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
     // execution de la requete sql
     $req->execute(array(
-        ':id' => clean($id)
+        ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
@@ -732,18 +737,18 @@ function afficherNomPrenomEnfantEquipe($enfantSelect, $id)
 }
 
 // fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
-function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $id)
+function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomEnfantEquipe']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfantEquipe']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
     // execution de la requete sql
     $req->execute(array(
-        ':id' => clean($id)
+        ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
@@ -813,7 +818,7 @@ function afficherInformationsEnfant()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherInformationEnfants']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationEnfants']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -882,7 +887,7 @@ function nomPrenomEnfant($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qNomPrenomEnfant']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomUnEnfant']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -966,7 +971,7 @@ function AfficherMembres()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresIdMembreDecroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresIdMembreDecroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1031,7 +1036,7 @@ function AfficherMembresAZ()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresAZ']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresAZ']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1096,7 +1101,7 @@ function AfficherMembresZA()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresZA']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresZA']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1161,7 +1166,7 @@ function AfficherMembresDateNaissanceCroissante()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresDateNaissanceCroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresDateNaissanceCroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1226,7 +1231,7 @@ function AfficherMembresDateNaissanceDecroissante()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresDateNaissanceDecroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresDateNaissanceDecroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1291,7 +1296,7 @@ function AfficherMembresCompteValideCroissante()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresCompteValideCroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresCompteValideCroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1356,7 +1361,7 @@ function AfficherMembresCompteValideDecroissante()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembresCompteValideDecroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresCompteValideDecroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1421,7 +1426,7 @@ function AfficherMembresIdMembreDecroissante()
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMembres']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembres']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
     }
@@ -1525,7 +1530,7 @@ function afficherPrenomMembre($idMembre)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherPrenomMembre']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererPrenomMembre']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
     }
@@ -1543,7 +1548,7 @@ function afficherNomPrenomMembreMessage($idMembre)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomMembre']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomMembre']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
     }
@@ -1578,7 +1583,7 @@ function rechercherMembre($idMembre)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher un membre dans la BD');
     }
     // execution de la requete sql
-    $req->execute(array(':id' => clean($idMembre)));
+    $req->execute(array(':idMembre' => clean($idMembre)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher un membre dans la BD');
     }
@@ -1667,7 +1672,7 @@ function supprimerIdMembreDansObjectif($idMembre)
     $linkpdo = connexionBd();
     // preparation de la requete sql
     //on supprime les liens avec Objectif
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerInfosIdMembre']);
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerIdMembreObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer tous les idObj de la BD');
     }
@@ -1688,7 +1693,7 @@ function supprimerMembre($idMembre)
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
     }
     // execution de la requete sql
-    $req->execute(array(':id' => clean($idMembre)));
+    $req->execute(array(':idMembre' => clean($idMembre)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
     }
@@ -1699,7 +1704,7 @@ function modifierMdp($mdp, $idMembre)
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     //on supprime le membre
-    $req = $linkpdo->prepare($GLOBALS['qModifierMdp']);
+    $req = $linkpdo->prepare($GLOBALS['qModifierMotDePasse']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
     }
@@ -1718,7 +1723,7 @@ function recupererMdp($courriel)
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     //on supprime le membre
-    $req = $linkpdo->prepare($GLOBALS['qRecupererMdp']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererMotDePasse']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
     }
@@ -1793,7 +1798,7 @@ function afficherGererObjectifs($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifs']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifs']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -1860,7 +1865,7 @@ function afficherObjectifs($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsTb']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsEnCours']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -1936,7 +1941,7 @@ function afficherObjectifsZoom($idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsZoom']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsUnObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -2006,7 +2011,7 @@ function AfficherValidationObjectif($idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherValidationTb']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererJetonsUnObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -2044,7 +2049,7 @@ function NombreDeJetons($idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetons']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNombreDeJetons']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
@@ -2069,7 +2074,7 @@ function NombreDeJetonsPlaces($idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qNombreDeJetonsPlaces']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNombreDeJetonsPlaces']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
@@ -2094,7 +2099,7 @@ function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qUpdateJetonsPlaces']);
+    $req = $linkpdo->prepare($GLOBALS['qModifierJetonsPlaces']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
@@ -2114,7 +2119,7 @@ function AfficherInformationUnObjectif($idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherInformationUnObjectif']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsUnObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
     }
@@ -2239,7 +2244,7 @@ function AfficherImageObjectif($idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherImageObjectif']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererImageObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
     }
@@ -2316,7 +2321,7 @@ function afficherIntituleObjectif($objectifSelected, $idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherIntituleObjectif']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererIntituleObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
@@ -2352,7 +2357,7 @@ function afficherIntituleObjectifSubmit($objectifSelected, $idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherIntituleObjectif']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererIntituleObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
@@ -2389,7 +2394,7 @@ function afficherUnIntituleObjectif($idObjectif)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherUnIntituleObjectif']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererUnIntituleObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
     }
@@ -2413,7 +2418,7 @@ function afficherGererObjectifsAZ($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsAZ']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsAZ']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -2477,7 +2482,7 @@ function afficherGererObjectifsZA($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsZA']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsZA']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -2541,7 +2546,7 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsDureeCroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsDureeCroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -2605,7 +2610,7 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsDureeDecroissante']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsDureeDecroissante']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -2669,7 +2674,7 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsStatutCroissant']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsStatutCroissant']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -2733,7 +2738,7 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifsStatutDecroissant']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsStatutDecroissant']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
     }
@@ -3482,12 +3487,16 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un enfant existe deja');
     }
     $cout = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
+    $i = 0;
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
+            if ($i == $cout) {
+            }
         }
     }
+    $i++;
 }
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
