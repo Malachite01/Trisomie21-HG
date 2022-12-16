@@ -27,34 +27,34 @@
   <h1>Ajouter un membre à une équipe</h1>
   <?php
 
-    if (champRempli(array('champRole'))) {
-      AjouterUneEquipe(
-        $_POST['idEnfant'],
-        $_POST['idMembre'],
-        time(),
-        $_POST['champRole']
-      );
-      echo '
+  if (champRempli(array('champRole'))) {
+    AjouterUneEquipe(
+      $_POST['idEnfant'],
+      $_POST['idMembre'],
+      time(),
+      $_POST['champRole']
+    );
+    echo '
       <div class="validationPopup">
         <h2 class="txtPopup">L\'enfant a bien été ajouté à l\'équipe !</h2>
         <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
         <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
       </div>';
-      //ICI IL FAUDRA FAIRE LA VERIFICATION SI L4ENFANT EST DEJA DANS LEQUIPE ET ECHO CA
-      // echo '
-      // <div class="erreurPopup">
-      //   <h2 class="txtPopup">Erreur, l\'enfant est déja dans cette équipe.</h2>
-      //   <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
-      //   <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-      // </div>';
-    }
-    ?>
+    //ICI IL FAUDRA FAIRE LA VERIFICATION SI L4ENFANT EST DEJA DANS LEQUIPE ET ECHO CA
+    // echo '
+    // <div class="erreurPopup">
+    //   <h2 class="txtPopup">Erreur, l\'enfant est déja dans cette équipe.</h2>
+    //   <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+    //   <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+    // </div>';
+  }
+  ?>
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
       echo '<label for="champEnfant">Enfant concerné :</label>';
-      afficherNomPrenomEnfant($_SESSION['enfant']);
+      afficherNomPrenomEnfantSelect($_SESSION['enfant']);
       echo '<span></span>';
       echo '<label for="champEnfant">Membre concerné :</label>';
       afficherNomPrenomMembre();
@@ -70,5 +70,6 @@
     </div>
   </form>
   <script src="js/javascript.js"></script>
-  </body>
+</body>
+
 </html>

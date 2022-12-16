@@ -72,3 +72,33 @@ if (password_verify('azertyuiop' . 'BrIc3 4rNaUlT 3sT Le MeIlLeUr d3s pRoFesSeUr
 }
 echo '<br>';
 echo '<br>';
+echo '<br>';
+echo '<br>';
+
+echo 'Compression image :';
+echo '<br>';
+echo '<br>';
+
+chmod('upload/image.jpg', 0777);
+
+$target_size = 500000; // target file size in bytes
+$quality = 50; // starting quality level
+
+$image = imagecreatefromjpeg('upload/image.jpg');
+
+
+echo 'Départ image ( upload/image.jpg ), taille :' . filesize('upload/image.jpg') . '';
+echo '<br>';
+
+$chemin = 'upload/image.jpg';
+
+// loop until the file size is smaller than the target size
+while (filesize($chemin) > $target_size) {
+    // reduce the quality level
+    // compress the image with the new quality level
+    imagejpeg($image, 'upload/compressed_image.jpg', $quality);
+    $chemin = 'upload/compressed_image.jpg';
+}
+chmod('upload/compressed_image.jpg', 0777);
+
+echo 'Résultat image ( upload/compressed_image.jpg ), taille :' . filesize('upload/compressed_image.jpg') . '';
