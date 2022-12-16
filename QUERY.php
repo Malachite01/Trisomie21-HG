@@ -234,7 +234,7 @@ $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, C
 
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 
-$qNombreJetonsPlaces = 
+$qNombreJetonsPlaces = '';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -3335,7 +3335,7 @@ function faireChatTb()
           <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler2.png" alt="annuler" class="imageIcone"></button>
           
           <div id="scrollChat">';
-        afficherMessage($_SESSION['enfant']);
+    afficherMessage($_SESSION['enfant']);
 
     echo '
             <div id="selecteursMsg">
@@ -3501,7 +3501,7 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
 
-function ajouterJeton($idObjectif, $dateHeure, $idMembre,$jetons)
+function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
