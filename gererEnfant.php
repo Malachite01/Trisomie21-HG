@@ -31,7 +31,7 @@ if (isset($_GET['params'])) {
   if ($err == 'modif') {
     echo '
     <div class="editPopup">
-      <h2 class="txtPopup">Le jeton de l\'enfant a bien été modifié !</h2>
+      <h2 class="txtPopup">Les informations de l\'enfant ont bien été modifiées !</h2>
       <img src="images/edit.png" alt="valider" class="imageIcone centerIcon">
       <button class="boutonFermerPopup" onclick="erasePopup(\'editPopup\')">Fermer X</button>
     </div>';
@@ -40,14 +40,20 @@ if (isset($_GET['params'])) {
 
 if (isset($_POST['boutonValider'])) {
   if ($_FILES['champLienJeton']['name'] == "") {
-    modifierImageEnfant(
+    modifierInformationsEnfant(
+      $_POST['champNom'],
+      $_POST['champPrénom'],
+      $_POST['champDateDeNaissance'],
       $_POST['hiddenImageLink'],
       $_POST['boutonValider']
     );
   } else {
     $image = uploadImage($_FILES['champLienJeton']);
     if ($image != null) {
-      modifierImageEnfant(
+      modifierInformationsEnfant(
+        $_POST['champNom'],
+        $_POST['champPrénom'],
+        $_POST['champDateDeNaissance'],
         $image,
         $_POST['boutonValider']
       );

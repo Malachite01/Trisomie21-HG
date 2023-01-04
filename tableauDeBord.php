@@ -52,8 +52,13 @@
       }
       if (isset($_POST['valeurJetonsIdObjectif'])) {
         $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
-        UpdateJetonsPlaces($valeur[1]);
-        ajouterJeton($valeur[1],time(),$_SESSION['idConnexion'],$valeur[0]);
+        if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])){
+          AjouterJetonsPlaces($valeur[1]);
+          ajouterJeton($valeur[1],time(),$_SESSION['idConnexion'],$valeur[0]);
+        } else {
+          SupprimerJetonsPlaces($valeur[1]);
+        }  
+        
     }
     ?>
 

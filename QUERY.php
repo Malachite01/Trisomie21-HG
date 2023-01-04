@@ -18,7 +18,10 @@ $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant WHERE Nom = 
 $qSupprimerEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
 
 // requete pour recuperer l'Id_enfant, l'image du jeton, le nom, le prenom et la date de naissance de tout les enfants de la BD
-$qRecupererInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance  From Enfant';
+$qRecupererInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From Enfant';
+
+// requete pour recuperer l'Id_enfant, l'image du jeton, le nom, le prenom et la date de naissance d'un enfants de la BD
+$qRecupererInformationUnEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From Enfant WHERE Id_Enfant = :idEnfant';
 
 // requete pour recuperer le nom, prenom de tous les enfants ( trie par nom )
 $qRecupererNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
@@ -30,7 +33,7 @@ $qRecupererNomPrenomUnEnfant = 'SELECT Nom, Prenom FROM enfant WHERE Id_Enfant =
 $qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enfant,suivre WHERE enfant.Id_Enfant = suivre.Id_Enfant AND suivre.Id_Membre = :idMembre ORDER BY Nom';
 
 // requete pour modifier l'image du jeton d'un enfant selon son Id_Enfant
-$qModifierImageEnfant = 'UPDATE enfant SET Lien_Jeton = :lienJeton where Id_Enfant = :idEnfant';
+$qModifierInformationsEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, Date_Naissance = :dateNaissance, Lien_Jeton = :lienJeton WHERE Id_Enfant = :idEnfant';
 
 
 //? ----------------------------------------------Membre---------------------------------------------------------------------
@@ -52,10 +55,10 @@ $qValiderMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMemb
 $qVerifierValidationMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Compte_Valide = 1';
 
 // requete pour rechercher un membre dans la BD
-$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_naissance, Code_Postal, Ville, Pro, Mdp FROM membre WHERE Id_Membre = :idMembre';
+$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_Naissance, Code_Postal, Ville, Pro, Mdp FROM membre WHERE Id_Membre = :idMembre';
 
 // requete pour modifier les données d'un membre de la BD
-$qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, Ville = :ville WHERE Id_Membre = :idMembre';
+$qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, Ville = :ville, Date_Naissance = :dateNaissance WHERE Id_Membre = :idMembre';
 
 // requete pour recuperer le prenom du membre connecté
 $qRecupererPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
@@ -109,8 +112,8 @@ $qRecupererInformationsObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Du
 // requete pour recuperer les informations des objectifs de la BD selon un Id_Enfant et qui sont "en cours"
 $qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
 
-// requete pour recuperer les informations d'un objectif de la BD selon un Id_Objectif
-$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
+// requete pour recuperer Nb_Jetons_Places, Nb_Jetons d'un objectif en cours selon son Id_Objectif 
+$qRecupererJetonsUnObjectif = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
 
 // requete pour recuperer les informations d'un objectif pour un enfant ( trie par intitule )
 $qRecupererInformationsObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
@@ -137,7 +140,7 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_J
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer les informations d'un objectif selon son Id_Objectif
-$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
+$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer l'image d'un objectif 
 $qRecupererImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -149,7 +152,9 @@ $qRecupererNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = 
 $qRecupererNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour modifier le nombre de jetons places pour un objectif selon son Id_Objectif
-$qModifierJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places+1 WHERE Id_Objectif = :idObjectif';
+$qAjouterJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places+1 WHERE Id_Objectif = :idObjectif';
+
+$qSupprimerJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places-1 WHERE Id_Objectif = :idObjectif';
 
 // requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
 $qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
@@ -175,7 +180,7 @@ $qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompe
 
 
 // requete pour rechercher une recompense selon son Id_Recompense
-$qRechercherRecompense = 'SELECT * FROM Recompense WHERE id_Recompense = :idRecompense';
+$qRechercherRecompense = 'SELECT Id_Recompense, Intitule, Descriptif, Lien_Image FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
 $qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif 
@@ -771,17 +776,20 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre)
     }
     echo '</select>';
 }
-function modifierImageEnfant($lienJeton, $idEnfant)
+function modifierInformationsEnfant($nom, $prenom, $dateNaissance, $lienJeton, $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierImageEnfant']);
+    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsEnfant']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un enfant a la BD');
     }
     // execution de la requete sql
     $req->execute(array(
+        ':nom' => clean($nom),
+        ':prenom' => clean($prenom),
+        ':dateNaissance' => clean($dateNaissance),
         ':lienJeton' => clean($lienJeton),
         ':idEnfant' => clean($idEnfant)
     ));
@@ -907,6 +915,43 @@ function nomPrenomEnfant($idEnfant)
         }
     }
     return ' - ' . $nom . ' ' . $prenom;
+}
+
+function afficherInformationsEnfantModification($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationUnEnfants']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une image');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une image');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $key => $value) {
+            if ($key == 'Nom') {
+                echo '<label for="champNom">Nom :</label>
+                <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" value="' . $value . '" required>
+                <span></span>';
+            }
+            if ($key == 'Prenom') {
+                echo '<label for="champPrénom">Prénom :</label>
+                <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" value="' . $value . '"required>
+                <span></span>';
+            }
+            if ($key == 'Date_Naissance') {
+                echo '<label for="champDateDeNaissance">Date de naissance :</label>
+                <input type="date" name="champDateDeNaissance" id="champDateDeNaissance" min="1900-01-01" max="<?php echo date(\'Y-m-d\'); ?>" value="' . $value . '" required>
+                <span></span>';
+            }
+        }
+    }
 }
 
 
@@ -1593,7 +1638,7 @@ function rechercherMembre($idMembre)
 function AfficherInformationsMembreSession($idMembre)
 {
     // recherche les informations d'un membre selon son idMembre
-    $req = RechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
+    $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
     // permet de parcourir la ligne de la requetes 
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete 
@@ -1637,7 +1682,7 @@ function AfficherInformationsMembreSession($idMembre)
 }
 
 // fonction qui permet de modifier les informations du membre de la session
-function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville)
+function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $dateNaissance)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1654,7 +1699,8 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
         ':adresse' => clean($adresse),
         ':codePostal' => clean($codePostal),
         ':ville' => clean($ville),
-        ':idMembre' => clean($idMembre)
+        ':idMembre' => clean($idMembre),
+        ':dateNaissance' => clean($dateNaissance)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour permet de modifier les informations du membre de la 
@@ -1967,10 +2013,8 @@ function afficherObjectifsZoom($idObjectif)
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                   
                 } else {
                     $places = $value;
-                    
                 }
             }
             if ($key == 'Nb_Jetons') {
@@ -2053,12 +2097,12 @@ function NombreDeJetonsPlaces($idObjectif)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function UpdateJetonsPlaces($idObjectif)
+function AjouterJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierJetonsPlaces']);
+    $req = $linkpdo->prepare($GLOBALS['qAjouterJetonsPlaces']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
@@ -2070,7 +2114,23 @@ function UpdateJetonsPlaces($idObjectif)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
 }
-
+function SupprimerJetonsPlaces($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerJetonsPlaces']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+}
 // fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
 function AfficherInformationUnObjectif($idObjectif)
 {
@@ -3317,7 +3377,7 @@ function faireChatTb()
           <div id="containerBoutonsChat">
             <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
             <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
-            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un objectif ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+            <button type="submit" name="boutonEnvoiMessage" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
           </div>
         </div>
         
@@ -3335,7 +3395,7 @@ function faireChatObjectif()
         <p id="txtChatType">Chat par objectif</p>  
           <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler2.png" alt="annuler" class="imageIcone"></button>
           <div id="scrollChat">';
-            afficherMessageParObjectif($_SESSION['enfant'], $_POST['redirect']);
+    afficherMessageParObjectif($_SESSION['enfant'], $_SESSION['objectif']);
 
     echo '
             <div id="selecteursMsg">
@@ -3348,7 +3408,7 @@ function faireChatObjectif()
           <div id="containerBoutonsChat">
             <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
             <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
-            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+            <button type="submit" name="boutonEnvoiMessage" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
           </div>
         </div>
         
