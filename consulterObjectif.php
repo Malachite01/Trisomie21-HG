@@ -42,7 +42,14 @@ testConnexion();
         </h1>
         <?php
         if (isset($_POST['valeurJetonsIdObjectif'])) {
-            UpdateJetonsPlaces($valeur[0], $_SESSION['objectif']);
+            $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+            if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])){
+              AjouterJetonsPlaces($valeur[1]);
+              ajouterJeton($valeur[1],time(),$_SESSION['idConnexion'],$valeur[0]);
+            } else {
+              SupprimerJetonsPlaces($valeur[1]);
+            }  
+            
         }
         if (isset($_POST['redirect'])) {
             afficherObjectifsZoom($_POST['redirect']);
