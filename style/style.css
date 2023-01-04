@@ -1538,8 +1538,9 @@ button.redirect {
 .msgObjectifValidé::before {
     content: " ";
     position: absolute;
+    z-index: 2;
     top: 0px;
-    left: -68px;
+    left: -64px;
     display: inline-block;
     transform: rotate(45deg);
     height: 55px;

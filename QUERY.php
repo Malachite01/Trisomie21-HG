@@ -110,7 +110,7 @@ $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule 
 $qRecupererInformationsObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Travaille, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant';
 
 // requete pour recuperer les informations des objectifs de la BD selon un Id_Enfant et qui sont "en cours"
-$qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
+$qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Intitule, Duree   FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
 
 // requete pour recuperer Nb_Jetons_Places, Nb_Jetons d'un objectif en cours selon son Id_Objectif 
 $qRecupererJetonsUnObjectif = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
@@ -1930,9 +1930,16 @@ function afficherObjectifs($idEnfant)
             }
             if ($key == 'Duree') {
                 echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                if ($res == 1) {
+                    echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
+                } else if ($res == 0) {
+                    echo '<br>';
+                } else {
+                    echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
+                }
             }
             if ($key == 'Nb_Jetons_Places') {
-                if (is_null($value)) {
+                if (is_null($value) || $value == 0) {
                     $places = 0;
                 } else {
                     $places = $value;
@@ -1941,26 +1948,19 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
                 if ($res != 0) {
-                    if ($res == 1) {
-                        echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
-                    } else {
-                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
-                    }
                     echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
                     <img class="imgRedirect" src="images/redirect.png"></button>';
+                    $filtre = " ";
                 } else {
                     echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
                     <img class="imgRedirect" src="images/redirect.png"></button>';
-                    echo '<p class="msgObjectifValidé" >Objectif validé</p><br>';
+                    echo '<p class="msgObjectifValidé" >Objectif validé</p>';
+                    $filtre = "filter: grayscale(100%);";
                 }
-                $places = 0;
             }
             if ($key == 'Lien_Image') {
-                if ($res == 0) {
-                    echo '<img class="imageObjectif" style="border-radius: 10px; filter: grayscale(100%);" src="' . $value . '" id="imageJeton" alt=" ">';
-                } else {
-                    echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';  
-                }
+                echo '<img class="imageObjectif" style="border-radius: 10px;'.$filtre.'" src="' . $value . '" id="imageJeton" alt="'.$res.' ">';   
+                $places = 0;
             }
         }
         echo '<div class="containerTampons">';
