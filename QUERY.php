@@ -1631,12 +1631,9 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Mdp') {
                 //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
-                <input type="text" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="*******" readonly required>
+                <input type="text" name="champMdp" id="champMdpNonModifiable" value="********" readonly>
                 <span></span>
                 <a href="modifierMdp.php" class="texteAccueil"> Changer votre mot de passe ?</a>';
-                // echo '<label for="champConfirmerMdp">Confirmer mot de passe :</label>
-                // <input type="password" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdpProfil(\'champMdp\',\'champConfirmerMdp\',\'messageVerifMdp\',\'boutonValider\')" value="' . $value . '" required>
-                // <span><img src="images/oeilFermé.png" id="oeilMdp2" alt="oeil" onclick="afficherMDP(\'champConfirmerMdp\',\'oeilMdp2\')"></span>';
                 echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
             }
         }
@@ -3361,7 +3358,7 @@ function faireChatTb()
           <div id="containerBoutonsChat">
             <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
             <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
-            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un destinataire et un objectif ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un objectif ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
           </div>
         </div>
         

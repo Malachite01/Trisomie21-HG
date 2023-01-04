@@ -762,6 +762,8 @@ div.miseFormeConnexion label {
     background-color: var(--couleurPopupEdit);
     color:var(--policeBlanche);
     padding: 9px;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 .boutonEdit:hover {
     animation: hoverWaveModifier .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -1355,6 +1357,10 @@ div.miseFormeConnexion label {
     .labelSemJourH {
         margin: 0px;
     }
+}
+
+#champMdpNonModifiable:focus {
+    outline: none;
 }
 
 /*! TABLEAU DE BORD */
@@ -2099,7 +2105,7 @@ button#boutonSelecteurs:hover {
     margin: 10px;
     margin-bottom: 2px;
     margin-right: auto;
-    margin-top: 50px;
+    margin-top: 70px;
     border-radius: var(--globalRadius) var(--globalRadius) var(--globalRadius) 0;
 }
 
@@ -2114,7 +2120,7 @@ button#boutonSelecteurs:hover {
     margin: 10px;
     margin-bottom: 2px;
     margin-left: auto;
-    margin-top: 50px;
+    margin-top: 70px;
     border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
 }
 
@@ -2146,7 +2152,7 @@ button#boutonSelecteurs:hover {
     width: fit-content;
     height: fit-content;
     margin: 10px;
-    margin-bottom: -45px;
+    margin-top: 40px;
     margin-right: auto;
     font-style: italic;
     font-weight: bold;
@@ -2157,7 +2163,7 @@ button#boutonSelecteurs:hover {
     width: fit-content;
     height: fit-content;
     margin: 10px;
-    margin-bottom: -40px;
+    margin-top: 40px;
     margin-left: auto;   
     font-style: italic;
     font-weight: bold;

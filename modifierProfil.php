@@ -30,8 +30,7 @@
       $_POST['champPrénom'],
       $_POST['champAdresse'],
       $_POST['champCp'],
-      $_POST['champVille'],
-      $_POST['champMdp']
+      $_POST['champVille']
     );
     echo '
       <div class="editPopup">
