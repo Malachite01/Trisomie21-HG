@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="">
-  <title>Modifier l'image du jeton</title>
+  <title>Modifier informations enfant</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="style/style.css">
@@ -17,7 +17,7 @@
     <div class="svgWave"></div>
   </div>
 
-  <h1>Modifier l'image du jeton</h1>
+  <h1>Modifier informations enfant</h1>
   <?php
   session_start();
   require('QUERY.php');
@@ -28,12 +28,13 @@
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <?php
+      afficherInformationsEnfantModification($_POST['boutonModifier']);
       echo '
       <label for="champLienJeton">Image du jeton :</label>
       <input type="file" name="champLienJeton" id="champImageJeton" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageJeton\',\'imageJeton\')">
       <img src="' . afficherImageTampon($_POST['boutonModifier']) . '" alt=" " id="imageJeton">';
       echo '<input type="hidden" value="' . afficherImageTampon($_POST['boutonModifier']) . '" name="hiddenImageLink">';
-        
+
       ?>
     </div>
 
