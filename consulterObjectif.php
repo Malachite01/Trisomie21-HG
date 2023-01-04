@@ -24,13 +24,11 @@ testConnexion();
     </div>
 
     <?php faireMenu();
-    if (isset($_POST['valeurJetonsIdObjectif'])) {
-        $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
-        $_SESSION['objectif'] = $valeur[1];
+    if (isset($_POST['redirect'])) {
+        $_SESSION['objectif'] = $_POST['redirect'];
     }
     ?>
     <form method="POST">
-
         <h1>Consulter objectif :
             <?php
             if (isset($_POST['redirect'])) {
@@ -43,13 +41,12 @@ testConnexion();
         <?php
         if (isset($_POST['valeurJetonsIdObjectif'])) {
             $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
-            if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])){
-              AjouterJetonsPlaces($valeur[1]);
-              ajouterJeton($valeur[1],time(),$_SESSION['idConnexion'],$valeur[0]);
+            if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])) {
+                AjouterJetonsPlaces($valeur[1]);
+                ajouterJeton($valeur[1], time(), $_SESSION['idConnexion'], $valeur[0]);
             } else {
-              SupprimerJetonsPlaces($valeur[1]);
-            }  
-            
+                SupprimerJetonsPlaces($valeur[1]);
+            }
         }
         if (isset($_POST['redirect'])) {
             afficherObjectifsZoom($_POST['redirect']);
