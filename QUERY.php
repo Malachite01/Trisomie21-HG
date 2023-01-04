@@ -155,7 +155,7 @@ $qRecupererNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = 
 $qRecupererNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour modifier le nombre de jetons places pour un objectif selon son Id_Objectif
-$qModifierJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
+$qModifierJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places+1 WHERE Id_Objectif = :idObjectif';
 
 // requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
 $qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
@@ -457,7 +457,6 @@ function testConnexion()
         header('Location: index.php');
     }
     $get_url = $_SERVER['REQUEST_URI'];
-    $idAChercher = "";
     if (stripos($get_url, "upload")) {
         header('Location: index.php');
     }
@@ -1939,10 +1938,8 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                    $places2 = 0;
                 } else {
                     $places = $value;
-                    $places2 = $value;
                 }
             }
             if ($key == 'Nb_Jetons') {
@@ -1964,14 +1961,14 @@ function afficherObjectifs($idEnfant)
         echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
                 if ($res == 0) {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 } else {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . ($i - $places2) . ' jeton(s) à cet objectif ?\')";>?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
         echo '</div></div>';
@@ -2012,10 +2009,10 @@ function afficherObjectifsZoom($idObjectif)
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                    $places2 = 0;
+                   
                 } else {
                     $places = $value;
-                    $places2 = $value;
+                    
                 }
             }
             if ($key == 'Nb_Jetons') {
@@ -2035,14 +2032,14 @@ function afficherObjectifsZoom($idObjectif)
         echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">';
                 if ($res == 0) {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 } else {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . ($i - $places2) . ' jeton(s) à cet objectif ?\')";>?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
         echo '</div></div>';
@@ -2137,7 +2134,7 @@ function NombreDeJetonsPlaces($idObjectif)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
+function UpdateJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2148,7 +2145,6 @@ function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
     }
     // execution de la requete sql
     $req->execute(array(
-        ':nbJetonsPlaces' => clean($nbJetonsPlaces),
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
@@ -3418,38 +3414,22 @@ function faireChatObjectif()
     <div id="chat">
         <div class="chatBox">
         <p id="txtChatType">Chat par objectif</p>  
-          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler.png" alt="annuler" class="imageIcone"></button>
-          
+          <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler2.png" alt="annuler" class="imageIcone"></button>
           <div id="scrollChat">';
-    if (isset($_POST['idObjectif'])) {
-        afficherMessage($_SESSION['enfant']);
-    }
+            afficherMessageParObjectif($_SESSION['enfant'], $_POST['redirect']);
 
     echo '
             <div id="selecteursMsg">
-            ';
-    if (isset($_POST['idObjectif'])) {
-        afficherIntituleObjectifSubmit($_POST['idObjectif'], $_SESSION['enfant']);
-    } else {
-        afficherIntituleObjectifSubmit(null, $_SESSION['enfant']);
-    }
-    if ($_SESSION['enfant'] == 0) {
-        echo '
-        <p class=\'msgSelection\'>Choisissez un enfant pour pouvoir sélectionner un objectif 
-        afin de lui ajouter une récompense !</p>';
-    }
-
-
+            <label>Objectifs : </label>';
 
     echo '
             </div>
-            <button type="button" id="boutonSelecteurs" onclick="selectMsgToggle(\'selecteursMsg\'),scrollToButton(\'boutonSelecteurs\')"><img src="images/enfant.png" id="boutonsImgMsg" alt="icone selecteurs"></button>
           </div>
 
           <div id="containerBoutonsChat">
             <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
             <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
-            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un destinataire et un objectif ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
           </div>
         </div>
         
@@ -3476,17 +3456,25 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
     // permet de parcourir toutes les lignes de la requete
+    $i = 1;
+    $count = $req->rowCount();
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<table> <tr>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
-
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Id_Membre') {
+                $idMembre = $value;
+            }
             if ($key == 'Nom') {
                 $nom = $value;
             }
             if ($key == 'Prenom') {
                 $prenom = $value;
+                if ($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgPrenomSortant">Vous</p>';
+                } else {
+                    echo '<p class="msgPrenomEntrant">' . $nom . ' ' . $prenom . '</p>';
+                }
             }
             if ($key == 'Intitule') {
                 $intitule = $value;
@@ -3496,15 +3484,27 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
             }
             if ($key == 'Corps') {
                 $corps = $value;
+                if ($i == $count) {
+                    $lastMsg = "id='lastMsg'";
+                } else {
+                    $lastMsg = " ";
+                }
+                if ($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgSortant"' . $lastMsg . '><i class="objetMsg">' . $intitule . ' : ' . $sujet . '</i><br>' . $corps . '</p>';
+                } else {
+                    echo '<p class="msgEntrant"' . $lastMsg . '><i class="objetMsg">' . $intitule . ' : ' . $sujet . '</i><br>' . $corps . '</p>';
+                }
             }
             if ($key == 'Date_Heure') {
-                $dateheure = $value;
+                if ($idMembre == $_SESSION['idConnexion']) {
+                    echo '<p class="msgHeureSortant">' . strtolower($value) . '</p>';
+                } else {
+                    echo '<p class="msgHeureEntrant">' . strtolower($value) . '</p>';
+                }
             }
         }
-        echo '<td>' . $nom . " " . $prenom . "//" . " " . $intitule . "//" . " " . $sujet . ": " . $corps . " " . $dateheure . '</td>';
-        echo '</tr>';
+        $i++;
     }
-    echo '</table>';
 }
 
 // fonction qui retourne les lignes si un enfant a le meme nom, prenom, date naissance qu'un enfant de la BD

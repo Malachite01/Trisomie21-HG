@@ -1981,7 +1981,7 @@ button.redirect {
 button#closeChatbox {
     z-index: 2;
     position: absolute;
-    background-color: transparent;
+    background-color: white;
     top: 10px;
     right: 20px;
     padding: 0;
@@ -2105,7 +2105,7 @@ button#boutonSelecteurs:hover {
     margin: 10px;
     margin-bottom: 2px;
     margin-right: auto;
-    margin-top: 70px;
+    margin-top: 5px;
     border-radius: var(--globalRadius) var(--globalRadius) var(--globalRadius) 0;
 }
 
@@ -2120,7 +2120,7 @@ button#boutonSelecteurs:hover {
     margin: 10px;
     margin-bottom: 2px;
     margin-left: auto;
-    margin-top: 70px;
+    margin-top: 5px;
     border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
 }
 
