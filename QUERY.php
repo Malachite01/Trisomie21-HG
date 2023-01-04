@@ -112,9 +112,6 @@ $qRecupererInformationsObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Du
 // requete pour recuperer les informations des objectifs de la BD selon un Id_Enfant et qui sont "en cours"
 $qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
 
-// requete pour recuperer les informations d'un objectif de la BD selon un Id_Objectif
-$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
-
 // requete pour recuperer Nb_Jetons_Places, Nb_Jetons d'un objectif en cours selon son Id_Objectif 
 $qRecupererJetonsUnObjectif = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
 
@@ -143,7 +140,7 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_J
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer les informations d'un objectif selon son Id_Objectif
-$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
+$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer l'image d'un objectif 
 $qRecupererImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -2009,10 +2006,8 @@ function afficherObjectifsZoom($idObjectif)
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                   
                 } else {
                     $places = $value;
-                    
                 }
             }
             if ($key == 'Nb_Jetons') {
@@ -3398,7 +3393,7 @@ function faireChatTb()
           <div id="containerBoutonsChat">
             <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
             <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
-            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ? Avez vous sélectionné un objectif ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+            <button type="submit" name="boutonEnvoiMessage" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
           </div>
         </div>
         
@@ -3416,7 +3411,7 @@ function faireChatObjectif()
         <p id="txtChatType">Chat par objectif</p>  
           <button id="closeChatbox" type="button" onclick="chatClose(\'chatBox\',\'openChatButton\')"><img src="images/annuler2.png" alt="annuler" class="imageIcone"></button>
           <div id="scrollChat">';
-            afficherMessageParObjectif($_SESSION['enfant'], $_POST['redirect']);
+    afficherMessageParObjectif($_SESSION['enfant'], $_SESSION['objectif']);
 
     echo '
             <div id="selecteursMsg">
@@ -3429,7 +3424,7 @@ function faireChatObjectif()
           <div id="containerBoutonsChat">
             <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
             <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
-            <button type="submit" name="boutonEnvoiMessage" onclick="return confirm(\'Êtes vous sûr de vouloir envoyer ce message ?\')" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
+            <button type="submit" name="boutonEnvoiMessage" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
           </div>
         </div>
         

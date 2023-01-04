@@ -26,46 +26,47 @@ testConnexion();
     <?php faireMenu();
     if (isset($_POST['valeurJetonsIdObjectif'])) {
         $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+        $_SESSION['objectif'] = $valeur[1];
     }
     ?>
     <form method="POST">
 
-        <h1>Consulter objectif : 
-        <?php
+        <h1>Consulter objectif :
+            <?php
             if (isset($_POST['redirect'])) {
                 echo afficherUnIntituleObjectif($_POST['redirect']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
             } else {
-                echo afficherUnIntituleObjectif($valeur[1]) . "  " . nomPrenomEnfant($_SESSION['enfant']);
-            } 
-        ?>
+                echo afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
+            }
+            ?>
         </h1>
         <?php
-            if (isset($_POST['valeurJetonsIdObjectif'])) {
-                UpdateJetonsPlaces($valeur[0], $valeur[1]);
-            }
-            if (isset($_POST['redirect'])) {
-                afficherObjectifsZoom($_POST['redirect']);
-            } else {
-                afficherObjectifsZoom($valeur[1]);
-            }
-            if (isset($_POST['redirect'])) {
-                afficherRecompenseSelonObjectif($_POST['redirect']);
-            } else {
-                afficherRecompenseSelonObjectif($valeur[1]);
-            }
+        if (isset($_POST['valeurJetonsIdObjectif'])) {
+            UpdateJetonsPlaces($valeur[0], $_SESSION['objectif']);
+        }
+        if (isset($_POST['redirect'])) {
+            afficherObjectifsZoom($_POST['redirect']);
+        } else {
+            afficherObjectifsZoom($_SESSION['objectif']);
+        }
+        if (isset($_POST['redirect'])) {
+            afficherRecompenseSelonObjectif($_POST['redirect']);
+        } else {
+            afficherRecompenseSelonObjectif($_SESSION['objectif']);
+        }
         ?>
     </form>
     <?php
-        if (champRempli(array('champSujet','champCorps'))){
-            ajouterMessage(
+    if (champRempli(array('champSujet', 'champCorps'))) {
+        ajouterMessage(
             $_POST['champSujet'],
             $_POST['champCorps'],
             time(),
-            $_POST['idObjectif'],
+            $_SESSION['objectif'],
             $_SESSION['idConnexion']
-            );
-        }
-        faireChatObjectif();
+        );
+    }
+    faireChatObjectif();
     ?>
 </body>
 
