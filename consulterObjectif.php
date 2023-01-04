@@ -30,28 +30,43 @@ testConnexion();
     ?>
     <form method="POST">
 
-        <h1><?php
+        <h1>Consulter objectif : 
+        <?php
             if (isset($_POST['redirect'])) {
                 echo afficherUnIntituleObjectif($_POST['redirect']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
             } else {
                 echo afficherUnIntituleObjectif($valeur[1]) . "  " . nomPrenomEnfant($_SESSION['enfant']);
-            } ?></h1>
+            } 
+        ?>
+        </h1>
         <?php
-        if (isset($_POST['valeurJetonsIdObjectif'])) {
-            UpdateJetonsPlaces($valeur[0], $valeur[1]);
-        }
-        if (isset($_POST['redirect'])) {
-            afficherObjectifsZoom($_POST['redirect']);
-        } else {
-            afficherObjectifsZoom($valeur[1]);
-        }
-        if (isset($_POST['redirect'])) {
-            afficherRecompenseSelonObjectif($_POST['redirect']);
-        } else {
-            afficherRecompenseSelonObjectif($valeur[1]);
-        }
+            if (isset($_POST['valeurJetonsIdObjectif'])) {
+                UpdateJetonsPlaces($valeur[0], $valeur[1]);
+            }
+            if (isset($_POST['redirect'])) {
+                afficherObjectifsZoom($_POST['redirect']);
+            } else {
+                afficherObjectifsZoom($valeur[1]);
+            }
+            if (isset($_POST['redirect'])) {
+                afficherRecompenseSelonObjectif($_POST['redirect']);
+            } else {
+                afficherRecompenseSelonObjectif($valeur[1]);
+            }
         ?>
     </form>
+    <?php
+        if (champRempli(array('champSujet','champCorps'))){
+            ajouterMessage(
+            $_POST['champSujet'],
+            $_POST['champCorps'],
+            time(),
+            $_POST['idObjectif'],
+            $_SESSION['idConnexion']
+            );
+        }
+        faireChatObjectif();
+    ?>
 </body>
 
 </html>
