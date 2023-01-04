@@ -152,7 +152,7 @@ $qRecupererNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = 
 $qRecupererNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour modifier le nombre de jetons places pour un objectif selon son Id_Objectif
-$qModifierJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = :nbJetonsPlaces WHERE Id_Objectif = :idObjectif';
+$qModifierJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places+1 WHERE Id_Objectif = :idObjectif';
 
 // requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
 $qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
@@ -1895,10 +1895,8 @@ function afficherObjectifs($idEnfant)
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                    $places2 = 0;
                 } else {
                     $places = $value;
-                    $places2 = $value;
                 }
             }
             if ($key == 'Nb_Jetons') {
@@ -1927,7 +1925,7 @@ function afficherObjectifs($idEnfant)
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . ($i - $places2) . ' jeton(s) à cet objectif ?\')";>?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
         echo '</div></div>';
@@ -1968,10 +1966,10 @@ function afficherObjectifsZoom($idObjectif)
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
                     $places = 0;
-                    $places2 = 0;
+                   
                 } else {
                     $places = $value;
-                    $places2 = $value;
+                    
                 }
             }
             if ($key == 'Nb_Jetons') {
@@ -1998,7 +1996,7 @@ function afficherObjectifsZoom($idObjectif)
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir ajouter ' . ($i - $places2) . ' jeton(s) à cet objectif ?\')";>?</button>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
         echo '</div></div>';
@@ -2093,7 +2091,7 @@ function NombreDeJetonsPlaces($idObjectif)
 }
 
 // fontion qui permet d'ajouter un objectif a la BD
-function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
+function UpdateJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2104,7 +2102,6 @@ function UpdateJetonsPlaces($nbJetonsPlaces, $idObjectif)
     }
     // execution de la requete sql
     $req->execute(array(
-        ':nbJetonsPlaces' => clean($nbJetonsPlaces),
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
