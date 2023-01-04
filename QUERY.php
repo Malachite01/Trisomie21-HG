@@ -112,9 +112,6 @@ $qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Lien_Image, Intit
 // requete pour recuperer les informations d'un objectif de la BD selon un Id_Objectif
 $qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour recuperer Nb_Jetons_Places, Nb_Jetons d'un objectif en cours selon son Id_Objectif 
-$qRecupererJetonsUnObjectif = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
-
 // requete pour recuperer les informations d'un objectif pour un enfant ( trie par intitule )
 $qRecupererInformationsObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
@@ -1872,6 +1869,7 @@ function afficherObjectifs($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
+    $res = 0;
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="objectif">';
@@ -1880,10 +1878,6 @@ function afficherObjectifs($idEnfant)
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
-            }
-            if ($key == 'Lien_Image') {
-                AfficherValidationObjectif($idObjectif);
-                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
             }
             if ($key == 'Intitule') {
                 echo '<h3 class="titreObjectif">' . $value . '</h3>';
@@ -1909,9 +1903,18 @@ function afficherObjectifs($idEnfant)
                     echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
                     <img class="imgRedirect" src="images/redirect.png"></button>';
                 } else {
-                    echo '<br>';
+                    echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
+                    <img class="imgRedirect" src="images/redirect.png"></button>';
+                    echo '<p class="msgObjectifValidé" >Objectif validé</p><br>';
                 }
                 $places = 0;
+            }
+            if ($key == 'Lien_Image') {
+                if ($res == 0) {
+                    echo '<img class="imageObjectif" style="border-radius: 10px; filter: grayscale(100%);" src="' . $value . '" id="imageJeton" alt=" ">';
+                } else {
+                    echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';  
+                }
             }
         }
         echo '<div class="containerTampons">';
@@ -1956,7 +1959,6 @@ function afficherObjectifsZoom($idObjectif)
                 $idObjectif = $value;
             }
             if ($key == 'Lien_Image') {
-                AfficherValidationObjectif($idObjectif);
                 echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
             }
             if ($key == 'Duree') {
@@ -1979,8 +1981,6 @@ function afficherObjectifsZoom($idObjectif)
                     } else {
                         echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                     }
-                } else {
-                    echo '<br>';
                 }
                 $places = 0;
             }
@@ -2001,43 +2001,6 @@ function afficherObjectifsZoom($idObjectif)
         echo '</div></div>';
     }
 }
-
-function AfficherValidationObjectif($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererJetonsUnObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
-    }
-    // execution de la requete sql
-    $req->execute(array(':idObjectif' => clean($idObjectif)));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
-    }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Nb_Jetons_Places') {
-                if (is_null($value)) {
-                    $places = 0;
-                } else $places = $value;
-            }
-            if ($key == 'Nb_Jetons') {
-                $res = $value - $places;
-                $places = 0;
-            }
-        }
-        if ($res == 0) {
-            echo '<p class="msgObjectifValidé" >Objectif validé</p>';
-        }
-    }
-}
-
-
 
 // fontion qui permet d'ajouter un objectif a la BD
 function NombreDeJetons($idObjectif)

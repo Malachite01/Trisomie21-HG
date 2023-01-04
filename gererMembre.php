@@ -124,7 +124,7 @@ if (isset($_GET['params'])) {
       </div>
       <div class="centerIconeChamp">
         <input type="text" name="Recherche" placeholder="Rechercher par Nom">
-        <button type="submit"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
+        <button type="submit" id="btnRecherche"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
       </div>
     </div>
     <table>

@@ -1317,6 +1317,10 @@ div.miseFormeConnexion label {
     font-size: 1.2em;
     color: red;
 }
+
+#btnRecherche {
+    background-color: var(--couleurFiltres);
+}
 /*? AJOUT OBJECTIFS */
 
 .inline {
@@ -1524,13 +1528,28 @@ button.redirect {
 .msgObjectifValidé {
     position: absolute;
     display: flex;
+    text-decoration: underline dotted;
     flex-direction: column;
-    float: right;
-    top: 10px;
-    right: 10px;
-    color: var(--couleurPopupEdit);
-    font-size: 1.8em;
+    top: 8px;
+    right: 52px;
+    color: var(--couleurBoutonHover);
+    font-size: 1.5em;
 }
+.msgObjectifValidé::before {
+    content: " ";
+    position: absolute;
+    top: 0px;
+    left: -68px;
+    display: inline-block;
+    transform: rotate(45deg);
+    height: 55px;
+    width: 29px;
+    border-bottom: 12px solid var(--couleurBoutonHover);
+    border-right: 12px solid var(--couleurBoutonHover);
+    border-radius: 5px;
+    box-shadow: 3px 3px 0px .1px white;
+}
+
 @media screen and (max-width: 1200px){
     #containerObjectifs {
         grid-template-columns: 1fr 1fr;
