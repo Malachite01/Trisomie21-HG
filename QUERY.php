@@ -1917,7 +1917,7 @@ function afficherObjectifs($idEnfant)
         echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
                 if ($res == 0) {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                 } else {
@@ -1988,7 +1988,7 @@ function afficherObjectifsZoom($idObjectif)
         echo '<div class="containerTampons">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" disabled>';
+                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">';
                 if ($res == 0) {
                     echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 } else {
