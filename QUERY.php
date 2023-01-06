@@ -3371,8 +3371,7 @@ function faireChatTb()
     }
     if ($_SESSION['enfant'] == 0) {
         echo '
-        <p class=\'msgSelection\'>Choisissez un enfant pour pouvoir sélectionner un objectif 
-        afin de lui ajouter une récompense !</p>';
+        <p class=\'msgSelection\'>Choisissez un enfant pour pouvoir sélectionner un objectif et envoyer un message !</p>';
     }
 
 

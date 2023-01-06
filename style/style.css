@@ -1545,8 +1545,8 @@ button.redirect {
     transform: rotate(45deg);
     height: 55px;
     width: 29px;
-    border-bottom: 12px solid var(--couleurBoutonHover);
-    border-right: 12px solid var(--couleurBoutonHover);
+    border-bottom: 12px solid #5b9a4c;
+    border-right: 12px solid #5b9a4c;
     border-radius: 5px;
     box-shadow: 3px 3px 0px .1px white;
 }
