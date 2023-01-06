@@ -237,6 +237,14 @@ $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, C
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 
 $qNombreJetonsPlaces = '';
+
+//?------------------------------------------------PARTIE ADMIN-----------------------------------------------
+
+$qAjouterCompteAdmin = 'INSERT INTO     admin (Nom,Prenom,Date_Naissance,courriel,Mdp,Role) VALUES (:nom,:prenom,:dateNaissance,:courriel,:mdp,:role)';
+
+$qSupprimerCompteAdmin = 'DELETE  FROM admin where Id_Admin = :idAdmin';
+
+$qVerifierValidationAdmin = 'SELECT Id_Admin FROM admin WHERE courriel = :courriel';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -289,7 +297,7 @@ function clean($champEntrant)
 
 function saltHash($mdp)
 {
-    $code = $mdp . "BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !";
+    $code = $mdp . 'BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !';
     return password_hash($code, PASSWORD_DEFAULT);
 }
 
@@ -3539,6 +3547,52 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+    }
+}
+
+//!------------------------------------------------PARTIE ADMIN----------------------------------------------------------------------
+
+function ajouterAdmin($nom,$prenom,$dateNaissance,$courriel,$mdp, $role)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterCompteAdmin']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre admin a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':nom' => clean($nom),
+        ':prenom' => clean($prenom),
+        ':dateNaissance' => clean($dateNaissance),
+        ':courriel' => clean($courriel),
+        ':mdp' => clean($mdp),
+        ':role' => clean($role)
+    ));
+    
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un membre admin a la BD');
+    }
+}
+function verifierValidationAdmin($courriel)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qVerifierValidationAdmin']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+    }
+    // execution de la requete sql
+    $req->execute(array(':courriel' => clean($courriel)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+    }
+    if ($req->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
     }
 }
 /*                                                                
