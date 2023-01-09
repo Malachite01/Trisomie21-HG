@@ -35,7 +35,8 @@
         $_POST['champMail'],
         $_POST['champDateDeNaissance'],
         saltHash($_POST['champMdp']),
-        $_POST['champPro']
+        $_POST['champPro'],
+        0
       );
       header('Location: index.php?login_err=ajoutMembre');
     } else {

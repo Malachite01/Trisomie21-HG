@@ -6,7 +6,7 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
 {
     $courriel = $_POST['champIdentifiant'];
     $mdp = $_POST['champMotDePasse'] . 'BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !';
-    $check = $linkpdo->prepare('SELECT courriel, mdp, id_Admin, Prenom, Role FROM admin WHERE courriel = ?');
+    $check = $linkpdo->prepare('SELECT courriel, mdp, id_Membre, Prenom, Role FROM membre WHERE courriel = ?');
     $check->execute(array($courriel));
     $data = $check->fetch();
     $row = $check->rowCount();
@@ -20,14 +20,14 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
             // Si le mdp est bon (pas sécurisé faudra mettre un hash après)
             if (password_verify($mdp, $data['mdp'])) { 
                     //On met l'id au $_SESSION pour le réutiliser après
-                    $_SESSION['idConnexion'] = $data['id_Admin'];
+                    $_SESSION['idConnexion'] = $data['id_Membre'];
                     $_SESSION['prenomMembre'] = $data['Prenom'];
                     $_SESSION['role'] = $data['Role'];
                     $_SESSION['enfant'] = null;
                     $_SESSION['objectif'] = null;
                     
                     //page d'accueil  tableau de bord
-                    header('Location: test.php');
+                    header('Location: tableauDeBord.php');
                     die();
                 
                 //Si mauvais password on redirige vers une autre page on l'on a codé une erreur du nom de 'password'

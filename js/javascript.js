@@ -132,3 +132,30 @@ function scrollToButton(id) {
         document.getElementById(id).scrollIntoView();
     }, 300);
 }
+
+
+
+function submitForm(formId, divId, url) {
+    // Récupère l'élément formulaire
+    var form = document.getElementById(formId);
+  
+    // Ajoute un gestionnaire d'événement pour le formulaire
+    form.addEventListener("submit", function(event) {
+      // Empêche le rechargement de la page
+      event.preventDefault();
+  
+      // Crée un objet XMLHttpRequest
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          // Met à jour le contenu de l'élément div
+          document.getElementById(divId).innerHTML = this.responseText;
+        }
+      };
+  
+      // Ouvre une requête HTTP en utilisant le formulaire et l'envoie
+      xhttp.open("POST", url, true);
+      xhttp.send(new FormData(form));
+    });
+  }
+  

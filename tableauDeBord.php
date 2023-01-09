@@ -75,10 +75,13 @@
       </div>
     </div>
   </form>
-
+  
   <?php
  //!CHAT
  if (champRempli(array('champSujet','champCorps'))){
+  
+ 
+
   ajouterMessage(
     $_POST['champSujet'],
     $_POST['champCorps'],
@@ -87,8 +90,11 @@
     $_SESSION['idConnexion']
   );
 }
+
 faireChatTb();
+
 ?>
+
   <script src="js/javascript.js"></script>
 </body>
 

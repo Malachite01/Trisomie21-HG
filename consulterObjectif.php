@@ -29,7 +29,7 @@ testConnexion();
     }
     ?>
     <form method="POST">
-        <h1>Consulter objectif :
+        <h1 style="margin-top: 100px; margin-bottom: 20px">Consulter objectif :
             <?php
             if (isset($_POST['redirect'])) {
                 echo afficherUnIntituleObjectif($_POST['redirect']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
@@ -75,12 +75,16 @@ testConnexion();
         } else {
             afficherObjectifsZoom($_SESSION['objectif']);
         }
-        if (isset($_POST['redirect'])) {
-            afficherRecompenseSelonObjectif($_POST['redirect']);
-        } else {
-            afficherRecompenseSelonObjectif($_SESSION['objectif']);
-        }
         ?>
+        <div id="containerRecompenses">
+            <?php
+            if (isset($_POST['redirect'])) {
+                afficherRecompenseSelonObjectif($_POST['redirect']);
+            } else {
+                afficherRecompenseSelonObjectif($_SESSION['objectif']);
+            }
+            ?>
+        </div>
     </form>
     <?php
     afficherBarresProgression($_SESSION['objectif']);
