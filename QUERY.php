@@ -200,7 +200,7 @@ $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_J
 
 $qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
 
-$qAfficherRecompenseSelonObjectif = 'SELECT recompense.Intitule, recompense.Lien_Image, recompense.Descriptif FROM recompense, lier, objectif WHERE objectif.Id_Objectif = lier.Id_Objectif AND lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif';
+$qAfficherRecompenseSelonObjectif = 'SELECT recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, recompense.Id_Recompense FROM recompense, lier, objectif WHERE objectif.Id_Objectif = lier.Id_Objectif AND lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif';
 
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
 $qAfficherImageTampon = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
@@ -1997,7 +1997,7 @@ function afficherObjectifsZoom($idObjectif)
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<div class="objectif">';
+        echo '<div class="objectif zoom">';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
@@ -2005,10 +2005,10 @@ function afficherObjectifsZoom($idObjectif)
                 $idObjectif = $value;
             }
             if ($key == 'Lien_Image') {
-                echo '<img class="imageObjectif" style="border-radius: 10px;" src="' . $value . '" id="imageJeton" alt=" ">';
+                echo '<img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif">';
             }
             if ($key == 'Duree') {
-                echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                echo '<div class="dureeObjectifs zoom"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
             }
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
@@ -2021,25 +2021,25 @@ function afficherObjectifsZoom($idObjectif)
                 $res = $value - $places;
                 if ($res != 0) {
                     if ($res == 1) {
-                        echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
+                        echo '<p class="jetonsRestant">' . $res . ' jeton à valider : </p>';
                     } else {
-                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
+                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider : </p>';
                     }
                 }
                 $places = 0;
             }
         }
-        echo '<div class="containerTampons">';
+        echo '<div class="containerTampons zoom">';
         for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
             if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">';
+                echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
                 if ($res == 0) {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
+                    echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 } else {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
+                    echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 }
             } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
+                echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
         echo '</div></div>';
@@ -3112,23 +3112,50 @@ function afficherRecompenseSelonObjectif($idObjectif)
     }
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
+        echo '<div class="recompense">';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<img src="' . $value . '" alt="Image de la récompense" class="imgRecompense">';
+                echo '
+                <svg
+                viewBox="0 0 500 500" xml:space="preserve" width="200" height="200"
+                xmlns="http://www.w3.org/2000/svg" style="z-index: 0; position: absolute; justify-self: center; align-self: center; z-index: 0; filter: opacity(50%);">
+                    <path stroke="#ffd500" fill="#f4dc62" stroke-width="12"
+                        d="M 500,250 473.216,279.409 491.536,314.718 458.049,336.172 466.532,375.03 428.619,387.055     426.778,426.778 387.044,428.619 375.02,466.543 336.161,458.049 314.707,491.547 279.409,473.226 250,500 220.581,473.226     185.282,491.547 163.818,458.049 124.959,466.543 112.945,428.619 73.222,426.778 71.371,387.044 33.458,375.021 41.941,336.172     8.453,314.718 26.774,279.409 0,250 26.774,220.591 8.453,185.282 41.941,163.829 33.458,124.97 71.371,112.956 73.222,73.222     112.956,71.381 124.97,33.468 163.829,41.952 185.282,8.463 220.581,26.784 250,0 279.409,26.784 314.718,8.463 336.172,41.962     375.03,33.468 387.044,71.381 426.778,73.232 428.619,112.966 466.532,124.98 458.049,163.839 491.536,185.282 473.216,220.591 z"/>
+                </svg>
+                ';
+                echo '<img src="images/noeud.png" class="noeud">';
             }
             if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
+                echo '<div class="fondRecompense" ><h2 class="intituleRecompense">' . $value . '</h2>';
             }
             if ($key == 'Descriptif') {
-                echo '<td>' . $value . '</td>';
+                echo '<p>' . $value . '</p>';
             }
             if ($key == 'Id_Recompense') {
-                $idRecompense = $value;
+                // if(objectifvalide) {
+                    echo '
+                    <button type="submit" name="boutonAcheter" value="' . $value . '" 
+                    class="boutonRecuperer">
+                        <img src="images/panier.png" class="imageIcone" alt="icone modifier">
+                        <span>Récupérer</span>
+                    </button></div>
+                    ';
+                // } else {
+                //     echo '
+                //     <button type="submit" name="boutonAcheter" value="' . $value . '" 
+                //     class="boutonModifier" disabled>
+                //         <img src="images/panier.png" class="imageIcone" alt="icone modifier">
+                //         <span>Récupérer</span>
+                //     </button></div>
+                //     ';
+                // }
+                
             }
         }
+        echo '</div>';
     }
 }
 
