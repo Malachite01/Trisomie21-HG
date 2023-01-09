@@ -411,13 +411,7 @@ function faireMenu()
     }
     if ($_SESSION['role'] != 0) {
         echo '
-            <li><a href="#" id="Equipe">Equipe</a>
-                <ul class="sousMenu">
-                    <li><a href="ajouterEquipe.php">Ajouter un enfant à une équipe</a></li>
-                    <li><a href="gererEquipe.php">Gérer une équipe</a></li>
-                    <li><a href="equipe.php">Équipe</a></li>
-                </ul>
-            </li>    
+            <li><a href="equipe.php" id="Equipe">Équipe</a></li>    
             
             <div class="separateur"></div>
     ';
