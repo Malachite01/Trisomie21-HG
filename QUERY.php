@@ -40,7 +40,7 @@ $qModifierInformationsEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, 
 
 
 // requete pour ajouter un membre a la BD
-$qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Pro) VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:pro)';
+$qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Pro,Role) VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:pro,:role)';
 
 // requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
 $qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre WHERE Nom = :nom AND Prenom = :prenom AND Date_Naissance = :dateNaissance AND Courriel = :courriel';
@@ -96,6 +96,7 @@ $qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom,
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Id_Membre decroissant )
 $qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Id_Membre DESC';
 
+$qRecupererIdMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel';
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -168,6 +169,7 @@ $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif
 // requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
+$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Restant=0 WHERE Id_Objectif = :idObjectif'
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
@@ -211,7 +213,7 @@ VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
 $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
 
-$qAfficherEquipe = 'SELECT membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
+$qAfficherEquipe = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
 suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
 $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfant AND suivre.Id_Membre =:idMembre';
@@ -237,6 +239,14 @@ $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, C
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 
 $qNombreJetonsPlaces = '';
+
+//?------------------------------------------------PARTIE ADMIN-----------------------------------------------
+
+//$qAjouterCompteAdmin = 'INSERT INTO admin (Id_Admin,Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Role) VALUES (:idAdmin,:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:role)';
+
+//$qSupprimerCompteAdmin = 'DELETE  FROM admin where Id_Admin = :idAdmin';
+
+//$qVerifierValidationAdmin = 'SELECT Id_Admin FROM admin WHERE courriel = :courriel';
 //----------------------------------------------------------------------------------------------------------------------------
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -289,7 +299,7 @@ function clean($champEntrant)
 
 function saltHash($mdp)
 {
-    $code = $mdp . "BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !";
+    $code = $mdp . 'BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !';
     return password_hash($code, PASSWORD_DEFAULT);
 }
 
@@ -331,6 +341,8 @@ function faireMenu()
 {
     // $effacer = ["/leSite/", ".php", "?params=suppr"];
     // $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
+    
+
     $get_url = $_SERVER['REQUEST_URI'];
     $idAChercher = "";
     if (stripos($get_url, "tableau")) {
@@ -346,18 +358,22 @@ function faireMenu()
     } else if (stripos($get_url, "equipe")) {
         $idAChercher = "Equipe";
     }
+    echo' <nav class="navbar">
+    <div class="fondMobile"></div>
+    <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
+    
+    <div class="nav-links">
+      <ul class="nav-ul">';
+    if ($_SESSION['role'] != 2){
     echo
     '
-    <nav class="navbar">
-        <div class="fondMobile"></div>
-        <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
-        
-        <div class="nav-links">
-          <ul class="nav-ul">
             <li><a href="tableauDeBord.php" id="tableauDeBord">Tableau de bord</a></li>
     
             <div class="separateur"></div>
-            
+    ';}
+    if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
+        echo
+       '     
             <li><a href="#" id="Enfants">Enfants</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
@@ -366,24 +382,31 @@ function faireMenu()
             </li>        
             
             <div class="separateur"></div>
-            
+    ';}   
+    if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
+        echo '     
             <li><a href="#" id="Membres">Membres</a>
                 <ul class="sousMenu">
                     <li><a href="gererMembre.php">Gérer les membres</a></li>
+                    <li><a href="ajouterAdmin.php">Ajouter un membre Admin</a></li>
                 </ul>
             </li>
 
             <div class="separateur"></div>
-
+    ';}
+    if($_SESSION['role'] != 0){
+        echo '
             <li><a href="#" id="Equipe">Equipe</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEquipe.php">Ajouter un enfant à une équipe</a></li>
                     <li><a href="gererEquipe.php">Gérer une équipe</a></li>
+                    <li><a href="equipe.php">Équipe</a></li>
                 </ul>
             </li>    
             
             <div class="separateur"></div>
-            
+    ';}
+    echo '        
             <li><a href="#" id="Objectifs">Objectifs</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterObjectif.php">Ajouter un objectif</a></li>
@@ -459,6 +482,20 @@ function testConnexion()
     if (stripos($get_url, "upload")) {
         header('Location: index.php');
     }
+
+    $get_url = $_SERVER['REQUEST_URI'];
+    if (stripos($get_url, "tableau")&& $_SESSION['role'] == 2 ) {
+        header('Location:modifierProfil.php');
+    } else if (stripos($get_url, "enfant") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
+        header('Location: tableauDeBord.php');
+    
+    } else if (stripos($get_url, "membre")&& ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
+        header('Location: tableauDeBord.php');
+       
+    }  else if (stripos($get_url, "equipe")&& $_SESSION['role']==0) {
+        header('Location: tableauDeBord.php');
+    }
+    
 }
 function rechercherEnfant($champ)
 {
@@ -958,7 +995,7 @@ function afficherInformationsEnfantModification($idEnfant)
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un membre a la BD
-function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $pro)
+function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $pro,$role)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -977,7 +1014,8 @@ function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, 
         ':courriel' => clean($courriel),
         ':dateNaissance' => clean($dateNaissance),
         ':mdp' => clean($mdp),
-        ':pro' => clean($pro)
+        ':pro' => clean($pro),
+        ':role' => clean($role)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un membre a la BD');
@@ -1959,7 +1997,7 @@ function afficherObjectifs($idEnfant)
                 }
             }
             if ($key == 'Lien_Image') {
-                echo '<img class="imageObjectif" style="border-radius: 10px;'.$filtre.'" src="' . $value . '" id="imageJeton" alt="'.$res.' ">';   
+                echo '<img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' ">';
                 $places = 0;
             }
         }
@@ -2839,6 +2877,22 @@ function supprimerImageObjectif($idObjectif)
         }
     }
 }
+function reinitialiserObjectif($idObjectif){
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qReinitialiserObjectif']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+     }
+     // execution de la requete sql
+     $req->execute(array(
+         ':idObjectif' => clean($idObjectif)
+     ));
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+     }
+}
 
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
 
@@ -3234,6 +3288,9 @@ function afficherGererEquipe($idEnfant)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Role') {
+                echo '<td>' . $value . '</td>';
+            }
             if ($key == 'Nom') {
                 echo '<td>' . $value . '</td>';
             }
@@ -3567,6 +3624,83 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
     }
 }
+
+//!------------------------------------------------PARTIE ADMIN----------------------------------------------------------------------
+
+//function ajouterAdmin($idAdmin,$nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $role)
+// {
+//     // connexion a la BD
+//     $linkpdo = connexionBd();
+//     // preparation de la requete sql
+//     $req = $linkpdo->prepare($GLOBALS['qAjouterCompteAdmin']);
+//     if ($req == false) {
+//         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+//     }
+//     // execution de la requete sql
+//     $req->execute(array(
+//         ':idAdmin' => clean($idAdmin),
+//         ':nom' => clean($nom),
+//         ':prenom' => clean($prenom),
+//         ':adresse' => clean($adresse),
+//         ':codePostal' => clean($codePostal),
+//         ':ville' => clean($ville),
+//         ':courriel' => clean($courriel),
+//         ':dateNaissance' => clean($dateNaissance),
+//         ':mdp' => clean($mdp),
+//         ':role' => clean($role)
+//     ));
+
+//     if ($req == false) {
+//         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un membre a la BD');
+//     }
+// }
+// function verifierValidationAdmin($courriel)
+// {
+//     // connexion a la BD
+//     $linkpdo = connexionBd();
+//     // preparation de la requete sql
+//     $req = $linkpdo->prepare($GLOBALS['qVerifierValidationAdmin']);
+//     if ($req == false) {
+//         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+//     }
+//     // execution de la requete sql
+//     $req->execute(array(':courriel' => clean($courriel)));
+//     if ($req == false) {
+//         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+//     }
+//     if ($req->rowCount() > 0) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
+
+function recupererIdMembre($courriel){
+    $linkpdo = connexionBd();
+    $req = $linkpdo->prepare($GLOBALS['qRecupererIdMembre']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+    }
+    $req->execute(array(':courriel' => clean($courriel)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               
