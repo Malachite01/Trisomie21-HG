@@ -20,16 +20,23 @@
   <?php
   session_start();
   require('QUERY.php');
-  //testConnexion();
-  if (champRempli(array('champNom','champPrénom','champDate','champMail','champMdp', 'champRole'))) {
-    ajouterAdmin(
+  testConnexion();
+  faireMenu();
+  if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDate', 'champMdp', 'champRole'))) {
+    ajouterMembre(
       $_POST['champNom'],
       $_POST['champPrénom'],
-      $_POST['champDate'],
+      $_POST['champAdresse'],
+      $_POST['champCp'],
+      $_POST['champVille'],
       $_POST['champMail'],
+      $_POST['champDate'],
       saltHash($_POST['champMdp']),
+      1,
       $_POST['champRole']
     );
+    $id = recupererIdMembre($_POST['champMail']);
+    validerMembre($id);
     echo '
       <div class="validationPopup">
         <h2 class="txtPopup">Le compte administratif a bien été ajouté à la base !</h2>
@@ -48,19 +55,31 @@
       <label for="champNom">Nom :</label>
       <input type="text" name="champNom" placeholder="Entrez le Nom" minlength="1" maxlength="50" required>
       <span></span>
-      <label for="champPrenom">Prénom :</label>
+      <label for="champPrénom">Prénom :</label>
       <input type="text" name="champPrénom" placeholder="Entrez le prénom" minlength="1" maxlength="50" required>
       <span></span>
-      <label for="champDate">Mot de passe :</label>
+      <label for="champDate">Date de Naissance :</label>
       <input type="date" name="champDate" placeholder="Entrez la date de naissance" minlength="1" maxlength="50" required>
       <span></span>
+      <label for="champAdresse">Adresse :</label>
+      <input type="text" name="champAdresse" placeholder="Entrez votre adresse" maxlength="50" required>
+      <span></span>
+
+      <label for="champCp">Code postal :</label>
+      <input type="text" name="champCp" placeholder="Entrez votre code postal" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5" required>
+      <span></span>
+
+      <label for="champVille">Ville :</label>
+      <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" required>
+      <span></span>
+
       <label for="champMail">Adresse mail :</label>
       <input type="email" name="champMail" placeholder="Ex: exemple@xyz.com" minlength="3" maxlength="50" required>
       <span></span>
       <label for="champRole">Rôle: </label>
         <select name="champRole" id="champRole">
             <option value="">Choisissez une option</option>
-            <option value="1">Coordinatrice</option>
+            <option value="1">Coordinateur</option>
             <option value="2">Gestionnaire</option>
             <option value="3">Admin</option>
     
