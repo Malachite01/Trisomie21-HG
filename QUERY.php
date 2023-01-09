@@ -212,7 +212,7 @@ VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
 $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
 
-$qAfficherEquipe = 'SELECT membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
+$qAfficherEquipe = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
 suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
 $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfant AND suivre.Id_Membre =:idMembre';
@@ -399,6 +399,7 @@ function faireMenu()
                 <ul class="sousMenu">
                     <li><a href="ajouterEquipe.php">Ajouter un enfant à une équipe</a></li>
                     <li><a href="gererEquipe.php">Gérer une équipe</a></li>
+                    <li><a href="equipe.php">Équipe</a></li>
                 </ul>
             </li>    
             
@@ -1995,7 +1996,7 @@ function afficherObjectifs($idEnfant)
                 }
             }
             if ($key == 'Lien_Image') {
-                echo '<img class="imageObjectif" style="border-radius: 10px;'.$filtre.'" src="' . $value . '" id="imageJeton" alt="'.$res.' ">';   
+                echo '<img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' ">';
                 $places = 0;
             }
         }
@@ -3243,6 +3244,9 @@ function afficherGererEquipe($idEnfant)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
+            if ($key == 'Role') {
+                echo '<td>' . $value . '</td>';
+            }
             if ($key == 'Nom') {
                 echo '<td>' . $value . '</td>';
             }
