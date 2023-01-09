@@ -737,6 +737,20 @@ div.miseFormeConnexion label {
 .boutonModifier:active {
     animation: hoverClickModifier .1s cubic-bezier(.16,.83,.59,.91) forwards;
 }
+.boutonRecuperer {
+    background-color: var(--couleurPopupEdit);
+    color:var(--policeBlanche);
+    padding: 3px;
+    margin: 7px;
+    margin-top: 30px;
+}
+.boutonRecuperer:hover {
+    animation: hoverWaveModifier .15s cubic-bezier(.16,.83,.59,.91) forwards;
+    cursor: pointer;
+}
+.boutonRecuperer:active {
+    animation: hoverClickModifier .1s cubic-bezier(.16,.83,.59,.91) forwards;
+}
 
 .boutonValiderMembre {
     background-color: var(--couleurBoutonValider);
@@ -1373,18 +1387,51 @@ div.miseFormeConnexion label {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+#containerRecompenses {
+    margin: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
 
 .objectif {
     position: relative;
     display: grid;
     margin: 20px;
-    border-radius: var(--globalRadius);
+    border-radius: 25px;
     border: solid 5px rgb(241, 240, 240);   
     /* background: #FCA92E;
     background: -webkit-radial-gradient(center, #FCA92E, #A06501);
     background: -moz-radial-gradient(center, #FCA92E, #A06501);
     background: radial-gradient(ellipse at center, #FCA92E, #A06501);
     transition: all .8s; */
+}
+.recompense {
+    position: relative;
+    display: grid;
+    margin: 20px;
+    border-radius: 25px;
+    border: solid 5px rgb(241, 240, 240);   
+}
+
+.imgRecompense {
+    max-width: 70px;
+    border-radius: var(--globalRadius);
+    background-color: rgba(152, 151, 141, 0.23);
+    padding: 5px;
+    margin: 10px;
+    margin-top: -15px;
+    justify-self: center;
+    align-self: center;
+    z-index: 1;
+}
+
+.noeud {
+    position: absolute;
+    justify-self: center;
+    align-self: center;
+    top: -100px;
+    width: 200px;
+    pointer-events: none;
 }
 
 /* .objectif:hover .imageObjectif,.objectif:hover .containerTampons,.objectif:hover .jetonsRestant,.objectif:hover .dureeObjectifs, .objectif:hover .titreObjectif{
@@ -1398,6 +1445,9 @@ div.miseFormeConnexion label {
 .objectif:not(.containerTampons) {
     padding: 30px;
 }
+.recompense:not(.containerTampons) {
+    padding: 30px;
+}
 
 .containerTampons>.objectif {
     padding: 0px;
@@ -1409,6 +1459,25 @@ div.miseFormeConnexion label {
 
 .objectif:nth-child(odd) {
     background-color: var(--odd);
+}
+.recompense:nth-child(even) {
+    background-color: var(--even);
+}
+
+.recompense:nth-child(odd) {
+    background-color: var(--odd);
+}
+.fondRecompense {
+    display: grid;
+    background-color: rgba(152, 151, 141, 0.23);
+    padding: 5px;
+    border-radius: var(--globalRadius);
+    margin-top: 20px;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: -15px;
+    padding-top: 5px;
+    z-index: 1;
 }
 
 .imgRedirect {
@@ -1438,7 +1507,18 @@ button.redirect {
     display: inline-block;
     top: -20px;
     left: -20px;
-    border: 2px solid rgba(0, 0, 0, 0.285);
+    background-color: rgba(152, 151, 141, 0.23);
+    padding: 5px;
+}
+
+.imageObjectif.zoom {
+    max-width: 190px;
+}
+@media screen and (max-width: 450px) {   
+    .imageObjectif.zoom {
+        max-width: 150px;
+        margin-bottom: 20px;
+    }
 }
 
 .jetonsRestant {
@@ -1466,8 +1546,30 @@ button.redirect {
     width: 38px;
     height: 38px;
 }
+
+.dureeObjectifs.zoom {
+    position: absolute;
+    top:0;
+    right: 0;
+}
+
+.intituleRecompense {
+    font-size: 1.5em;
+    color: var(--couleurBarActive);
+}
+
 .tampon:hover {
     background-color: lightgrey;
+}
+.tampon.zoom {
+    width: 75px;
+    height: 75px;
+}
+@media screen and (max-width: 450px) {   
+    .tampon.zoom {
+        width: 38px;
+        height: 38px;
+    }
 }
 .imageTamponValide {
     width: 38px;
@@ -1476,6 +1578,14 @@ button.redirect {
     padding: 0;
     animation: apparitionJeton .6s forwards infinite cubic-bezier(.16,.83,.59,.91);
     animation-iteration-count: 1;
+}
+.imageTamponValide.zoom {
+    width: 75px;
+}
+@media screen and (max-width: 450px) {   
+    .imageTamponValide.zoom {
+        width: 38px;
+    }
 }
 @keyframes apparitionJeton {
     0% {
@@ -1488,15 +1598,35 @@ button.redirect {
 .containerTampons {
     display: grid;
     height : 120px;
+    background-color: rgba(152, 151, 141, 0.23);
+    padding: 5px;
     overflow-y: auto;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     border-radius: var(--globalRadius);
-    border: solid 2px rgba(0, 0, 0, 0.166);
     margin-top: 0;
     margin: -15px;
     padding-top: 5px;
 }
-
+.containerTampons.zoom {
+    height: 190px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+@media screen and (max-width: 1000px) {   
+    .containerTampons.zoom {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+@media screen and (max-width: 720px) {   
+    .containerTampons.zoom {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+@media screen and (max-width: 450px) {   
+    .containerTampons.zoom {
+        height: 120px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
 
 .containerTampons::-webkit-scrollbar {
     width: 8px;
@@ -1555,12 +1685,28 @@ button.redirect {
     #containerObjectifs {
         grid-template-columns: 1fr 1fr;
     }
+    #containerRecompenses {
+        grid-template-columns: 1fr 1fr;
+    }
     .objectif {
         margin: 40px;
+    }
+    .recompense {
+        margin: 40px;
+    }
+}
+@media screen and (min-width: 1200px){
+    .objectif.zoom {
+        margin-left: 150px;
+        margin-right: 150px;
     }
 }
 @media screen and (max-width: 980px){
     #containerObjectifs {
+        margin: 0px;
+        grid-template-columns: 1fr;
+    }
+    #containerRecompenses {
         margin: 0px;
         grid-template-columns: 1fr;
     }
@@ -1570,8 +1716,18 @@ button.redirect {
         padding: 0px;
         grid-template-columns: 1fr;
     }
+    #containerRecompenses {
+        padding: 0px;
+        grid-template-columns: 1fr;
+    }
     .objectif {
         margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .recompense {
+        margin-top: 40px;
         margin-bottom: 20px;
         margin-left: 20px;
         margin-right: 20px;
@@ -1585,6 +1741,10 @@ button.redirect {
         left:0px;
     }
     .objectif {
+        margin-top: 20px;
+        padding: 3px;
+    }
+    .recompense {
         margin-top: 20px;
         padding: 3px;
     }
@@ -1773,9 +1933,12 @@ button.redirect {
         text-align: left;
     }
     #tbodyGererEquipe td:first-child::before{
-        content: "Nom membre :";
+        content: "Rôle :";
     }
     #tbodyGererEquipe td:nth-child(2)::before{
+        content: "Nom membre :";
+    }
+    #tbodyGererEquipe td:nth-child(3)::before{
         content: "Prénom membre :";
     }
     
@@ -1794,6 +1957,14 @@ button.redirect {
         margin: 5px;
     }
     .boutonModifier span {
+        width: 20px;
+        margin: 5px;
+    }
+    .boutonRecuperer .imageIcone {
+        width: 20px;
+        margin: 5px;
+    }
+    .boutonRecuperer span {
         width: 20px;
         margin: 5px;
     }
@@ -2092,7 +2263,7 @@ button#boutonSelecteurs:hover {
 }
 
 #scrollChat::-webkit-scrollbar {
-    width: 8px;
+    width: 5px;
 }
 #scrollChat::-webkit-scrollbar-track {
     background: transparent;
@@ -2100,7 +2271,7 @@ button#boutonSelecteurs:hover {
     border-radius: 5px;
 }
 #scrollChat::-webkit-scrollbar-thumb {
-    background-color: var(--couleurBouton);
+    background-color: gray;
     border: 2px solid transparent;
     border-radius: 50px;
 }
