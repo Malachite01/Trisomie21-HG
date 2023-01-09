@@ -82,10 +82,12 @@
     }
   ?> 
   
-  <div class="test"></div>
   <img src="images/logo.png" alt="logo application" class="iconeApp"> 
   
+  <a href="indexAdmin.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas"><span>Connexion professionnel</span></button></a>
+  
   <form id="formConnexion" action="indexConnexion.php" method="POST">
+    <h1 id="pageDeCoStatut">Membre</h1>
     <div class="miseFormeConnexion" id="miseEnFormeConnexion">
       <label for="champIdentifiant">Identifiant :</label>
       <input type="email" name="champIdentifiant" id="champIdentifiant" placeholder="Entrez votre adresse mail"  minlength="1" maxlength="50"  required>

@@ -615,6 +615,41 @@ div.miseFormeConnexion label {
     margin-top: 20px;
 }
 
+#pageDeCoStatut {
+    margin-top: -5px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: fit-content;
+    justify-self: center;
+    align-self: center;
+    background-color: var(--couleurFondPage);
+    border-radius: var(--globalRadius);
+    font-size: 1.5em;
+    border: 2px dashed black;
+    padding: 4px;
+}
+
+#boutonAdmin {
+    position: absolute;
+    border: 2px dashed black;
+    padding: 4px;
+    top:20px;
+    right:20px;
+}
+#boutonAdmin:hover {
+    background-color: lightgray;
+}
+#boutonAdmin img{
+    margin: 0;
+    width: 20px;
+}
+@media screen and (max-width: 650px) {
+    #boutonAdmin {
+        top:10px;
+        right:10px;
+    }
+}
+
 .center {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1257,7 +1292,7 @@ div.miseFormeConnexion label {
 
 .iconeApp {
     width: 180px;
-    margin-top: 45px;
+    margin-top: 70px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -2462,6 +2497,53 @@ button#boutonSelecteurs:hover {
     background-color: var(--chatContainerTxt);
     border-radius: var(--globalRadius)var(--globalRadius)var(--globalRadius)0;
     border: 2px solid var(--couleurBarActive);
+}
+
+
+/* ! EQUIPE */
+.aCacher {
+    width: 0;
+    position: absolute;
+    justify-self: center;
+    margin-top: 80px;
+    z-index: 2;
+    transition: all .6s;
+}
+
+.equipeButtonOn {
+    animation: equipeBoutonApparition .6s forwards;
+    animation-iteration-count: 1;
+}
+.equipeButtonOff {
+    animation: equipeBoutonDisparition .6s forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes equipeBoutonApparition {
+    0% {
+        clip-path: circle(0% at center);
+
+    }
+    100% {
+        clip-path: circle(100% at center);
+        width: 100%;
+    }
+}
+@keyframes equipeBoutonDisparition {
+    0% {
+        clip-path: circle(100% at center);
+        width: 100%;
+    }
+    100% {
+        clip-path: circle(0% at center);
+        width: 0%;
+    }
+}
+
+#boutonAjouterAEquipe {
+    width: fit-content;
+    justify-self: center;
+    align-self: center;
 }
 
 /* Scroll si le contenu est trop grand

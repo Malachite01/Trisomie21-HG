@@ -38,17 +38,10 @@ if (champRempli(array('champRole'))) {
     );
     echo '
     <div class="validationPopup">
-      <h2 class="txtPopup">L\'enfant a bien été ajouté à l\'équipe !</h2>
+      <h2 class="txtPopup">Le membre a bien été ajouté à l\'équipe de l\'enfant !</h2>
       <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
       <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
     </div>';
-    //ICI IL FAUDRA FAIRE LA VERIFICATION SI L4ENFANT EST DEJA DANS LEQUIPE ET ECHO CA
-    // echo '
-    // <div class="erreurPopup">
-    //   <h2 class="txtPopup">Erreur, l\'enfant est déja dans cette équipe.</h2>
-    //   <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
-    //   <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-    // </div>';
 }
 ?>
 
@@ -60,29 +53,32 @@ if (champRempli(array('champRole'))) {
     <?php faireMenu(); ?>
 
     <h1>Gérer les équipes</h1>
-    <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
+    <div class="aCacher equipeButtonOff">
+        <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
-        <div class="miseEnForme" id="miseEnFormeFormulaire">
-            <?php
-            echo '<label for="champEnfant">Enfant concerné :</label>';
-            afficherNomPrenomEnfantSelect($_SESSION['enfant']);
-            echo '<span></span>';
-            echo '<label for="champEnfant">Membre concerné :</label>';
-            afficherNomPrenomMembre();
-            echo '<span></span>';
-            ?>
-            <label for="champRole">Rôle du membre :</label>
-            <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
-            <span></span>
-        </div>
-        <div class="center" id="boutonsValiderAnnuler">
-            <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-            <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
-        </div>
-    </form>
+            <div class="miseEnForme" id="miseEnFormeFormulaire">
+                <?php
+                echo '<label for="champEnfant">Enfant concerné :</label>';
+                afficherNomPrenomEnfantSelect($_SESSION['enfant']);
+                echo '<span></span>';
+                echo '<label for="champEnfant">Membre concerné :</label>';
+                afficherNomPrenomMembre();
+                echo '<span></span>';
+                ?>
+                <label for="champRole">Rôle du membre :</label>
+                <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
+                <span></span>
+            </div>
+            <div class="center" id="boutonsValiderAnnuler">
+                <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="equipeClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+                <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+            </div>
+        </form>
+    </div>
+
     <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
 
-        <div class="filtres" id="miseEnFormeFiltres">
+        <div class="filtres" id="miseEnFormeFiltresEnfants">
             <label for="Recherche">Filtres :</label>
             <div class="centerIconeChamp">
                 <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
@@ -94,14 +90,10 @@ if (champRempli(array('champRole'))) {
                 }
                 ?>
             </div>
-            <div class="centerIconeChamp">
-                <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
-                <select name="filtres" id="filtres" onchange="this.form.submit()">
-                    <option value="1">Filtre</option>
-                    <option value="2">Filtre</option>
-                </select>
-            </div>
         </div>
+
+        <button type="button" name="boutonAjouterAEquipe" id="boutonAjouterAEquipe" class="boutons" onclick="equipeOpen('aCacher')"><span>Ajouter un membre à l'équipe</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
+
         <table>
             <thead>
                 <th>Rôle</th>

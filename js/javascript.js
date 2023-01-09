@@ -132,3 +132,20 @@ function scrollToButton(id) {
         document.getElementById(id).scrollIntoView();
     }, 300);
 }
+
+function equipeOpen(aCacher) {
+    aCacher1 = document.querySelector("." + aCacher);
+    aCacher1.classList.toggle('equipeButtonOn');
+    aCacher1.classList.remove('equipeButtonOff');
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
+    Array.from( elements ).forEach( s => s.style.filter = "grayscale(100%)");
+}
+
+
+function equipeClose(aCacher) {
+    aCacher1 = document.querySelector("." + aCacher);
+    aCacher1.classList.toggle('equipeButtonOn');
+    aCacher1.classList.add('equipeButtonOff');
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
+    Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)");
+}

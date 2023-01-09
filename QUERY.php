@@ -388,7 +388,7 @@ function faireMenu()
             <li><a href="#" id="Membres">Membres</a>
                 <ul class="sousMenu">
                     <li><a href="gererMembre.php">Gérer les membres</a></li>
-                    <li><a href="ajouterAdmin.php">Ajouter un membre Admin</a></li>
+                    <li><a href="ajouterMembrePro.php">Ajouter un membre pro</a></li>
                 </ul>
             </li>
 
