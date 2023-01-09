@@ -169,7 +169,7 @@ $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif
 // requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
-$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Restant=0 WHERE Id_Objectif = :idObjectif'
+$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Restant=0 WHERE Id_Objectif = :idObjectif';
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
