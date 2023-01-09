@@ -256,6 +256,10 @@ $qNombreJetonsPlaces = '';
 
 //$qVerifierValidationAdmin = 'SELECT Id_Admin FROM admin WHERE courriel = :courriel';
 //----------------------------------------------------------------------------------------------------------------------------
+
+//?------------------------------------------------STATISTIQUES-----------------------------------------------
+$qRecupererNbJetonsPlacesUnObjectif = 'SELECT Date_Heure FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure <= :limiteSeance';
+
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -3864,51 +3868,43 @@ function recupererIdMembre($courriel)
             return $value;
         }
     }
-
-    //!------------------------------------------------STATISTIQUES----------------------------------------------------------------------
-
-    function afficherStatistiques($idObjectif)
-    {
-    }
-
-    $qRecupererNbJetonsPlacesUnObjectif = 'SELECT Date_Heure FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure <= :limiteSeance';
-    function afficherBarresProgression($idObjectif)
-    {
-        $restant = recupererTempsDebutObjectif($idObjectif);
-        echo '$restant : ' . $restant . '<br>';
-        $duree = recupererDureeUnObjectif($idObjectif) / 3600;
-        echo '$duree : ' . $duree . '<br>';
-        $limiteSeance = $restant + $duree;
-        echo '$limiteSeance : ' . $limiteSeance . '<br>';
-        // connexion a la BD
-        $linkpdo = connexionBd();
-        // preparation de la requete sql
-        $req = $linkpdo->prepare($GLOBALS['qRecupererNbJetonsPlacesUnObjectif']);
-        if ($req == false) {
-            die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
-        }
-        // execution de la requete sql
-        $req->execute(array(
-            ':idObjectif' => clean($idObjectif),
-            ':limiteSeance' => $limiteSeance
-        ));
-        if ($req == false) {
-            die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
-        }
-        $count = $req->rowCount();
-        echo '$count : ' . $count . '<br>';
-        $pourcentage = ($count / NombreDeJetons($idObjectif)) * 100;
-        echo '$pourcentage : ' . $pourcentage . '<br>';
-    }
 }
 
+//!------------------------------------------------STATISTIQUES----------------------------------------------------------------------
 
+function afficherStatistiques($idObjectif)
+{
+    return null;
+}
 
-
-
-
-
-
+function afficherBarresProgression($idObjectif)
+{
+    $restant = recupererTempsDebutObjectif($idObjectif);
+    echo '$restant : ' . $restant . '<br>';
+    $duree = recupererDureeUnObjectif($idObjectif) / 3600;
+    echo '$duree : ' . $duree . '<br>';
+    $limiteSeance = $restant + $duree;
+    echo '$limiteSeance : ' . $limiteSeance . '<br>';
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNbJetonsPlacesUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif),
+        ':limiteSeance' => $limiteSeance
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+    }
+    $count = $req->rowCount();
+    echo '$count : ' . $count . '<br>';
+    $pourcentage = ($count / NombreDeJetons($idObjectif)) * 100;
+    echo '$pourcentage : ' . $pourcentage . '<br>';
+}
 
 /*                                                                
 /                                                                                   .                                                
