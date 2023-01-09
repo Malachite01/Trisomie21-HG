@@ -169,7 +169,7 @@ $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif
 // requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
-$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Restant=0 WHERE Id_Objectif = :idObjectif'
+$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Restant=0 WHERE Id_Objectif = :idObjectif';
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
@@ -3401,7 +3401,7 @@ function afficherMessage($idEnfant)
 function faireChatTb()
 {
     echo '
-    <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
+    <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')," enctype="multipart/form-data">      
     <div id="chat">
         <div class="chatBox">
         <p id="txtChatType">Chat par équipe</p>  
@@ -3411,6 +3411,7 @@ function faireChatTb()
     afficherMessage($_SESSION['enfant']);
 
     echo '
+    
             <div id="selecteursMsg">
             <label>Objectifs : </label>';
     if (isset($_POST['idObjectif'])) {
