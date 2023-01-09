@@ -82,7 +82,8 @@
             <option value="1">Coordinateur</option>
             <option value="2">Gestionnaire</option>
             <option value="3">Admin</option>
-    
+</select>
+        <span></span>
       <label for="champMdp">Mot de passe :</label>
       <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp('champMdp','champConfirmerMdp','messageVerifMdp','boutonValider')" required>
       <span></span>

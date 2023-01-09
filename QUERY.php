@@ -169,6 +169,7 @@ $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif
 // requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
+$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Restant=0 WHERE Id_Objectif = :idObjectif'
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
@@ -2875,6 +2876,22 @@ function supprimerImageObjectif($idObjectif)
             return $value;
         }
     }
+}
+function reinitialiserObjectif($idObjectif){
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qReinitialiserObjectif']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+     }
+     // execution de la requete sql
+     $req->execute(array(
+         ':idObjectif' => clean($idObjectif)
+     ));
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+     }
 }
 
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
