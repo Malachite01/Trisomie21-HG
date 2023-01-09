@@ -171,6 +171,12 @@ $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = 
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
+$qRecupererDureeUnObjectif = 'SELECT Duree FROM objectif WHERE Id_Objectif = :idObjectif';
+
+$qAjouterTempsRestantUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsRestant WHERE Id_Objectif = :idObjectif';
+
+$qRecupererTempsRestantUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Objectif = :idObjectif';
+
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -228,7 +234,7 @@ AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfan
 $qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
-$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre,:jetons)';
+$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,:dateHeure,:idMembre,:jetons)';
 
 $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
@@ -448,16 +454,72 @@ function dureeString($duree)
         $s = null;
     }
     if ($j != 0) {
-        $j = $j . ' jours ';
+        if ($j == 1) {
+            $j = $j . ' jour ';
+        } else {
+            $j = $j . ' jours ';
+        }
     } else {
         $j = null;
     }
     if ($h != 0) {
-        $h = $h . ' heures';
+        if ($h == 1) {
+            $h = $h . ' heure ';
+        } else {
+            $h = $h . ' heures ';
+        }
     } else {
         $h = null;
     }
     return  $s . $j . $h;
+}
+
+function dureeStringMinutes($duree)
+{
+    $w = intdiv($duree, 10080);
+    $duree -= 10080 * $w;
+    $j = intdiv($duree, 1440);
+    $duree -= 1440 * $j;
+    $h = intdiv($duree, 60);
+    $duree -= 60 * $h;
+    $s = intdiv($duree, 1);
+    if ($w != 0) {
+        if ($w == 1) {
+            $w = $w . ' semaine ';
+        } else {
+            $w = $w . ' semaines ';
+        }
+    } else {
+        $w = null;
+    }
+    if ($j != 0) {
+        if ($j == 1) {
+            $j = $j . ' jour ';
+        } else {
+            $j = $j . ' jours ';
+        }
+    } else {
+        $j = null;
+    }
+    if ($h != 0) {
+        if ($h == 1) {
+            $h = $h . ' heure ';
+        } else {
+            $h = $h . ' heures ';
+        }
+    } else {
+        $h = null;
+    }
+    if ($s != 0) {
+        if ($s == 1) {
+            $s = $s . ' minute ';
+        } else {
+            $s = $s . ' minutes ';
+        }
+    } else {
+        $s = null;
+    }
+    return  $w . $j . $h . $s;
 }
 function testConnexion()
 {
@@ -2849,6 +2911,93 @@ function supprimerImageObjectif($idObjectif)
     }
 }
 
+function recupererDureeUnObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererDureeUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+function ajouterTempsRestantObjectif($tempsRestant, $idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterTempsRestantUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':tempsRestant' => clean($tempsRestant),
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
+function recupererTempsDebutObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererTempsRestantUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+$qMettreA0LeTempsDeDebutUnObjectif = 'UPDATE objectif SET Temps_Debut = 0 WHERE Id_Objectif = :idObjectif';
+function mettreA0LeTempsDeDebutUnObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qMettreA0LeTempsDeDebutUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
@@ -3555,7 +3704,7 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
 
 //!------------------------------------------------PARTIE ADMIN----------------------------------------------------------------------
 
-function ajouterAdmin($nom,$prenom,$dateNaissance,$courriel,$mdp, $role)
+function ajouterAdmin($nom, $prenom, $dateNaissance, $courriel, $mdp, $role)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3573,7 +3722,7 @@ function ajouterAdmin($nom,$prenom,$dateNaissance,$courriel,$mdp, $role)
         ':mdp' => clean($mdp),
         ':role' => clean($role)
     ));
-    
+
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un membre admin a la BD');
     }
@@ -3598,6 +3747,43 @@ function verifierValidationAdmin($courriel)
         return false;
     }
 }
+
+//!------------------------------------------------STATISTIQUES----------------------------------------------------------------------
+
+function afficherStatistiques($idObjectif)
+{
+}
+
+$qRecupererNbJetonsPlacesUnObjectif = 'SELECT Date_Heure FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure <= :limiteSeance';
+function afficherBarresProgression($idObjectif)
+{
+    $restant = recupererTempsDebutObjectif($idObjectif);
+    echo '$restant : ' . $restant . '<br>';
+    $duree = recupererDureeUnObjectif($idObjectif) / 3600;
+    echo '$duree : ' . $duree . '<br>';
+    $limiteSeance = $restant + $duree;
+    echo '$limiteSeance : ' . $limiteSeance . '<br>';
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNbJetonsPlacesUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif),
+        ':limiteSeance' => $limiteSeance
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+    }
+    $count = $req->rowCount();
+    echo '$count : ' . $count . '<br>';
+    $pourcentage = ($count / NombreDeJetons($idObjectif)) * 100;
+    echo '$pourcentage : ' . $pourcentage . '<br>';
+}
+
 /*                                                                
 /                                                                                   .                                                
 /                                                                                  / V\                                               
