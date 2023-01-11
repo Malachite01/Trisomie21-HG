@@ -1104,7 +1104,7 @@ function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, 
 }
 
 // fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
-function membreIdentique($dateNaissance)
+function membreIdentique($courriel)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1122,6 +1122,7 @@ function membreIdentique($dateNaissance)
     }
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
+
 function membreIdentiqueEquipe($idMembre,$idEnfant){
     $linkpdo = connexionBd();
     // preparation de la requete sql
