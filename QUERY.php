@@ -98,7 +98,7 @@ $qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom,
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Id_Membre decroissant )
 $qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Id_Membre DESC';
 
-$qRecupererIdMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel'; 
+$qRecupererIdMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel';
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -173,13 +173,13 @@ $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif
 // requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
-$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Debut=0 WHERE Id_Objectif = :idObjectif';
+$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0, Temps_Debut = 0 WHERE Id_Objectif = :idObjectif';
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
 $qRecupererDureeUnObjectif = 'SELECT Duree FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qAjouterTempsRestantUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsRestant WHERE Id_Objectif = :idObjectif';
+$qAjouterTempsRestantUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsDebut WHERE Id_Objectif = :idObjectif';
 
 $qRecupererTempsRestantUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Objectif = :idObjectif';
 
@@ -451,7 +451,8 @@ function faireMenu()
     // </li>
 }
 
-function faireChargement() {
+function faireChargement()
+{
     echo '
     <!-- LOADER -->
     <div class="loading-wrapper">
@@ -510,7 +511,7 @@ function dureeStringMinutes($duree)
     $duree -= 1440 * $j;
     $h = intdiv($duree, 60);
     $duree -= 60 * $h;
-    $s = intdiv($duree, 1);
+    $m = intdiv($duree, 1);
     if ($w != 0) {
         if ($w == 1) {
             $w = $w . ' semaine ';
@@ -538,16 +539,16 @@ function dureeStringMinutes($duree)
     } else {
         $h = null;
     }
-    if ($s != 0) {
-        if ($s == 1) {
-            $s = $s . ' minute ';
+    if ($m != 0) {
+        if ($m == 1) {
+            $m = $m . ' Moins d\'une minute ';
         } else {
-            $s = $s . ' minutes ';
+            $m = $m . ' minutes ';
         }
     } else {
-        $s = null;
+        $m = null;
     }
-    return  $w . $j . $h . $s;
+    return  $w . $j . $h . $m;
 }
 function testConnexion()
 {
@@ -1115,7 +1116,8 @@ function membreIdentique($courriel)
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
-function membreIdentiqueEquipe($idMembre,$idEnfant){
+function membreIdentiqueEquipe($idMembre, $idEnfant)
+{
     $linkpdo = connexionBd();
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qMembreIdentiqueEquipe']);
@@ -1168,14 +1170,14 @@ function AfficherMembres()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -1245,14 +1247,14 @@ function AfficherMembresAZ()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -1322,14 +1324,14 @@ function AfficherMembresZA()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -1399,14 +1401,14 @@ function AfficherMembresDateNaissanceCroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -1476,14 +1478,14 @@ function AfficherMembresDateNaissanceDecroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -1553,14 +1555,14 @@ function AfficherMembresCompteValideCroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -1630,14 +1632,14 @@ function AfficherMembresCompteValideDecroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -1707,14 +1709,14 @@ function AfficherMembresIdMembreDecroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
-            if ($key == 'Role'){
-                if ($value == '0'){
+            if ($key == 'Role') {
+                if ($value == '0') {
                     $role = 'Membre';
-                } elseif($value == '1'){
+                } elseif ($value == '1') {
                     $role = 'Coordinateur';
-                } elseif($value == '2'){
+                } elseif ($value == '2') {
                     $role = 'Gestionnaire';
-                } elseif($value == '3'){
+                } elseif ($value == '3') {
                     $role = 'Administrateur';
                 }
                 echo '<td>' . $role . '</td>';
@@ -2252,16 +2254,18 @@ function afficherObjectifsZoom($idObjectif)
             }
         }
         echo '<div class="containerTampons zoom">';
-        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
-            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                if ($res == 0) {
-                    echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
+        if (recupererTempsDebutObjectif($idObjectif) >= time()) {
+            for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+                if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                    echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
+                    if ($res == 0) {
+                        echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
+                    } else {
+                        echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
+                    }
                 } else {
-                    echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
+                    echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                 }
-            } else {
-                echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
         }
         echo '</div></div>';
@@ -3104,7 +3108,7 @@ function recupererDureeUnObjectif($idObjectif)
     }
 }
 
-function ajouterTempsRestantObjectif($tempsRestant, $idObjectif)
+function ajouterTempsDebutObjectif($tempsDebut, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3115,7 +3119,7 @@ function ajouterTempsRestantObjectif($tempsRestant, $idObjectif)
     }
     // execution de la requete sql
     $req->execute(array(
-        ':tempsRestant' => clean($tempsRestant),
+        ':tempsDebut' => clean($tempsDebut),
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
@@ -3148,24 +3152,6 @@ function recupererTempsDebutObjectif($idObjectif)
     }
 }
 
-$qMettreA0LeTempsDeDebutUnObjectif = 'UPDATE objectif SET Temps_Debut = 0 WHERE Id_Objectif = :idObjectif';
-function mettreA0LeTempsDeDebutUnObjectif($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qMettreA0LeTempsDeDebutUnObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
-    }
-}
 function reinitialiserObjectif($idObjectif)
 {
     // connexion a la BD
