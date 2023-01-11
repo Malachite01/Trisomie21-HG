@@ -396,12 +396,7 @@ function faireMenu()
     }
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
         echo '     
-            <li><a href="#" id="Membres">Membres</a>
-                <ul class="sousMenu">
-                    <li><a href="ajouterMembrePro.php">Ajouter un membre pro</a></li>
-                    <li><a href="gererMembre.php">Gérer les membres</a></li>
-                </ul>
-            </li>
+            <li><a href="membre.php" id="Membres">Membres</a></li>
 
             <div class="separateur"></div>
     ';
