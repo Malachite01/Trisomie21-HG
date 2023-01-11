@@ -173,7 +173,7 @@ $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif
 // requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
-$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Restant=0 WHERE Id_Objectif = :idObjectif';
+$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0, Temps_Restant=0 WHERE Id_Objectif = :idObjectif';
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
@@ -3481,8 +3481,8 @@ function afficherRecompenseSelonObjectif($idObjectif)
             if ($key == 'Id_Recompense') {
                 // if(objectifvalide) {
                 echo '
-                    <button type="button" name="boutonRecuperer" value="' . $value . '" 
-                    class="boutonRecuperer" onclick="holdSubmit()">
+                    <button onclick="holdSubmit()" type="button" name="boutonRecuperer" value="' . $value . '" 
+                    class="boutonRecuperer">
                         <img src="images/panier.png" class="imageIcone" alt="icone modifier">
                         <span>Récupérer</span>
                     </button></div>

@@ -183,7 +183,6 @@ function holdSubmit() {
             form.submit();
         }, gifDuration * 1000);
     } 
-    alert("hi");
 }
 
 function submitForm(formId, divId, url) {
