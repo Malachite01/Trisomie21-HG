@@ -19,9 +19,7 @@
 
   <h1>Modifier une récompense</h1>
   <?php
-  session_start();
   require('QUERY.php');
-  testConnexion();
   faireMenu();
   ?>
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">

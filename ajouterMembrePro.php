@@ -18,9 +18,7 @@
   </div>
 
   <?php
-  session_start();
   require('QUERY.php');
-  testConnexion();
   faireMenu();
   if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDate', 'champMdp', 'champRole'))) {
     ajouterMembre(

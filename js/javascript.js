@@ -148,16 +148,16 @@ function scrollToButton(id) {
 
 function fenOpen(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
-    aCacher1.classList.toggle('equipeButtonOn');
-    aCacher1.classList.remove('equipeButtonOff');
+    aCacher1.classList.toggle('fenButtonOn');
+    aCacher1.classList.remove('fenButtonOff');
     var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
     Array.from( elements ).forEach( s => s.style.filter = "grayscale(100%) blur(3px)");
 }
 
 function fenClose(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
-    aCacher1.classList.toggle('equipeButtonOn');
-    aCacher1.classList.add('equipeButtonOff');
+    aCacher1.classList.toggle('fenButtonOn');
+    aCacher1.classList.add('fenButtonOff');
     var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
     Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)  blur(0px)");
 }

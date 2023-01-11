@@ -353,6 +353,8 @@ function uploadImage($photo)
 
 function faireMenu()
 {
+    session_start();
+    testConnexion();
     faireChargement();
     // $effacer = ["/leSite/", ".php", "?params=suppr"];
     // $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
@@ -424,7 +426,7 @@ function faireMenu()
                 <ul class="sousMenu">
                     <li><a href="ajouterObjectif.php">Ajouter un objectif</a></li>
                     <li><a href="gererObjectifs.php">Gérer les objectifs</a></li>
-                    <li><a href="objectif.php"> objectifs</a></li>
+                    <li><a href="objectif.php">Objectifs</a></li>
                 </ul>
             </li>
 

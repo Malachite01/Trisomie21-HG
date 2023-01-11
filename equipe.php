@@ -13,9 +13,8 @@
 </head>
 <script src="js/javascript.js"></script>
 <?php
-session_start();
 require('QUERY.php');
-testConnexion();
+faireMenu();
 
 if (isset($_POST['boutonSupprimer'])) {
     supprimerMembreEquipe($_POST['boutonSupprimer']);
@@ -48,11 +47,10 @@ if (champRempli(array('champRole'))) {
 <body>
     <div class="svgWaveContains">
         <div class="svgWave"></div>
-    </div>
-    <?php faireMenu(); ?>
+    </div> 
 
     <h1>Gérer les équipes</h1>
-    <div class="aCacher equipeButtonOff transparent">
+    <div class="aCacher fenButtonOff transparent">
         <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
             <div class="miseEnForme" id="miseEnFormeFormulaire">

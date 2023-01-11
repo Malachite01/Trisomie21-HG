@@ -13,9 +13,8 @@
 </head>
 <script src="js/javascript.js"></script>
 <?php
-session_start();
 require('QUERY.php');
-testConnexion();
+faireMenu();
 
 if (isset($_POST['boutonSupprimer'])) {
   supprimerIdMembreDansObjectif($_POST['boutonSupprimer']);
@@ -51,8 +50,6 @@ if (isset($_GET['params'])) {
   <div class="svgWaveContains">
     <div class="svgWave"></div>
   </div>
-
-  <?php faireMenu(); ?>
 
   <h1>Gérer les membres</h1>
 

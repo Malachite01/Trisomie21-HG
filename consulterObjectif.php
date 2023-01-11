@@ -13,9 +13,8 @@
 </head>
 <script src="js/javascript.js"></script>
 <?php
-session_start();
 require('QUERY.php');
-testConnexion();
+faireMenu();
 ?>
 
 <body>
@@ -23,7 +22,7 @@ testConnexion();
         <div class="svgWave"></div>
     </div>
 
-    <?php faireMenu();
+    <?php 
     if (isset($_POST['redirect'])) {
         $_SESSION['objectif'] = $_POST['redirect'];
     }

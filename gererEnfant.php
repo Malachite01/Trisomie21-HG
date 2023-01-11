@@ -13,9 +13,8 @@
 </head>
 <script src="js/javascript.js"></script>
 <?php
-session_start();
 require('QUERY.php');
-testConnexion();
+faireMenu();
 
 if (isset($_POST['boutonSupprimer'])) {
   supprimerEnfant($_POST['boutonSupprimer']);
@@ -74,8 +73,6 @@ if (isset($_POST['boutonValider'])) {
   <div class="svgWaveContains">
     <div class="svgWave"></div>
   </div>
-
-  <?php faireMenu(); ?>
 
   <h1>Gérer les enfants</h1>
 

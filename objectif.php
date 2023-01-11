@@ -13,20 +13,19 @@
 </head>
 
 <body>
+  <script src="js/javascript.js"></script>
   <div class="svgWaveContains">
     <div class="svgWave"></div>
   </div>
-
   <?php
-  require('QUERY.php');
-  session_start();
-  testConnexion();
-  faireMenu();
+    require('QUERY.php');
+    faireMenu();
   ?>
+  
+  <h1>Gérer les objectifs</h1>
   <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
 
-  <h1 id="texteH1DemandeInscription"> objectif</h1>
-
+  
   <?php
   if (champRempli(array('champIntitule', 'champNbJetons', 'champTravaille'))) {
     if (isset($_POST['boutonValider'])) {
@@ -91,8 +90,8 @@
 
   ?>
 
+<!-- <div class="aCacher fenButtonOff transparent"> -->
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">
-
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champEnfant">Enfant concerné :</label>
       <?php
@@ -145,9 +144,7 @@
       <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
     </div>
   </form>
-  <div class="svgWaveContains">
-    <div class="svgWave"></div>
-  </div>
+<!-- </div> -->
 
   <?php
 
@@ -339,7 +336,6 @@
     }
     ?>
   </form>
-  <script src="js/javascript.js"></script>
 </body>
 
 </html>

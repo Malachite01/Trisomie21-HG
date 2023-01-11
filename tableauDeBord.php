@@ -18,11 +18,8 @@
   </div>
 
   <?php
-  session_start();
   require('QUERY.php');
-  testConnexion();
   faireMenu();
-
   ?>
 
   <h1>Tableau de bord pour l'enfant:</h1>
