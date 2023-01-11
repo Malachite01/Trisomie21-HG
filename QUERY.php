@@ -1187,7 +1187,7 @@ function AfficherMembres()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1264,7 +1264,7 @@ function AfficherMembresAZ()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1341,7 +1341,7 @@ function AfficherMembresZA()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1418,7 +1418,7 @@ function AfficherMembresDateNaissanceCroissante()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1495,7 +1495,7 @@ function AfficherMembresDateNaissanceDecroissante()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1572,7 +1572,7 @@ function AfficherMembresCompteValideCroissante()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1649,7 +1649,7 @@ function AfficherMembresCompteValideDecroissante()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1726,7 +1726,7 @@ function AfficherMembresIdMembreDecroissante()
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValider" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>

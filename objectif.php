@@ -83,7 +83,6 @@
     }
   }
 
-
   //!MODIFICATIONS D'UN OBJECTIF (depuis la page modifierObjectif)
   if (isset($_POST['boutonAppliquer'])) {
     if ($_FILES['champLienImage']['name'] == "") {

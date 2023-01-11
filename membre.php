@@ -16,34 +16,52 @@
 require('QUERY.php');
 faireMenu();
 
+//!AJOUTER UN MEMBRE PRO
+if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDate', 'champMdp', 'champRole'))) {
+    ajouterMembre(
+      $_POST['champNom'],
+      $_POST['champPrénom'],
+      $_POST['champAdresse'],
+      $_POST['champCp'],
+      $_POST['champVille'],
+      $_POST['champMail'],
+      $_POST['champDate'],
+      saltHash($_POST['champMdp']),
+      1,
+      $_POST['champRole']
+    );
+    $id = recupererIdMembre($_POST['champMail']);
+    validerMembre($id);
+    echo '
+    <div class="validationPopup">
+        <h2 class="txtPopup">Le compte administratif a bien été ajouté à la base !</h2>
+        <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+    </div>';
+}
+
+//!SUPRESSION D'UN MEMBRE
 if (isset($_POST['boutonSupprimer'])) {
   supprimerIdMembreDansObjectif($_POST['boutonSupprimer']);
   supprimerMembre($_POST['boutonSupprimer']);
-  header("Location: gererMembre.php?params=suppr");
-};
-if (isset($_POST['boutonValider'])) {
-  validerMembre($_POST['boutonValider']);
-  header("Location: gererMembre.php?params=valide");
-};
-
-if (isset($_GET['params'])) {
-  $err = clean($_GET['params']);
-  if ($err == 'suppr') {
     echo '
-      <div class="supprPopup">
+    <div class="supprPopup">
         <h2 class="txtPopup">Le membre a été supprimé !</h2>
         <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
         <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
-      </div>';
-  } else if ($err == 'valide') {
+    </div>';
+};
+
+//!VALIDATION D'UN MEMBRE
+if (isset($_POST['boutonValiderMembre'])) {
+    validerMembre($_POST['boutonValiderMembre']);
     echo '
       <div class="validationPopup">
         <h2 class="txtPopup">Le compte a bien été validé !</h2>
         <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
         <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
       </div>';
-  }
-}
+  };
 ?>
 
 <body>
@@ -53,8 +71,62 @@ if (isset($_GET['params'])) {
 
   <h1>Gérer les membres</h1>
 
-  <form id="formGestionMembre" method="POST">
+<div class="aCacher fenButtonOff transparent" id="formAjoutMembrePro">
+  <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
+    <div class="miseEnForme" id="miseEnFormeFormulaire">
+      <label for="champRole">Rôle: </label>
+        <select name="champRole" id="champRole">
+            <option value="">Choisissez une option</option>
+            <option value="1">Coordinateur</option>
+            <option value="2">Gestionnaire</option>
+            <option value="3">Admin</option>
+        </select>
+      <span></span>
 
+      <label for="champNom">Nom :</label>
+      <input type="text" name="champNom" placeholder="Entrez le Nom" minlength="1" maxlength="50" required>
+      <span></span>
+      <label for="champPrénom">Prénom :</label>
+      <input type="text" name="champPrénom" placeholder="Entrez le prénom" minlength="1" maxlength="50" required>
+      <span></span>
+      <label for="champDate">Date de Naissance :</label>
+      <input type="date" name="champDate" placeholder="Entrez la date de naissance" minlength="1" maxlength="50" required>
+      <span></span>
+      <label for="champAdresse">Adresse :</label>
+      <input type="text" name="champAdresse" placeholder="Entrez votre adresse" maxlength="50" required>
+      <span></span>
+
+      <label for="champCp">Code postal :</label>
+      <input type="text" name="champCp" placeholder="Entrez votre code postal" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5" required>
+      <span></span>
+
+      <label for="champVille">Ville :</label>
+      <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" required>
+      <span></span>
+
+      <label for="champMail">Adresse mail :</label>
+      <input type="email" name="champMail" placeholder="Ex: exemple@xyz.com" minlength="3" maxlength="50" required>
+      <span></span>
+      
+      <label for="champMdp">Mot de passe :</label>
+      <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp('champMdp','champConfirmerMdp','messageVerifMdp','boutonValider')" required>
+      <span></span>
+
+      <label for="champConfirmerMdp">Confirmer mot de passe :</label>
+      <input type="password" name="champConfirmerMdp" id="champConfirmerMdp" placeholder="Confirmez votre mot de passe" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp('champMdp','champConfirmerMdp','messageVerifMdp','boutonValider')" required>
+      <span></span>
+      <p id="messageVerifMdp" style="color: red;"></p>    
+    </div>
+
+    <div class="center" id="boutonsValiderAnnuler">
+        <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="fenClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+        <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider" formaction="membre.php"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+    </div>
+  </form>
+</div>
+
+
+  <form id="formGestionMembre" method="POST">
     <div class="filtres" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
@@ -124,6 +196,9 @@ if (isset($_GET['params'])) {
 
       </div>
     </div>
+
+    <button type="button" name="boutonAjouterMembrePro" class="boutons boutonAjouterA" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter un <b style="text-decoration: underline; color: orange;">professionnel</b></span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
+
     <table>
       <thead>
         <th>Nom</th>
