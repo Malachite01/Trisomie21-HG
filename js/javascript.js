@@ -173,15 +173,13 @@ function holdSubmit() {
     let form = document.getElementById("formConsulter");
     let gifDuration = 2.5; // duration of the gif
     let target = event.target;
-    if (target.tagName === 'BUTTON' && target.name === 'boutonRecuperer') {
-        let image = new Image();
-        image.src = 'images/ouvertureKdo.gif';
-        image.classList.add('ouvertureKdo');
-        form.appendChild(image);
-        setTimeout(function(){
-            form.submit();
-        }, gifDuration * 1000);
-    } 
+    let image = new Image();
+    image.src = 'images/ouvertureKdo.gif';
+    image.classList.add('ouvertureKdo');
+    form.appendChild(image);
+    setTimeout(function(){
+        form.submit();
+    }, gifDuration * 1000);
 }
 
 function submitForm(formId, divId, url) {
