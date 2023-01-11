@@ -69,7 +69,7 @@ if (champRempli(array('champRole'))) {
                 <span></span>
             </div>
             <div class="center" id="boutonsValiderAnnuler">
-                <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="equipeClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+                <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="fenClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
                 <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
             </div>
         </form>
@@ -91,7 +91,7 @@ if (champRempli(array('champRole'))) {
             </div>
         </div>
 
-        <button type="button" name="boutonAjouterAEquipe" id="boutonAjouterAEquipe" class="boutons" onclick="equipeOpen('aCacher'),deCache('aCacher')"><span>Ajouter un membre à l'équipe</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
+        <button type="button" name="boutonAjouterAEquipe" id="boutonAjouterAEquipe" class="boutons" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter un membre à l'équipe</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
 
         <table>
             <thead>

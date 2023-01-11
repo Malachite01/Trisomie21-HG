@@ -28,7 +28,7 @@ testConnexion();
         $_SESSION['objectif'] = $_POST['redirect'];
     }
     ?>
-    <form method="POST">
+    <form method="POST" id="formConsulter">
         <h1 style="margin-top: 100px; margin-bottom: 20px">Consulter objectif :
             <?php
             if (isset($_POST['redirect'])) {

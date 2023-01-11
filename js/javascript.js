@@ -146,7 +146,7 @@ function scrollToButton(id) {
     }, 300);
 }
 
-function equipeOpen(aCacher) {
+function fenOpen(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
     aCacher1.classList.toggle('equipeButtonOn');
     aCacher1.classList.remove('equipeButtonOff');
@@ -154,8 +154,7 @@ function equipeOpen(aCacher) {
     Array.from( elements ).forEach( s => s.style.filter = "grayscale(100%) blur(3px)");
 }
 
-
-function equipeClose(aCacher) {
+function fenClose(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
     aCacher1.classList.toggle('equipeButtonOn');
     aCacher1.classList.add('equipeButtonOff');
@@ -163,16 +162,28 @@ function equipeClose(aCacher) {
     Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)  blur(0px)");
 }
 
-function cache(div) {
-    aCacher = document.querySelector("." + div);
-    aCacher.classList.add('transparent');
-}
-
 function deCache(div) {
     aCacher = document.querySelector("." + div);
     if(aCacher.classList.contains('transparent')) {
         aCacher.classList.remove('transparent');
     } 
+}
+
+function holdSubmit() {
+    let form = document.getElementById("formConsulter");
+    let gifDuration = 2.5; // duration of the gif
+    let target = event.target;
+    if (target.tagName === 'BUTTON' && target.name === 'boutonRecuperer') {
+        event.preventDefault();
+        let image = new Image();
+        image.src = 'images/ouvertureKdo.gif';
+        image.classList.add('ouvertureKdo');
+        form.appendChild(image);
+        setTimeout(function(){
+            form.submit();
+        }, gifDuration * 1000);
+    } 
+    alert("hi");
 }
 
 function submitForm(formId, divId, url) {
