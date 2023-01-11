@@ -2506,12 +2506,21 @@ button#boutonSelecteurs:hover {
 
 /* ! EQUIPE */
 .aCacher {
+    display: none;
     width: 0;
+    height: 0;
     position: absolute;
     justify-self: center;
-    margin-top: 80px;
     z-index: 2;
 }
+
+.aCacher#formAjoutEquipe {
+    margin-top: 80px;
+}
+
+/* .aCacher#formAjoutObjectif {
+
+} */
 
 .fenButtonOn {
     animation: fenBoutonApparition .6s forwards;
@@ -2524,26 +2533,29 @@ button#boutonSelecteurs:hover {
 
 @keyframes fenBoutonApparition {
     0% {
-        clip-path: circle(0% at center);
+        clip-path: circle(0vh at center);
 
     }
     100% {
-        clip-path: circle(100% at center);
+        clip-path: circle(100vh at center);
         width: 100%;
+        height: 100%;
     }
 }
 @keyframes fenBoutonDisparition {
     0% {
-        clip-path: circle(100% at center);
+        clip-path: circle(100vh at center);
         width: 100%;
+        height: 100%;
     }
     100% {
-        clip-path: circle(0% at center);
+        clip-path: circle(0vh at center);
         width: 0%;
+        height: 0%;
     }
 }
 
-#boutonAjouterAEquipe {
+.boutonAjouterA {
     width: fit-content;
     justify-self: center;
     align-self: center;

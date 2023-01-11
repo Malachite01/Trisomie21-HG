@@ -148,6 +148,7 @@ function scrollToButton(id) {
 
 function fenOpen(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
+    aCacher1.style.display = "block";
     aCacher1.classList.toggle('fenButtonOn');
     aCacher1.classList.remove('fenButtonOff');
     var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
@@ -160,6 +161,9 @@ function fenClose(aCacher) {
     aCacher1.classList.add('fenButtonOff');
     var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
     Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)  blur(0px)");
+    setTimeout(function(){
+        aCacher1.style.display = "none";
+    }, 600);
 }
 
 function deCache(div) {

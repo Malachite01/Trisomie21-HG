@@ -356,9 +356,6 @@ function faireMenu()
     session_start();
     testConnexion();
     faireChargement();
-    // $effacer = ["/leSite/", ".php", "?params=suppr"];
-    // $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
-
 
     $get_url = $_SERVER['REQUEST_URI'];
     $idAChercher = "";
@@ -422,13 +419,7 @@ function faireMenu()
     ';
     }
     echo '        
-            <li><a href="#" id="Objectifs">Objectifs</a>
-                <ul class="sousMenu">
-                    <li><a href="ajouterObjectif.php">Ajouter un objectif</a></li>
-                    <li><a href="gererObjectifs.php">Gérer les objectifs</a></li>
-                    <li><a href="objectif.php">Objectifs</a></li>
-                </ul>
-            </li>
+            <li><a href="objectif.php" id="Objectifs">Objectifs</a></li>
 
             <div class="separateur"></div>
 
@@ -459,6 +450,15 @@ function faireMenu()
         var elementActif = document.querySelector("#' . $idAChercher . '");
         elementActif.classList.add("active");
     </script>';
+
+    //LES CLASSES POUR LES SOUS MENUS FONCTIONNENT, ON FAIT COMME CA
+    // <li><a href="#" id="Objectifs">Objectifs</a>
+    //     <ul class="sousMenu">
+    //         <li><a href="ajouterObjectif.php">Ajouter un objectif</a></li>
+    //         <li><a href="gererObjectifs.php">Gérer les objectifs</a></li>
+    //         <li><a href="objectif.php">Objectifs</a></li>
+    //     </ul>
+    // </li>
 }
 
 function faireChargement() {
@@ -2121,7 +2121,7 @@ function afficherGererObjectifs($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -2736,7 +2736,7 @@ function afficherGererObjectifsAZ($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -2800,7 +2800,7 @@ function afficherGererObjectifsZA($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -2864,7 +2864,7 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -2928,7 +2928,7 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -2992,7 +2992,7 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -3056,7 +3056,7 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>

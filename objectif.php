@@ -11,22 +11,13 @@
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="style/style.css">
 </head>
+<script src="js/javascript.js"></script>
 
-<body>
-  <script src="js/javascript.js"></script>
-  <div class="svgWaveContains">
-    <div class="svgWave"></div>
-  </div>
-  <?php
-    require('QUERY.php');
-    faireMenu();
-  ?>
-  
-  <h1>Gérer les objectifs</h1>
-  <img src="images/logo.png" alt="Icone de logo" class="logo" style="position: relative;">
+<?php
+  require('QUERY.php');
+  faireMenu();
 
-  
-  <?php
+  //!AJOUT D'UN OBJECTIF
   if (champRempli(array('champIntitule', 'champNbJetons', 'champTravaille'))) {
     if (isset($_POST['boutonValider'])) {
       if (objectifIdentique($_POST['champIntitule'], $_POST['idEnfant']) == 0) {
@@ -65,8 +56,12 @@
       }
     }
   }
+
+  //!SUPRESSION D'UN OBJECTIF
   if (isset($_POST['boutonSupprimer'])) {
-    unlink(supprimerImageObjectif($_POST['boutonSupprimer']));
+    if(file_exists(supprimerImageObjectif($_POST['boutonSupprimer']))) {
+      unlink(supprimerImageObjectif($_POST['boutonSupprimer']));
+    }
     supprimerObjectif($_POST['boutonSupprimer']);
   
     echo '
@@ -88,9 +83,58 @@
     }
   }
 
-  ?>
 
-<!-- <div class="aCacher fenButtonOff transparent"> -->
+  //!MODIFICATIONS D'UN OBJECTIF (depuis la page modifierObjectif)
+  if (isset($_POST['boutonAppliquer'])) {
+    if ($_FILES['champLienImage']['name'] == "") {
+      //IMAGE NON MODIFIEE
+      modifierObjectif(
+        $_POST['champIntitule'],
+        $_POST['champNbJetons'],
+        dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
+        $_POST['hiddenImageLink'],
+        $_POST['champTravaille'],
+        $_SESSION['idConnexion'],
+        $_POST['boutonAppliquer']
+      );
+    } else {
+      //UTILISER UNE NOUVELLE IMAGE A LA MODIF
+      $image = uploadImage($_FILES['champLienImage']);
+      if ($image != null) {
+        modifierObjectif(
+          $_POST['champIntitule'],
+          $_POST['champNbJetons'],
+          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
+          $image,
+          $_POST['champTravaille'],
+          $_SESSION['idConnexion'],
+          $_POST['boutonAppliquer']
+        );
+        //Pour régler les problemes de réactualisation de page alors que l'image est déja suprimée
+        if(file_exists($_POST['hiddenImageLink'])) {
+          unlink($_POST['hiddenImageLink']);
+        }
+      } else {
+        echo '
+        <div class="erreurPopup">
+          <h2 class="txtPopup">Erreur, image trop grande.</h2>
+          <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+        </div>';
+      }
+    }
+  }
+?>
+
+<body>
+  
+  <div class="svgWaveContains">
+    <div class="svgWave"></div>
+  </div>
+  
+  <h1>Gérer les objectifs</h1>
+  
+<div class="aCacher fenButtonOff transparent" id="formAjoutObjectif">
   <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">
     <div class="miseEnForme" id="miseEnFormeFormulaire">
       <label for="champEnfant">Enfant concerné :</label>
@@ -140,52 +184,14 @@
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
-      <button type="reset" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-      <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+      <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="fenClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+      <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider" formaction="objectif.php"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
     </div>
   </form>
-<!-- </div> -->
+</div>
 
-  <?php
 
-  if (isset($_POST['boutonAppliquer'])) {
-    if ($_FILES['champLienImage']['name'] == "") {
-      modifierObjectif(
-        $_POST['champIntitule'],
-        $_POST['champNbJetons'],
-        dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-        $_POST['hiddenImageLink'],
-        $_POST['champTravaille'],
-        $_SESSION['idConnexion'],
-        $_POST['boutonAppliquer']
-      );
-    } else {
-      $image = uploadImage($_FILES['champLienImage']);
-      if ($image != null) {
-        modifierObjectif(
-          $_POST['champIntitule'],
-          $_POST['champNbJetons'],
-          dureeDeCagnottage($_POST['champDureeSemaines'], $_POST['champDureeJours'], $_POST['champDureeHeures']),
-          $image,
-          $_POST['champTravaille'],
-          $_SESSION['idConnexion'],
-          $_POST['boutonAppliquer']
-        );
-        unlink($_POST['hiddenImageLink']);
-      } else {
-        echo '
-      <div class="erreurPopup">
-        <h2 class="txtPopup">Erreur, image trop grande.</h2>
-        <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
-        <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-      </div>';
-      }
-    }
-  }
-
-  ?>
   <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
-
     <div class="filtres" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
@@ -255,6 +261,9 @@
         </select>
       </div>
     </div>
+
+    <button type="button" name="boutonAjouterObjectifs" class="boutons boutonAjouterA" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter un objectif</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
+
     <table>
       <thead>
         <th>Image objectif</th>

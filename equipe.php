@@ -25,9 +25,6 @@ if (isset($_POST['boutonSupprimer'])) {
     <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
   </div>';
 }
-?>
-<?php
-
 if (champRempli(array('champRole'))) {
     AjouterUneEquipe(
         $_POST['idEnfant'],
@@ -50,17 +47,18 @@ if (champRempli(array('champRole'))) {
     </div> 
 
     <h1>Gérer les équipes</h1>
-    <div class="aCacher fenButtonOff transparent">
+    
+    <div class="aCacher fenButtonOff transparent" id="formAjoutEquipe">
         <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
             <div class="miseEnForme" id="miseEnFormeFormulaire">
                 <?php
-                echo '<label for="champEnfant">Enfant concerné :</label>';
-                afficherNomPrenomEnfantSelect($_SESSION['enfant']);
-                echo '<span></span>';
-                echo '<label for="champEnfant">Membre concerné :</label>';
-                afficherNomPrenomMembre();
-                echo '<span></span>';
+                    echo '<label for="champEnfant">Enfant concerné :</label>';
+                    afficherNomPrenomEnfantSelect($_SESSION['enfant']);
+                    echo '<span></span>';
+                    echo '<label for="champEnfant">Membre concerné :</label>';
+                    afficherNomPrenomMembre();
+                    echo '<span></span>';
                 ?>
                 <label for="champRole">Rôle du membre :</label>
                 <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
@@ -89,7 +87,7 @@ if (champRempli(array('champRole'))) {
             </div>
         </div>
 
-        <button type="button" name="boutonAjouterAEquipe" id="boutonAjouterAEquipe" class="boutons" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter un membre à l'équipe</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
+        <button type="button" name="boutonAjouterAEquipe" class="boutons boutonAjouterA" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter un membre à l'équipe</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
 
         <table>
             <thead>
