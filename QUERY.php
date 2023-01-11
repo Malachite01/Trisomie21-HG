@@ -43,7 +43,9 @@ $qModifierInformationsEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, 
 $qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Pro,Role) VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:pro,:role)';
 
 // requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
-$qMembreIdentique = 'SELECT Nom, Prenom, Date_Naissance, Courriel FROM membre WHERE Nom = :nom AND Prenom = :prenom AND Date_Naissance = :dateNaissance AND Courriel = :courriel';
+$qMembreIdentique = 'SELECT Courriel FROM membre WHERE Courriel = :courriel';
+
+$qMembreIdentiqueEquipe = 'SELECT Id_Membre FROM suivre WHERE Id_Membre=:idMembre AND Id_Enfant=:idEnfant';
 
 // requete pour supprimer un membre de la BD
 $qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :idMembre';
@@ -73,28 +75,28 @@ $qModifierMotDePasse = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre
 $qRecupererMotDePasse = 'SELECT Mdp FROM membre WHERE Courriel = :courriel';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD
-$qRecupererInformationsMembres = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre';
+$qRecupererInformationsMembres = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des  membres de la BD ( trie par Nom croissant puis prenom croissant )
-$qRecupererInformationsMembresAZ = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Nom, Prenom';
+$qRecupererInformationsMembresAZ = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Nom, Prenom';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Nom decroissant puis prenom croissant )
-$qRecupererInformationsMembresZA = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Nom DESC, Prenom';
+$qRecupererInformationsMembresZA = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Nom DESC, Prenom';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par date naissance croissante puis nom puis prenom )
-$qRecupererInformationsMembresDateNaissanceCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Date_Naissance, Nom, Prenom';
+$qRecupererInformationsMembresDateNaissanceCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Date_Naissance, Nom, Prenom';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par date naissance decroissante puis nom puis prenom )
-$qRecupererInformationsMembresDateNaissanceDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Date_Naissance DESC , Nom, Prenom';
+$qRecupererInformationsMembresDateNaissanceDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Date_Naissance DESC , Nom, Prenom';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par validation croissant puis nom puis prenom )
-$qRecupererInformationsMembresCompteValideCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Compte_Valide, Nom, Prenom';
+$qRecupererInformationsMembresCompteValideCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Compte_Valide, Nom, Prenom';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par validation decroissant puis nom puis prenom )
-$qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Compte_Valide DESC, Nom, Prenom';
+$qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Compte_Valide DESC, Nom, Prenom';
 
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Id_Membre decroissant )
-$qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre ORDER BY Id_Membre DESC';
+$qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Id_Membre DESC';
 
 $qRecupererIdMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel';
 
@@ -1025,7 +1027,7 @@ function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, 
 }
 
 // fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
-function membreIdentique($nom, $prenom, $dateNaissance, $courriel)
+function membreIdentique($dateNaissance)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1036,10 +1038,24 @@ function membreIdentique($nom, $prenom, $dateNaissance, $courriel)
     }
     // execution de la requete sql
     $req->execute(array(
-        ':nom' => clean($nom),
-        ':prenom' => clean($prenom),
-        ':dateNaissance' => clean($dateNaissance),
         ':courriel' => clean($courriel)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
+    }
+    return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
+}
+function membreIdentiqueEquipe($idMembre,$idEnfant){
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qMembreIdentiqueEquipe']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un membre existe deja');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idMembre' => clean($idMembre),
+        'idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
@@ -1081,6 +1097,18 @@ function AfficherMembres()
             }
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
+            }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
             }
         }
         // permet de dire si un membre a son compte valide ou non 
@@ -1147,6 +1175,18 @@ function AfficherMembresAZ()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
+            }
         }
         // permet de dire si un membre a son compte valide ou non 
         if ($compteValide == Null) {
@@ -1211,6 +1251,18 @@ function AfficherMembresZA()
             }
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
+            }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
             }
         }
         // permet de dire si un membre a son compte valide ou non 
@@ -1277,6 +1329,18 @@ function AfficherMembresDateNaissanceCroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
+            }
         }
         // permet de dire si un membre a son compte valide ou non 
         if ($compteValide == Null) {
@@ -1341,6 +1405,18 @@ function AfficherMembresDateNaissanceDecroissante()
             }
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
+            }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
             }
         }
         // permet de dire si un membre a son compte valide ou non 
@@ -1407,6 +1483,18 @@ function AfficherMembresCompteValideCroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
+            }
         }
         // permet de dire si un membre a son compte valide ou non 
         if ($compteValide == Null) {
@@ -1472,6 +1560,18 @@ function AfficherMembresCompteValideDecroissante()
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
             }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
+            }
         }
         // permet de dire si un membre a son compte valide ou non 
         if ($compteValide == Null) {
@@ -1536,6 +1636,18 @@ function AfficherMembresIdMembreDecroissante()
             }
             if ($key == 'Compte_Valide') {
                 $compteValide = $value;
+            }
+            if ($key == 'Role'){
+                if ($value == '0'){
+                    $role = 'Membre';
+                } elseif($value == '1'){
+                    $role = 'Coordinateur';
+                } elseif($value == '2'){
+                    $role = 'Gestionnaire';
+                } elseif($value == '3'){
+                    $role = 'Administrateur';
+                }
+                echo '<td>' . $role . '</td>';
             }
         }
         // permet de dire si un membre a son compte valide ou non 

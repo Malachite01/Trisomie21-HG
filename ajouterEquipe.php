@@ -28,18 +28,27 @@
   <?php
 
   if (champRempli(array('champRole'))) {
-    AjouterUneEquipe(
-      $_POST['idEnfant'],
-      $_POST['idMembre'],
-      time(),
-      $_POST['champRole']
-    );
-    echo '
+    if(membreIdentiqueEquipe($_POST['idMembre'],$_POST['idEnfant'],)){
+      AjouterUneEquipe(
+        $_POST['idEnfant'],
+        $_POST['idMembre'],
+        time(),
+        $_POST['champRole']
+      );
+      echo '
       <div class="validationPopup">
         <h2 class="txtPopup">L\'enfant a bien été ajouté à l\'équipe !</h2>
         <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
         <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
       </div>';
+    } else{
+      echo '
+      <div class="supprPopup">
+        <h2 class="txtPopup">Cette personne fait déjà partie de l\'équipe !</h2>
+        <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+      </div>';
+    }
     //ICI IL FAUDRA FAIRE LA VERIFICATION SI L4ENFANT EST DEJA DANS LEQUIPE ET ECHO CA
     // echo '
     // <div class="erreurPopup">

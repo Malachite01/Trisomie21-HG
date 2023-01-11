@@ -133,6 +133,7 @@ if (isset($_GET['params'])) {
         <th>Prénom</th>
         <th>Adresse mail</th>
         <th>Date de naissance</th>
+        <th>Rôle</th>
         <th>Valider</th>
         <th>Supprimer</th>
       </thead>
