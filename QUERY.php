@@ -403,8 +403,8 @@ function faireMenu()
         echo '     
             <li><a href="#" id="Membres">Membres</a>
                 <ul class="sousMenu">
-                    <li><a href="gererMembre.php">Gérer les membres</a></li>
                     <li><a href="ajouterMembrePro.php">Ajouter un membre pro</a></li>
+                    <li><a href="gererMembre.php">Gérer les membres</a></li>
                 </ul>
             </li>
 
