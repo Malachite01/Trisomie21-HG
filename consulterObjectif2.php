@@ -40,37 +40,43 @@ testConnexion();
         </h1>
 
         <?php
-
-        //! --------------------------------------------------Seance-----------------------------------------------------------------------
-
-        echo '<button type="submit" name="butonResetSceance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Reset</span></button>';
         if (isset($_POST['butonResetSceance'])) {
-            echo 'ButonResetSeance' . '<br>';
             reinitialiserObjectif($_SESSION['objectif']);
         }
-
-        if (recupererTempsDebutObjectif($_SESSION['objectif']) == 0 && isset($_POST['butonDebutSeance'])) {
-            echo 'Temps_Debut == 0 et ButonDebutSeance' . '<br>';
-            $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_SESSION['objectif']) * 3600);
-            ajouterTempsDebutObjectif($nowPlusDureeObjectif, $_SESSION['objectif']);
-            unset($_POST['butonDebutSeance']);
+        // $flag = 0;
+        // if ($flag == 0 && recupererTempsDebutObjectif($_SESSION['objectif']) != 0) {
+        //     if ((recupererTempsDebutObjectif($_SESSION['objectif']) - time()) <= 0)
+        //         $flag = 1;
+        // }
+        if ((recupererTempsDebutObjectif($_SESSION['objectif']) - time()) <= 0) {
+            reinitialiserObjectif($_SESSION['objectif']);
+        }
+        echo '<button type="submit" name="butonResetSceance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Reset</span></button>';
+        if (isset($_POST['butonDebutSceance']) && (recupererTempsDebutObjectif($_SESSION['objectif']) - time()) <= 0 && recupererTempsDebutObjectif($_SESSION['objectif']) == 0) {
+            reinitialiserObjectif($_SESSION['objectif']);
+            $maintenantPlusDureeSecondes = time() + recupererDureeUnObjectif($_SESSION['objectif']) * 3600;
+            ajouterTempsDebutObjectif($maintenantPlusDureeSecondes, $_SESSION['objectif']);
+            echo '<h1> dedans </h1>';
         }
 
-        if ((recupererTempsDebutObjectif($_SESSION['objectif']) != 0) && (recupererTempsDebutObjectif($_SESSION['objectif']) - time() > 0)) {
-            echo 'Temps_Debut != 0 et Temps_Debut - time > 0' . '<br>';
+        // echo '<h1>' . $flag . '</h1>';
+        echo '<h1> dehors </h1>';
+        $test = (recupererTempsDebutObjectif($_SESSION['objectif'])  - time());
+        echo $test;
+        if ((recupererTempsDebutObjectif($_SESSION['objectif']) - time()) > 0) {
             $maintenant = time();
             $restant = recupererTempsDebutObjectif($_SESSION['objectif']) - $maintenant;
             $heureRestante = $restant / 60;
             $duree = dureeStringMinutes($heureRestante);
-            echo 'Temps restant : ' . $duree;
+            echo '<h1>Temps restant : ' . $duree . '</h1>';
+            echo '<h1> dedans 2</h1>';
         } else {
-            unset($_POST['butonDebutSeance']);
-            echo 'Temps_Debut == 0 et Temps_Debut - time <= 0' . '<br>';
-            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
-            reinitialiserObjectif($_SESSION['objectif']);
+            // if ((recupererTempsDebutObjectif($_SESSION['objectif'])  - time()) <= 0) {
+            echo '<h1> dedans 3</h1>';
+            echo '<h1>Séance terminée !</h1>';
+            echo '<button type="submit" name="butonDebutSceance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
         }
-
-        //! --------------------------------------------------Seance-----------------------------------------------------------------------
+        // }
 
         if (isset($_POST['valeurJetonsIdObjectif'])) {
             $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
@@ -98,7 +104,7 @@ testConnexion();
         </div>
     </form>
     <?php
-    // afficherBarresProgression($_SESSION['objectif']);
+    afficherBarresProgression($_SESSION['objectif']);
     if (champRempli(array('champSujet', 'champCorps'))) {
         ajouterMessage(
             $_POST['champSujet'],
