@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="">
-  <title>Ajouter un Admin</title>
+  <title>Ajouter un professionnel</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
   <link rel="stylesheet" href="style/style.css">
@@ -47,11 +47,20 @@
   //faireMenu();
   ?>
 
-  <h1>Ajouter un Admin</h1>
+  <h1>Ajouter un professionnel</h1>
 
   <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
     <div class="miseEnForme" id="miseEnFormeFormulaire">
+      <label for="champRole">Rôle: </label>
+        <select name="champRole" id="champRole">
+            <option value="">Choisissez une option</option>
+            <option value="1">Coordinateur</option>
+            <option value="2">Gestionnaire</option>
+            <option value="3">Admin</option>
+        </select>
+      <span></span>
+
       <label for="champNom">Nom :</label>
       <input type="text" name="champNom" placeholder="Entrez le Nom" minlength="1" maxlength="50" required>
       <span></span>
@@ -76,14 +85,7 @@
       <label for="champMail">Adresse mail :</label>
       <input type="email" name="champMail" placeholder="Ex: exemple@xyz.com" minlength="3" maxlength="50" required>
       <span></span>
-      <label for="champRole">Rôle: </label>
-        <select name="champRole" id="champRole">
-            <option value="">Choisissez une option</option>
-            <option value="1">Coordinateur</option>
-            <option value="2">Gestionnaire</option>
-            <option value="3">Admin</option>
-</select>
-        <span></span>
+      
       <label for="champMdp">Mot de passe :</label>
       <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp('champMdp','champConfirmerMdp','messageVerifMdp','boutonValider')" required>
       <span></span>
@@ -106,10 +108,6 @@
     </div>
   </form>
   <script src="js/javascript.js"></script>
-  <?php
-
-  
-  ?>
 </body>
 
 </html>

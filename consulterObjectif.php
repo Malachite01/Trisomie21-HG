@@ -38,7 +38,29 @@ testConnexion();
             }
             ?>
         </h1>
+
         <?php
+        if (isset($_POST['butonResetSceance'])) {
+            mettreA0LeTempsDeDebutUnObjectif($_SESSION['objectif']);
+        }
+        echo '<button type="submit" name="butonResetSceance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Reset</span></button>';
+        if (isset($_POST['butonDebutSceance']) && recupererTempsDebutObjectif($_SESSION['objectif']) == 0 && !isset($_POST['butonResetSceance'])) {
+            $maintenantPlusDureeSecondes = time() + recupererDureeUnObjectif($_SESSION['objectif']) * 3600;
+            ajouterTempsRestantObjectif($maintenantPlusDureeSecondes, $_SESSION['objectif']);
+        }
+        if (isset($_POST['butonDebutSceance']) || (recupererTempsDebutObjectif($_SESSION['objectif']) - time()) > 0) {
+            $maintenant = time();
+            $restant = recupererTempsDebutObjectif($_SESSION['objectif']) - $maintenant;
+            $heureRestante = $restant / 60;
+            $duree = dureeStringMinutes($heureRestante);
+            echo '<h1>Temps restant : ' . $duree . '</h1>';
+        } else {
+            if (recupererTempsDebutObjectif($_SESSION['objectif']) == 0) {
+                echo '<h1>Séance terminée !</h1>';
+                echo '<button type="submit" name="butonDebutSceance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
+            }
+        }
+
         if (isset($_POST['valeurJetonsIdObjectif'])) {
             $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
             if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])) {
@@ -56,26 +78,27 @@ testConnexion();
         ?>
         <div id="containerRecompenses">
             <?php
-                if (isset($_POST['redirect'])) {
-                    afficherRecompenseSelonObjectif($_POST['redirect']);
-                } else {
-                    afficherRecompenseSelonObjectif($_SESSION['objectif']);
-                }
+            if (isset($_POST['redirect'])) {
+                afficherRecompenseSelonObjectif($_POST['redirect']);
+            } else {
+                afficherRecompenseSelonObjectif($_SESSION['objectif']);
+            }
             ?>
         </div>
     </form>
-        <?php
-        if (champRempli(array('champSujet', 'champCorps'))) {
-            ajouterMessage(
-                $_POST['champSujet'],
-                $_POST['champCorps'],
-                time(),
-                $_SESSION['objectif'],
-                $_SESSION['idConnexion']
-            );
-        }
-        faireChatObjectif();
-        ?>
+    <?php
+    afficherBarresProgression($_SESSION['objectif']);
+    if (champRempli(array('champSujet', 'champCorps'))) {
+        ajouterMessage(
+            $_POST['champSujet'],
+            $_POST['champCorps'],
+            time(),
+            $_SESSION['objectif'],
+            $_SESSION['idConnexion']
+        );
+    }
+    faireChatObjectif();
+    ?>
 </body>
 
 </html>

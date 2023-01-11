@@ -1,3 +1,16 @@
+//*CHARGEMENT
+//Donne la valeur 0 a opacité si la page a fini de charger
+window.addEventListener('load', function(){
+    var loadingWrapper = document.querySelector('.loading-wrapper');
+    loadingWrapper.style.opacity = 0;
+    if(loadingWrapper.style.opacity == 0){
+        setTimeout(assigner0,600);
+        function assigner0() {
+          loadingWrapper.style.display ='none';
+        }
+    }
+});
+
 //*MENU 
 function menuMobile(nav) {
     navLinks = document.querySelector("." + nav);
@@ -133,7 +146,34 @@ function scrollToButton(id) {
     }, 300);
 }
 
+function equipeOpen(aCacher) {
+    aCacher1 = document.querySelector("." + aCacher);
+    aCacher1.classList.toggle('equipeButtonOn');
+    aCacher1.classList.remove('equipeButtonOff');
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
+    Array.from( elements ).forEach( s => s.style.filter = "grayscale(100%) blur(3px)");
+}
 
+
+function equipeClose(aCacher) {
+    aCacher1 = document.querySelector("." + aCacher);
+    aCacher1.classList.toggle('equipeButtonOn');
+    aCacher1.classList.add('equipeButtonOff');
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
+    Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)  blur(0px)");
+}
+
+function cache(div) {
+    aCacher = document.querySelector("." + div);
+    aCacher.classList.add('transparent');
+}
+
+function deCache(div) {
+    aCacher = document.querySelector("." + div);
+    if(aCacher.classList.contains('transparent')) {
+        aCacher.classList.remove('transparent');
+    } 
+}
 
 function submitForm(formId, divId, url) {
     // Récupère l'élément formulaire

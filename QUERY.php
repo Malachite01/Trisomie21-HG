@@ -177,6 +177,12 @@ $qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Rest
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
+$qRecupererDureeUnObjectif = 'SELECT Duree FROM objectif WHERE Id_Objectif = :idObjectif';
+
+$qAjouterTempsRestantUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsRestant WHERE Id_Objectif = :idObjectif';
+
+$qRecupererTempsRestantUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Objectif = :idObjectif';
+
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
@@ -234,7 +240,7 @@ AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfan
 $qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
-$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,FROM_UNIXTIME(:dateHeure),:idMembre,:jetons)';
+$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,:dateHeure,:idMembre,:jetons)';
 
 $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
@@ -252,6 +258,10 @@ $qNombreJetonsPlaces = '';
 
 //$qVerifierValidationAdmin = 'SELECT Id_Admin FROM admin WHERE courriel = :courriel';
 //----------------------------------------------------------------------------------------------------------------------------
+
+//?------------------------------------------------STATISTIQUES-----------------------------------------------
+$qRecupererNbJetonsPlacesUnObjectif = 'SELECT Date_Heure FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure <= :limiteSeance';
+
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -343,9 +353,10 @@ function uploadImage($photo)
 
 function faireMenu()
 {
+    faireChargement();
     // $effacer = ["/leSite/", ".php", "?params=suppr"];
     // $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
-    
+
 
     $get_url = $_SERVER['REQUEST_URI'];
     $idAChercher = "";
@@ -362,22 +373,23 @@ function faireMenu()
     } else if (stripos($get_url, "equipe")) {
         $idAChercher = "Equipe";
     }
-    echo' <nav class="navbar">
+    echo ' <nav class="navbar">
     <div class="fondMobile"></div>
     <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
     
     <div class="nav-links">
       <ul class="nav-ul">';
-    if ($_SESSION['role'] != 2){
-    echo
-    '
+    if ($_SESSION['role'] != 2) {
+        echo
+        '
             <li><a href="tableauDeBord.php" id="tableauDeBord">Tableau de bord</a></li>
     
             <div class="separateur"></div>
-    ';}
+    ';
+    }
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
         echo
-       '     
+        '     
             <li><a href="#" id="Enfants">Enfants</a>
                 <ul class="sousMenu">
                     <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
@@ -386,30 +398,27 @@ function faireMenu()
             </li>        
             
             <div class="separateur"></div>
-    ';}   
+    ';
+    }
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
         echo '     
             <li><a href="#" id="Membres">Membres</a>
                 <ul class="sousMenu">
                     <li><a href="gererMembre.php">Gérer les membres</a></li>
-                    <li><a href="ajouterAdmin.php">Ajouter un membre Admin</a></li>
+                    <li><a href="ajouterMembrePro.php">Ajouter un membre pro</a></li>
                 </ul>
             </li>
 
             <div class="separateur"></div>
-    ';}
-    if($_SESSION['role'] != 0){
+    ';
+    }
+    if ($_SESSION['role'] != 0) {
         echo '
-            <li><a href="#" id="Equipe">Equipe</a>
-                <ul class="sousMenu">
-                    <li><a href="ajouterEquipe.php">Ajouter un enfant à une équipe</a></li>
-                    <li><a href="gererEquipe.php">Gérer une équipe</a></li>
-                    <li><a href="equipe.php">Équipe</a></li>
-                </ul>
-            </li>    
+            <li><a href="equipe.php" id="Equipe">Équipe</a></li>    
             
             <div class="separateur"></div>
-    ';}
+    ';
+    }
     echo '        
             <li><a href="#" id="Objectifs">Objectifs</a>
                 <ul class="sousMenu">
@@ -449,6 +458,20 @@ function faireMenu()
     </script>';
 }
 
+function faireChargement() {
+    echo '
+    <!-- LOADER -->
+    <div class="loading-wrapper">
+      <div class="loader">
+        <img src="images/logo.png" alt="logo chargement" id="logoChargement">
+      </div>
+
+      <span class="spinner-large"></span>
+      <p id="loaderS">Chargement...</p>
+    </div>
+    ';
+}
+
 function dureeString($duree)
 {
     $s = intdiv($duree, 168);
@@ -466,16 +489,72 @@ function dureeString($duree)
         $s = null;
     }
     if ($j != 0) {
-        $j = $j . ' jours ';
+        if ($j == 1) {
+            $j = $j . ' jour ';
+        } else {
+            $j = $j . ' jours ';
+        }
     } else {
         $j = null;
     }
     if ($h != 0) {
-        $h = $h . ' heures';
+        if ($h == 1) {
+            $h = $h . ' heure ';
+        } else {
+            $h = $h . ' heures ';
+        }
     } else {
         $h = null;
     }
     return  $s . $j . $h;
+}
+
+function dureeStringMinutes($duree)
+{
+    $w = intdiv($duree, 10080);
+    $duree -= 10080 * $w;
+    $j = intdiv($duree, 1440);
+    $duree -= 1440 * $j;
+    $h = intdiv($duree, 60);
+    $duree -= 60 * $h;
+    $s = intdiv($duree, 1);
+    if ($w != 0) {
+        if ($w == 1) {
+            $w = $w . ' semaine ';
+        } else {
+            $w = $w . ' semaines ';
+        }
+    } else {
+        $w = null;
+    }
+    if ($j != 0) {
+        if ($j == 1) {
+            $j = $j . ' jour ';
+        } else {
+            $j = $j . ' jours ';
+        }
+    } else {
+        $j = null;
+    }
+    if ($h != 0) {
+        if ($h == 1) {
+            $h = $h . ' heure ';
+        } else {
+            $h = $h . ' heures ';
+        }
+    } else {
+        $h = null;
+    }
+    if ($s != 0) {
+        if ($s == 1) {
+            $s = $s . ' minute ';
+        } else {
+            $s = $s . ' minutes ';
+        }
+    } else {
+        $s = null;
+    }
+    return  $w . $j . $h . $s;
 }
 function testConnexion()
 {
@@ -488,18 +567,15 @@ function testConnexion()
     }
 
     $get_url = $_SERVER['REQUEST_URI'];
-    if (stripos($get_url, "tableau")&& $_SESSION['role'] == 2 ) {
+    if (stripos($get_url, "tableau") && $_SESSION['role'] == 2) {
         header('Location:modifierProfil.php');
     } else if (stripos($get_url, "enfant") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
         header('Location: tableauDeBord.php');
-    
-    } else if (stripos($get_url, "membre")&& ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
+    } else if (stripos($get_url, "membre") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
         header('Location: tableauDeBord.php');
-       
-    }  else if (stripos($get_url, "equipe")&& $_SESSION['role']==0) {
+    } else if (stripos($get_url, "equipe") && $_SESSION['role'] == 0) {
         header('Location: tableauDeBord.php');
     }
-    
 }
 function rechercherEnfant($champ)
 {
@@ -999,7 +1075,7 @@ function afficherInformationsEnfantModification($idEnfant)
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un membre a la BD
-function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $pro,$role)
+function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $pro, $role)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2266,7 +2342,8 @@ function AjouterJetonsPlaces($idObjectif)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
 }
-function supprimerPlacerJeton($idObjectif){
+function supprimerPlacerJeton($idObjectif)
+{
     $linkpdo = connexionBd();
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qSupprimerPlacerJetons']);
@@ -3008,21 +3085,109 @@ function supprimerImageObjectif($idObjectif)
         }
     }
 }
-function reinitialiserObjectif($idObjectif){
-     // connexion a la BD
-     $linkpdo = connexionBd();
-     // preparation de la requete sql
-     $req = $linkpdo->prepare($GLOBALS['qReinitialiserObjectif']);
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
-     }
-     // execution de la requete sql
-     $req->execute(array(
-         ':idObjectif' => clean($idObjectif)
-     ));
-     if ($req == false) {
-         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
-     }
+
+function recupererDureeUnObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererDureeUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+    }
+    // execution de la requete sql
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        echo '<tr>';
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+function ajouterTempsRestantObjectif($tempsRestant, $idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterTempsRestantUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':tempsRestant' => clean($tempsRestant),
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+
+function recupererTempsDebutObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererTempsRestantUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
+}
+
+$qMettreA0LeTempsDeDebutUnObjectif = 'UPDATE objectif SET Temps_Debut = 0 WHERE Id_Objectif = :idObjectif';
+function mettreA0LeTempsDeDebutUnObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qMettreA0LeTempsDeDebutUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
+function reinitialiserObjectif($idObjectif)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qReinitialiserObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
 }
 
 //! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
@@ -3321,7 +3486,7 @@ function afficherRecompenseSelonObjectif($idObjectif)
             }
             if ($key == 'Id_Recompense') {
                 // if(objectifvalide) {
-                    echo '
+                echo '
                     <button type="submit" name="boutonAcheter" value="' . $value . '" 
                     class="boutonRecuperer">
                         <img src="images/panier.png" class="imageIcone" alt="icone modifier">
@@ -3337,7 +3502,7 @@ function afficherRecompenseSelonObjectif($idObjectif)
                 //     </button></div>
                 //     ';
                 // }
-                
+
             }
         }
         echo '</div>';
@@ -3807,7 +3972,8 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
 //     }
 // }
 
-function recupererIdMembre($courriel){
+function recupererIdMembre($courriel)
+{
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererIdMembre']);
     if ($req == false) {
@@ -3825,13 +3991,41 @@ function recupererIdMembre($courriel){
     }
 }
 
+//!------------------------------------------------STATISTIQUES----------------------------------------------------------------------
 
+function afficherStatistiques($idObjectif)
+{
+    return null;
+}
 
-
-
-
-
-
+function afficherBarresProgression($idObjectif)
+{
+    $restant = recupererTempsDebutObjectif($idObjectif);
+    echo '$restant : ' . $restant . '<br>';
+    $duree = recupererDureeUnObjectif($idObjectif) / 3600;
+    echo '$duree : ' . $duree . '<br>';
+    $limiteSeance = $restant + $duree;
+    echo '$limiteSeance : ' . $limiteSeance . '<br>';
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNbJetonsPlacesUnObjectif']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif),
+        ':limiteSeance' => $limiteSeance
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+    }
+    $count = $req->rowCount();
+    echo '$count : ' . $count . '<br>';
+    $pourcentage = ($count / NombreDeJetons($idObjectif)) * 100;
+    echo '$pourcentage : ' . $pourcentage . '<br>';
+}
 
 /*                                                                
 /                                                                                   .                                                
