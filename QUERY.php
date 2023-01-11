@@ -351,6 +351,7 @@ function uploadImage($photo)
 
 function faireMenu()
 {
+    faireChargement();
     // $effacer = ["/leSite/", ".php", "?params=suppr"];
     // $get_url = str_replace($effacer, "", $_SERVER['REQUEST_URI']);
 
@@ -453,6 +454,20 @@ function faireMenu()
         var elementActif = document.querySelector("#' . $idAChercher . '");
         elementActif.classList.add("active");
     </script>';
+}
+
+function faireChargement() {
+    echo '
+    <!-- LOADER -->
+    <div class="loading-wrapper">
+      <div class="loader">
+        <img src="images/logo.png" alt="logo chargement" id="logoChargement">
+      </div>
+
+      <span class="spinner-large"></span>
+      <p id="loaderS">Chargement...</p>
+    </div>
+    ';
 }
 
 function dureeString($duree)

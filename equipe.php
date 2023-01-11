@@ -49,11 +49,10 @@ if (champRempli(array('champRole'))) {
     <div class="svgWaveContains">
         <div class="svgWave"></div>
     </div>
-
     <?php faireMenu(); ?>
 
     <h1>Gérer les équipes</h1>
-    <div class="aCacher equipeButtonOff">
+    <div class="aCacher equipeButtonOff transparent">
         <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
             <div class="miseEnForme" id="miseEnFormeFormulaire">
@@ -92,7 +91,7 @@ if (champRempli(array('champRole'))) {
             </div>
         </div>
 
-        <button type="button" name="boutonAjouterAEquipe" id="boutonAjouterAEquipe" class="boutons" onclick="equipeOpen('aCacher')"><span>Ajouter un membre à l'équipe</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
+        <button type="button" name="boutonAjouterAEquipe" id="boutonAjouterAEquipe" class="boutons" onclick="equipeOpen('aCacher'),deCache('aCacher')"><span>Ajouter un membre à l'équipe</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
 
         <table>
             <thead>
