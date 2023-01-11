@@ -389,7 +389,7 @@ function faireMenu()
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
         echo
         '     
-            <li><a href="enfants.php" id="Enfants">Enfants</a></li>        
+            <li><a href="enfant.php" id="Enfants">Enfants</a></li>        
             
             <div class="separateur"></div>
     ';
