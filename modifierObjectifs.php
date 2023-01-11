@@ -35,8 +35,8 @@
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
-      <button type="submit" formaction="gererObjectifs.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
-      <button type="submit" formaction="gererObjectifs.php?params=modif" value="<?php echo $_POST['boutonModifier']; ?>" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
+      <button type="submit" formaction="objectif.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
+      <button type="submit" formaction="objectif.php?params=modif" value="<?php echo $_POST['boutonModifier']; ?>" name="boutonAppliquer" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
     </div>
   </form>
   <script src="js/javascript.js"></script>

@@ -21,9 +21,6 @@
   require('QUERY.php');
   if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp', 'champPro'))) {
     if (membreIdentique(
-      $_POST['champNom'],
-      $_POST['champPrénom'],
-      $_POST['champDateDeNaissance'],
       $_POST['champMail']
     ) == 0) {
       ajouterMembre(
