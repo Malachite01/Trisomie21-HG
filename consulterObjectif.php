@@ -13,9 +13,8 @@
 </head>
 <script src="js/javascript.js"></script>
 <?php
-session_start();
 require('QUERY.php');
-testConnexion();
+faireMenu();
 ?>
 
 <body>
@@ -23,12 +22,12 @@ testConnexion();
         <div class="svgWave"></div>
     </div>
 
-    <?php faireMenu();
+    <?php 
     if (isset($_POST['redirect'])) {
         $_SESSION['objectif'] = $_POST['redirect'];
     }
     ?>
-    <form method="POST">
+    <form method="POST" id="formConsulter">
         <h1 style="margin-top: 100px; margin-bottom: 20px">Consulter objectif :
             <?php
             if (isset($_POST['redirect'])) {

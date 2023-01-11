@@ -1,3 +1,16 @@
+//*CHARGEMENT
+//Donne la valeur 0 a opacité si la page a fini de charger
+window.addEventListener('load', function(){
+    var loadingWrapper = document.querySelector('.loading-wrapper');
+    loadingWrapper.style.opacity = 0;
+    if(loadingWrapper.style.opacity == 0){
+        setTimeout(assigner0,600);
+        function assigner0() {
+          loadingWrapper.style.display ='none';
+        }
+    }
+});
+
 //*MENU 
 function menuMobile(nav) {
     navLinks = document.querySelector("." + nav);
@@ -133,24 +146,45 @@ function scrollToButton(id) {
     }, 300);
 }
 
-function equipeOpen(aCacher) {
+function fenOpen(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
-    aCacher1.classList.toggle('equipeButtonOn');
-    aCacher1.classList.remove('equipeButtonOff');
-    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
-    Array.from( elements ).forEach( s => s.style.filter = "grayscale(100%)");
+    aCacher1.style.display = "block";
+    aCacher1.classList.toggle('fenButtonOn');
+    aCacher1.classList.remove('fenButtonOff');
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.editPopup):not(.aCacher)" );
+    Array.from( elements ).forEach( s => s.style.filter = "grayscale(100%) blur(3px)");
 }
 
-
-function equipeClose(aCacher) {
+function fenClose(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
-    aCacher1.classList.toggle('equipeButtonOn');
-    aCacher1.classList.add('equipeButtonOff');
-    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.aCacher)" );
-    Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)");
+    aCacher1.classList.toggle('fenButtonOn');
+    aCacher1.classList.add('fenButtonOff');
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.editPopup):not(.aCacher)" );
+    Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)  blur(0px)");
+    setTimeout(function(){
+        aCacher1.style.display = "none";
+    }, 600);
 }
 
+function deCache(div) {
+    aCacher = document.querySelector("." + div);
+    if(aCacher.classList.contains('transparent')) {
+        aCacher.classList.remove('transparent');
+    } 
+}
 
+function holdSubmit() {
+    let form = document.getElementById("formConsulter");
+    let gifDuration = 2.5; // duration of the gif
+    let target = event.target;
+    let image = new Image();
+    image.src = 'images/ouvertureKdo.gif';
+    image.classList.add('ouvertureKdo');
+    form.appendChild(image);
+    setTimeout(function(){
+        form.submit();
+    }, gifDuration * 1000);
+}
 
 function submitForm(formId, divId, url) {
     // Récupère l'élément formulaire

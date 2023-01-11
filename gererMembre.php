@@ -13,9 +13,8 @@
 </head>
 <script src="js/javascript.js"></script>
 <?php
-session_start();
 require('QUERY.php');
-testConnexion();
+faireMenu();
 
 if (isset($_POST['boutonSupprimer'])) {
   supprimerIdMembreDansObjectif($_POST['boutonSupprimer']);
@@ -52,14 +51,16 @@ if (isset($_GET['params'])) {
     <div class="svgWave"></div>
   </div>
 
-  <?php faireMenu(); ?>
-
   <h1>Gérer les membres</h1>
 
   <form id="formGestionMembre" method="POST">
 
     <div class="filtres" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
+      <div class="centerIconeChamp">
+        <input type="text" name="Recherche" placeholder="Rechercher par Nom">
+        <button type="submit" id="btnRecherche"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
+      </div>
       <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
@@ -122,10 +123,6 @@ if (isset($_GET['params'])) {
         </select>
 
       </div>
-      <div class="centerIconeChamp">
-        <input type="text" name="Recherche" placeholder="Rechercher par Nom">
-        <button type="submit" id="btnRecherche"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
-      </div>
     </div>
     <table>
       <thead>
@@ -133,6 +130,7 @@ if (isset($_GET['params'])) {
         <th>Prénom</th>
         <th>Adresse mail</th>
         <th>Date de naissance</th>
+        <th>Rôle</th>
         <th>Valider</th>
         <th>Supprimer</th>
       </thead>

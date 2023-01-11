@@ -19,10 +19,9 @@
 
   <h1>Modifier profil</h1>
   <?php
-  session_start();
   require('QUERY.php');
-  testConnexion();
   faireMenu();
+  
   if (isset($_POST['boutonValider'])) {
     modifierMembreSession(
       $_SESSION['idConnexion'],
