@@ -238,12 +238,12 @@
             if ($_POST['filtres'] == 6) {
               echo 'selected';
             };
-            echo '>Objectif en cours</option>';
+            echo '>Objectifs en cours</option>';
             echo '<option value="7"';
             if ($_POST['filtres'] == 7) {
               echo 'selected';
             };
-            echo '>Objectif à venir</option>';
+            echo '>Objectifs à venir</option>';
           } else {
             echo '
             <option value="1">Veuillez choisir un filtre</option>
@@ -252,8 +252,8 @@
             <option value="4">De Z à A</option>
             <option value="5">Objectifs les plus courts</option>
             <option value="6">Objectifs les plus longs</option>
-            <option value="7">Objectif en cours</option>
-            <option value="8">Objectif à venir</option>
+            <option value="7">Objectifs en cours</option>
+            <option value="8">Objectifs à venir</option>
           ';
           }
 
