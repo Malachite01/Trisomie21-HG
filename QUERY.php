@@ -98,7 +98,7 @@ $qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom,
 // requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Id_Membre decroissant )
 $qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Id_Membre DESC';
 
-$qRecupererIdMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel';
+$qRecupererIdMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel'; 
 
 //? ----------------------------------------------Objectif-------------------------------------------------------------------
 
@@ -173,7 +173,7 @@ $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif
 // requete pour supprimer l'image d'un objectif selon son Id_Objectif
 $qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
-$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0, Temps_Restant=0 WHERE Id_Objectif = :idObjectif';
+$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0,, Temps_Debut=0 WHERE Id_Objectif = :idObjectif';
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
@@ -3481,8 +3481,8 @@ function afficherRecompenseSelonObjectif($idObjectif)
             if ($key == 'Id_Recompense') {
                 // if(objectifvalide) {
                 echo '
-                    <button onclick="holdSubmit()" type="button" name="boutonRecuperer" value="' . $value . '" 
-                    class="boutonRecuperer">
+                    <button type="button" name="boutonRecuperer" value="' . $value . '" 
+                    class="boutonRecuperer" onclick="holdSubmit()">
                         <img src="images/panier.png" class="imageIcone" alt="icone modifier">
                         <span>Récupérer</span>
                     </button></div>
