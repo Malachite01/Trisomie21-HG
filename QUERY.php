@@ -424,6 +424,7 @@ function faireMenu()
                 <ul class="sousMenu">
                     <li><a href="ajouterObjectif.php">Ajouter un objectif</a></li>
                     <li><a href="gererObjectifs.php">Gérer les objectifs</a></li>
+                    <li><a href="objectif.php"> objectifs</a></li>
                 </ul>
             </li>
 
