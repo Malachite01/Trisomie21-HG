@@ -389,12 +389,7 @@ function faireMenu()
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
         echo
         '     
-            <li><a href="#" id="Enfants">Enfants</a>
-                <ul class="sousMenu">
-                    <li><a href="ajouterEnfant.php" >Ajouter un enfant</a></li>
-                    <li><a href="gererEnfant.php" >Gérer les enfants</a></li>
-                </ul>
-            </li>        
+            <li><a href="enfants.php" id="Enfants">Enfants</a></li>        
             
             <div class="separateur"></div>
     ';
@@ -621,7 +616,7 @@ function rechercherEnfant($champ)
              </td>
                  <td>
                      <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
-                     " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
+                     " class="boutonSupprimer" formaction="enfant.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
                          <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                          <span>Supprimer</span>
                      </button>
@@ -979,7 +974,7 @@ function afficherInformationsEnfant()
          </td>
              <td>
                  <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
-                 " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
+                 " class="boutonSupprimer" formaction="enfant.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
                      <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                      <span>Supprimer</span>
                  </button>

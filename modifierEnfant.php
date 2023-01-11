@@ -37,8 +37,8 @@
     </div>
 
     <div class="center" id="boutonsValiderAnnuler">
-      <button type="submit" formaction="gererEnfant.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
-      <button type="submit" formaction="gererEnfant.php?params=modif" value="<?php echo $_POST['boutonModifier']; ?>" name="boutonValider" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
+      <button type="submit" formaction="enfant.php" name="boutonAnnuler" class="boutonAnnuler"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler&ensp;</span></button>
+      <button type="submit" formaction="enfant.php?params=modif" value="<?php echo $_POST['boutonModifier']; ?>" name="boutonAppliquer" class="boutonEdit" id="boutonValider"><img src="images/edit.png" class="imageIcone" alt="icone valider"><span>Appliquer</span></button>
     </div>
   </form>
   <script src="js/javascript.js"></script>

@@ -162,7 +162,7 @@ if (isset($_POST['boutonAppliquer'])) {
 
         <div class="center" id="boutonsValiderAnnuler">
             <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="fenClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-            <button type="submit" name="boutonValider" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+            <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider" formaction="recompense.php"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
         </div>
     </form>
 </div>
