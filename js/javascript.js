@@ -174,7 +174,6 @@ function holdSubmit() {
     let gifDuration = 2.5; // duration of the gif
     let target = event.target;
     if (target.tagName === 'BUTTON' && target.name === 'boutonRecuperer') {
-        event.preventDefault();
         let image = new Image();
         image.src = 'images/ouvertureKdo.gif';
         image.classList.add('ouvertureKdo');
