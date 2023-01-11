@@ -423,12 +423,7 @@ function faireMenu()
 
             <div class="separateur"></div>
 
-            <li><a href="#" id="Recompenses">Récompenses</a>
-                <ul class="sousMenu">
-                    <li><a href="ajouterRecompense.php">Ajouter une récompense</a></li>
-                    <li><a href="gererRecompense.php">Gérer les récompenses</a></li>
-                </ul>
-            </li>
+            <li><a href="recompense.php" id="Recompenses">Récompenses</a></li>
             
             <div class="separateur"></div>
 
@@ -3377,7 +3372,7 @@ function afficherRecompense($idEnfant)
             </td>
             <td>
             <button type="submit" name="boutonSupprimer" value="' . $idRecompense . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cette recompense ?\');" >
+            " class="boutonSupprimer" formaction="recompense.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cette recompense ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>

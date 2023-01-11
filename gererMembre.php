@@ -58,6 +58,10 @@ if (isset($_GET['params'])) {
     <div class="filtres" id="miseEnFormeFiltres">
       <label for="Recherche">Filtres :</label>
       <div class="centerIconeChamp">
+        <input type="text" name="Recherche" placeholder="Rechercher par Nom">
+        <button type="submit" id="btnRecherche"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
+      </div>
+      <div class="centerIconeChamp">
         <img src="images/filtre.png" class="imageIcone" alt="icone de filtre">
         <select name="filtres" id="filtres" onchange="this.form.submit()">
           <?php
@@ -118,10 +122,6 @@ if (isset($_GET['params'])) {
           ?>
         </select>
 
-      </div>
-      <div class="centerIconeChamp">
-        <input type="text" name="Recherche" placeholder="Rechercher par Nom">
-        <button type="submit" id="btnRecherche"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>
       </div>
     </div>
     <table>
