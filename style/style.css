@@ -2617,7 +2617,7 @@ button#boutonSelecteurs:hover {
 }
 }
 .spinner-large {
-    margin-top: 100px;
+    margin-bottom: 0px;
     animation: spinner 1s linear infinite;
     width: 5rem;
     height: 5rem;

@@ -240,7 +240,7 @@ AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfan
 $qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
-$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,:dateHeure,:idMembre,:jetons)';
+$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Temps_Debut) VALUES (:idObjectif,:dateHeure,:idMembre,:tempsDebut)';
 
 $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
@@ -2183,17 +2183,21 @@ function afficherObjectifs($idEnfant)
             }
         }
         echo '<div class="containerTampons">';
-        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
-            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                if ($res == 0) {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+        if (recupererTempsDebutObjectif($idObjectif) >= time()) {
+            for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+                if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                    echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
+                    if ($res == 0) {
+                        echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    } else {
+                        echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    }
                 } else {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                 }
-            } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
+        } else {
+            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
         }
         echo '</div></div>';
     }
@@ -3871,7 +3875,7 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
 
-function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
+function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3885,7 +3889,7 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
         ':idObjectif' => clean($idObjectif),
         ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
         ':idMembre' => clean($idMembre),
-        ':jetons' => clean($jetons)
+        ':tempsDebut' => clean($tempsDebut)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');

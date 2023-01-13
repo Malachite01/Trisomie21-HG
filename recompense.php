@@ -21,7 +21,7 @@ if (isset($_POST['idEnfant'])) {
     if (champRempli(array('champIntitule', 'champDescriptif'))) {
         $image = uploadImage($_FILES['champImage']);
         if($image != null) {
-            ajouterRecompense(
+          ajouterRecompense(
             $_POST['champIntitule'],
             $image,
             $_POST['champDescriptif']
