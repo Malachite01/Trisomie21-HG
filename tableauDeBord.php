@@ -44,18 +44,17 @@
     </div>
 
     <?php
-      if ($_SESSION['enfant'] == 0 || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
-        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+    if ($_SESSION['enfant'] == 0 || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+    }
+    if (isset($_POST['valeurJetonsIdObjectif'])) {
+      $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
+      if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])) {
+        AjouterJetonsPlaces($valeur[1]);
+        ajouterJeton($valeur[1], time(), $_SESSION['idConnexion'], recupererTempsDebutObjectif($_SESSION['objectif']));
+      } else {
+        SupprimerJetonsPlaces($valeur[1]);
       }
-      if (isset($_POST['valeurJetonsIdObjectif'])) {
-        $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
-        if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])){
-          AjouterJetonsPlaces($valeur[1]);
-          ajouterJeton($valeur[1],time(),$_SESSION['idConnexion'],$valeur[0]);
-        } else {
-          SupprimerJetonsPlaces($valeur[1]);
-        }  
-        
     }
     ?>
 
@@ -72,25 +71,25 @@
       </div>
     </div>
   </form>
-  
+
   <?php
- //!CHAT
- if (champRempli(array('champSujet','champCorps'))){
-  
- 
+  //!CHAT
+  if (champRempli(array('champSujet', 'champCorps'))) {
 
-  ajouterMessage(
-    $_POST['champSujet'],
-    $_POST['champCorps'],
-    time(),
-    $_POST['idObjectif'],
-    $_SESSION['idConnexion']
-  );
-}
 
-faireChatTb();
 
-?>
+    ajouterMessage(
+      $_POST['champSujet'],
+      $_POST['champCorps'],
+      time(),
+      $_POST['idObjectif'],
+      $_SESSION['idConnexion']
+    );
+  }
+
+  faireChatTb();
+
+  ?>
 
   <script src="js/javascript.js"></script>
 </body>
