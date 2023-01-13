@@ -75,9 +75,8 @@ faireMenu();
                 ajouterJeton($valeur[1], time(), $_SESSION['idConnexion'], recupererTempsDebutObjectif($_SESSION['objectif']));
                 header("location: consulterObjectif.php");
             } else {
-                if (!isset($_POST['redirect'])) {
-                    SupprimerJetonsPlaces($valeur[1]);
-                }
+                SupprimerJetonsPlaces($valeur[1]);
+                header("location: consulterObjectif.php");
             }
         }
         afficherObjectifsZoom($_SESSION['objectif']);

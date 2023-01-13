@@ -57,7 +57,6 @@
       }
     }
     ?>
-
     <div id="containerTableauDeBord">
       <div id="containerObjectifs">
         <?php
@@ -66,7 +65,6 @@
         } else {
           afficherObjectifs($_POST['idEnfant']);
         }
-
         ?>
       </div>
     </div>
