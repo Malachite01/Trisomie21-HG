@@ -19,18 +19,21 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
         if (filter_var($courriel, FILTER_VALIDATE_EMAIL)) {
             // Si le mdp est bon (pas sécurisé faudra mettre un hash après)
             if (password_verify($mdp, $data['mdp'])) { 
-                    //On met l'id au $_SESSION pour le réutiliser après
-                    $_SESSION['idConnexion'] = $data['id_Membre'];
-                    $_SESSION['prenomMembre'] = $data['Prenom'];
-                    $_SESSION['role'] = $data['Role'];
-                    $_SESSION['enfant'] = null;
-                    $_SESSION['objectif'] = null;
-                    
-                    //page d'accueil  tableau de bord
-                    header('Location: tableauDeBord.php');
-                    die();
-                
-                //Si mauvais password on redirige vers une autre page on l'on a codé une erreur du nom de 'password'
+                if($data['Role'] != 0){
+                     //On met l'id au $_SESSION pour le réutiliser après
+                     $_SESSION['idConnexion'] = $data['id_Membre'];
+                     $_SESSION['prenomMembre'] = $data['Prenom'];
+                     $_SESSION['role'] = $data['Role'];
+                     $_SESSION['enfant'] = null;
+                     $_SESSION['objectif'] = null;
+                     
+                     //page d'accueil  tableau de bord
+                     header('Location: tableauDeBord.php');
+                     die();
+                } else {
+                    header('Location: indexAdmin.php?login_err=role');
+                }
+           //Si mauvais password on redirige vers une autre page on l'on a codé une erreur du nom de 'password'
             } else {
                 header('Location: indexAdmin.php?login_err=password');
                 die();
