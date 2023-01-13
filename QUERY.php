@@ -2183,17 +2183,21 @@ function afficherObjectifs($idEnfant)
             }
         }
         echo '<div class="containerTampons">';
-        for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
-            if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                if ($res == 0) {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+        if (recupererTempsDebutObjectif($idObjectif) >= time()) {
+            for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+                if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                    echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
+                    if ($res == 0) {
+                        echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    } else {
+                        echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    }
                 } else {
-                    echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                    echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                 }
-            } else {
-                echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
             }
+        } else {
+            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
         }
         echo '</div></div>';
     }

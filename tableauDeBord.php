@@ -52,8 +52,10 @@
       if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])) {
         AjouterJetonsPlaces($valeur[1]);
         ajouterJeton($valeur[1], time(), $_SESSION['idConnexion'], recupererTempsDebutObjectif($_SESSION['objectif']));
+        header("location: tableauDeBord.php");
       } else {
         SupprimerJetonsPlaces($valeur[1]);
+        header("location: tableauDeBord.php");
       }
     }
     ?>
