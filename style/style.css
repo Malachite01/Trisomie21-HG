@@ -1941,6 +1941,9 @@ button.redirect {
     }
     #tbodyGererRecompenses td:nth-child(3)::before{
         content: "Descriptif :";
+    } 
+    #tbodyGererRecompenses td:nth-child(4)::before{
+        content: "Objectif concerné :";
     }
 
     #tbodyGererEnfants td::before{
