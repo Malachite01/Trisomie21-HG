@@ -78,6 +78,15 @@
               </div>
             <?php
             break;
+            case 'role':
+              ?>
+              <div class="alertPopup">
+                <h2 class="txtPopup">Erreur, veuillez vous connectez avec l'interface professionnelle </h2>
+                <img src="images/annuler.png" alt="image attente" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('alertPopup')">Fermer X</button>
+              </div>
+            <?php
+            break;
         }
     }
   ?> 

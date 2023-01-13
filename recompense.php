@@ -190,6 +190,7 @@ if (isset($_POST['boutonAppliquer'])) {
         <th>Image Recompense</th>
         <th>Intitulé</th>
         <th>Descriptif</th>
+        <th>Objectif concerné</th>
         <th>Modifier</th>
         <th>Supprimer</th>
       </thead>

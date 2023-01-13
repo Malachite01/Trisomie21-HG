@@ -204,7 +204,7 @@ $qAfficherImageRecompense = 'SELECT Lien_Image FROM recompense WHERE Id_Recompen
 $qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 
 // requete pour afficher toutes les recompenses d'un enfant donne
-$qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Lien_Image, recompense.Intitule, recompense.Descriptif FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
+$qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, objectif.Intitule AS objIntitule FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
 
 // requete pour afficher toutes les informations d'un objectif selon son idObjectif
@@ -3335,11 +3335,14 @@ function afficherRecompense($idEnfant)
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Descriptif') {
+            if ($key == 'Descriptif'){
                 echo '<td>' . $value . '</td>';
-            }
+            }  
             if ($key == 'Id_Recompense') {
                 $idRecompense = $value;
+            }
+            if($key == 'objIntitule'){
+                echo '<td>' . $value . '</td>';
             }
         }
         echo '
