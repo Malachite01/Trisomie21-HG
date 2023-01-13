@@ -22,7 +22,7 @@ faireMenu();
         <div class="svgWave"></div>
     </div>
 
-    <?php 
+    <?php
     if (isset($_POST['redirect'])) {
         $_SESSION['objectif'] = $_POST['redirect'];
     }
@@ -30,11 +30,7 @@ faireMenu();
     <form method="POST" id="formConsulter">
         <h1 style="margin-top: 100px; margin-bottom: 20px">Consulter objectif :
             <?php
-            if (isset($_POST['redirect'])) {
-                echo afficherUnIntituleObjectif($_POST['redirect']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
-            } else {
-                echo afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
-            }
+            echo afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
             ?>
         </h1>
 
@@ -67,6 +63,7 @@ faireMenu();
             echo 'Temps_Debut == 0 et Temps_Debut - time <= 0' . '<br>';
             echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
             reinitialiserObjectif($_SESSION['objectif']);
+            unset($_POST['valeurJetonsIdObjectif']);
         }
 
         //! --------------------------------------------------Seance-----------------------------------------------------------------------
@@ -75,29 +72,25 @@ faireMenu();
             $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);
             if ($valeur[0] > NombreDeJetonsPlaces($valeur[1])) {
                 AjouterJetonsPlaces($valeur[1]);
-                ajouterJeton($valeur[1], time(), $_SESSION['idConnexion'], $valeur[0]);
+                ajouterJeton($valeur[1], time(), $_SESSION['idConnexion'], recupererTempsDebutObjectif($_SESSION['objectif']));
+                header("location: consulterObjectif.php");
             } else {
-                SupprimerJetonsPlaces($valeur[1]);
+                if (!isset($_POST['redirect'])) {
+                    SupprimerJetonsPlaces($valeur[1]);
+                }
             }
         }
-        if (isset($_POST['redirect'])) {
-            afficherObjectifsZoom($_POST['redirect']);
-        } else {
-            afficherObjectifsZoom($_SESSION['objectif']);
-        }
+        afficherObjectifsZoom($_SESSION['objectif']);
+
         ?>
         <div id="containerRecompenses">
             <?php
-            if (isset($_POST['redirect'])) {
-                afficherRecompenseSelonObjectif($_POST['redirect']);
-            } else {
-                afficherRecompenseSelonObjectif($_SESSION['objectif']);
-            }
+            afficherRecompenseSelonObjectif($_SESSION['objectif']);
             ?>
         </div>
     </form>
     <?php
-    // afficherBarresProgression($_SESSION['objectif']);
+    afficherBarresProgression($_SESSION['objectif']);
     if (champRempli(array('champSujet', 'champCorps'))) {
         ajouterMessage(
             $_POST['champSujet'],

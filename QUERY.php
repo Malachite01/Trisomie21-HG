@@ -240,7 +240,7 @@ AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfan
 $qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
-$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Jetons) VALUES (:idObjectif,:dateHeure,:idMembre,:jetons)';
+$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Temps_Debut) VALUES (:idObjectif,:dateHeure,:idMembre,:tempsDebut)';
 
 $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
@@ -3873,7 +3873,7 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
 
-function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
+function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3887,7 +3887,7 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $jetons)
         ':idObjectif' => clean($idObjectif),
         ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
         ':idMembre' => clean($idMembre),
-        ':jetons' => clean($jetons)
+        ':tempsDebut' => clean($tempsDebut)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
