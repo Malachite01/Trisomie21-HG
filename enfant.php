@@ -175,7 +175,7 @@ if (isset($_POST['boutonAppliquer'])) {
         <th>Nom</th>
         <th>Prénom</th>
         <th>Date de naissance</th>
-        <th>Modifier le jeton</th>
+        <th>Modifier</th>
         <th>Supprimer</th>
       </thead>
 
