@@ -173,7 +173,7 @@
       <span></span>
 
       <label for="champImageTampon">Image de l'objectif :</label>
-      <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImageTampon','imageTampon')" required>
+      <input type="file" name="champImageTampon" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector('champImageTampon','imageTampon')" required>
       <img src="images/placeholder.jpg" id="imageTampon" alt=" ">
 
       <label for="champNbJetons">Jetons à placer :</label>

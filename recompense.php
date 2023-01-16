@@ -156,7 +156,7 @@ if (isset($_POST['boutonAppliquer'])) {
         <span></span>
 
         <label for="champImage">Image :</label>
-        <input type="file" name="champImage" id="champImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImage','imageJeton');" required>
+        <input type="file" name="champImage" id="champImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector('champImage','imageJeton');" required>
         <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
         </div>
 

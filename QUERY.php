@@ -159,7 +159,7 @@ $qAjouterJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places
 
 $qSupprimerJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places-1 WHERE Id_Objectif = :idObjectif';
 
-$qSupprimerPlacerJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (select max(Date_Heure) from placer_jeton)';
+$qsupprimerJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (select max(Date_Heure) from placer_jeton)';
 
 // requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
 $qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
@@ -2339,22 +2339,6 @@ function AjouterJetonsPlaces($idObjectif)
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
 }
-function supprimerPlacerJeton($idObjectif)
-{
-    $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerPlacerJetons']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
-    }
-    // execution de la requete sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
-    }
-}
 function SupprimerJetonsPlaces($idObjectif)
 {
     // connexion a la BD
@@ -2371,7 +2355,7 @@ function SupprimerJetonsPlaces($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
-    supprimerPlacerJeton($idObjectif);
+    supprimerJeton($idObjectif);
 }
 
 // fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
@@ -2441,7 +2425,7 @@ function AfficherInformationUnObjectif($idObjectif)
             } elseif ($key == 'Lien_Image') {
                 echo '
                 <label for="champLienImage">Image du tampon :</label>
-                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
+                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
                 <img src="' . AfficherImageObjectif($idObjectif) . '" alt=" " id="imageTampon">';
                 echo '<input type="hidden" value="' . AfficherImageObjectif($idObjectif) . '" name="hiddenImageLink">';
             } elseif ($key == 'Nb_Jetons') {
@@ -3285,7 +3269,7 @@ function afficherInfoRecompense($idRecompense)
             } elseif ($key == 'Lien_Image') {
                 echo '
                 <label for="champLienImage">Image du tampon :</label>
-                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
+                <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
                 <img src="' . afficherImageRecompense($idRecompense) . '" alt=" " id="imageTampon">';
                 echo '<input type="hidden" value="' . afficherImageRecompense($idRecompense) . '" name="hiddenImageLink">';
             }
@@ -3875,6 +3859,7 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
 
 //!------------------------------------------------PLACER JETON----------------------------------------------------------------------
 
+//fonction qui permet d'ajouter 
 function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
 {
     // connexion a la BD
@@ -3893,6 +3878,23 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+    }
+}
+
+function supprimerJeton($idObjectif)
+{
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qsupprimerJetons']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
 }
 
@@ -3946,16 +3948,17 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
 //     }
 // }
 
+//function qui permet de récupérer l'id d'un membre
 function recupererIdMembre($courriel)
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererIdMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour récupérer id membre ');
     }
     $req->execute(array(':courriel' => clean($courriel)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour récupérer id membre');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
@@ -3985,7 +3988,7 @@ function afficherBarresProgression($idObjectif)
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNbJetonsPlacesUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les barres de progression');
     }
     // execution de la requete sql
     $req->execute(array(
@@ -3993,7 +3996,7 @@ function afficherBarresProgression($idObjectif)
         ':limiteSeance' => $limiteSeance
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les barres de progression');
     }
     $count = $req->rowCount();
     echo '$count : ' . $count . '<br>';

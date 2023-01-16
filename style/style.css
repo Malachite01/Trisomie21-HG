@@ -48,7 +48,18 @@
     src: url(../fonts/Georama-Italic.ttf);
     font-family: GeoramaItalic;
 }
-
+::selection {
+    background-color: var(--couleurBoutonHover);
+    color: white;
+    outline: thick double #32a1ce;
+    text-shadow: lightgray 1px 1px;
+}
+::-moz-selection {
+    background-color: var(--couleurBoutonHover);
+    color: white;
+    outline: thick double #32a1ce;
+    text-shadow: lightgray 1px 1px;
+}
 /* Ne fonctionne pas sur tous les navigateurs */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {  
