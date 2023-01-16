@@ -93,7 +93,7 @@
   
   <img src="images/logo.png" alt="logo application" class="iconeApp"> 
   
-  <a href="indexAdmin.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas"><span>Connexion professionnel</span></button></a>
+  <a href="indexAdmin.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas"><span>Connexion pro</span></button></a>
   
   <form id="formConnexion" action="indexConnexion.php" method="POST">
     <h1 id="pageDeCoStatut">Membre</h1>

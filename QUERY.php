@@ -970,7 +970,7 @@ function afficherInformationsEnfant()
                 echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
             }
             if ($key == 'Lien_Jeton') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             // recuperation valeurs importantes dans des variables
             if ($key == 'Id_Enfant') {
@@ -2092,7 +2092,7 @@ function afficherGererObjectifs($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
@@ -2713,7 +2713,7 @@ function afficherGererObjectifsAZ($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
@@ -2777,7 +2777,7 @@ function afficherGererObjectifsZA($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
@@ -2841,7 +2841,7 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
@@ -2905,7 +2905,7 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
@@ -2969,7 +2969,7 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
@@ -3033,7 +3033,7 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
@@ -3348,7 +3348,7 @@ function afficherRecompense($idEnfant)
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 100%; margin: 10px;"></td>';
+                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; border-radius: 8px; margin: 10px;"></td>';
             }
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';

@@ -282,7 +282,7 @@ if (isset($_POST['boutonValiderMembre'])) {
   <?php
   if (isset($_POST['Recherche']) && $_POST['Recherche'] != null) {
     if ($a == 0) {
-      echo "<p class='msgSelection'>Aucun enfant trouvé !</p>";
+      echo "<p class='msgSelection'>Aucun membre trouvé !</p>";
     }
   }
   ?>
