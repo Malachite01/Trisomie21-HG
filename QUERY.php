@@ -68,6 +68,9 @@ $qRecupererPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre
 // requete pour recuperer le prenom du membre connecté
 $qRecupererNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
+//Afficher Le Nom et Le Prenom d'un membre
+$qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
+
 // requete pour modifier le mot de passe du membre de connexion
 $qModifierMotDePasse = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
 
@@ -186,18 +189,16 @@ $qRecupererTempsRestantUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_O
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
 // requete pour ajuter une recompense a la BD
-$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Lien_Image,Descriptif) 
-                        VALUES (:intitule,:lienImage,:descriptif)';
+$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Lien_Image,Descriptif) VALUES (:intitule,:lienImage,:descriptif)';
 $qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompense) VALUES (:idObjectif,:idRecompense)';
-
 
 // requete pour rechercher une recompense selon son Id_Recompense
 $qRechercherRecompense = 'SELECT Id_Recompense, Intitule, Descriptif, Lien_Image FROM Recompense WHERE id_Recompense = :idRecompense';
 
 // requete pour modifier les informations d'une recompense selon son Id_Recompense
-$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif 
-                         WHERE id_Recompense = :idRecompense';
+$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif WHERE id_Recompense = :idRecompense';
 
+// requete pour afficher l'image d'une recompense
 $qAfficherImageRecompense = 'SELECT Lien_Image FROM recompense WHERE Id_Recompense = :idRecompense';
 
 // requete pour supprimer une recompense selon son id
@@ -210,45 +211,58 @@ $qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Lien_Image, 
 // requete pour afficher toutes les informations d'un objectif selon son idObjectif
 $qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
+// requete pour afficher toutes les informations d'un objectif selon son Intitule
+
 $qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
+// requete pour afficher toutes les informations d'un objectif selon son idObjectif
 
 $qAfficherRecompenseSelonObjectif = 'SELECT recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, recompense.Id_Recompense FROM recompense, lier, objectif WHERE objectif.Id_Objectif = lier.Id_Objectif AND lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif';
 
 //? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
+// Afficher l'image choisi par l'enfant
 $qAfficherImageTampon = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
 
 //?--------------------------------Equipe---------------------------------------------------------------------------
+// ajout d'une équipe a la bd
 $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
 VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
-$qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
 
+//Affichage de l'equipe pour un enfant
 $qAfficherEquipe = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
 suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
-
+// Supprime un membre de l'equipe
 $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfant AND suivre.Id_Membre =:idMembre';
 //?----------------------------------------------------MESSAGE-----------------------------------------------------------------
+//Ajout d'un message dans le chat
 $qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
+//affiche les messages dans le chat
 $qAfficherMessage = 'SELECT message.Id_Membre, membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
                         message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
                         AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant ORDER BY message.Date_Heure';
+
+//affiche les messages dans le chat par objectif
+
 $qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
 message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
 AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif ORDER BY message.Date_Heure';
 
+// Verifie si le message est le meme
 $qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
 //?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
+// Ajout d'un jeton horodaté
 $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Temps_Debut) VALUES (:idObjectif,:dateHeure,:idMembre,:tempsDebut)';
 
+// Recherhce un enfant avec une barre de recherche selon son nom
 $qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
+// Recherche un membre avec une barre de recherche selon son nom
 $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
 
+// recupere l'Id du membre qui a écrit un message
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
-
-$qNombreJetonsPlaces = '';
 
 //?------------------------------------------------PARTIE ADMIN-----------------------------------------------
 
@@ -311,12 +325,14 @@ function clean($champEntrant)
     return $champEntrant;
 }
 
+// fonction de hashage pour les mdp de la bd
 function saltHash($mdp)
 {
     $code = $mdp . 'BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !';
     return password_hash($code, PASSWORD_DEFAULT);
 }
 
+// fonction qui upload les images dans le dossier upload
 function uploadImage($photo)
 {
 
@@ -351,6 +367,7 @@ function uploadImage($photo)
     return $result;
 }
 
+// fonction qui affiche le menu dans toutes les pages, ansi que des tests de connexion et la page de chargement
 function faireMenu()
 {
     session_start();
@@ -445,7 +462,7 @@ function faireMenu()
     //     </ul>
     // </li>
 }
-
+// page de chargement du site
 function faireChargement()
 {
     echo '
@@ -460,7 +477,7 @@ function faireChargement()
     </div>
     ';
 }
-
+// fonction pour les durées des objectifs
 function dureeString($duree)
 {
     $s = intdiv($duree, 168);
@@ -545,6 +562,7 @@ function dureeStringMinutes($duree)
     }
     return  $w . $j . $h . $m;
 }
+// Fonction qui verifie l'id de connexion et redirige sur la bonne page
 function testConnexion()
 {
     if ($_SESSION['idConnexion'] == null) {
@@ -572,12 +590,12 @@ function rechercherEnfant($champ)
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qRechercherEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les informations de enfant');
     }
     // execution de la requete sql
     $req->execute(array("%" . $champ . "%"));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les informations des membres');
     }
     if ($req->rowCount() == 0) {
         return 0;
@@ -630,12 +648,12 @@ function rechercheMembre($champ)
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qRechercherMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information de enfant');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information des membres');
     }
     // execution de la requete sql
     $req->execute(array("%" . $champ . "%"));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les informations des membres');
     }
     if ($req->rowCount() == 0) {
         return 0;
@@ -744,12 +762,12 @@ function afficherNomPrenomEnfantSelect($enfantSelect)
     // preparation de la requete sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher le Nom et le Prenom des enfants');
     }
     // execution de la requete sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher le Nom et le Prenom des enfants');
     }
     echo '<select name="idEnfant" required>';
     echo '<option value="">Veuillez choisir un enfant</option>';
