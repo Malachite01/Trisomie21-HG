@@ -268,8 +268,8 @@
         <th>Image objectif</th>
         <th>Intitulé</th>
         <th>Durée d'évaluation</th>
-        <th>Jetons</th>
         <th>Statut</th>
+        <th>Jetons</th>
         <th>Modifier</th>
         <th>Supprimer</th>
       </thead>
