@@ -2138,12 +2138,14 @@ function afficherObjectifs($idEnfant)
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="objectif">';
+
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
             }
+
             if ($key == 'Intitule') {
                 echo '<h3 class="titreObjectif">' . $value . '</h3>';
             }
@@ -2157,6 +2159,7 @@ function afficherObjectifs($idEnfant)
                     echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                 }
             }
+
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value) || $value == 0) {
                     $places = 0;
@@ -2164,6 +2167,7 @@ function afficherObjectifs($idEnfant)
                     $places = $value;
                 }
             }
+
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
                 if ($res != 0) {
@@ -2177,6 +2181,7 @@ function afficherObjectifs($idEnfant)
                     $filtre = "filter: grayscale(100%);";
                 }
             }
+
             if ($key == 'Lien_Image') {
                 echo '<img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' ">';
                 $places = 0;
@@ -2197,7 +2202,7 @@ function afficherObjectifs($idEnfant)
                 }
             }
         } else {
-            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
+            echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
         }
         echo '</div></div>';
     }

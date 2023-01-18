@@ -62,6 +62,16 @@
     <div id="containerTableauDeBord">
       <div id="containerObjectifs">
         <?php
+
+        // lancement de la séance 
+        if (isset($_POST['butonDebutSeanceTb'])) {
+          if (recupererTempsDebutObjectif($_POST['butonDebutSeanceTb']) == 0) {
+            $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_POST['butonDebutSeanceTb']) * 3600);
+            ajouterTempsDebutObjectif($nowPlusDureeObjectif, $_POST['butonDebutSeanceTb']);
+            unset($_POST['butonDebutSeanceTb']);
+          }
+        }
+
         if (!isset($_POST['idEnfant'])) {
           afficherObjectifs($_SESSION['enfant']);
         } else {
