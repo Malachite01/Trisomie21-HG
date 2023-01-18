@@ -37,9 +37,7 @@ faireMenu();
         <?php
 
         //! --------------------------------------------------Seance-----------------------------------------------------------------------
-
-        echo '<button type="submit" name="butonResetSceance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Reset</span></button>';
-        // Réinitialisation de la séance
+        
         if (isset($_POST['butonResetSceance'])) {
             reinitialiserObjectif($_SESSION['objectif']);
         }
@@ -56,7 +54,6 @@ faireMenu();
         } else {
             // Fin séance apparition boutton début séance
             unset($_POST['butonDebutSeance']);
-            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
             reinitialiserObjectif($_SESSION['objectif']);
             unset($_POST['valeurJetonsIdObjectif']);
         }

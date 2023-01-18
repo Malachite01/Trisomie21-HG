@@ -276,6 +276,8 @@ $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 //?------------------------------------------------STATISTIQUES-----------------------------------------------
 $qRecupererNbJetonsPlacesUnObjectif = 'SELECT COUNT(Temps_Debut) FROM placer_jeton WHERE Id_Objectif = :idObjectif GROUP BY Temps_Debut';
 
+$qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WHERE Id_Objectif = :idObjectif';
+
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -2231,7 +2233,7 @@ function afficherObjectifs($idEnfant)
                 }
             }
         } else {
-            echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
+            echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
         }
         echo '</div></div>';
     }
@@ -2262,7 +2264,9 @@ function afficherObjectifsZoom($idObjectif)
                 $idObjectif = $value;
             }
             if ($key == 'Lien_Image') {
-                echo '<img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif">';
+
+                echo '<div class="resetContainer"><button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance"><img src="images/reinitialiser.png" class="imageIcone" alt="icone valider"><span>Réinitialiser la séance</span></button>
+                <img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif"></div>';
             }
             if ($key == 'Duree') {
                 // Temps restant de la séance
@@ -2309,6 +2313,8 @@ function afficherObjectifsZoom($idObjectif)
                     echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                 }
             }
+        } else {
+            echo '<button type="submit" name="butonDebutSeance" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
         }
         echo '</div></div>';
     }
@@ -4040,6 +4046,24 @@ function afficherBarresProgression($idObjectif)
             $pourcentage = ($value / NombreDeJetons($idObjectif)) * 100;
             echo '<progress value="' . $pourcentage . '" max="100"></progress>';
             echo '<div style="width:' . $pourcentage . '; background-color:blue;">' . $pourcentage . ' %</div>';
+        }
+    }
+}
+
+function recupererPremierJetonJamaisPose($idObjectif){
+    $linkpdo = connexionBd();
+    $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour récupérer id Objectif ');
+    }
+    $req->execute(array(':courriel' => clean($courriel)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour récupérer id Objectif');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
         }
     }
 }
