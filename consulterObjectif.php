@@ -54,8 +54,6 @@ faireMenu();
         } else {
             // Fin séance apparition boutton début séance
             unset($_POST['butonDebutSeance']);
-            echo 'Temps_Debut == 0 et Temps_Debut - time <= 0' . '<br>';
-            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
             reinitialiserObjectif($_SESSION['objectif']);
             unset($_POST['valeurJetonsIdObjectif']);
         }
