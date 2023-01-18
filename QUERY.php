@@ -2215,7 +2215,7 @@ function afficherObjectifs($idEnfant)
                 }
             }
         } else {
-            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
+            echo '<button type="submit" name="butonDebutSeance" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
         }
         echo '</div></div>';
     }
@@ -2246,7 +2246,9 @@ function afficherObjectifsZoom($idObjectif)
                 $idObjectif = $value;
             }
             if ($key == 'Lien_Image') {
-                echo '<img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif">';
+
+                echo '<div class="resetContainer"><button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance"><img src="images/reinitialiser.png" class="imageIcone" alt="icone valider"><span>Réinitialiser la séance</span></button>
+                <img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif"></div>';
             }
             if ($key == 'Duree') {
                 echo '<div class="dureeObjectifs zoom"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
@@ -2284,6 +2286,8 @@ function afficherObjectifsZoom($idObjectif)
                     echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                 }
             }
+        } else {
+            echo '<button type="submit" name="butonDebutSeance" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
         }
         echo '</div></div>';
     }
