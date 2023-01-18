@@ -2255,6 +2255,7 @@ function afficherObjectifsZoom($idObjectif)
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="objectif zoom">';
+        echo '<button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance" onclick="return confirm(\'Êtes vous sûr de vouloir réinitialiser cette séance ?\');"><img src="images/reinitialiser.png" class="imageIcone zoom" alt="icone valider"><span>Réinitialiser la séance</span></button>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
@@ -2263,8 +2264,7 @@ function afficherObjectifsZoom($idObjectif)
             }
             if ($key == 'Lien_Image') {
 
-                echo '<div class="resetContainer"><button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance"><img src="images/reinitialiser.png" class="imageIcone" alt="icone valider"><span>Réinitialiser la séance</span></button>
-                <img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif"></div>';
+                echo '<img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif">';
             }
             if ($key == 'Duree') {
                 // Temps restant de la séance
