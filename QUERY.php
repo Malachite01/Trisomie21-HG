@@ -3492,24 +3492,23 @@ function afficherRecompenseSelonObjectif($idObjectif)
                 echo '<p>' . $value . '</p>';
             }
             if ($key == 'Id_Recompense') {
-                // if(objectifvalide) {
-                echo '
+                if (NombreDeJetons($idObjectif) == NombreDeJetonsPlaces($idObjectif)) {
+                    echo '
                     <button type="button" name="boutonRecuperer" value="' . $value . '" 
                     class="boutonRecuperer" onclick="holdSubmit()">
                         <img onclick="holdSubmit()" src="images/panier.png" class="imageIcone" alt="icone modifier">
                         <span onclick="holdSubmit()">Récupérer</span>
                     </button></div>
                     ';
-                // } else {
-                //     echo '
-                //     <button type="submit" name="boutonRecuperer" value="' . $value . '" 
-                //     class="boutonModifier" disabled>
-                //         <img src="images/panier.png" class="imageIcone" alt="icone modifier">
-                //         <span>Récupérer</span>
-                //     </button></div>
-                //     ';
-                // }
-
+                } else {
+                    echo '
+                    <button type="submit" name="boutonRecuperer" value="' . $value . '" 
+                    class="boutonModifier" disabled>
+                        <img src="images/panier.png" class="imageIcone" alt="icone modifier">
+                        <span>Récupérer</span>
+                    </button></div>
+                    ';
+                }
             }
         }
         echo '</div>';
