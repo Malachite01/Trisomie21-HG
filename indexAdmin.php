@@ -20,30 +20,10 @@
         $err = htmlspecialchars($_GET['login_err']);
         switch($err)
         {
-            case 'password':
+            case 'erreur':
             ?>
               <div class="erreurPopup">
-                <h2 class="txtPopup">Erreur, mot de passe incorrect</h2>
-                <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
-                <button class="boutonFermerPopup" onclick="erasePopup('erreurPopup')">Fermer X</button>
-              </div>
-            <?php
-            break;
-
-            case 'courriel':
-            ?>
-              <div class="erreurPopup">
-                <h2 class="txtPopup">Erreur, e-mail incorrect</h2>
-                <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
-                <button class="boutonFermerPopup" onclick="erasePopup('erreurPopup')">Fermer X</button>
-              </div>
-            <?php
-            break;
-
-            case 'inexistant':
-            ?>
-              <div class="erreurPopup">
-                <h2 class="txtPopup">Erreur, compte non existant</h2>
+                <h2 class="txtPopup">Erreur, email ou mot de passe incorrect</h2>
                 <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
                 <button class="boutonFermerPopup" onclick="erasePopup('erreurPopup')">Fermer X</button>
               </div>
