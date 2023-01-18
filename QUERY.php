@@ -3494,7 +3494,7 @@ function afficherRecompenseSelonObjectif($idObjectif)
             if ($key == 'Id_Recompense') {
                 if (NombreDeJetons($idObjectif) == NombreDeJetonsPlaces($idObjectif)) {
                     echo '
-                    <button type="button" name="boutonRecuperer" value="' . $value . '" 
+                    <button type="submit" name="boutonRecuperer" value="' . $value . '" 
                     class="boutonRecuperer" onclick="holdSubmit()">
                         <img onclick="holdSubmit()" src="images/panier.png" class="imageIcone" alt="icone modifier">
                         <span onclick="holdSubmit()">Récupérer</span>
@@ -4039,10 +4039,14 @@ function afficherBarresProgression($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les barres de progression');
     }
+    $i = 0;
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $value) {
+            $i += 1;
+            echo 'Séance ' . $i . ' : ';
             $pourcentage = ($value / NombreDeJetons($idObjectif)) * 100;
+            $pourcentage = ceil($pourcentage);
             echo '<progress value="' . $pourcentage . '" max="100"></progress>';
             echo '<div style="width:' . $pourcentage . '; background-color:blue;">' . $pourcentage . ' %</div>';
         }
