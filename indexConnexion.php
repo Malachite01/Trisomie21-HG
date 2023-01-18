@@ -37,20 +37,20 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
                 } else {
                     header('Location: index.php?login_err=role');
                 }
-                    //Si mauvais password on redirige vers une autre page on l'on a codé une erreur du nom de 'password'
+                    //Si mauvais password on redirige vers une autre page on l'on a codé une erreur du nom de 'erreur'
                 } else {
-                    header('Location: index.php?login_err=password');
+                    header('Location: index.php?login_err=erreur');
                     die();
                 }
-                //Si mauvais courriel au mauvais format redirige vers une autre page ou l'on a codé une erreur du nom de 'courriel'
+                //Si mauvais courriel au mauvais format redirige vers une autre page ou l'on a codé une erreur du nom de 'erreur'
             } else {
-                header('Location: index.php?login_err=courriel');
+                header('Location: index.php?login_err=erreur');
                 die();
             }
         //Si compte pas encore validé
         //Si compte inexistant
     } else {
-        header('Location: index.php?login_err=inexistant');
+        header('Location: index.php?login_err=erreur');
         die();
     }
 }
