@@ -2156,17 +2156,30 @@ function afficherObjectifs($idEnfant)
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="objectif">';
+
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
             }
+
             if ($key == 'Intitule') {
                 echo '<h3 class="titreObjectif">' . $value . '</h3>';
             }
             if ($key == 'Duree') {
-                echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+
+                // Temps restant de la séance
+                if ((recupererTempsDebutObjectif($idObjectif) != 0) && (recupererTempsDebutObjectif($idObjectif) - time() > 0)) {
+                    $maintenant = time();
+                    $restant = recupererTempsDebutObjectif($idObjectif) - $maintenant;
+                    $heureRestante = $restant / 60;
+                    $duree = dureeStringMinutes($heureRestante);
+                    echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
+                } else {
+                    echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                }
+
                 if ($res == 1) {
                     echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
                 } else if ($res == 0) {
@@ -2175,6 +2188,7 @@ function afficherObjectifs($idEnfant)
                     echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                 }
             }
+
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value) || $value == 0) {
                     $places = 0;
@@ -2182,6 +2196,7 @@ function afficherObjectifs($idEnfant)
                     $places = $value;
                 }
             }
+
             if ($key == 'Nb_Jetons') {
                 $res = $value - $places;
                 if ($res != 0) {
@@ -2195,6 +2210,7 @@ function afficherObjectifs($idEnfant)
                     $filtre = "filter: grayscale(100%);";
                 }
             }
+
             if ($key == 'Lien_Image') {
                 echo '<img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' ">';
                 $places = 0;
@@ -2215,7 +2231,7 @@ function afficherObjectifs($idEnfant)
                 }
             }
         } else {
-            echo '<button type="submit" name="butonDebutSeance" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
+            echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
         }
         echo '</div></div>';
     }
@@ -2251,7 +2267,16 @@ function afficherObjectifsZoom($idObjectif)
                 <img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif"></div>';
             }
             if ($key == 'Duree') {
-                echo '<div class="dureeObjectifs zoom"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                // Temps restant de la séance
+                if ((recupererTempsDebutObjectif($_SESSION['objectif']) != 0) && (recupererTempsDebutObjectif($_SESSION['objectif']) - time() > 0)) {
+                    $maintenant = time();
+                    $restant = recupererTempsDebutObjectif($_SESSION['objectif']) - $maintenant;
+                    $heureRestante = $restant / 60;
+                    $duree = dureeStringMinutes($heureRestante);
+                    echo '<div class="dureeObjectifs zoom"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
+                } else {
+                    echo '<div class="dureeObjectifs zoom"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                }
             }
             if ($key == 'Nb_Jetons_Places') {
                 if (is_null($value)) {
@@ -3341,13 +3366,13 @@ function afficherRecompense($idEnfant)
             if ($key == 'Intitule') {
                 echo '<td>' . $value . '</td>';
             }
-            if ($key == 'Descriptif'){
+            if ($key == 'Descriptif') {
                 echo '<td>' . $value . '</td>';
-            }  
+            }
             if ($key == 'Id_Recompense') {
                 $idRecompense = $value;
             }
-            if($key == 'objIntitule'){
+            if ($key == 'objIntitule') {
                 echo '<td>' . $value . '</td>';
             }
         }

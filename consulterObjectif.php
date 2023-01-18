@@ -39,27 +39,23 @@ faireMenu();
         //! --------------------------------------------------Seance-----------------------------------------------------------------------
         
         if (isset($_POST['butonResetSceance'])) {
-            echo 'ButonResetSeance' . '<br>';
             reinitialiserObjectif($_SESSION['objectif']);
         }
 
+        // lancement de la séance 
         if (recupererTempsDebutObjectif($_SESSION['objectif']) == 0 && isset($_POST['butonDebutSeance'])) {
-            echo 'Temps_Debut == 0 et ButonDebutSeance' . '<br>';
             $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_SESSION['objectif']) * 3600);
             ajouterTempsDebutObjectif($nowPlusDureeObjectif, $_SESSION['objectif']);
             unset($_POST['butonDebutSeance']);
         }
 
+        // Temps restant de la séance
         if ((recupererTempsDebutObjectif($_SESSION['objectif']) != 0) && (recupererTempsDebutObjectif($_SESSION['objectif']) - time() > 0)) {
-            echo 'Temps_Debut != 0 et Temps_Debut - time > 0' . '<br>';
-            $maintenant = time();
-            $restant = recupererTempsDebutObjectif($_SESSION['objectif']) - $maintenant;
-            $heureRestante = $restant / 60;
-            $duree = dureeStringMinutes($heureRestante);
-            echo 'Temps restant : ' . $duree;
         } else {
+            // Fin séance apparition boutton début séance
             unset($_POST['butonDebutSeance']);
             echo 'Temps_Debut == 0 et Temps_Debut - time <= 0' . '<br>';
+            echo '<button type="submit" name="butonDebutSeance" class="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la scéance</span></button>';
             reinitialiserObjectif($_SESSION['objectif']);
             unset($_POST['valeurJetonsIdObjectif']);
         }
