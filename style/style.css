@@ -1577,6 +1577,8 @@ button.redirect {
 }
 
 .imageObjectif.zoom {
+    justify-self: center;
+    align-items: center;
     max-width: 190px;
 }
 @media screen and (max-width: 450px) {   
@@ -1613,10 +1615,43 @@ button.redirect {
 }
 
 .dureeObjectifs.zoom {
-    position: absolute;
+    font-size: 1.5em;
+    position: relative;
     margin: 0;
+    bottom: 0;
     justify-self: center;
-    align-self: center;
+}
+
+#titreObjectif {
+    z-index: 2;
+    font-size: 1.7em;
+    padding: 5px;
+    border-radius: var(--globalRadius);
+    margin-bottom: 20px;
+    color: var(--policeBlanche);
+}
+
+.objectif.zoom {
+    z-index: 1;
+}
+
+#banderole{
+    pointer-events: none;
+    width: 800px;
+    position: absolute;
+    margin-top: -10px;
+    z-index: 0;
+    justify-self: center;
+}
+
+@media screen and (max-width: 900px) {
+    #banderole{
+        display: none;
+    }
+    #titreObjectif {
+        background-color: var(--chatButton);
+        border-radius: var(--globalRadius);
+    }
 }
 
 .intituleRecompense {
@@ -1731,12 +1766,10 @@ button.redirect {
     color: var(--couleurBoutonHover);
     font-size: 1.5em;
 }
-.msgObjectifValidé::before {
-    content: " ";
+.tick {
     position: absolute;
     z-index: 2;
     top: 0px;
-    left: -64px;
     display: inline-block;
     transform: rotate(45deg);
     height: 55px;

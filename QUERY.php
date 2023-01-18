@@ -146,7 +146,7 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_J
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer les informations d'un objectif selon son Id_Objectif
-$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Duree, Travaille, Lien_Image, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
+$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Lien_Image,Duree, Travaille, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer l'image d'un objectif 
 $qRecupererImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -2214,8 +2214,13 @@ function afficherObjectifs($idEnfant)
             }
 
             if ($key == 'Lien_Image') {
-                echo '<img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' ">';
-                $places = 0;
+                if($res == 0) {
+                    echo '<div><span class="tick"></span><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
+
+                } else {
+                    echo '<div><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
+                }
+                $places = 0;                
             }
         }
         echo '<div class="containerTampons">';
@@ -2223,6 +2228,7 @@ function afficherObjectifs($idEnfant)
             for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
                 if ($i <= NombreDeJetonsPlaces($idObjectif)) {
                     echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
+                    //DEGUEU MAIS NE PAS TOUCHER SINON CA MARCHE PAS
                     if ($res == 0) {
                         echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                     } else {
@@ -2257,6 +2263,7 @@ function afficherObjectifsZoom($idObjectif)
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="objectif zoom">';
+        echo '<img src="images/banderole.png" id="banderole"><h2 id="titreObjectif">'.afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']).'</h2>';
         echo '<button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance" onclick="return confirm(\'Êtes vous sûr de vouloir réinitialiser cette séance ?\');"><img src="images/reinitialiser.png" class="imageIcone zoom" alt="icone valider"><span>Réinitialiser la séance</span></button>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
@@ -2265,8 +2272,7 @@ function afficherObjectifsZoom($idObjectif)
                 $idObjectif = $value;
             }
             if ($key == 'Lien_Image') {
-
-                echo '<img class="imageObjectif zoom" style="border-radius: 10px;" src="' . $value . '" alt="image objectif">';
+                echo '<img class="imageObjectif zoom" style="border-radius: 10px; z-index: 2; margin-top: 20px;" src="' . $value . '" alt="image objectif">';
             }
             if ($key == 'Duree') {
                 // Temps restant de la séance
@@ -2275,9 +2281,9 @@ function afficherObjectifsZoom($idObjectif)
                     $restant = recupererTempsDebutObjectif($_SESSION['objectif']) - $maintenant;
                     $heureRestante = $restant / 60;
                     $duree = dureeStringMinutes($heureRestante);
-                    echo '<div class="dureeObjectifs zoom"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
+                    echo '<div class="dureeObjectifs zoom"><p style="display:inline;">Temps restant : </p><div style="display:inline;" class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p style="display:inline; margin-left: 15px;">' . $duree . '</p></div><span></span></div><br>';
                 } else {
-                    echo '<div class="dureeObjectifs zoom"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                    echo '<div class="dureeObjectifs zoom"><p style="display:inline;">Temps de l\'objectif : </p><div style="display:inline;" class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p style="display:inline; margin-left: 15px;">' . dureeString($value) . '</p></div><span></span></div><br>';
                 }
             }
             if ($key == 'Nb_Jetons_Places') {
@@ -3503,7 +3509,7 @@ function afficherRecompenseSelonObjectif($idObjectif)
                 } else {
                     echo '
                     <button type="submit" name="boutonRecuperer" value="' . $value . '" 
-                    class="boutonModifier" disabled>
+                    class="boutonModifier" style="background-color: lightgrey;" disabled>
                         <img src="images/panier.png" class="imageIcone" alt="icone modifier">
                         <span>Récupérer</span>
                     </button></div>
