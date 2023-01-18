@@ -4081,6 +4081,7 @@ function afficherBarresProgression($idObjectif)
     }
     $i = 0;
     $reussi = 0;
+    echo'<div class="containerStats fenButtonOff transparent">';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $value) {
@@ -4097,47 +4098,20 @@ function afficherBarresProgression($idObjectif)
     }
     $total = $req->rowCount();
     if ($total != 0) {
-        $data = ($reussi / $total * 100);
-        $tata =  100 - $data;
-?>
-        <?php
-        // Requete pour récupérer les données;
+        $data = ceil(($reussi / $total * 100));
+        $tata =  ceil(100 - $data);
+        
         // convert the data to json format
         $json_data = json_encode($data);
         $json_tata = json_encode($tata);
-        ?>
-        <!-- Inclure Chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
-        <!-- Créer un conteneur pour le graphique -->
-        <canvas id="pie-chart"></canvas>
-
-        <script>
-            var data = <?= $json_data ?>;
-            var tata = <?= $json_tata ?>;
-            // Définir les données pour les sections du graphique
-            var data = {
-                labels: ['Pourcentage de séances reussies', 'pourcentage de séances ratées'],
-                datasets: [{
-                    data: [data, tata], // les valeurs en pourcentage
-                    backgroundColor: ['#8bc196', '#BD2613'],
-                    hoverBackgroundColor: ['#8bc196', '#BD2613']
-                }]
-            };
-
-            // Récupérer le conteneur pour le graphique
-            var ctx = document.getElementById('pie-chart').getContext('2d');
-
-            // Créer le graphique en forme de camembert
-            var pieChart = new Chart(ctx, {
-                type: 'pie',
-                data: data
-            });
-        </script>
-<?php
+        //fonction avec json data et json tata
+        echo '<input type="hidden" value="'.$json_data.'" id="chartData">';
+        echo '<input type="hidden" value="'.$json_tata.'" id="chartTata">';
+        echo '<canvas id="pie-chart"></canvas>';
     } else {
-        echo ("pas de statistiques disponibles");
+        echo '<p class="msgSelection">Pas de statistiques disponibles<p>';
     }
+    echo'</div>';
 }
 
 function recupererPremierJetonJamaisPose($idObjectif)

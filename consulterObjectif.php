@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="style/style.css">
 </head>
 <script src="js/javascript.js"></script>
+<!-- Inclure Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
 <?php
 require('QUERY.php');
 faireMenu();
@@ -100,6 +103,9 @@ faireMenu();
             ?>
         </div>
     </form>
+    
+    <button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart('chartData','chartTata'),fenOpenStats('containerStats'),deCache('containerStats');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>
+    
     <?php
     afficherBarresProgression($_SESSION['objectif']);
     if (champRempli(array('champSujet', 'champCorps'))) {

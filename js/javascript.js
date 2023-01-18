@@ -151,7 +151,7 @@ function fenOpen(aCacher) {
     aCacher1.style.display = "block";
     aCacher1.classList.toggle('fenButtonOn');
     aCacher1.classList.remove('fenButtonOff');
-    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.editPopup):not(.aCacher)" );
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.editPopup):not(.aCacher):not(.containerStats):not(#boutonStats)" );
     Array.from( elements ).forEach( s => s.style.filter = "grayscale(100%) blur(3px)");
 }
 
@@ -159,8 +159,28 @@ function fenClose(aCacher) {
     aCacher1 = document.querySelector("." + aCacher);
     aCacher1.classList.toggle('fenButtonOn');
     aCacher1.classList.add('fenButtonOff');
-    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.editPopup):not(.aCacher)" );
+    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup):not(.editPopup):not(.aCacher):not(.containerStats)" );
     Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)  blur(0px)");
+    setTimeout(function(){
+        aCacher1.style.display = "none";
+    }, 600);
+}
+
+function fenOpenStats(aCacher) {
+    aCacher1 = document.querySelector("." + aCacher);
+    aCacher1.style.display = "block";
+    if(aCacher1.classList.contains('statsButtonOn')) {
+        fenCloseStats(aCacher);
+    } else {
+        aCacher1.classList.toggle('statsButtonOn');
+        aCacher1.classList.remove('statsButtonOff');
+    }
+}
+
+function fenCloseStats(aCacher) {
+    aCacher1 = document.querySelector("." + aCacher);
+    aCacher1.classList.toggle('statsButtonOn');
+    aCacher1.classList.add('statsButtonOff');
     setTimeout(function(){
         aCacher1.style.display = "none";
     }, 600);
@@ -184,6 +204,35 @@ function holdSubmit() {
     setTimeout(function(){
         form.submit();
     }, gifDuration * 1000);
+}
+
+function createPieChart(value1, value2) {
+    value1 = document.getElementById(value1).value;
+    value2 = document.getElementById(value2).value;
+
+    // Définir les données pour les sections du graphique
+    var data = {
+        labels: ['Pourcentage de séances réussies', 'Pourcentage de séances incomplètes'],
+        datasets: [{
+            data: [value1, value2], // les valeurs en pourcentage
+            backgroundColor: ['#8bc196', '#ff7474'],
+            hoverBackgroundColor: ['#6aaf78', '#ff3333']
+        }]
+    };
+
+    // Récupérer le conteneur pour le graphique
+    var ctx = document.getElementById('pie-chart').getContext('2d');
+
+    // Créer le graphique en forme de camembert
+    setTimeout(function(){
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true
+            }
+        });
+    }, 600);
 }
 
 function submitForm(formId, divId, url) {
