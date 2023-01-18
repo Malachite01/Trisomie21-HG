@@ -28,11 +28,7 @@ faireMenu();
     }
     ?>
     <form method="POST" id="formConsulter">
-        <h1 style="margin-top: 100px; margin-bottom: 20px">Consulter objectif :
-            <?php
-            echo afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']);
-            ?>
-        </h1>
+        <h1 style="margin-top: 100px; margin-bottom: 20px">Consulter objectif : </h1>
 
         <?php
 
