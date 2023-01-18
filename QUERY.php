@@ -4090,51 +4090,48 @@ function afficherBarresProgression($idObjectif)
         }
     }
     $total = $req->rowCount();
-    $data = ($reussi / $total * 100);
-    $tata =  100 - $data;
+    if ($total != 0) {
+        $data = ($reussi / $total * 100);
+        $tata =  100 - $data;
 ?>
+        <?php
+        // Requete pour récupérer les données;
+        // convert the data to json format
+        $json_data = json_encode($data);
+        $json_tata = json_encode($tata);
+        ?>
+        <!-- Inclure Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
-    <!-- Inclure Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <!-- Créer un conteneur pour le graphique -->
+        <canvas id="pie-chart"></canvas>
 
-    <!-- Créer un conteneur pour le graphique -->
-    <canvas id="pie-chart"></canvas>
+        <script>
+            var data = <?= $json_data ?>;
+            var tata = <?= $json_tata ?>;
+            // Définir les données pour les sections du graphique
+            var data = {
+                labels: ['Pourcentage de séances reussies', 'pourcentage de séances ratées'],
+                datasets: [{
+                    data: [data, tata], // les valeurs en pourcentage
+                    backgroundColor: ['#8bc196', '#BD2613'],
+                    hoverBackgroundColor: ['#8bc196', '#BD2613']
+                }]
+            };
 
-    <?php
-    // Requete pour récupérer les données;
-    // convert the data to json format
-    $json_data = json_encode($data);
-    $json_tata = json_encode($tata);
-    ?>
-    <!-- Inclure Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+            // Récupérer le conteneur pour le graphique
+            var ctx = document.getElementById('pie-chart').getContext('2d');
 
-    <!-- Créer un conteneur pour le graphique -->
-    <canvas id="pie-chart"></canvas>
-
-    <script>
-        var data = <?= $json_data ?>;
-        var tata = <?= $json_tata ?>;
-        // Définir les données pour les sections du graphique
-        var data = {
-            labels: ['Pourcentage de séances reussies', 'pourcentage de séances ratées'],
-            datasets: [{
-                data: [data, tata], // les valeurs en pourcentage
-                backgroundColor: ['#8bc196', '#BD2613'],
-                hoverBackgroundColor: ['#8bc196', '#BD2613']
-            }]
-        };
-
-        // Récupérer le conteneur pour le graphique
-        var ctx = document.getElementById('pie-chart').getContext('2d');
-
-        // Créer le graphique en forme de camembert
-        var pieChart = new Chart(ctx, {
-            type: 'pie',
-            data: data
-        });
-    </script>
+            // Créer le graphique en forme de camembert
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: data
+            });
+        </script>
 <?php
+    } else {
+        echo ("pas de statistiques disponibles");
+    }
 }
 
 function recupererPremierJetonJamaisPose($idObjectif)
@@ -4151,7 +4148,11 @@ function recupererPremierJetonJamaisPose($idObjectif)
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $value) {
-            return $value;
+            if ($value == null) {
+                return null;
+            } else {
+                return $value;
+            }
         }
     }
 }

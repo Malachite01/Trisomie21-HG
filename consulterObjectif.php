@@ -76,24 +76,36 @@ faireMenu();
             }
         }
         // 2419200 = 4 weeks
-        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
+        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null) {
             afficherObjectifsZoom($_SESSION['objectif']);
         } else {
-            echo '<h1> Objectif terminé !';
+            if (recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
+                afficherObjectifsZoom($_SESSION['objectif']);
+            } else {
+                echo '<h1> Objectif terminé !';
+            }
         }
+
 
 
         ?>
         <div id="containerRecompenses">
             <?php
-            if (recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200 >= time()) {
+            // 2419200 = 4 weeks
+            if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null) {
                 afficherRecompenseSelonObjectif($_SESSION['objectif']);
+            } else {
+                if (recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
+                    afficherRecompenseSelonObjectif($_SESSION['objectif']);
+                } else {
+                    echo '<h1> Objectif terminé !';
+                }
             }
             ?>
         </div>
     </form>
     <?php
-
+    afficherBarresProgression($_SESSION['objectif']);
     if (champRempli(array('champSujet', 'champCorps'))) {
         ajouterMessage(
             $_POST['champSujet'],
