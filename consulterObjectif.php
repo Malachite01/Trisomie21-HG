@@ -53,11 +53,6 @@ faireMenu();
 
         // Temps restant de la séance
         if ((recupererTempsDebutObjectif($_SESSION['objectif']) != 0) && (recupererTempsDebutObjectif($_SESSION['objectif']) - time() > 0)) {
-            $maintenant = time();
-            $restant = recupererTempsDebutObjectif($_SESSION['objectif']) - $maintenant;
-            $heureRestante = $restant / 60;
-            $duree = dureeStringMinutes($heureRestante);
-            echo 'Temps restant : ' . $duree;
         } else {
             // Fin séance apparition boutton début séance
             unset($_POST['butonDebutSeance']);
