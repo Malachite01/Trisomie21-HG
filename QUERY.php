@@ -162,7 +162,7 @@ $qAjouterJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places
 
 $qSupprimerJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places-1 WHERE Id_Objectif = :idObjectif';
 
-$qsupprimerJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (select max(Date_Heure) from placer_jeton)';
+$qsupprimerDernierJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (select max(Date_Heure) from placer_jeton)';
 
 // requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
 $qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
@@ -185,6 +185,8 @@ $qRecupererDureeUnObjectif = 'SELECT Duree FROM objectif WHERE Id_Objectif = :id
 $qAjouterTempsRestantUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsDebut WHERE Id_Objectif = :idObjectif';
 
 $qRecupererTempsRestantUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Objectif = :idObjectif';
+
+$qModifierObjectifAVenir = 'UPDATE objectif SET Travaille = 0 WHERE Id_Objectif= :idObjectif';
 
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
@@ -263,6 +265,8 @@ $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, C
 
 // recupere l'Id du membre qui a écrit un message
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
+
+$qSupprimerTousLesJetons = 'DELETE FROM placer_jetons WHERE Id_Objectif = :idObjectif';
 
 //?------------------------------------------------PARTIE ADMIN-----------------------------------------------
 
@@ -2404,7 +2408,7 @@ function SupprimerJetonsPlaces($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
     }
-    supprimerJeton($idObjectif);
+    supprimerDernierJeton($idObjectif);
 }
 
 // fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
@@ -2512,7 +2516,20 @@ function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, 
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
     }
 }
-
+function modifierObjectifAVenir($idObjectif){
+     // connexion a la BD
+     $linkpdo = connexionBd();
+     // preparation de la requete sql
+     $req = $linkpdo->prepare($GLOBALS['qModifierObjectifAVenir']);
+     if ($req == false) {
+         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+     }
+     // execution de la requete sql
+     $req->execute(array(':idObjectif' => clean($idObjectif)));
+     if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+}
 // fonction qui permet de supprimer un objectif selon son Id_Objectif
 function supprimerObjectif($idObjectif)
 {
@@ -3929,11 +3946,26 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
     }
 }
 
-function supprimerJeton($idObjectif)
+function supprimerDernierJeton($idObjectif)
 {
     $linkpdo = connexionBd();
     // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qsupprimerJetons']);
+    $req = $linkpdo->prepare($GLOBALS['qsupprimerDernierJetons']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+}
+function supprimerTousLesJetons($idObjectif){
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerTousLesJetons']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
     }
@@ -4039,14 +4071,65 @@ function afficherBarresProgression($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les barres de progression');
     }
+    $reussi = 0;
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $value) {
             $pourcentage = ($value / NombreDeJetons($idObjectif)) * 100;
+            if($pourcentage == 100){
+                $reussi+=1;
+            }
             echo '<progress value="' . $pourcentage . '" max="100"></progress>';
             echo '<div style="width:' . $pourcentage . '; background-color:blue;">' . $pourcentage . ' %</div>';
+            
         }
     }
+    $total = $req->rowCount();
+    $data = ($reussi/$total*100);
+    $tata =  100-$data;
+    ?>
+
+    <!-- Inclure Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+<!-- Créer un conteneur pour le graphique -->
+<canvas id="pie-chart"></canvas>
+
+<?php 
+    // Requete pour récupérer les données;
+    // convert the data to json format
+    $json_data = json_encode($data);
+    $json_tata = json_encode($tata);
+?>
+<!-- Inclure Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+<!-- Créer un conteneur pour le graphique -->
+<canvas id="pie-chart"></canvas>
+
+<script>
+    var data = <?= $json_data ?>;
+    var tata = <?= $json_tata ?>;
+    // Définir les données pour les sections du graphique
+    var data = {
+        labels: ['Pourcentage de séances reussies', 'pourcentage de séances ratées'],
+        datasets: [{
+            data: [data,tata], // les valeurs en pourcentage
+            backgroundColor: ['#8bc196', '#BD2613'],
+            hoverBackgroundColor: ['#8bc196', '#BD2613']
+        }]
+    };
+
+    // Récupérer le conteneur pour le graphique
+    var ctx = document.getElementById('pie-chart').getContext('2d');
+
+    // Créer le graphique en forme de camembert
+    var pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data
+    });
+</script>
+<?php
 }
 
 function recupererPremierJetonJamaisPose($idObjectif)
