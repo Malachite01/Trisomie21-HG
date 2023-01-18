@@ -48,7 +48,18 @@
     src: url(../fonts/Georama-Italic.ttf);
     font-family: GeoramaItalic;
 }
-
+::selection {
+    background-color: var(--couleurBoutonHover);
+    color: white;
+    outline: thick double #32a1ce;
+    text-shadow: lightgray 1px 1px;
+}
+::-moz-selection {
+    background-color: var(--couleurBoutonHover);
+    color: white;
+    outline: thick double #32a1ce;
+    text-shadow: lightgray 1px 1px;
+}
 /* Ne fonctionne pas sur tous les navigateurs */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {  
@@ -1362,6 +1373,7 @@ div.miseFormeConnexion label {
 }
 
 .msgSelection {
+    font-family: Georama;
     display: grid;
     justify-self: center;
     font-size: 1.2em;
@@ -1612,8 +1624,8 @@ button.redirect {
 }
 .imageTamponValide {
     width: 38px;
-    border-radius: 50%;
-    margin: -2px;
+    clip-path: circle(50% at center);
+    margin: -3px;
     padding: 0;
     animation: apparitionJeton .6s forwards infinite cubic-bezier(.16,.83,.59,.91);
     animation-iteration-count: 1;
@@ -1940,6 +1952,9 @@ button.redirect {
     }
     #tbodyGererRecompenses td:nth-child(3)::before{
         content: "Descriptif :";
+    } 
+    #tbodyGererRecompenses td:nth-child(4)::before{
+        content: "Objectif concerné :";
     }
 
     #tbodyGererEnfants td::before{
@@ -1950,16 +1965,16 @@ button.redirect {
         width: 50%;
         text-align: left;
     }
-    #tbodyGererRecompenses td:first-child::before{
+    #tbodyGererEnfants td:first-child::before{
         content: "Image jeton :";
     }
-    #tbodyGererRecompenses td:nth-child(2)::before{
+    #tbodyGererEnfants td:nth-child(2)::before{
         content: "Nom :";
     }
-    #tbodyGererRecompenses td:nth-child(3)::before{
+    #tbodyGererEnfants td:nth-child(3)::before{
         content: "Prénom :";
     }
-    #tbodyGererRecompenses td:nth-child(4)::before{
+    #tbodyGererEnfants td:nth-child(4)::before{
         content: "Date de naissance :";
     }
 

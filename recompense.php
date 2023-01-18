@@ -156,7 +156,7 @@ if (isset($_POST['boutonAppliquer'])) {
         <span></span>
 
         <label for="champImage">Image :</label>
-        <input type="file" name="champImage" id="champImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector('champImage','imageJeton');" required>
+        <input type="file" name="champImage" id="champImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector('champImage','imageJeton');" required>
         <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
         </div>
 
@@ -190,6 +190,7 @@ if (isset($_POST['boutonAppliquer'])) {
         <th>Image Recompense</th>
         <th>Intitulé</th>
         <th>Descriptif</th>
+        <th>Objectif concerné</th>
         <th>Modifier</th>
         <th>Supprimer</th>
       </thead>
@@ -206,7 +207,7 @@ if (isset($_POST['boutonAppliquer'])) {
     </table>
     <?php
         if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
-        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
+        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher ses récompenses !</p>";
         }
     ?>
   </form>

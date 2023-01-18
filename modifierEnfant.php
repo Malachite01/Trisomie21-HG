@@ -29,7 +29,7 @@
       afficherInformationsEnfantModification($_POST['boutonModifier']);
       echo '
       <label for="champLienJeton">Image du jeton :</label>
-      <input type="file" name="champLienJeton" id="champImageJeton" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp" onchange="refreshImageSelector(\'champImageJeton\',\'imageJeton\')">
+      <input type="file" name="champLienJeton" id="champImageJeton" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector(\'champImageJeton\',\'imageJeton\')">
       <img src="' . afficherImageTampon($_POST['boutonModifier']) . '" alt=" " id="imageJeton">';
       echo '<input type="hidden" value="' . afficherImageTampon($_POST['boutonModifier']) . '" name="hiddenImageLink">';
 

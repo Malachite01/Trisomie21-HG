@@ -78,13 +78,22 @@
               </div>
             <?php
             break;
+            case 'role':
+              ?>
+              <div class="alertPopup">
+                <h2 class="txtPopup">Erreur, veuillez vous connectez avec l'interface professionnelle </h2>
+                <img src="images/annuler.png" alt="image attente" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup('alertPopup')">Fermer X</button>
+              </div>
+            <?php
+            break;
         }
     }
   ?> 
   
   <img src="images/logo.png" alt="logo application" class="iconeApp"> 
   
-  <a href="indexAdmin.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas"><span>Connexion professionnel</span></button></a>
+  <a href="indexAdmin.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas"><span>Connexion pro</span></button></a>
   
   <form id="formConnexion" action="indexConnexion.php" method="POST">
     <h1 id="pageDeCoStatut">Membre</h1>
