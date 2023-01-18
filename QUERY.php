@@ -4050,13 +4050,14 @@ function afficherBarresProgression($idObjectif)
     }
 }
 
-function recupererPremierJetonJamaisPose($idObjectif){
+function recupererPremierJetonJamaisPose($idObjectif)
+{
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour récupérer id Objectif ');
     }
-    $req->execute(array(':courriel' => clean($courriel)));
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour récupérer id Objectif');
     }
