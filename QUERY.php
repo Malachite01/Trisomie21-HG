@@ -276,6 +276,8 @@ $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 //?------------------------------------------------STATISTIQUES-----------------------------------------------
 $qRecupererNbJetonsPlacesUnObjectif = 'SELECT Date_Heure FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure <= :limiteSeance';
 
+$qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WHERE Id_Objectif = :idObjectif';
+
 /*
 / --------------------------------------------------------------------------------------------------------------------------
 / -----------------------------------------------Liste des fonctions--------------------------------------------------------
@@ -4025,6 +4027,24 @@ function afficherBarresProgression($idObjectif)
     echo '$count : ' . $count . '<br>';
     $pourcentage = ($count / NombreDeJetons($idObjectif)) * 100;
     echo '$pourcentage : ' . $pourcentage . '<br>';
+}
+
+function recupererPremierJetonJamaisPose($idObjectif){
+    $linkpdo = connexionBd();
+    $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour récupérer id Objectif ');
+    }
+    $req->execute(array(':courriel' => clean($courriel)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour récupérer id Objectif');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
 }
 
 /*                                                                
