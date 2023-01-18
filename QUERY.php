@@ -274,7 +274,9 @@ $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 //----------------------------------------------------------------------------------------------------------------------------
 
 //?------------------------------------------------STATISTIQUES-----------------------------------------------
-$qRecupererNbJetonsPlacesUnObjectif = 'SELECT Date_Heure FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure <= :limiteSeance';
+$qRecupererNbJetonsPlacesUnObjectif = 'SELECT COUNT(Temps_Debut) FROM placer_jeton WHERE Id_Objectif = :idObjectif GROUP BY Temps_Debut';
+
+$qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WHERE Id_Objectif = :idObjectif';
 
 /*
 / --------------------------------------------------------------------------------------------------------------------------
@@ -4024,12 +4026,6 @@ function afficherStatistiques($idObjectif)
 
 function afficherBarresProgression($idObjectif)
 {
-    $restant = recupererTempsDebutObjectif($idObjectif);
-    echo '$restant : ' . $restant . '<br>';
-    $duree = recupererDureeUnObjectif($idObjectif) / 3600;
-    echo '$duree : ' . $duree . '<br>';
-    $limiteSeance = $restant + $duree;
-    echo '$limiteSeance : ' . $limiteSeance . '<br>';
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -4039,16 +4035,38 @@ function afficherBarresProgression($idObjectif)
     }
     // execution de la requete sql
     $req->execute(array(
-        ':idObjectif' => clean($idObjectif),
-        ':limiteSeance' => $limiteSeance
+        ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les barres de progression');
     }
-    $count = $req->rowCount();
-    echo '$count : ' . $count . '<br>';
-    $pourcentage = ($count / NombreDeJetons($idObjectif)) * 100;
-    echo '$pourcentage : ' . $pourcentage . '<br>';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            $pourcentage = ($value / NombreDeJetons($idObjectif)) * 100;
+            echo '<progress value="' . $pourcentage . '" max="100"></progress>';
+            echo '<div style="width:' . $pourcentage . '; background-color:blue;">' . $pourcentage . ' %</div>';
+        }
+    }
+}
+
+function recupererPremierJetonJamaisPose($idObjectif)
+{
+    $linkpdo = connexionBd();
+    $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour récupérer id Objectif ');
+    }
+    $req->execute(array(':idObjectif' => clean($idObjectif)));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour récupérer id Objectif');
+    }
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            return $value;
+        }
+    }
 }
 
 /*                                                                
