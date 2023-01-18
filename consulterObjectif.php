@@ -33,8 +33,12 @@ faireMenu();
         <?php
 
         //! --------------------------------------------------Seance-----------------------------------------------------------------------
-        
+
         if (isset($_POST['butonResetSceance'])) {
+            reinitialiserObjectif($_SESSION['objectif']);
+        }
+
+        if (isset($_POST['boutonRecuperer'])) {
             reinitialiserObjectif($_SESSION['objectif']);
         }
 
@@ -67,12 +71,32 @@ faireMenu();
                 header("location: consulterObjectif.php");
             }
         }
-        afficherObjectifsZoom($_SESSION['objectif']);
+        // 2419200 = 4 weeks
+        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null) {
+            afficherObjectifsZoom($_SESSION['objectif']);
+        } else {
+            if (recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
+                afficherObjectifsZoom($_SESSION['objectif']);
+            } else {
+                echo '<h1> Objectif terminé !';
+            }
+        }
+
+
 
         ?>
         <div id="containerRecompenses">
             <?php
-            afficherRecompenseSelonObjectif($_SESSION['objectif']);
+            // 2419200 = 4 weeks
+            if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null) {
+                afficherRecompenseSelonObjectif($_SESSION['objectif']);
+            } else {
+                if (recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
+                    afficherRecompenseSelonObjectif($_SESSION['objectif']);
+                } else {
+                    echo '<h1> Objectif terminé !';
+                }
+            }
             ?>
         </div>
     </form>
