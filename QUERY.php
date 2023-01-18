@@ -559,7 +559,7 @@ function dureeStringMinutes($duree)
     }
     if ($m != 0) {
         if ($m == 1) {
-            $m = $m . ' Moins d\'une minute ';
+            $m = $m . ' minute ';
         } else {
             $m = $m . ' minutes ';
         }
