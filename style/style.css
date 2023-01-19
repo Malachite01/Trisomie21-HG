@@ -549,6 +549,7 @@ nav a {
     background-color: var(--couleurFiltres);
     padding-left: 20px;
     border-radius: var(--globalRadius);
+    
 }
 
 .filtres::before {
@@ -1451,6 +1452,7 @@ div.miseFormeConnexion label {
     border-radius: 25px;
     border: solid 5px rgb(241, 240, 240);
     min-width: 200px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     /* background: #FCA92E;
     background: -webkit-radial-gradient(center, #FCA92E, #A06501);
     background: -moz-radial-gradient(center, #FCA92E, #A06501);
@@ -1478,6 +1480,7 @@ div.miseFormeConnexion label {
     margin: 20px;
     border-radius: 25px;
     border: solid 5px rgb(241, 240, 240);   
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .ouvertureKdo {
