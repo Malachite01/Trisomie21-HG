@@ -29,13 +29,6 @@ function erasePopup(popup) {
     popupFen.style.display = 'none';
 }
 
-function eraseGray(popup) {
-    var popupFen = document.querySelector('.' + popup);
-    var elements = document.querySelectorAll( "body > *:not(.validationPopup):not(.erreurPopup):not(.supprPopup)" );
-    Array.from( elements ).forEach( s => s.style.filter = "grayscale(0%)");
-    popupFen.style.display = 'none';
-}
-
 //? PAGE DE CONNEXION
 function afficherMDP(nomIdChamp, nomIdOeil) {
     var champ = document.getElementById(nomIdChamp);
@@ -100,9 +93,6 @@ function validerConfirmationMdpProfil(champ1,champ2,message,bouton) {
 }
 
 //? PAGE GESTION MEMBRES
-function Disable(ctrl){
-    ctrl.setAttribute('disabled',true);
-}
 
 function chatOpen(chat,chatButton) {
     chatMsg = document.querySelector("." + chat);
@@ -247,6 +237,7 @@ function createPieChart(value1, value2) {
     
 }
 
+//Debut de truc en AJAX pour recharger seulement le chat et pas tout la page
 function submitForm(formId, divId, url) {
     // Récupère l'élément formulaire
     var form = document.getElementById(formId);

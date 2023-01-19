@@ -412,17 +412,17 @@ function faireMenu()
     ';
     }
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
-        echo
-        '     
-            <li><a href="enfant.php" id="Enfants">Enfants</a></li>        
-            
+        echo '     
+            <li><a href="membre.php" id="Membres">Membres</a></li>
+
             <div class="separateur"></div>
     ';
     }
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
-        echo '     
-            <li><a href="membre.php" id="Membres">Membres</a></li>
-
+        echo
+        '     
+            <li><a href="enfant.php" id="Enfants">Enfants</a></li>        
+            
             <div class="separateur"></div>
     ';
     }
