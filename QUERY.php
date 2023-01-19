@@ -4161,8 +4161,8 @@ function afficherBarresProgression($idObjectif)
     }
     echo '</div>';
     echo '
-        <input type="hidden" name="dataTruc" value="' . $data . '">';
-    $_SESSION['dataTruc'] = $data;
+        <input type="hidden" name="pourcentPie" value="' . $data . '">';
+    $_SESSION['pourcentPie'] = $data;
 }
 
 function recupererPremierJetonJamaisPose($idObjectif)
