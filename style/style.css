@@ -336,7 +336,8 @@ nav a {
     box-sizing: border-box;
     align-items: center;
     z-index: 2;
-    border-radius: 0;
+    border-radius: var(--globalRadius);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 .navbar .separateur::after {
     content: "|";
@@ -347,6 +348,7 @@ nav a {
     list-style: none;
 }
 .navbar .nav-links .nav-ul li{
+    z-index: 2;
     margin-left: 15px;
     margin-right: 15px;
     font-size: 1.1em;
@@ -446,6 +448,7 @@ nav a {
         z-index: 1;
         top: 0;
         background-color: var(--couleurMenu);
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
         width: 100%;
         height: 60px;
     }
