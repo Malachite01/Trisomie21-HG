@@ -229,10 +229,11 @@ function createPieChart(value1, value2) {
             type: 'pie',
             data: data,
             options: {
-                responsive: true
+                responsive: false
             }
         });
     }, 600);
+    
 }
 
 function submitForm(formId, divId, url) {

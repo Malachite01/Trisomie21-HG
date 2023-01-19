@@ -1446,7 +1446,8 @@ div.miseFormeConnexion label {
     display: grid;
     margin: 20px;
     border-radius: 25px;
-    border: solid 5px rgb(241, 240, 240);   
+    border: solid 5px rgb(241, 240, 240);
+    min-width: 200px;
     /* background: #FCA92E;
     background: -webkit-radial-gradient(center, #FCA92E, #A06501);
     background: -moz-radial-gradient(center, #FCA92E, #A06501);
@@ -1699,6 +1700,7 @@ button.redirect {
 .containerTampons {
     display: grid;
     height : 120px;
+    min-width: 120px;
     background-color: rgba(152, 151, 141, 0.23);
     padding: 5px;
     overflow-y: auto;
@@ -2714,10 +2716,11 @@ button#boutonSelecteurs:hover {
 /* STATISTIQUES */
 
 .containerStats {
-    background-color: red;
-    /* display: none;
-    width: 0;
-    height: 0; */
+    margin-top: 40px;
+    background-color: rgba(152, 151, 141, 0.23);
+    border-radius: var(--globalRadius);
+    display: none;
+    align-self: center;
 }
 
 
@@ -2791,7 +2794,11 @@ button#boutonSelecteurs:hover {
     }
 }
 
-
+progress {
+    width: 80%;
+    height: 40px;
+    align-self: center;
+}
 
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;
