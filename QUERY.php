@@ -3538,17 +3538,17 @@ function afficherRecompenseSelonObjectif($idObjectif)
                 if (NombreDeJetons($idObjectif) == NombreDeJetonsPlaces($idObjectif)) {
                     echo '
                     <button type="submit" name="boutonRecuperer" value="' . $value . '" 
-                    class="boutonRecuperer" onclick="holdSubmit()">
-                        <img onclick="holdSubmit()" src="images/panier.png" class="imageIcone" alt="icone modifier">
-                        <span onclick="holdSubmit()">Récupérer</span>
+                    class="boutonRecuperer" onclick="holdSubmit(event)">
+                        <img onclick="holdSubmit(event)" src="images/panier.png" class="imageIcone" alt="icone modifier">
+                        <span onclick="holdSubmit(event)">Récupérer</span>
                     </button></div>
                     ';
                 } else {
                     echo '
                     <button type="submit" name="boutonRecuperer" value="' . $value . '" 
                     class="boutonModifier" style="background-color: lightgrey;" disabled>
-                        <img src="images/panier.png" class="imageIcone" alt="icone modifier">
-                        <span>Récupérer</span>
+                        <img src="images/cadenas2.png" class="imageIcone" alt="icone modifier">
+                        <span>A débloquer</span>
                     </button></div>
                     ';
                 }
@@ -4105,14 +4105,20 @@ function afficherBarresProgression($idObjectif)
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $value) {
             $i += 1;
-            echo 'Séance ' . $i . ' : ';
+            echo '<div class="containerSeance"><p class="txtSeance">Séance ' . $i . ' finie à : </p>';
             $pourcentage = ($value / NombreDeJetons($idObjectif)) * 100;
             $pourcentage = ceil($pourcentage);
+            if($pourcentage > 100) {
+                $pourcentage = 100;
+            }
             if ($pourcentage == 100) {
                 $reussi += 1;
             }
-            echo '<progress value="' . $pourcentage . '" max="100"></progress>';
-            echo '<div style="width:' . $pourcentage . '; background-color:blue;">' . $pourcentage . ' %</div>';
+            echo '
+            <div class="progress-container">
+                <div class="progress-bar" style="width: '.$pourcentage.'%;"><p class="pourcentageTxt">'.$pourcentage.'%</p></div>
+            </div></div>';
+
         }
     }
     $total = $req->rowCount();
@@ -4168,8 +4174,7 @@ function nettoyerObjectif(){
         supprimerTousLesJetons($_SESSION['objectif']);
         supprimerTousJetonsPlaces($_SESSION['objectif']);
         header('location: tableauDeBord.php');
-
-}
+    }
 }
 
 /*                                                                

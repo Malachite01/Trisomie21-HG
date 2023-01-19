@@ -193,8 +193,16 @@ function deCache(div) {
     } 
 }
 
-function holdSubmit() {
+function holdSubmit(event) {
     let form = document.getElementById("formConsulter");
+    //permettre de recuperer en $_POST['boutonRecuperer']
+    let hiddenInput = document.createElement("input");
+    hiddenInput.setAttribute("type", "hidden");
+    hiddenInput.setAttribute("name", "boutonRecuperer");
+    hiddenInput.setAttribute("value", "true");
+    form.appendChild(hiddenInput);
+    let formData = new FormData(form);
+    event.preventDefault();
     let gifDuration = 2.5; // duration of the gif
     let target = event.target;
     let image = new Image();

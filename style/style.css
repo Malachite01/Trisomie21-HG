@@ -2716,11 +2716,16 @@ button#boutonSelecteurs:hover {
 /* STATISTIQUES */
 
 .containerStats {
+    position: relative;
     margin-top: 40px;
     background-color: rgba(152, 151, 141, 0.23);
     border-radius: var(--globalRadius);
     display: none;
     align-self: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid lightgray;
 }
 
 
@@ -2740,6 +2745,7 @@ button#boutonSelecteurs:hover {
     border-radius: 100vh;
     padding: 0;
     margin: 0;
+    margin-top: 50px;
     align-self: center;
     justify-self: center;
 }
@@ -2777,15 +2783,15 @@ button#boutonSelecteurs:hover {
     }
     100% {
         clip-path: circle(100% at center);
-        width: 100%;
-        height: 100%;
+        width: 95%;
+        height: 95%;
     }
 }
 @keyframes statsBoutonDisparition {
     0% {
         clip-path: circle(100% at center);
-        width: 100vh;
-        height: 100%;
+        width: 95vh;
+        height: 95%;
     }
     100% {
         clip-path: circle(0% at center);
@@ -2794,12 +2800,83 @@ button#boutonSelecteurs:hover {
     }
 }
 
-progress {
-    width: 80%;
-    height: 40px;
-    align-self: center;
+.containerSeance {
+    margin-top: 30px;
+    border-bottom: 2px solid lightgray;
+    padding-bottom: 30px;
 }
 
+.progress-container {
+    display: inline-block;
+    position: relative;
+    background-color: lightgrey;
+    border: 3px solid gray;
+    width: 80%;
+    top: 10px;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    border-radius: var(--globalRadius);
+}
+
+@media screen and (max-width: 1150px) {
+    .progress-container {
+        width: 70%;
+    }
+}
+@media screen and (max-width: 860px) {
+    .progress-container {
+        width: 60%;
+    }
+}
+@media screen and (max-width: 720px) {
+    .progress-container {
+        width: 50%;
+        left: 30%;
+    }
+}
+@media screen and (max-width: 420px) {
+    .containerSeance {
+        display: inline-block;
+        width: 100%;
+    }
+    .progress-container {
+        margin-bottom: -40px;
+        width: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: none;
+    }
+    .progress-bar {
+        position: absolute;
+        bottom: 20px;
+    }
+}
+
+.pourcentageTxt {
+    color: var(--policeBlanche);
+    padding-left: 25px;
+    vertical-align: middle;
+}
+
+.progress-bar {
+    height: 20px;
+    border-radius: 5px;
+    background-color: var(--chatButtonHover);
+}
+
+.txtSeance {
+    display: inline-block;
+    padding-left: 50px;
+    font-size: 1.1em;
+}
+
+#pie-chart {
+    position: relative;
+    bottom: -150px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 /* Scroll si le contenu est trop grand
 overflow-y: scroll;
 
