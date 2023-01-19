@@ -75,7 +75,7 @@ faireMenu();
             }
         }
         // 2419200 = 4 weeks
-        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null || recupererPremierJetonJamaisPose($_SESSION['objectif']) + 20  >= time()) {
+        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null || recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
             afficherObjectifsZoom($_SESSION['objectif']);
         ?>
             <div id="containerRecompenses">
@@ -94,7 +94,6 @@ faireMenu();
             afficherBarresProgression($_SESSION['objectif']);
             if ($_SESSION['pourcentPie'] >= 80) {
                 echo '<button type="submit" name="boutonAVenir" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>';
-                //echo '<button type="submit" name="butonDebutSeance" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
                 nettoyerObjectif();
             } else {
                 echo '<button type="submit" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>';
