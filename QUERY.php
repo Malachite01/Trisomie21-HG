@@ -162,6 +162,8 @@ $qAjouterJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places
 
 $qSupprimerJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places-1 WHERE Id_Objectif = :idObjectif';
 
+$qSupprimerTousJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = 0 WHERE Id_Objectif = :idObjectif';
+
 $qsupprimerDernierJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (select max(Date_Heure) from placer_jeton)';
 
 // requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
@@ -186,7 +188,7 @@ $qAjouterTempsRestantUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsDebut
 
 $qRecupererTempsRestantUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qModifierObjectifAVenir = 'UPDATE objectif SET Travaille = 0 WHERE Id_Objectif= :idObjectif';
+$qModifierObjectifAVenir = 'UPDATE objectif SET Travaille = 2 WHERE Id_Objectif= :idObjectif';
 
 //? ----------------------------------------------Recompense-----------------------------------------------------------------
 
@@ -266,7 +268,7 @@ $qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, C
 // recupere l'Id du membre qui a écrit un message
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
 
-$qSupprimerTousLesJetons = 'DELETE FROM placer_jetons WHERE Id_Objectif = :idObjectif';
+$qSupprimerTousLesJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif';
 
 //?------------------------------------------------PARTIE ADMIN-----------------------------------------------
 
@@ -2416,6 +2418,23 @@ function SupprimerJetonsPlaces($idObjectif)
     }
     supprimerDernierJeton($idObjectif);
 }
+function supprimerTousJetonsPlaces($idObjectif){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerTousJetonsPlaces']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idObjectif' => clean($idObjectif)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+    }
+    supprimerDernierJeton($idObjectif);
+}
 
 // fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
 function AfficherInformationUnObjectif($idObjectif)
@@ -4112,6 +4131,9 @@ function afficherBarresProgression($idObjectif)
         echo '<p class="msgSelection">Pas de statistiques disponibles<p>';
     }
     echo'</div>';
+    echo '
+        <input type="hidden" name="dataTruc" value="'.$data.'">';
+        $_SESSION['dataTruc'] = $data;
 }
 
 function recupererPremierJetonJamaisPose($idObjectif)
@@ -4135,6 +4157,19 @@ function recupererPremierJetonJamaisPose($idObjectif)
             }
         }
     }
+}
+function nettoyerObjectif(){
+    if(isset($_POST['boutonAVenir'])){
+        modifierObjectifAVenir($_SESSION['objectif']);
+        supprimerTousJetonsPlaces($_SESSION['objectif']);
+        header('location: tableauDeBord.php');
+    }
+    if(isset($_POST['boutonAnnuler'])){
+        supprimerTousLesJetons($_SESSION['objectif']);
+        supprimerTousJetonsPlaces($_SESSION['objectif']);
+        header('location: tableauDeBord.php');
+
+}
 }
 
 /*                                                                
