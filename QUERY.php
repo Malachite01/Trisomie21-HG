@@ -532,42 +532,71 @@ function dureeStringMinutes($duree)
     $h = intdiv($duree, 60);
     $duree -= 60 * $h;
     $m = intdiv($duree, 1);
+
+    // semaines
     if ($w != 0) {
         if ($w == 1) {
             $w = $w . ' semaine ';
         } else {
             $w = $w . ' semaines ';
         }
+        // jours
+        if ($j != 0) {
+            if ($j == 1) {
+                $j = $j . ' jour ';
+            } else {
+                $j = $j . ' jours ';
+            }
+        } else {
+            $j = null;
+        }
+        // heures
+        if ($h != 0) {
+            if ($h == 1) {
+                $h = $h . ' heure ';
+            } else {
+                $h = $h . ' heures ';
+            }
+        } else {
+            $h = null;
+        }
+        $m = null;
     } else {
         $w = null;
-    }
-    if ($j != 0) {
-        if ($j == 1) {
-            $j = $j . ' jour ';
+        // jours
+        if ($j != 0) {
+            if ($j == 1) {
+                $j = $j . ' jour ';
+            } else {
+                $j = $j . ' jours ';
+            }
         } else {
-            $j = $j . ' jours ';
+            $j = null;
         }
-    } else {
-        $j = null;
-    }
-    if ($h != 0) {
-        if ($h == 1) {
-            $h = $h . ' heure ';
+        // heures
+        if ($h != 0) {
+            if ($h == 1) {
+                $h = $h . ' heure ';
+            } else {
+                $h = $h . ' heures ';
+            }
         } else {
-            $h = $h . ' heures ';
+            $h = null;
         }
-    } else {
-        $h = null;
-    }
-    if ($m != 0) {
-        if ($m == 1) {
-            $m = $m . ' minute ';
+        // minutes 
+        if ($m != 0) {
+            if ($m == 1) {
+                $m = $m . ' minute ';
+            } else {
+                $m = $m . ' minutes ';
+            }
         } else {
-            $m = $m . ' minutes ';
+            $m = null;
         }
-    } else {
-        $m = null;
     }
+
+
+
     return  $w . $j . $h . $m;
 }
 // Fonction qui verifie l'id de connexion et redirige sur la bonne page
@@ -2220,13 +2249,12 @@ function afficherObjectifs($idEnfant)
             }
 
             if ($key == 'Lien_Image') {
-                if($res == 0) {
+                if ($res == 0) {
                     echo '<div><span class="tick"></span><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
-
                 } else {
                     echo '<div><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
                 }
-                $places = 0;                
+                $places = 0;
             }
         }
         echo '<div class="containerTampons">';
@@ -2269,7 +2297,7 @@ function afficherObjectifsZoom($idObjectif)
     // permet de parcourir toutes les lignes de la requete
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="objectif zoom">';
-        echo '<img src="images/banderole.png" id="banderole"><h2 id="titreObjectif">'.afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']).'</h2>';
+        echo '<img src="images/banderole.png" id="banderole"><h2 id="titreObjectif">' . afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']) . '</h2>';
         echo '<button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance" onclick="return confirm(\'Êtes vous sûr de vouloir réinitialiser cette séance ?\');"><img src="images/reinitialiser.png" class="imageIcone zoom" alt="icone valider"><span>Réinitialiser la séance</span></button>';
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $key => $value) {
@@ -2418,7 +2446,8 @@ function SupprimerJetonsPlaces($idObjectif)
     }
     supprimerDernierJeton($idObjectif);
 }
-function supprimerTousJetonsPlaces($idObjectif){
+function supprimerTousJetonsPlaces($idObjectif)
+{
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la requete sql
@@ -4100,7 +4129,7 @@ function afficherBarresProgression($idObjectif)
     }
     $i = 0;
     $reussi = 0;
-    echo'<div class="containerStats fenButtonOff transparent">';
+    echo '<div class="containerStats fenButtonOff transparent">';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la requete
         foreach ($data as $value) {
@@ -4119,21 +4148,21 @@ function afficherBarresProgression($idObjectif)
     if ($total != 0) {
         $data = ceil(($reussi / $total * 100));
         $tata =  ceil(100 - $data);
-        
+
         // convert the data to json format
         $json_data = json_encode($data);
         $json_tata = json_encode($tata);
         //fonction avec json data et json tata
-        echo '<input type="hidden" value="'.$json_data.'" id="chartData">';
-        echo '<input type="hidden" value="'.$json_tata.'" id="chartTata">';
+        echo '<input type="hidden" value="' . $json_data . '" id="chartData">';
+        echo '<input type="hidden" value="' . $json_tata . '" id="chartTata">';
         echo '<canvas id="pie-chart"></canvas>';
     } else {
         echo '<p class="msgSelection">Pas de statistiques disponibles<p>';
     }
-    echo'</div>';
+    echo '</div>';
     echo '
-        <input type="hidden" name="dataTruc" value="'.$data.'">';
-        $_SESSION['dataTruc'] = $data;
+        <input type="hidden" name="dataTruc" value="' . $data . '">';
+    $_SESSION['dataTruc'] = $data;
 }
 
 function recupererPremierJetonJamaisPose($idObjectif)
@@ -4158,18 +4187,21 @@ function recupererPremierJetonJamaisPose($idObjectif)
         }
     }
 }
-function nettoyerObjectif(){
-    if(isset($_POST['boutonAVenir'])){
+function nettoyerObjectif()
+{
+    if (isset($_POST['boutonAVenir'])) {
         modifierObjectifAVenir($_SESSION['objectif']);
-        supprimerTousJetonsPlaces($_SESSION['objectif']);
-        header('location: tableauDeBord.php');
-    }
-    if(isset($_POST['boutonAnnuler'])){
         supprimerTousLesJetons($_SESSION['objectif']);
         supprimerTousJetonsPlaces($_SESSION['objectif']);
+        reinitialiserObjectif($_SESSION['objectif']);
         header('location: tableauDeBord.php');
-
-}
+    }
+    if (isset($_POST['boutonAnnuler'])) {
+        supprimerTousLesJetons($_SESSION['objectif']);
+        supprimerTousJetonsPlaces($_SESSION['objectif']);
+        reinitialiserObjectif($_SESSION['objectif']);
+        header('location: tableauDeBord.php');
+    }
 }
 
 /*                                                                
