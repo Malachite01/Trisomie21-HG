@@ -2531,7 +2531,7 @@ function AfficherInformationUnObjectif($idObjectif)
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
                 echo '
-                <label for="champLienImage">Image du tampon :</label>
+                <label for="champLienImage">Image de l\'objectif :</label>
                 <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
                 <img src="' . AfficherImageObjectif($idObjectif) . '" alt=" " id="imageTampon">';
                 echo '<input type="hidden" value="' . AfficherImageObjectif($idObjectif) . '" name="hiddenImageLink">';
@@ -3389,7 +3389,7 @@ function afficherInfoRecompense($idRecompense)
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
                 echo '
-                <label for="champLienImage">Image du tampon :</label>
+                <label for="champLienImage">Image de la récompense :</label>
                 <input type="file" name="champLienImage" id="champImageTampon" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector(\'champImageTampon\',\'imageTampon\')">
                 <img src="' . afficherImageRecompense($idRecompense) . '" alt=" " id="imageTampon">';
                 echo '<input type="hidden" value="' . afficherImageRecompense($idRecompense) . '" name="hiddenImageLink">';
