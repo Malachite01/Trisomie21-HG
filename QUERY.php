@@ -3575,7 +3575,7 @@ function afficherRecompenseSelonObjectif($idObjectif)
                 } else {
                     echo '
                     <button type="submit" name="boutonRecuperer" value="' . $value . '" 
-                    class="boutonModifier" style="background-color: lightgrey;" disabled>
+                    class="boutonRecuperer" style="background-color: lightgrey;" disabled>
                         <img src="images/cadenas2.png" class="imageIcone" alt="icone modifier">
                         <span>A débloquer</span>
                     </button></div>

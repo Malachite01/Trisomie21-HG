@@ -30,9 +30,9 @@
         <div class="svgWave"></div>
     </div>
     <div class="test"></div>
-    <img src="images/logo.png" alt="logo application" class="iconeApp">
+    <img src="images/passReset.png" alt="icone reinitialiser" class="iconeApp" style="width: 100px; background-color: white; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;">
     <form id="formConnexion" method="POST">
-        <div class="miseFormeConnexion" id="miseEnFormeConnexion">
+        <div class="miseEnForme" id="miseEnFormeConnexion">
             <label for="champMdp">Mot de passe :</label>
             <input type="password" name="champMdp" id="champMdp" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" onkeyup="validerConfirmationMdp('champMdp','champConfirmerMdp','messageVerifMdp','boutonValider')" required>
             <span></span>

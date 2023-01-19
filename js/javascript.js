@@ -174,6 +174,9 @@ function fenOpenStats(aCacher) {
     } else {
         aCacher1.classList.toggle('statsButtonOn');
         aCacher1.classList.remove('statsButtonOff');
+        setTimeout(function(){
+            scrollToButton('pie-chart');
+        }, 300);
     }
 }
 

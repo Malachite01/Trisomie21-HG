@@ -25,7 +25,10 @@
     --couleurHover: lightgray;
     --couleurHoverMenuTexte: #30491a;
     --couleurFiltres: #75bfdc;
-    --couleurMenuActif: rgb(154, 221, 254);
+    --couleurMenuActif: var(--couleurFiltres);
+    --couleurHowerWaveModifier: #a5d5e8;
+    /* --even: hsl(204, 17%, 83%);
+    --odd: hsl(0, 0%, 89%); */
     --even: hsl(111, 35%, 85%);
     --odd: hsl(103, 41%, 91%);
     --chatButton: #5aabcb;
@@ -256,7 +259,7 @@ button:focus {
     outline: var(--couleurFocus) solid 2px;
 }
 
-button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect,#openChatButton img, .chatBox button img,.boutonAnnuler .imageIcone.zoom),
+button > img:not(#imgDeconnexion,.tampon,.imageTamponValide,.imgRedirect,#openChatButton img, .chatBox button img,.boutonAnnuler .imageIcone.zoom,#btnRecherche img),
 button > span {
     vertical-align: middle;
     margin-right: 25px;
@@ -355,10 +358,11 @@ nav a {
 }
 .navbar .nav-links .nav-ul li a:not(.center):not(.lienBoutonDeconnexion) {
     padding: 8px;
+    color: var(--policeNoire);
 }
 .navbar .nav-links .nav-ul li a:not(.center):not(.active):not(.lienBoutonDeconnexion):hover {
     background-color: var(--couleurHover);
-    color: var(--couleurHoverMenuTexte);
+    color: var(--policeNoire);
     padding: 8px;
     border-radius: var(--globalRadius);
 }
@@ -425,7 +429,7 @@ nav a {
     border-radius: var(--globalRadius);
     background-color: var(--couleurMenuActif);
     padding: 8px;
-    box-shadow: 5px 5px 0px .1px #01534f;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .active:after {
     content: url(../images/left-arrow.png);
@@ -549,7 +553,7 @@ nav a {
     background-color: var(--couleurFiltres);
     padding-left: 20px;
     border-radius: var(--globalRadius);
-    
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .filtres::before {
@@ -593,7 +597,7 @@ nav a {
     padding: 15px;
     align-items: center;
     justify-items: center;
-    box-shadow: -10px 10px 0px .1px var(--couleurBackMiseEnForme);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .miseFormeConnexion {
@@ -722,6 +726,7 @@ div.miseFormeConnexion label {
     color:var(--policeBlanche);
     background-color: var(--couleurBouton);
     padding: 9px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutons:hover {
     animation: hoverWave .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -737,6 +742,7 @@ div.miseFormeConnexion label {
     padding: 9px;
     margin-right: 20px;
     margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonAnnuler:hover {
     animation: hoverWaveAnnuler .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -752,6 +758,7 @@ div.miseFormeConnexion label {
     padding: 9px;
     margin-left: 20px;
     margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonValider:hover {
     animation: hoverWaveValider .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -766,6 +773,7 @@ div.miseFormeConnexion label {
     color:var(--policeBlanche);
     padding: 3px;
     margin: 7px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonSupprimer:hover {
     animation: hoverWaveAnnuler .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -780,6 +788,7 @@ div.miseFormeConnexion label {
     color:var(--policeBlanche);
     padding: 3px;
     margin: 7px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonModifier:hover {
     animation: hoverWaveModifier .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -794,6 +803,7 @@ div.miseFormeConnexion label {
     padding: 3px;
     margin: 7px;
     margin-top: 30px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonRecuperer:hover {
     animation: hoverWaveModifier .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -808,12 +818,14 @@ div.miseFormeConnexion label {
     color:var(--policeBlanche);
     padding: 3px;
     margin: 7px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonMembreDesactive {
     background-color: grey;
     color:var(--policeBlanche);
     padding: 3px;
     margin: 7px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonValiderMembre:hover {
     animation: hoverWaveValider .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -829,6 +841,7 @@ div.miseFormeConnexion label {
     padding: 9px;
     margin-left: 20px;
     margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonEdit:hover {
     animation: hoverWaveModifier .15s cubic-bezier(.16,.83,.59,.91) forwards;
@@ -1124,47 +1137,47 @@ div.miseFormeConnexion label {
 }
 @keyframes hoverWaveModifier {
     0% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 0%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 0%, var(--couleurPopupEdit) 0);
 
     }
     10% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 10%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 10%, var(--couleurPopupEdit) 0);
 
     }
     20% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 20%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 20%, var(--couleurPopupEdit) 0);
 
     }
     30% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 30%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 30%, var(--couleurPopupEdit) 0);
 
     }
     40% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 40%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 40%, var(--couleurPopupEdit) 0);
 
     }
     50% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 50%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 50%, var(--couleurPopupEdit) 0);
 
     }
     60% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 60%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 60%, var(--couleurPopupEdit) 0);
 
     }
     70% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 70%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 70%, var(--couleurPopupEdit) 0);
 
     }
     80% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 80%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 80%, var(--couleurPopupEdit) 0);
 
     }
     90% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 90%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 90%, var(--couleurPopupEdit) 0);
 
     }
     100% {
-        background: radial-gradient(circle at center, var(--couleurMenuActif) 0 100%, var(--couleurPopupEdit) 0);
+        background: radial-gradient(circle at center, var(--couleurHowerWaveModifier) 0 100%, var(--couleurPopupEdit) 0);
 
     }
 }
@@ -1240,6 +1253,7 @@ div.miseFormeConnexion label {
     align-self: center;
     justify-self: center;
     z-index: 3;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .erreurPopup {
@@ -1256,6 +1270,7 @@ div.miseFormeConnexion label {
     align-self: center;
     justify-self: center;
     z-index: 3;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .supprPopup {
@@ -1272,6 +1287,7 @@ div.miseFormeConnexion label {
     align-self: center;
     justify-self: center;
     z-index: 3;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .editPopup {
@@ -1288,6 +1304,7 @@ div.miseFormeConnexion label {
     align-self: center;
     justify-self: center;
     z-index: 3;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .alertPopup {
@@ -1304,6 +1321,7 @@ div.miseFormeConnexion label {
     align-self: center;
     justify-self: center;
     z-index: 3;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .iconeApp {
@@ -1382,10 +1400,17 @@ div.miseFormeConnexion label {
     justify-self: center;
     font-size: 1.2em;
     color: red;
+    text-align: center;
 }
 
 #btnRecherche {
     background-color: var(--couleurFiltres);
+    margin: 0;
+    padding: 0;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+#btnRecherche > img{
+    margin: 0;
 }
 /*? AJOUT OBJECTIFS */
 
@@ -1564,7 +1589,11 @@ div.miseFormeConnexion label {
 button.redirect {
     margin: 0;
     padding: 0;
-    background-color: transparent;
+    background-color: rgb(244, 240, 240);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+button.redirect:hover {
+    background-color: rgb(215, 210, 210);
 }
 
 .titreObjectif {
@@ -1788,7 +1817,7 @@ button.redirect {
     box-shadow: 3px 3px 0px .1px white;
 }
 
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1300px){
     #containerObjectifs {
         grid-template-columns: 1fr 1fr;
     }
@@ -1929,7 +1958,7 @@ button.redirect {
     }
 
 }
-@media screen and (max-width: 600px){
+@media screen and (max-width: 800px){
     thead {
         display: none;
     }
@@ -2144,6 +2173,7 @@ button.redirect {
     background-color: var(--fondChat);
     border-radius: var(--globalRadius);
     opacity: 0;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 #scrollChat {
     display: flex;
@@ -2164,7 +2194,8 @@ button.redirect {
     margin: 0;
     width: 0px;
     height: 0px;
-    transition: all .6s;
+    transition: all .8s;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .chatBoxOn {
     animation: chatApparition .8s forwards;
@@ -2174,11 +2205,7 @@ button.redirect {
     animation: chatDisparition .8s forwards;
     animation-iteration-count: 1;
 }
-#containerBoutonsChat {
-    width: 0px;
-    height: 0px;
-    transition: all .8s;
-}
+
 .chatBoxOn #containerBoutonsChat {
     width: 350px;
     height: 85px;
@@ -2257,6 +2284,7 @@ button.redirect {
     border-radius: 100px;
     border-bottom-right-radius: 0;
     vertical-align: middle;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 #openChatButton:hover {
     background-color: var(--chatButtonHover);
@@ -2299,6 +2327,7 @@ button#closeChatbox {
     top: 10px;
     right: 20px;
     padding: 0;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 #boutonsImgMsg {
@@ -2315,6 +2344,7 @@ button#closeChatbox {
     padding: 0;
     bottom: 30%;
     right: -13px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 button#boutonEnvoiMessage:hover {
     background-color: var(--chatMsgSortantHover);
@@ -2328,6 +2358,7 @@ button#boutonEnvoiMessage:hover {
     margin-bottom: 10px;
     margin: 10px;
     padding-top: 2px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 button#boutonSelecteurs:hover {
     background-color: var(--chatMsgSortantHover);
@@ -2421,6 +2452,7 @@ button#boutonSelecteurs:hover {
     margin-right: auto;
     margin-top: 5px;
     border-radius: var(--globalRadius) var(--globalRadius) var(--globalRadius) 0;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .msgSortant {
@@ -2436,6 +2468,7 @@ button#boutonSelecteurs:hover {
     margin-left: auto;
     margin-top: 5px;
     border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .msgHeureSortant {
@@ -2577,7 +2610,7 @@ button#boutonSelecteurs:hover {
     font-size: 1.5em;
     color: var(--couleurBarActive);
     position: absolute;
-    margin-top: -20px;
+    margin-top: -25px;
     padding: 3px;
     margin-left: -10px;
     height: fit-content;
@@ -2585,6 +2618,7 @@ button#boutonSelecteurs:hover {
     background-color: var(--chatContainerTxt);
     border-radius: var(--globalRadius)var(--globalRadius)var(--globalRadius)0;
     border: 2px solid var(--couleurBarActive);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 
