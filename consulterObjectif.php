@@ -75,7 +75,7 @@ faireMenu();
             }
         }
         // 2419200 = 4 weeks
-        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null || recupererPremierJetonJamaisPose($_SESSION['objectif']) + 5  >= time()) {
+        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null || recupererPremierJetonJamaisPose($_SESSION['objectif']) + 180  >= time()) {
             afficherObjectifsZoom($_SESSION['objectif']);
         ?>
             <div id="containerRecompenses">

@@ -2411,7 +2411,7 @@ function afficherObjectifs($idEnfant)
                 }
             }
             echo '<div class="containerTampons">';
-            if (recupererPremierJetonJamaisPose($idObjectif) == null || recupererPremierJetonJamaisPose($idObjectif) + 5  >= time()) {
+            if (recupererPremierJetonJamaisPose($idObjectif) == null || recupererPremierJetonJamaisPose($idObjectif) + 180  >= time()) {
                 if (recupererTempsDebutObjectif($idObjectif) >= time()) {
                     for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
                         if ($i <= NombreDeJetonsPlaces($idObjectif)) {
