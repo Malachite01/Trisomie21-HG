@@ -1119,7 +1119,7 @@ function afficherInformationsEnfantModification($idEnfant)
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un membre a la BD
-function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp,$role)
+function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $role)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4141,7 +4141,7 @@ function afficherBarresProgression($idObjectif)
             echo '<div class="containerSeance"><p class="txtSeance">Séance ' . $i . ' finie à : </p>';
             $pourcentage = ($value / NombreDeJetons($idObjectif)) * 100;
             $pourcentage = ceil($pourcentage);
-            if($pourcentage > 100) {
+            if ($pourcentage > 100) {
                 $pourcentage = 100;
             }
             if ($pourcentage == 100) {
@@ -4149,9 +4149,8 @@ function afficherBarresProgression($idObjectif)
             }
             echo '
             <div class="progress-container">
-                <div class="progress-bar" style="width: '.$pourcentage.'%;"><p class="pourcentageTxt">'.$pourcentage.'%</p></div>
+                <div class="progress-bar" style="width: ' . $pourcentage . '%;"><p class="pourcentageTxt">' . $pourcentage . '%</p></div>
             </div></div>';
-
         }
     }
     $total = $req->rowCount();
