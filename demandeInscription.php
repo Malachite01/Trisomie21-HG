@@ -19,7 +19,7 @@
 
   <?php
   require('QUERY.php');
-  if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp', 'champPro'))) {
+  if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp'))) {
     if (membreIdentique(
       $_POST['champMail']
     ) == 0) {
@@ -32,7 +32,6 @@
         $_POST['champMail'],
         $_POST['champDateDeNaissance'],
         saltHash($_POST['champMdp']),
-        $_POST['champPro'],
         0
       );
       header('Location: index.php?login_err=ajoutMembre');
@@ -75,21 +74,7 @@
       <label for="champVille">Ville :</label>
       <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" required>
       <span></span>
-
-      <label for="champPro">Professionnel :</label>
-      <div class="center" style="width: 100%;">
-        <span class="center1Item">
-          <input type="radio" name="champPro" id="proNon" value="null" checked required>
-          <label for="proNon" class="radioLabel" tabindex="0">Non</label>
-        </span>
-        <span class="center1Item">
-          <input type="radio" name="champPro" id="proOui" value="1" required>
-          <label for="proOui" class="radioLabel" tabindex="0">Oui</label>
-        </span>
-      </div>
-      <span></span>
-
-
+      
       <label for="champMail">Adresse mail :</label>
       <input type="email" name="champMail" placeholder="Ex: exemple@xyz.com" minlength="3" maxlength="50" required>
       <span></span>
