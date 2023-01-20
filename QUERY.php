@@ -35,6 +35,7 @@ $qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enf
 // requete pour modifier l'image du jeton d'un enfant selon son Id_Enfant
 $qModifierInformationsEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, Date_Naissance = :dateNaissance, Lien_Jeton = :lienJeton WHERE Id_Enfant = :idEnfant';
 
+$qSupprimerImageEnfant = 'SELECT Lien_Jeton from enfant WHERE Id_Enfant = :idEnfant';
 
 //? ----------------------------------------------Membre---------------------------------------------------------------------
 
@@ -936,6 +937,30 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre)
         }
     }
     echo '</select>';
+}
+function supprimerImageEnfant($idEnfant){
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            // selectionne toutes les colonnes $key necessaires
+            return $value;
+        }
+    }
 }
 function modifierInformationsEnfant($nom, $prenom, $dateNaissance, $lienJeton, $idEnfant)
 {
