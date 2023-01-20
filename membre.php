@@ -208,6 +208,9 @@ if (isset($_POST['boutonValiderMembre'])) {
         <th>Rôle</th>
         <th>Valider</th>
         <th>Supprimer</th>
+        <? if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){?>
+          <th>Consulter</th>
+        <?}?>
       </thead>
 
       <tbody id="tbodyGererMembres">
