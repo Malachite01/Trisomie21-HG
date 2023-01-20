@@ -813,6 +813,20 @@ div.miseFormeConnexion label {
 .boutonModifier:active {
     animation: hoverClickModifier .1s cubic-bezier(.16,.83,.59,.91) forwards;
 }
+.boutonConsulter {
+    background-color: lightgray;
+    color:var(--policeBlanche);
+    padding: 3px;
+    margin: 7px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.boutonConsulter:hover {
+    animation: hoverWaveConsulter .15s cubic-bezier(.16,.83,.59,.91) forwards;
+    cursor: pointer;
+}
+.boutonConsulter:active {
+    animation: hoverClickConsulter .1s cubic-bezier(.16,.83,.59,.91) forwards;
+}
 .boutonRecuperer {
     background-color: var(--couleurPopupEdit);
     color:var(--policeBlanche);
@@ -1223,6 +1237,78 @@ div.miseFormeConnexion label {
 
     }
 }
+@keyframes hoverWaveConsulter {
+    0% {
+        background: radial-gradient(circle at center, grey 0 0%, lightgrey 0);
+
+    }
+    10% {
+        background: radial-gradient(circle at center, grey 0 10%, lightgrey 0);
+
+    }
+    20% {
+        background: radial-gradient(circle at center, grey 0 20%, lightgrey 0);
+
+    }
+    30% {
+        background: radial-gradient(circle at center, grey 0 30%, lightgrey 0);
+
+    }
+    40% {
+        background: radial-gradient(circle at center, grey 0 40%, lightgrey 0);
+
+    }
+    50% {
+        background: radial-gradient(circle at center, grey 0 50%, lightgrey 0);
+
+    }
+    60% {
+        background: radial-gradient(circle at center, grey 0 60%, lightgrey 0);
+
+    }
+    70% {
+        background: radial-gradient(circle at center, grey 0 70%, lightgrey 0);
+
+    }
+    80% {
+        background: radial-gradient(circle at center, grey 0 80%, lightgrey 0);
+
+    }
+    90% {
+        background: radial-gradient(circle at center, grey 0 90%, lightgrey 0);
+
+    }
+    100% {
+        background: radial-gradient(circle at center, grey 0 100%, lightgrey 0);
+
+    }
+}
+@keyframes hoverClickConsulter {
+    50% {
+        background: radial-gradient(circle at center, lightgrey 0 10%, lightgrey 0);
+
+    }
+    60% {
+        background: radial-gradient(circle at center, lightgrey 0 30%, lightgrey 0);
+
+    }
+    70% {
+        background: radial-gradient(circle at center, lightgrey 0 40%, lightgrey 0);
+
+    }
+    80% {
+        background: radial-gradient(circle at center, lightgrey 0 30%, lightgrey 0);
+
+    }
+    90% {
+        background: radial-gradient(circle at center, lightgrey 0 10%, lightgrey 0);
+
+    }
+    100% {
+        background: radial-gradient(circle at center, lightgrey 0 0%, lightgrey 0);
+
+    }
+}
 
 .imageIcone {
     width: 30px;
@@ -1470,7 +1556,7 @@ div.miseFormeConnexion label {
     }
 }
 
-#champMdpNonModifiable:focus {
+.champMdpNonModifiable:focus {
     outline: none;
 }
 

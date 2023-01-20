@@ -1287,8 +1287,8 @@ function AfficherMembres()
                 echo '
                 <td>
                 <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-             class="boutonModifier" formaction="consultationInformationsMembre.php">
-                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
                 <span>Consulter</span>
             </button>
             </td>';
@@ -2026,7 +2026,7 @@ function AfficherInformationsMembreSession($idMembre)
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Nom') {
                 echo '<label for="champNom">Nom :</label>
-                <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" value="' . $value . '" required>
+                <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" value="' . $value . '" onblur="this.blur()" required>
                 <span></span>';
             } elseif ($key == 'Prenom') {
                 echo '<label for="champPrénom">Prénom :</label>
@@ -2052,7 +2052,7 @@ function AfficherInformationsMembreSession($idMembre)
             } elseif ($key == 'Mdp') {
                 //probleme ici si null il faut aussi 0
                 echo '<label for="champMdp">Mot de passe :</label>
-                <input type="text" name="champMdp" id="champMdpNonModifiable" value="********" readonly>
+                <input type="text" name="champMdp" class="champMdpNonModifiable" value="********" readonly>
                 <span></span>
                 <a href="modifierMdp.php" class="texteAccueil"> Changer votre mot de passe ?</a>';
                 echo '<span></span><p id="messageVerifMdp" style="color: red;"></p><span></span>';
@@ -2070,28 +2070,28 @@ function AfficherInformationsMembre($idMembre){
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Nom') {
                 echo '<label for="champNom">Nom :</label>
-                <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1"  maxlength="50" value="' . $value . '" readonly>
+                <input type="text" name="champNom" value="' . $value . '" class="champMdpNonModifiable" readonly>
                 <span></span>';
             } elseif ($key == 'Prenom') {
                 echo '<label for="champPrénom">Prénom :</label>
-                <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" value="' . $value . '"readonly>
+                <input type="text" name="champPrénom" value="' . $value . '" class="champMdpNonModifiable" readonly>
                 <span></span>';
             } elseif ($key == 'Adresse') {
                 echo '<label for="champAdresse">Adresse :</label>
-                <input type="text" name="champAdresse" placeholder="Entrez votre adresse" maxlength="50" value="' . $value . '"  readonly>
+                <input type="text" name="champAdresse" value="' . $value . '" class="champMdpNonModifiable" readonly>
                 <span></span>';
             } elseif ($key == 'Date_Naissance') {
                 echo '<label for="champDateDeNaissance">Date de naissance :</label>
-                <input type="date" name="champDateDeNaissance" id="champDateDeNaissance" min="1900-01-01" max="<?php echo date(\'Y-m-d\'); ?>" value="' . $value . '" readonly>
+                <input type="date" name="champDateDeNaissance" id="champDateDeNaissance" value="' . $value . '" class="champMdpNonModifiable" readonly>
                 <span></span>';
             } elseif ($key == 'Code_Postal') {
                 echo '
                 <label for="champCp">Code postal :</label>
-                <input type="text" name="champCp" placeholder="Entrez votre code postal" value=' . $value . ' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" readonly>
+                <input type="text" name="champCp" value=' . $value . ' class="champMdpNonModifiable" readonly>
                 <span></span>';
             } elseif ($key == 'Ville') {
                 echo '<label for="champVille">Ville :</label>
-                <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  readonly>
+                <input type="text" name="champVille" value="' . $value . '" class="champMdpNonModifiable" readonly>
                 <span></span>';
             }
         }
