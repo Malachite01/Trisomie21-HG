@@ -35,6 +35,7 @@ $qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enf
 // requete pour modifier l'image du jeton d'un enfant selon son Id_Enfant
 $qModifierInformationsEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, Date_Naissance = :dateNaissance, Lien_Jeton = :lienJeton WHERE Id_Enfant = :idEnfant';
 
+$qSupprimerImageEnfant = 'SELECT Lien_Jeton from enfant WHERE Id_Enfant = :idEnfant';
 
 //? ----------------------------------------------Membre---------------------------------------------------------------------
 
@@ -936,6 +937,31 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre)
         }
     }
     echo '</select>';
+}
+function supprimerImageEnfant($idEnfant)
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la requete sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageEnfant']);
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // execution de la requete sql
+    $req->execute(array(
+        ':idEnfant' => clean($idEnfant)
+    ));
+    if ($req == false) {
+        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+    }
+    // permet de parcourir toutes les lignes de la requete
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete
+        foreach ($data as $value) {
+            // selectionne toutes les colonnes $key necessaires
+            return $value;
+        }
+    }
 }
 function modifierInformationsEnfant($nom, $prenom, $dateNaissance, $lienJeton, $idEnfant)
 {
@@ -2121,38 +2147,39 @@ function afficherGererObjectifs($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
-            }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } else if ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
                 }
             }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" formaction="modifierObjectifs.php">
@@ -2168,6 +2195,11 @@ function afficherGererObjectifs($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+        }
     }
 }
 
@@ -2189,92 +2221,98 @@ function afficherObjectifs($idEnfant)
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
     $res = 0;
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<div class="objectif">';
-
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-
-            if ($key == 'Intitule') {
-                echo '<h3 class="titreObjectif">' . $value . '</h3>';
-            }
-            if ($key == 'Duree') {
-
-                // Temps restant de la séance
-                if ((recupererTempsDebutObjectif($idObjectif) != 0) && (recupererTempsDebutObjectif($idObjectif) - time() > 0)) {
-                    $maintenant = time();
-                    $restant = recupererTempsDebutObjectif($idObjectif) - $maintenant;
-                    $heureRestante = $restant / 60;
-                    $duree = dureeStringMinutes($heureRestante);
-                    echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
-                } else {
-                    echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
-                }
-
-                if ($res == 1) {
-                    echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
-                } else if ($res == 0) {
-                    echo '<br>';
-                } else {
-                    echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
-                }
-            }
-
-            if ($key == 'Nb_Jetons_Places') {
-                if (is_null($value) || $value == 0) {
-                    $places = 0;
-                } else {
-                    $places = $value;
-                }
-            }
-
-            if ($key == 'Nb_Jetons') {
-                $res = $value - $places;
-                if ($res != 0) {
-                    echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
-                    <img class="imgRedirect" src="images/redirect.png"></button>';
-                    $filtre = " ";
-                } else {
-                    echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
-                    <img class="imgRedirect" src="images/redirect.png"></button>';
-                    echo '<p class="msgObjectifValidé" >Objectif validé</p>';
-                    $filtre = "filter: grayscale(100%);";
-                }
-            }
-
-            if ($key == 'Lien_Image') {
-                if ($res == 0) {
-                    echo '<div><span class="tick"></span><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
-                } else {
-                    echo '<div><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
-                }
-                $places = 0;
-            }
+    if ($req->rowCount() < 1) {
+        if ($_SESSION['enfant'] != null) {
+            echo "<p class='msgSelection'>Cet enfant ne possède pas d'objectifs en cours !</p>";
         }
-        echo '<div class="containerTampons">';
-        if (recupererTempsDebutObjectif($idObjectif) >= time()) {
-            for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
-                if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                    echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                    //DEGUEU MAIS NE PAS TOUCHER SINON CA MARCHE PAS
-                    if ($res == 0) {
-                        echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+    } else {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<div class="objectif">';
+
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
+                }
+
+                if ($key == 'Intitule') {
+                    echo '<h3 class="titreObjectif">' . $value . '</h3>';
+                }
+                if ($key == 'Duree') {
+
+                    // Temps restant de la séance
+                    if ((recupererTempsDebutObjectif($idObjectif) != 0) && (recupererTempsDebutObjectif($idObjectif) - time() > 0)) {
+                        $maintenant = time();
+                        $restant = recupererTempsDebutObjectif($idObjectif) - $maintenant;
+                        $heureRestante = $restant / 60;
+                        $duree = dureeStringMinutes($heureRestante);
+                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
                     } else {
-                        echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
                     }
-                } else {
-                    echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
+
+                    if ($res == 1) {
+                        echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
+                    } else if ($res == 0) {
+                        echo '<br>';
+                    } else {
+                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
+                    }
+                }
+
+                if ($key == 'Nb_Jetons_Places') {
+                    if (is_null($value) || $value == 0) {
+                        $places = 0;
+                    } else {
+                        $places = $value;
+                    }
+                }
+
+                if ($key == 'Nb_Jetons') {
+                    $res = $value - $places;
+                    if ($res != 0) {
+                        echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
+                    <img class="imgRedirect" src="images/redirect.png"></button>';
+                        $filtre = " ";
+                    } else {
+                        echo '<button class="redirect" type="submit" formaction="consulterObjectif.php" name="redirect" value="' . $idObjectif . '">
+                    <img class="imgRedirect" src="images/redirect.png"></button>';
+                        echo '<p class="msgObjectifValidé" >Objectif validé</p>';
+                        $filtre = "filter: grayscale(100%);";
+                    }
+                }
+
+                if ($key == 'Lien_Image') {
+                    if ($res == 0) {
+                        echo '<div><span class="tick"></span><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
+                    } else {
+                        echo '<div><img class="imageObjectif" style="border-radius: 10px;' . $filtre . '" src="' . $value . '" id="imageJeton" alt="' . $res . ' "></div>';
+                    }
+                    $places = 0;
                 }
             }
-        } else {
-            echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
+            echo '<div class="containerTampons">';
+            if (recupererTempsDebutObjectif($idObjectif) >= time()) {
+                for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+                    if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                        echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
+                        //DEGUEU MAIS NE PAS TOUCHER SINON CA MARCHE PAS
+                        if ($res == 0) {
+                            echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                        } else {
+                            echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                        }
+                    } else {
+                        echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
+                    }
+                }
+            } else {
+                echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
+            }
+            echo '</div></div>';
         }
-        echo '</div></div>';
     }
 }
 
@@ -2797,38 +2835,39 @@ function afficherGererObjectifsAZ($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
-            }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } else if ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
                 }
             }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" formaction="modifierObjectifs.php">
@@ -2844,6 +2883,11 @@ function afficherGererObjectifsAZ($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+        }
     }
 }
 
@@ -2861,38 +2905,39 @@ function afficherGererObjectifsZA($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
-            }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } else if ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
                 }
             }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" formaction="modifierObjectifs.php">
@@ -2908,6 +2953,11 @@ function afficherGererObjectifsZA($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+        }
     }
 }
 
@@ -2925,38 +2975,39 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
-            }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } else if ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
                 }
             }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" formaction="modifierObjectifs.php">
@@ -2972,6 +3023,11 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+        }
     }
 }
 
@@ -2989,38 +3045,39 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
-            }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } else if ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
                 }
             }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" formaction="modifierObjectifs.php">
@@ -3036,6 +3093,11 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+        }
     }
 }
 
@@ -3053,38 +3115,39 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
-            }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } else if ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
                 }
             }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" formaction="modifierObjectifs.php">
@@ -3100,6 +3163,11 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+        }
     }
 }
 
@@ -3117,38 +3185,39 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
-            }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Duree') {
-                echo '<td>' . dureeString($value) . '</td>';
-            }
-            if ($key == 'Nb_Jetons') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Travaille') {
-                if ($value == 1) {
-                    echo '<td>En cours</td>';
-                } else if ($value == 2) {
-                    echo '<td>A venir</td>';
-                } else {
-                    echo '<td>Aucun</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } else if ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
                 }
             }
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
              class="boutonModifier" formaction="modifierObjectifs.php">
@@ -3164,6 +3233,11 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+        }
     }
 }
 function supprimerImageObjectif($idObjectif)
@@ -3432,29 +3506,30 @@ function afficherRecompense($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Descriptif') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Id_Recompense') {
+                    $idRecompense = $value;
+                }
+                if ($key == 'objIntitule') {
+                    echo '<td>' . $value . '</td>';
+                }
             }
-            if ($key == 'Intitule') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Descriptif') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Id_Recompense') {
-                $idRecompense = $value;
-            }
-            if ($key == 'objIntitule') {
-                echo '<td>' . $value . '</td>';
-            }
-        }
-        echo '
+            echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idRecompense . '" 
              class="boutonModifier" formaction="modifierRecompense.php" >
@@ -3470,6 +3545,11 @@ function afficherRecompense($idEnfant)
             </button>
             </td>
         </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas de récompenses !</p>";
+        }
     }
 }
 
@@ -3660,38 +3740,44 @@ function afficherGererEquipe($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Role') {
-                echo '<td>' . $value . '</td>';
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la requete
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la requete
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Role') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Nom') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Prenom') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Id_Enfant') {
+                    $idEnfant = $value;
+                }
+                if ($key == 'Id_Membre') {
+                    $idMembre = $value;
+                }
             }
-            if ($key == 'Nom') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Prenom') {
-                echo '<td>' . $value . '</td>';
-            }
-            if ($key == 'Id_Enfant') {
-                $idEnfant = $value;
-            }
-            if ($key == 'Id_Membre') {
-                $idMembre = $value;
-            }
+            // creation du bouton supprimer dans le tableau
+            echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . ',' . $idEnfant . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir retirer ce membre de cette équipe ?\');" >
+                <img src="images/annuler.png" class="imageIcone" alt="icone supprimer">
+                <span>Retirer</span>
+            </button>
+        </td>
+    </tr>';
         }
-        // creation du bouton supprimer dans le tableau
-        echo '
-            <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . ',' . $idEnfant . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir retirer ce membre de cette équipe ?\');" >
-                    <img src="images/annuler.png" class="imageIcone" alt="icone supprimer">
-                    <span>Retirer</span>
-                </button>
-            </td>
-        </tr>';
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelection'>Cet enfant n'a pas d'équipe !</p>";
+        }
     }
 }
 function supprimerMembreEquipe($chaineConcatene)
@@ -4109,11 +4195,6 @@ function recupererIdMembre($courriel)
 }
 
 //!------------------------------------------------STATISTIQUES----------------------------------------------------------------------
-
-function afficherStatistiques($idObjectif)
-{
-    return null;
-}
 
 function afficherBarresProgression($idObjectif)
 {

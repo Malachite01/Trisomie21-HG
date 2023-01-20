@@ -59,9 +59,9 @@ if (champRempli(array('champNom', 'champPrénom', 'champDateDeNaissance'))) {
 
 //!SUPRESSION D'UN ENFANT
 if (isset($_POST['boutonSupprimer'])) {
-    // if(file_exists(supprimerImageEnfant($_POST['boutonSupprimer']))) {
-    //     unlink(supprimerImageEnfant($_POST['boutonSupprimer']));
-    // }
+    if(file_exists(supprimerImageEnfant($_POST['boutonSupprimer']))) {
+         unlink(supprimerImageEnfant($_POST['boutonSupprimer']));
+     }
     supprimerEnfant($_POST['boutonSupprimer']);
     echo '
     <div class="supprPopup">

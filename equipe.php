@@ -44,21 +44,21 @@ if (champRempli(array('champRole'))) {
 <body>
     <div class="svgWaveContains">
         <div class="svgWave"></div>
-    </div> 
+    </div>
 
     <h1>Gérer les équipes</h1>
-    
+
     <div class="aCacher fenButtonOff transparent" id="formAjoutEquipe">
         <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
 
             <div class="miseEnForme" id="miseEnFormeFormulaire">
                 <?php
-                    echo '<label for="champEnfant">Enfant concerné :</label>';
-                    afficherNomPrenomEnfantSelect($_SESSION['enfant']);
-                    echo '<span></span>';
-                    echo '<label for="champEnfant">Membre concerné :</label>';
-                    afficherNomPrenomMembre();
-                    echo '<span></span>';
+                echo '<label for="champEnfant">Enfant concerné :</label>';
+                afficherNomPrenomEnfantSelect($_SESSION['enfant']);
+                echo '<span></span>';
+                echo '<label for="champEnfant">Membre concerné :</label>';
+                afficherNomPrenomMembre();
+                echo '<span></span>';
                 ?>
                 <label for="champRole">Rôle du membre :</label>
                 <input type="text" name="champRole" placeholder="Entrer le rôle de cette personne" minlength="1" maxlength="50" required>
