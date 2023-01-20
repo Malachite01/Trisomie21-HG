@@ -744,6 +744,14 @@ div.miseFormeConnexion label {
     margin-bottom: 20px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
+.boutonAnnuler.seanceFinie {
+    background-color: var(--couleurBoutonAnnuler);
+    color:var(--policeBlanche);
+    padding: 9px;
+    margin-right: 0px;
+    margin-top: 40px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
 .boutonAnnuler:hover {
     animation: hoverWaveAnnuler .15s cubic-bezier(.16,.83,.59,.91) forwards;
     cursor: pointer;
@@ -758,6 +766,14 @@ div.miseFormeConnexion label {
     padding: 9px;
     margin-left: 20px;
     margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.boutonValider.seanceFinie {
+    background-color: var(--couleurBoutonValider);
+    color:var(--policeBlanche);
+    padding: 9px;
+    margin-left: 0px;
+    margin-top: 40px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .boutonValider:hover {
@@ -2775,7 +2791,7 @@ button#boutonSelecteurs:hover {
 
 .containerStats {
     position: relative;
-    margin-top: 40px;
+    margin-top: 100px;
     background-color: rgba(152, 151, 141, 0.23);
     border-radius: var(--globalRadius);
     display: none;
@@ -2784,6 +2800,8 @@ button#boutonSelecteurs:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     border: 2px solid lightgray;
+    padding-bottom: 50px;
+    margin-bottom: 100px;
 }
 
 
@@ -2804,6 +2822,7 @@ button#boutonSelecteurs:hover {
     padding: 0;
     margin: 0;
     margin-top: 50px;
+    margin-bottom: 20px;
     align-self: center;
     justify-self: center;
 }
