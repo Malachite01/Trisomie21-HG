@@ -2430,6 +2430,8 @@ function afficherObjectifs($idEnfant)
 
                     echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
                 }
+            } else {
+                echo '<p class="msgSelection2">4 semaines écoulées !</p><p class="msgSelection2" style="margin-top: 30px;">Consultez l\'objectif.</p>';
             }
             echo '</div></div>';
         }

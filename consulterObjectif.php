@@ -91,7 +91,6 @@ faireMenu();
             echo '<button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart(\'chartData\',\'chartTata\'),fenOpenStats(\'containerStats\'),deCache(\'containerStats\');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>';
             afficherBarresProgression($_SESSION['objectif']);
             if ($_SESSION['pourcentPie'] >= 80) {
-
                 echo '
                 <h2 style="font-size: 1.5em; color: black;">Objectif validé à 80% pendant 4 semaines, félicitations ! 🎈🎉</h2>';
                 echo '<img src="images/confetti.gif" style="border-radius: 8px; width: max-content; max-width: 320px; place-self: center; margin-top: 30px;">
