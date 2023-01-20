@@ -18,38 +18,38 @@ faireMenu();
 
 //!AJOUT D'UNE RECOMPENSE
 if (isset($_POST['idEnfant'])) {
-    if (champRempli(array('champIntitule', 'champDescriptif'))) {
-        $image = uploadImage($_FILES['champImage']);
-        if($image != null) {
-          ajouterRecompense(
-            $_POST['champIntitule'],
-            $image,
-            $_POST['champDescriptif']
-            );
-            AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
-            echo '
+  if (champRempli(array('champIntitule', 'champDescriptif'))) {
+    $image = uploadImage($_FILES['champImage']);
+    if ($image != null) {
+      ajouterRecompense(
+        $_POST['champIntitule'],
+        $image,
+        $_POST['champDescriptif']
+      );
+      AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
+      echo '
             <div class="validationPopup">
             <h2 class="txtPopup">La récompense a bien été ajoutée à la base !</h2>
             <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
             <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
             </div>';
-        } else {
-            echo '
+    } else {
+      echo '
             <div class="erreurPopup">
             <h2 class="txtPopup">Erreur, image trop grande.</h2>
             <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
             <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
             </div>';
-        }
     }
+  }
 }
 
 //!SUPRESSION D'UN OBJECTIF
 if (isset($_POST['boutonSupprimer'])) {
-    if(file_exists(supprimerImageRecompense($_POST['boutonSupprimer']))) {
-        unlink(supprimerImageRecompense($_POST['boutonSupprimer']));
-    }
-    supprimerRecompense($_POST['boutonSupprimer']);
+  if (file_exists(supprimerImageRecompense($_POST['boutonSupprimer']))) {
+    unlink(supprimerImageRecompense($_POST['boutonSupprimer']));
+  }
+  supprimerRecompense($_POST['boutonSupprimer']);
 
   echo '
   <div class="supprPopup">
@@ -72,78 +72,78 @@ if (isset($_GET['params'])) {
 
 //!MODIFICATIONS D'UNE RECOMPENSE (depuis la page modifierRecompense)
 if (isset($_POST['boutonAppliquer'])) {
-    if ($_FILES['champLienImage']['name'] == "") {
+  if ($_FILES['champLienImage']['name'] == "") {
+    modifierRecompense(
+      $_POST['boutonAppliquer'],
+      $_POST['champIntitule'],
+      $_POST['hiddenImageLink'],
+      $_POST['champDescriptif']
+    );
+  } else {
+    $image = uploadImage($_FILES['champLienImage']);
+    if ($image != null) {
       modifierRecompense(
         $_POST['boutonAppliquer'],
         $_POST['champIntitule'],
-        $_POST['hiddenImageLink'],
+        $image,
         $_POST['champDescriptif']
       );
+      //Pour régler les problemes de réactualisation de page alors que l'image est déja suprimée
+      if (file_exists($_POST['hiddenImageLink'])) {
+        unlink($_POST['hiddenImageLink']);
+      }
     } else {
-      $image = uploadImage($_FILES['champLienImage']);
-      if ($image != null) {
-        modifierRecompense(
-          $_POST['boutonAppliquer'],
-          $_POST['champIntitule'],
-          $image,
-          $_POST['champDescriptif']
-        );
-        //Pour régler les problemes de réactualisation de page alors que l'image est déja suprimée
-        if(file_exists($_POST['hiddenImageLink'])) {
-            unlink($_POST['hiddenImageLink']);
-        }
-      } else {
-        echo '
+      echo '
         <div class="erreurPopup">
             <h2 class="txtPopup">Erreur, image trop grande.</h2>
             <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
             <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
         </div>';
-      }
     }
   }
+}
 ?>
 
 <body>
-  
-<div class="svgWaveContains">
+
+  <div class="svgWaveContains">
     <div class="svgWave"></div>
-</div>
+  </div>
 
   <h1>Gérer les récompenses</h1>
 
-<!-- PAGE DE FORMULAIRE -->
+  <!-- PAGE DE FORMULAIRE -->
 
-<div class="aCacher fenButtonOff transparent" id="formAjoutRecompense">
+  <div class="aCacher fenButtonOff transparent" id="formAjoutRecompense">
     <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
-        <div class="miseEnForme" id="miseEnFormeFormulaire">
+      <div class="miseEnForme" id="miseEnFormeFormulaire">
         <?php
         if (isset($_POST['idEnfant']) && $_POST['idEnfant'] != 0) {
-            echo '<label for="champEnfant">Enfant concerné :</label>';
-            afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
-            echo '<span></span>';
-            echo '<label for="champObjectif">Objectif concerné :</label>';
-            afficherIntituleObjectif(null, $_POST['idEnfant']);
-            echo '<span></span>';
+          echo '<label for="champEnfant">Enfant concerné :</label>';
+          afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
+          echo '<span></span>';
+          echo '<label for="champObjectif">Objectif concerné :</label>';
+          afficherIntituleObjectif(null, $_POST['idEnfant']);
+          echo '<span></span>';
         } else {
-            if ($_SESSION['enfant'] == 0) {
-                echo '<label for="champEnfant">Enfant concerné :</label>';
-                afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
-                echo '<span></span>';
+          if ($_SESSION['enfant'] == 0) {
+            echo '<label for="champEnfant">Enfant concerné :</label>';
+            afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
+            echo '<span></span>';
+          } else {
+            if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0) {
+              echo '<label for="champEnfant">Enfant concerné :</label>';
+              afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
+              echo '<span></span>';
             } else {
-                if (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0) {
-                    echo '<label for="champEnfant">Enfant concerné :</label>';
-                    afficherNomPrenomEnfantSubmitEquipe($_POST['idEnfant'], $_SESSION['idConnexion']);
-                    echo '<span></span>';
-                } else {
-                    echo '<label for="champEnfant">Enfant concerné :</label>';
-                    afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
-                    echo '<span></span>';
-                    echo '<label for="champObjectif">Objectif concerné :</label>';
-                    afficherIntituleObjectif(null, $_SESSION['enfant']);
-                    echo '<span></span>';
-                }
+              echo '<label for="champEnfant">Enfant concerné :</label>';
+              afficherNomPrenomEnfantSubmitEquipe($_SESSION['enfant'], $_SESSION['idConnexion']);
+              echo '<span></span>';
+              echo '<label for="champObjectif">Objectif concerné :</label>';
+              afficherIntituleObjectif(null, $_SESSION['enfant']);
+              echo '<span></span>';
             }
+          }
         }
         ?>
 
@@ -158,16 +158,16 @@ if (isset($_POST['boutonAppliquer'])) {
         <label for="champImage">Image :</label>
         <input type="file" name="champImage" id="champImage" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector('champImage','imageJeton');" required>
         <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
-        </div>
+      </div>
 
-        <div class="center" id="boutonsValiderAnnuler">
-            <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="fenClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
-            <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider" formaction="recompense.php"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
-        </div>
+      <div class="center" id="boutonsValiderAnnuler">
+        <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="fenClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
+        <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider" formaction="recompense.php"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
+      </div>
     </form>
-</div>
+  </div>
 
-<!-- PAGE DE GESTION -->
+  <!-- PAGE DE GESTION -->
   <form id="formGestionRecompense" method="POST" enctype="multipart/form-data">
     <div class="filtres" id="miseEnFormeFiltresEnfants">
       <label for="Recherche">Filtres :</label>
@@ -197,7 +197,7 @@ if (isset($_POST['boutonAppliquer'])) {
 
       <tbody id="tbodyGererRecompenses">
         <?php
-         if (!isset($_POST['idEnfant'])) {
+        if (!isset($_POST['idEnfant'])) {
           afficherRecompense($_SESSION['enfant']);
         } else {
           afficherRecompense($_POST['idEnfant']);
@@ -206,9 +206,9 @@ if (isset($_POST['boutonAppliquer'])) {
       </tbody>
     </table>
     <?php
-        if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
-        echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher ses récompenses !</p>";
-        }
+    if ((!isset($_POST['idEnfant']) && $_SESSION['enfant'] == 0) || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
+      echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher ses récompenses !</p>";
+    }
     ?>
   </form>
 </body>
