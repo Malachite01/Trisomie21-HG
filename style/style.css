@@ -1816,7 +1816,25 @@ button.redirect:hover {
     border-radius: 5px;
     box-shadow: 3px 3px 0px .1px white;
 }
-
+.tick2 {
+    position: absolute;
+    z-index: 3;
+    display: inline-block;
+    height: 100px;
+    width: 45px;
+    border-bottom: 18px solid #5b9a4c;
+    border-right: 18px solid #5b9a4c;
+    border-radius: 5px;
+    box-shadow: 3px 3px 0px .1px white;
+    top: 140px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+@media screen and (max-width: 360px) {
+    .tick2 {
+       top: 180px;
+    }
+}
 @media screen and (max-width: 1300px){
     #containerObjectifs {
         grid-template-columns: 1fr 1fr;
