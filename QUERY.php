@@ -1283,8 +1283,8 @@ function AfficherMembres()
                     <span>Supprimer</span>
                 </button>
             </td>';
-            if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
-                echo '
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
                 <td>
                 <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
                 class="boutonConsulter" formaction="consultationInformationsMembre.php">
@@ -1292,9 +1292,8 @@ function AfficherMembres()
                 <span>Consulter</span>
             </button>
             </td>';
-            }
-    echo ' </tr>';
-       
+        }
+        echo ' </tr>';
     }
 }
 
@@ -1371,7 +1370,7 @@ function AfficherMembresAZ()
                 <span>Supprimer</span>
             </button>
         </td>';
-        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
@@ -1381,7 +1380,7 @@ function AfficherMembresAZ()
         </button>
         </td>';
         }
-echo ' </tr>';
+        echo ' </tr>';
     }
 }
 
@@ -1458,7 +1457,7 @@ function AfficherMembresZA()
                 <span>Supprimer</span>
             </button>
         </td>';
-        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
@@ -1545,7 +1544,7 @@ function AfficherMembresDateNaissanceCroissante()
                 <span>Supprimer</span>
             </button>
         </td>';
-        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
@@ -1555,7 +1554,7 @@ function AfficherMembresDateNaissanceCroissante()
         </button>
         </td>';
         }
-    echo ' </tr>';
+        echo ' </tr>';
     }
 }
 
@@ -1632,7 +1631,7 @@ function AfficherMembresDateNaissanceDecroissante()
                 <span>Supprimer</span>
             </button>
         </td>';
-        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
@@ -1642,7 +1641,7 @@ function AfficherMembresDateNaissanceDecroissante()
         </button>
         </td>';
         }
-    echo ' </tr>';
+        echo ' </tr>';
     }
 }
 
@@ -1719,7 +1718,7 @@ function AfficherMembresCompteValideCroissante()
                 <span>Supprimer</span>
             </button>
         </td>';
-        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
@@ -1729,7 +1728,7 @@ function AfficherMembresCompteValideCroissante()
         </button>
         </td>';
         }
-    echo ' </tr>';
+        echo ' </tr>';
     }
 }
 
@@ -1806,7 +1805,7 @@ function AfficherMembresCompteValideDecroissante()
                 <span>Supprimer</span>
             </button>
         </td>';
-        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
@@ -1816,7 +1815,7 @@ function AfficherMembresCompteValideDecroissante()
         </button>
         </td>';
         }
-    echo ' </tr>';
+        echo ' </tr>';
     }
 }
 
@@ -1893,7 +1892,7 @@ function AfficherMembresIdMembreDecroissante()
                 <span>Supprimer</span>
             </button>
         </td>';
-        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
             <td>
             <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
@@ -1903,7 +1902,7 @@ function AfficherMembresIdMembreDecroissante()
         </button>
         </td>';
         }
-    echo ' </tr>';
+        echo ' </tr>';
     }
 }
 
@@ -2060,8 +2059,9 @@ function AfficherInformationsMembreSession($idMembre)
         }
     }
 }
-function AfficherInformationsMembre($idMembre){
-    
+function AfficherInformationsMembre($idMembre)
+{
+
     $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
     // permet de parcourir la ligne de la requetes 
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -2411,22 +2411,25 @@ function afficherObjectifs($idEnfant)
                 }
             }
             echo '<div class="containerTampons">';
-            if (recupererTempsDebutObjectif($idObjectif) >= time()) {
-                for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
-                    if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                        echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                        //DEGUEU MAIS NE PAS TOUCHER SINON CA MARCHE PAS
-                        if ($res == 0) {
-                            echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+            if (recupererPremierJetonJamaisPose($idObjectif) == null || recupererPremierJetonJamaisPose($idObjectif) + 5  >= time()) {
+                if (recupererTempsDebutObjectif($idObjectif) >= time()) {
+                    for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
+                        if ($i <= NombreDeJetonsPlaces($idObjectif)) {
+                            echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
+                            //DEGUEU MAIS NE PAS TOUCHER SINON CA MARCHE PAS
+                            if ($res == 0) {
+                                echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                            } else {
+                                echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                            }
                         } else {
-                            echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
+                            echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                         }
-                    } else {
-                        echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                     }
+                } else {
+
+                    echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
                 }
-            } else {
-                echo '<button type="submit" value="' . $idObjectif . '" name="butonDebutSeanceTb" class="boutonValider boutonSeance"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Démarrer la séance</span></button>';
             }
             echo '</div></div>';
         }
