@@ -58,7 +58,7 @@ $qValiderMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMemb
 $qVerifierValidationMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Compte_Valide = 1';
 
 // requete pour rechercher un membre dans la BD
-$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_Naissance, Code_Postal, Ville, Pro, Mdp FROM membre WHERE Id_Membre = :idMembre';
+$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_Naissance, Code_Postal, Ville, Mdp FROM membre WHERE Id_Membre = :idMembre';
 
 // requete pour modifier les données d'un membre de la BD
 $qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, Ville = :ville, Date_Naissance = :dateNaissance WHERE Id_Membre = :idMembre';
@@ -1282,8 +1282,19 @@ function AfficherMembres()
                     <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                     <span>Supprimer</span>
                 </button>
-            </td>
-        </tr>';
+            </td>';
+            if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+                echo '
+                <td>
+                <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+             class="boutonModifier" formaction="consultationInformationsMembre.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Consulter</span>
+            </button>
+            </td>';
+            }
+    echo ' </tr>';
+       
     }
 }
 
@@ -1353,14 +1364,24 @@ function AfficherMembresAZ()
         }
         // creation du bouton supprimer dans le tableau
         echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+        </td>';
+        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+            echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
-                </button>
-            </td>
-        </tr>';
+            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+         class="boutonModifier" formaction="consultationInformationsMembre.php">
+            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+            <span>Consulter</span>
+        </button>
+        </td>';
+        }
+echo ' </tr>';
     }
 }
 
@@ -1430,14 +1451,24 @@ function AfficherMembresZA()
         }
         // creation du bouton supprimer dans le tableau
         echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+        </td>';
+        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+            echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
-                </button>
-            </td>
-        </tr>';
+            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+         class="boutonModifier" formaction="consultationInformationsMembre.php">
+            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+            <span>Consulter</span>
+        </button>
+        </td>';
+        }
+        echo ' </tr>';
     }
 }
 
@@ -1507,14 +1538,24 @@ function AfficherMembresDateNaissanceCroissante()
         }
         // creation du bouton supprimer dans le tableau
         echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+        </td>';
+        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+            echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
-                </button>
-            </td>
-        </tr>';
+            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+         class="boutonModifier" formaction="consultationInformationsMembre.php">
+            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+            <span>Consulter</span>
+        </button>
+        </td>';
+        }
+    echo ' </tr>';
     }
 }
 
@@ -1584,14 +1625,24 @@ function AfficherMembresDateNaissanceDecroissante()
         }
         // creation du bouton supprimer dans le tableau
         echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+        </td>';
+        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+            echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
-                </button>
-            </td>
-        </tr>';
+            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+         class="boutonModifier" formaction="consultationInformationsMembre.php">
+            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+            <span>Consulter</span>
+        </button>
+        </td>';
+        }
+    echo ' </tr>';
     }
 }
 
@@ -1661,14 +1712,24 @@ function AfficherMembresCompteValideCroissante()
         }
         // creation du bouton supprimer dans le tableau
         echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+        </td>';
+        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+            echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
-                </button>
-            </td>
-        </tr>';
+            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+         class="boutonModifier" formaction="consultationInformationsMembre.php">
+            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+            <span>Consulter</span>
+        </button>
+        </td>';
+        }
+    echo ' </tr>';
     }
 }
 
@@ -1738,14 +1799,24 @@ function AfficherMembresCompteValideDecroissante()
         }
         // creation du bouton supprimer dans le tableau
         echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+        </td>';
+        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+            echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
-                </button>
-            </td>
-        </tr>';
+            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+         class="boutonModifier" formaction="consultationInformationsMembre.php">
+            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+            <span>Consulter</span>
+        </button>
+        </td>';
+        }
+    echo ' </tr>';
     }
 }
 
@@ -1815,14 +1886,24 @@ function AfficherMembresIdMembreDecroissante()
         }
         // creation du bouton supprimer dans le tableau
         echo '
+        <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
+            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+        </td>';
+        if($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3){
+            echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
-                    <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
-                </button>
-            </td>
-        </tr>';
+            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
+         class="boutonModifier" formaction="consultationInformationsMembre.php">
+            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+            <span>Consulter</span>
+        </button>
+        </td>';
+        }
+    echo ' </tr>';
     }
 }
 
@@ -1979,7 +2060,43 @@ function AfficherInformationsMembreSession($idMembre)
         }
     }
 }
-
+function AfficherInformationsMembre($idMembre){
+    
+    $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
+    // permet de parcourir la ligne de la requetes 
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        // permet de parcourir toutes les colonnes de la requete 
+        foreach ($data as $key => $value) {
+            // recuperation de toutes les informations du membre de la session dans des inputs 
+            if ($key == 'Nom') {
+                echo '<label for="champNom">Nom :</label>
+                <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1"  maxlength="50" value="' . $value . '" readonly>
+                <span></span>';
+            } elseif ($key == 'Prenom') {
+                echo '<label for="champPrénom">Prénom :</label>
+                <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" value="' . $value . '"readonly>
+                <span></span>';
+            } elseif ($key == 'Adresse') {
+                echo '<label for="champAdresse">Adresse :</label>
+                <input type="text" name="champAdresse" placeholder="Entrez votre adresse" maxlength="50" value="' . $value . '"  readonly>
+                <span></span>';
+            } elseif ($key == 'Date_Naissance') {
+                echo '<label for="champDateDeNaissance">Date de naissance :</label>
+                <input type="date" name="champDateDeNaissance" id="champDateDeNaissance" min="1900-01-01" max="<?php echo date(\'Y-m-d\'); ?>" value="' . $value . '" readonly>
+                <span></span>';
+            } elseif ($key == 'Code_Postal') {
+                echo '
+                <label for="champCp">Code postal :</label>
+                <input type="text" name="champCp" placeholder="Entrez votre code postal" value=' . $value . ' oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" maxlength="5" readonly>
+                <span></span>';
+            } elseif ($key == 'Ville') {
+                echo '<label for="champVille">Ville :</label>
+                <input type="text" name="champVille" placeholder="Entrez votre ville" maxlength="50" value="' . $value . '"  readonly>
+                <span></span>';
+            }
+        }
+    }
+}
 // fonction qui permet de modifier les informations du membre de la session
 function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $dateNaissance)
 {
