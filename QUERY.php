@@ -146,7 +146,7 @@ $qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_J
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer les informations d'un objectif selon son Id_Objectif
-$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Lien_Image,Duree, Travaille, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Objectif = :idObjectif';
+$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Nb_Jetons_Places, Nb_Jetons,Lien_Image,Duree, Travaille  FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // requete pour recuperer l'image d'un objectif 
 $qRecupererImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -2299,13 +2299,29 @@ function afficherObjectifsZoom($idObjectif)
         echo '<img src="images/banderole.png" id="banderole"><h2 id="titreObjectif">' . afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']) . '</h2>';
         echo '<button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance" onclick="return confirm(\'Êtes vous sûr de vouloir réinitialiser cette séance ?\');"><img src="images/reinitialiser.png" class="imageIcone zoom" alt="icone valider"><span>Réinitialiser la séance</span></button>';
         // permet de parcourir toutes les colonnes de la requete
+        $res = 0;
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
             }
+            if ($key == 'Nb_Jetons_Places') {
+                if (is_null($value)) {
+                    $places = 0;
+                } else {
+                    $places = $value;
+                }
+            }
+            if ($key == 'Nb_Jetons') {
+                $res = $value - $places;
+                $places = 0;
+            }
             if ($key == 'Lien_Image') {
-                echo '<img class="imageObjectif zoom" style="border-radius: 10px; z-index: 2; margin-top: 20px;" src="' . $value . '" alt="image objectif">';
+                if ($res == 0) {
+                    echo '<span class="tick2"></span><img class="imageObjectif zoom" style="border-radius: 10px; z-index: 2; margin-top: 20px;" src="' . $value . '" alt="image objectif">';
+                } else {
+                    echo '<img class="imageObjectif zoom" style="border-radius: 10px; z-index: 2; margin-top: 20px;" src="' . $value . '" alt="image objectif">';
+                }
             }
             if ($key == 'Duree') {
                 // Temps restant de la séance
@@ -2318,16 +2334,6 @@ function afficherObjectifsZoom($idObjectif)
                 } else {
                     echo '<div class="dureeObjectifs zoom"><p style="display:inline;">Temps de l\'objectif : </p><div style="display:inline;" class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p style="display:inline; margin-left: 15px;">' . dureeString($value) . '</p></div><span></span></div><br>';
                 }
-            }
-            if ($key == 'Nb_Jetons_Places') {
-                if (is_null($value)) {
-                    $places = 0;
-                } else {
-                    $places = $value;
-                }
-            }
-            if ($key == 'Nb_Jetons') {
-                $res = $value - $places;
                 if ($res != 0) {
                     if ($res == 1) {
                         echo '<p class="jetonsRestant">' . $res . ' jeton à valider : </p>';
@@ -2335,7 +2341,6 @@ function afficherObjectifsZoom($idObjectif)
                         echo '<p class="jetonsRestant">' . $res . ' jetons à valider : </p>';
                     }
                 }
-                $places = 0;
             }
         }
         echo '<div class="containerTampons zoom">';
