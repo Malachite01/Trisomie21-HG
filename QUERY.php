@@ -4401,13 +4401,11 @@ function nettoyerObjectif()
         supprimerTousLesJetons($_SESSION['objectif']);
         supprimerTousJetonsPlaces($_SESSION['objectif']);
         reinitialiserObjectif($_SESSION['objectif']);
-        header('location: tableauDeBord.php');
     }
     if (isset($_POST['boutonAnnuler'])) {
         supprimerTousLesJetons($_SESSION['objectif']);
         supprimerTousJetonsPlaces($_SESSION['objectif']);
         reinitialiserObjectif($_SESSION['objectif']);
-        header('location: tableauDeBord.php');
     }
 }
 

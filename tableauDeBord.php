@@ -20,6 +20,7 @@
   <?php
   require('QUERY.php');
   faireMenu();
+  nettoyerObjectif();
   ?>
 
   <h1>Tableau de bord pour l'enfant:</h1>

@@ -91,19 +91,20 @@ faireMenu();
             echo '<button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart(\'chartData\',\'chartTata\'),fenOpenStats(\'containerStats\'),deCache(\'containerStats\');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>';
             afficherBarresProgression($_SESSION['objectif']);
             if ($_SESSION['pourcentPie'] >= 80) {
+                
                 echo '
                 <h2 style="font-size: 1.5em; color: black;">Objectif validé à 80% pendant 4 semaines, félicitations ! 🎈🎉</h2>';
                 echo '<img src="images/confetti.gif" style="border-radius: 8px; width: max-content; max-width: 320px; place-self: center; margin-top: 30px;">
-                <button type="submit" name="boutonAVenir" class="boutonValider seanceFinie" style="width: fit-content; place-self: center;"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider l\'objectif et changer son statut</span></button>
+                <button type="submit" name="boutonAVenir" formaction="tableauDeBord.php" class="boutonValider seanceFinie" style="width: fit-content; place-self: center;"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider l\'objectif et changer son statut</span></button>
                 ';
-                nettoyerObjectif();
+                
             } else {
                 echo '
                 <h2 style="font-size: 1.5em; color: black;">L\'objectif n\'a pas été validé à 80% pendant 4 semaines, vous ferez mieux la prochaine fois ! </h2>';
-                echo '<img src="images/echec.gif" style="border-radius: 8px; width: max-content; max-width: 320px; place-self: center; margin-top: 30px;">
-                <button type="submit" name="boutonAnnuler" class="boutonAnnuler seanceFinie" id="boutonAnnuler" style="width: fit-content; place-self: center;"><img src="images/reinitialiser.png" class="imageIcone" alt="icone valider"><span>Réinitialiser et relancer l\'objectif</span></button>
+                echo '<img src="images/echec.gif"  style="border-radius: 8px; width: max-content; max-width: 320px; place-self: center; margin-top: 30px;">
+                <button type="submit" name="boutonAnnuler" formaction="tableauDeBord.php" class="boutonAnnuler seanceFinie" id="boutonAnnuler" style="width: fit-content; place-self: center;"><img src="images/reinitialiser.png" class="imageIcone" alt="icone valider"><span>Réinitialiser et relancer l\'objectif</span></button>
                 ';
-                nettoyerObjectif();
+                
             }
         } ?>
 
