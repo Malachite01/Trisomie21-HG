@@ -41,14 +41,14 @@ faireMenu();
             reinitialiserObjectif($_SESSION['objectif']);
         }
 
-        
+
         // lancement de la séance 
         if (recupererTempsDebutObjectif($_SESSION['objectif']) == 0 && isset($_POST['butonDebutSeance'])) {
             $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_SESSION['objectif']) * 3600);
             ajouterTempsDebutObjectif($nowPlusDureeObjectif, $_SESSION['objectif']);
             unset($_POST['butonDebutSeance']);
         }
-        
+
         // Temps restant de la séance
         if ((recupererTempsDebutObjectif($_SESSION['objectif']) != 0) && (recupererTempsDebutObjectif($_SESSION['objectif']) - time() > 0)) {
         } else {
@@ -57,7 +57,7 @@ faireMenu();
             reinitialiserObjectif($_SESSION['objectif']);
             unset($_POST['valeurJetonsIdObjectif']);
         }
-        
+
         if (isset($_POST['boutonRecuperer'])) {
             reinitialiserObjectif($_SESSION['objectif']);
         }
@@ -75,28 +75,27 @@ faireMenu();
             }
         }
         // 2419200 = 4 weeks
-        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null ||recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
+        if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null || recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
             afficherObjectifsZoom($_SESSION['objectif']);
-           ?>
-        <div id="containerRecompenses">
-            <?php 
+        ?>
+            <div id="containerRecompenses">
+                <?php
                 afficherRecompenseSelonObjectif($_SESSION['objectif']);
-            ?>
-        </div>
-        <button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart('chartData','chartTata'),fenOpenStats('containerStats'),deCache('containerStats');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>
+                ?>
+            </div>
+            <button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart('chartData','chartTata'),fenOpenStats('containerStats'),deCache('containerStats');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>
 
         <?php
             afficherBarresProgression($_SESSION['objectif']);
         } else {
-            echo '<h1> Objectif terminé !';?>
+            echo '<h1> Objectif terminé !'; ?>
             <button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart('chartData','chartTata'),fenOpenStats('containerStats'),deCache('containerStats');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>
         <?php
             afficherBarresProgression($_SESSION['objectif']);
-            if ($_SESSION['dataTruc'] >= 80){
-               echo '<button type="submit" name="boutonAVenir" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>';
+            if ($_SESSION['dataTruc'] >= 80) {
+                echo '<button type="submit" name="boutonAVenir" class="boutonValider" id="boutonValider"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>';
 
-               nettoyerObjectif();
-
+                nettoyerObjectif();
             } else {
                 echo '<button type="submit" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>';
                 nettoyerObjectif();

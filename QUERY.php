@@ -40,7 +40,7 @@ $qModifierInformationsEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, 
 
 
 // requete pour ajouter un membre a la BD
-$qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Pro,Role) VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:pro,:role)';
+$qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Role) VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:role)';
 
 // requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
 $qMembreIdentique = 'SELECT Courriel FROM membre WHERE Courriel = :courriel';
@@ -1119,7 +1119,7 @@ function afficherInformationsEnfantModification($idEnfant)
 //! -----------------------------------------------MEMBRE--------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un membre a la BD
-function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $pro, $role)
+function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp,$role)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1138,7 +1138,6 @@ function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, 
         ':courriel' => clean($courriel),
         ':dateNaissance' => clean($dateNaissance),
         ':mdp' => clean($mdp),
-        ':pro' => clean($pro),
         ':role' => clean($role)
     ));
     if ($req == false) {
