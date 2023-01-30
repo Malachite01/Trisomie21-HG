@@ -1,3 +1,4 @@
+<?php session_start();require('QUERY.php');$_SESSION['idConnexion']=null;?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

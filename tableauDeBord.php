@@ -1,3 +1,4 @@
+<?php session_start();require('QUERY.php');testConnexion();?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -18,7 +19,6 @@
   </div>
 
   <?php
-  require('QUERY.php');
   faireMenu();
   nettoyerObjectif();
   ?>

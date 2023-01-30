@@ -1,3 +1,4 @@
+<?php session_start();require('QUERY.php');testConnexion();?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -19,7 +20,6 @@
 
   <h1>Modifier profil</h1>
   <?php
-  require('QUERY.php');
   faireMenu();
   
   if (isset($_POST['boutonValider'])) {

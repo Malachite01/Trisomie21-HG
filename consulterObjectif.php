@@ -1,3 +1,4 @@
+<?php session_start();require('QUERY.php');testConnexion();?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -16,7 +17,6 @@
 <script src="js/chart.js"></script>
 
 <?php
-require('QUERY.php');
 faireMenu();
 ?>
 

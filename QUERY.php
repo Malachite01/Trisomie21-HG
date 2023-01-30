@@ -296,9 +296,6 @@ $qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WH
 // fonction qui permet de se connecter a la BD
 function connexionBd()
 {
-    // parametre de connexion a la BD
-    // cDRvPP\2mwea(LGp
-    // https://test-saetrisomie21.000webhostapp.com/
     $SERVER = '127.0.0.1';
     $DB = 'projet_sae';
     $LOGIN = 'root';
@@ -379,8 +376,6 @@ function uploadImage($photo)
 // fonction qui affiche le menu dans toutes les pages, ansi que des tests de connexion et la page de chargement
 function faireMenu()
 {
-    session_start();
-    testConnexion();
     faireChargement();
 
     $get_url = $_SERVER['REQUEST_URI'];
@@ -606,14 +601,10 @@ function testConnexion()
     if ($_SESSION['idConnexion'] == null) {
         header('Location: index.php');
     }
-    $get_url = $_SERVER['REQUEST_URI'];
-    if (stripos($get_url, "upload")) {
-        header('Location: index.php');
-    }
 
     $get_url = $_SERVER['REQUEST_URI'];
     if (stripos($get_url, "tableau") && $_SESSION['role'] == 2) {
-        header('Location:modifierProfil.php');
+        header('Location: modifierProfil.php');
     } else if (stripos($get_url, "enfant") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
         header('Location: tableauDeBord.php');
     } else if (stripos($get_url, "membre") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
@@ -1285,12 +1276,12 @@ function AfficherMembres()
             </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
             echo '
-                <td>
+            <td>
                 <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
                 class="boutonConsulter" formaction="consultationInformationsMembre.php">
                 <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
                 <span>Consulter</span>
-            </button>
+                </button>
             </td>';
         }
         echo ' </tr>';

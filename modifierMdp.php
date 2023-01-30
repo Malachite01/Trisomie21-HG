@@ -1,3 +1,4 @@
+<?php session_start();require('QUERY.php');testConnexion();?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -14,8 +15,6 @@
 
 <body>
     <?php
-    session_start();
-    require('QUERY.php');
     if (isset($_POST['boutonValider'])) {
         echo '<div class="editPopup">
             <h2 class="txtPopup">Mot de passe modifié !</h2>
