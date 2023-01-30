@@ -1,3 +1,4 @@
+<?php session_start();require('QUERY.php');$_SESSION['idConnexion']=null;(isset($_POST['boutonValider'])?header('Location: index.php?login_err=ajoutMembre'):'');?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -18,30 +19,30 @@
   </div>
 
   <?php
-  require('QUERY.php');
-  if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp'))) {
-    if (membreIdentique(
-      $_POST['champMail']
-    ) == 0) {
-      ajouterMembre(
-        $_POST['champNom'],
-        $_POST['champPrénom'],
-        $_POST['champAdresse'],
-        $_POST['champCp'],
-        $_POST['champVille'],
-        $_POST['champMail'],
-        $_POST['champDateDeNaissance'],
-        saltHash($_POST['champMdp']),
-        0
-      );
-      header('Location: index.php?login_err=ajoutMembre');
-    } else {
-      echo
-      '<div class="erreurPopup">
-          <h2 class="txtPopup">Le membre n\'a pas été ajouté à la base car il existe déja.</h2>
-          <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
-          <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-        </div>';
+  if(isset($_POST['boutonValider'])) {
+    if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp'))) {
+      if (membreIdentique(
+        $_POST['champMail']
+      ) == 0) {
+        ajouterMembre(
+          $_POST['champNom'],
+          $_POST['champPrénom'],
+          $_POST['champAdresse'],
+          $_POST['champCp'],
+          $_POST['champVille'],
+          $_POST['champMail'],
+          $_POST['champDateDeNaissance'],
+          saltHash($_POST['champMdp']),
+          0
+        );
+      } else {
+        echo
+        '<div class="erreurPopup">
+            <h2 class="txtPopup">Le membre n\'a pas été ajouté à la base car il existe déja.</h2>
+            <img src="images/annuler.png" alt="image annuler" class="imageIcone centerIcon">
+            <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+          </div>';
+      }
     }
   }
   ?>
