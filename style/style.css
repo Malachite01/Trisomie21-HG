@@ -1561,6 +1561,18 @@ div.miseFormeConnexion label {
 }
 
 /*! TABLEAU DE BORD */
+.msgSelection2 {
+    position: absolute;
+    font-family: Georama;
+    display: grid;
+    justify-self: center;
+    font-size: 1em;
+    color: red;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+}
+
 #containerObjectifs {
     margin: 50px;
     display: grid;
