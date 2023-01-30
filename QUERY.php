@@ -3486,7 +3486,13 @@ function supprimerImageObjectif($idObjectif)
     }
 }
 
-function recupererDureeUnObjectif($idObjectif)
+/**
+ * recupererDureeUnObjectif
+ * est une fonction permettant de récupérer la durée d'un objectif
+ * @param  int $idObjectif
+ * @return void
+ */
+function recupererDureeUnObjectif(int $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3510,7 +3516,14 @@ function recupererDureeUnObjectif($idObjectif)
     }
 }
 
-function ajouterTempsDebutObjectif($tempsDebut, $idObjectif)
+/**
+ * ajouterTempsDebutObjectif
+ * est une fonction permettant d'ajouter un temps de début de séance à l'objectif
+ * @param  int $tempsDebut
+ * @param  int $idObjectif
+ * @return void
+ */
+function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3529,7 +3542,13 @@ function ajouterTempsDebutObjectif($tempsDebut, $idObjectif)
     }
 }
 
-function recupererTempsDebutObjectif($idObjectif)
+/**
+ * recupererTempsDebutObjectif
+ * est une fonction permettant de récupérer le temps de cagnottage d'un objectif
+ * @param  int $idObjectif
+ * @return int
+ */
+function recupererTempsDebutObjectif(int $idObjectif) : int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3545,16 +3564,18 @@ function recupererTempsDebutObjectif($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
-function reinitialiserObjectif($idObjectif)
+
+/**
+ * reinitialiserObjectif
+ * est une fonction permettant de réinitialiser un objectif. Elle réinitialise le nombre de jetons placés et le temps écoulé de l'objectif
+ * @param  int $idObjectif
+ * @return void
+ */
+function reinitialiserObjectif(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3577,9 +3598,9 @@ function reinitialiserObjectif($idObjectif)
 /**
  * ajouterRecompense
  * est une fonction qui permet d'ajouter une récompense
- * @param  mixed $intitule
- * @param  mixed $lienImage
- * @param  mixed $descriptif
+ * @param  string $intitule
+ * @param  string $lienImage
+ * @param  string $descriptif
  * @return void
  */
 function ajouterRecompense(string $intitule, string $lienImage, string $descriptif) : void
