@@ -351,7 +351,7 @@ function champRempli(array $field): bool
  * @param  mixed $champEntrant
  * @return mixed
  */
-function clean(mixed $champEntrant): mixed
+function clean($champEntrant)
 {
     // permet d'enlever les balises html, xml, php
     $champEntrant = strip_tags($champEntrant);
@@ -4389,7 +4389,7 @@ function afficherBarresProgression(int $idObjectif) : void
  * @param  mixed $idObjectif
  * @return mixed
  */
-function recupererPremierJetonJamaisPose($idObjectif) : mixed
+function recupererPremierJetonJamaisPose($idObjectif)
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
