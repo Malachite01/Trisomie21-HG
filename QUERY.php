@@ -3574,8 +3574,15 @@ function reinitialiserObjectif($idObjectif)
 
 //! -------------------------------------------- RECOMPENSE ----------------------------------------------------------------------
 
-// fonction qui permet d'ajouter un recompense a la BD
-function ajouterRecompense($intitule, $lienImage, $descriptif)
+/**
+ * ajouterRecompense
+ * est une fonction qui permet d'ajouter une récompense
+ * @param  mixed $intitule
+ * @param  mixed $lienImage
+ * @param  mixed $descriptif
+ * @return void
+ */
+function ajouterRecompense(string $intitule, string $lienImage, string $descriptif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3589,15 +3596,22 @@ function ajouterRecompense($intitule, $lienImage, $descriptif)
         ':intitule' => clean($intitule),
         ':lienImage' => clean($lienImage),
         ':descriptif' => clean($descriptif)
-
     ));
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
 
-// fonction qui permet de modifier les informations d'une recompense selon son Id_Recompense
-function modifierRecompense($idRecompense, $intitule, $lienImage, $descriptif)
+/**
+ * modifierRecompense
+ * est une fonction permettant de modifier une récompense
+ * @param  int $idRecompense
+ * @param  string $intitule
+ * @param  string $lienImage
+ * @param  string $descriptif
+ * @return void
+ */
+function modifierRecompense(int $idRecompense, string $intitule, string $lienImage, string $descriptif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3618,8 +3632,13 @@ function modifierRecompense($idRecompense, $intitule, $lienImage, $descriptif)
     }
 }
 
-// fonction qui permet de rechercher une recompense selon son Id_Recompense
-function rechercherRecompense($idRecompense)
+/**
+ * rechercherRecompense
+ * est une fonction permettant de rechercher une récompense à partir de son id récompense
+ * @param  int $idRecompense
+ * @return PDOStatement
+ */
+function rechercherRecompense(int $idRecompense) : PDOStatement
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -3637,7 +3656,14 @@ function rechercherRecompense($idRecompense)
     }
     return $req;
 }
-function afficherImageRecompense($idRecompense)
+
+/**
+ * afficherImageRecompense
+ * est une fonction permettant d'afficher l'image d'une récompense
+ * @param  int $idRecompense
+ * @return string
+ */
+function afficherImageRecompense(int $idRecompense) : string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3653,22 +3679,17 @@ function afficherImageRecompense($idRecompense)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        //echo '<tr>';
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                $image = $value;
-            }
-        }
-        return $image;
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
-// Requête qui permet d'afficher un recompense selon son Id_Recompense
-function afficherInfoRecompense($idRecompense)
+/**
+ * afficherInfoRecompense
+ * est une fonction qui affiche une répompense selon son id
+ * @param  int $idRecompense
+ * @return void
+ */
+function afficherInfoRecompense(int $idRecompense) : void
 {
     // recherche les informations d'une selon son id
     $req = rechercherRecompense($idRecompense); // retoune la recompense selon $idRecompense
@@ -3695,8 +3716,14 @@ function afficherInfoRecompense($idRecompense)
         }
     }
 }
-// Requête qui permet de supprimer une recompense selon son id
-function supprimerRecompense($idRecompense)
+
+/**
+ * supprimerRecompense
+ * est une fonction permettant de supprimer une récompense en fonction de son id
+ * @param  int $idRecompense
+ * @return void
+ */
+function supprimerRecompense(int $idRecompense) : void
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -3711,8 +3738,14 @@ function supprimerRecompense($idRecompense)
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
     }
 }
-// fonction qui permet d'afficher toutes les recompenses de la BD pour un enfant donnee
-function afficherRecompense($idEnfant)
+
+/**
+ * afficherRecompense
+ * est une fonction qui permet d'afficher toutes les récompenses d'un enfant
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherRecompense(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3773,7 +3806,14 @@ function afficherRecompense($idEnfant)
     }
 }
 
-function ajouterLienRecompenseObj($idObjectif, $idRecompense)
+/**
+ * ajouterLienRecompenseObj
+ * est une fonction qui permet d'ajouter un lien entre une récompense et son objectif
+ * @param  int $idObjectif
+ * @param  int $idRecompense
+ * @return void
+ */
+function ajouterLienRecompenseObj(int $idObjectif, int $idRecompense) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3789,7 +3829,13 @@ function ajouterLienRecompenseObj($idObjectif, $idRecompense)
     }
 }
 
-function rechercherIdRecompenseSelonIntitule($intitule)
+/**
+ * rechercherIdRecompenseSelonIntitule
+ * est une fonction qui retourne l'id d'une récompense, en fonction d'un intitulé
+ * @param  string $intitule
+ * @return int
+ */
+function rechercherIdRecompenseSelonIntitule(string $intitule) : int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3803,15 +3849,18 @@ function rechercherIdRecompenseSelonIntitule($intitule)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une récompense');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
-function supprimerImageRecompense($idRecompense)
+
+//!------------------------------------------------- CANCER -------------------------------------------------------
+/**
+ * supprimerImageRecompense
+ * est une fonction qui permet de supprimer l'image d'une récompense
+ * @param  int $idRecompense
+ * @return string
+ */
+function supprimerImageRecompense(int $idRecompense) : string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3827,17 +3876,17 @@ function supprimerImageRecompense($idRecompense)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            // selectionne toutes les colonnes $key necessaires
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
-function afficherRecompenseSelonObjectif($idObjectif)
+/**
+ * afficherRecompenseSelonObjectif
+ * est une fonction qui permet d'afficher toutes les récompenses d'un objectif
+ * @param  int $idObjectif
+ * @return void
+ */
+function afficherRecompenseSelonObjectif(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3892,7 +3941,12 @@ function afficherRecompenseSelonObjectif($idObjectif)
 }
 
 //! -------------------------------------------- EQUIPE --------------------------------------------------------------------------
-function afficherNomPrenomMembre()
+/**
+ * afficherNomPrenomMembre
+ * est une fonction qui permet d'afficher tous les membres dans un sélécteur
+ * @return void
+ */
+function afficherNomPrenomMembre() : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3925,7 +3979,17 @@ function afficherNomPrenomMembre()
     echo '</select>';
 }
 
-function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
+
+/**
+ * ajouterUneEquipe
+ * est une fonction qui permet d'ajouter un membre à l'équipe d'un enfant
+ * @param  int $idEnfant
+ * @param  int $idMembre
+ * @param  mixed $dateDemandeEquipe
+ * @param  string $role
+ * @return void
+ */
+function ajouterUneEquipe(int $idEnfant, int $idMembre, $dateDemandeEquipe, string $role) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3945,8 +4009,14 @@ function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
-// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
-function afficherGererEquipe($idEnfant)
+
+/**
+ * afficherGererEquipe
+ * est une fonction qui permet d'afficher l'équipe d'un enfant
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererEquipe(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4000,7 +4070,14 @@ function afficherGererEquipe($idEnfant)
         }
     }
 }
-function supprimerMembreEquipe($chaineConcatene)
+
+/**
+ * supprimerMembreEquipe
+ * est une fonction qui permet de retirer un membre à une équipe
+ * @param  string $chaineConcatene est constitué de $idMembre et $idEnfant
+ * @return void
+ */
+function supprimerMembreEquipe(string $chaineConcatene) : void
 {
     $chaineDeconcatene = explode(",", $chaineConcatene);
     $idMembre = $chaineDeconcatene[0];
@@ -4022,7 +4099,17 @@ function supprimerMembreEquipe($chaineConcatene)
 }
 //! -------------------------------------------- MESSAGE -------------------------------------------------------------------------
 
-function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
+/**
+ * ajouterMessage
+ * est une fonction qui permet d'ajouter un message à la bd
+ * @param  string $sujet
+ * @param  string $corps
+ * @param  mixed $dateHeure
+ * @param  int $idObjectif
+ * @param  int $idMembre
+ * @return void
+ */
+function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjectif, int $idMembre) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4043,7 +4130,14 @@ function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
-function afficherMessage($idEnfant)
+
+/**
+ * afficherMessage
+ * est une fonction qui affiche tous les messages d'un enfant
+ * @param  mixed $idEnfant
+ * @return void
+ */
+function afficherMessage(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4109,7 +4203,13 @@ function afficherMessage($idEnfant)
     }
 }
 
-function faireChatTb()
+
+/**
+ * faireChatTb
+ * est une fonction qui affiche le chat du tableau de bord
+ * @return void
+ */
+function faireChatTb() : void
 {
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')," enctype="multipart/form-data">      
@@ -4154,7 +4254,12 @@ function faireChatTb()
     ';
 }
 
-function faireChatObjectif()
+/**
+ * faireChatObjectif
+ * est une fonction qui affiche le chat pour un objectif
+ * @return void
+ */
+function faireChatObjectif() : void
 {
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
@@ -4185,7 +4290,15 @@ function faireChatObjectif()
     ';
 }
 
-function afficherMessageParObjectif($idEnfant, $idObjectif)
+
+/**
+ * afficherMessageParObjectif
+ * est une fonction qui affiche tous les messages d'un objectif 
+ * @param  int $idEnfant
+ * @param  int $idObjectif
+ * @return void
+ */
+function afficherMessageParObjectif(int $idEnfant, int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4254,8 +4367,16 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
     }
 }
 
-// fonction qui retourne les lignes si un enfant a le meme nom, prenom, date naissance qu'un enfant de la BD
-function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
+/**
+ * messageIdentique
+ * est une fonction qui retourne > 0 si le message est identique au message précédent
+ * @param  string $sujet
+ * @param  string $corps
+ * @param  int $idObjectif
+ * @param  int $idMembre
+ * @return void
+ */
+function messageIdentique(string $sujet, string $corps, int $idObjectif, int $idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4274,13 +4395,13 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour verifier si un enfant existe deja');
     }
-    $cout = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
+    $count = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
     $i = 0;
     // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
-            if ($i == $cout) {
+            if ($i == $count) {
             }
         }
     }
@@ -4290,7 +4411,16 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
 //! -------------------------------------------- PLACER JETON --------------------------------------------------------------------
 
 //fonction qui permet d'ajouter 
-function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
+/**
+ * ajouterJeton
+ * est une fonction qui permet de placer un jeton pour un objectif  
+ * @param  int $idObjectif
+ * @param  int $dateHeure
+ * @param  int $idMembre
+ * @param  mixed $tempsDebut
+ * @return void
+ */
+function ajouterJeton(int $idObjectif, int $dateHeure, int $idMembre, $tempsDebut) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4311,7 +4441,13 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
     }
 }
 
-function supprimerDernierJeton($idObjectif)
+/**
+ * supprimerDernierJeton
+ * est une fonction qui permet de supprimer le dernier jeton placé d'un objectif
+ * @param  int $idObjectif
+ * @return void
+ */
+function supprimerDernierJeton(int $idObjectif) : void
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -4327,7 +4463,14 @@ function supprimerDernierJeton($idObjectif)
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
 }
-function supprimerTousLesJetons($idObjectif)
+
+/**
+ * supprimerTousLesJetons
+ * est une fonction qui permet de réinitialiser tous les jetons d'un objectif, à partir de son id
+ * @param  int $idObjectif
+ * @return void
+ */
+function supprimerTousLesJetons(int $idObjectif) : void 
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -4344,8 +4487,13 @@ function supprimerTousLesJetons($idObjectif)
     }
 }
 
-//function qui permet de récupérer l'id d'un membre
-function recupererIdMembre($courriel)
+/**
+ * recupererIdMembre
+ * est une fonction qui permet de récupérer l'id d'un' membre à partir du courriel.
+ * @param  string $courriel
+ * @return int
+ */
+function recupererIdMembre(string $courriel) : int
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererIdUnMembre']);
@@ -4356,12 +4504,8 @@ function recupererIdMembre($courriel)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour récupérer id membre');
     }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
 //! -------------------------------------------- STATISTIQUES --------------------------------------------------------------------
@@ -4369,7 +4513,7 @@ function recupererIdMembre($courriel)
 
 /**
  * afficherBarresProgression
- * Fonction qui affiche les barres de progression statistiques, des séances, d'un objectif
+ * est une fonction qui affiche les barres de progression statistiques, des séances, d'un objectif
  * @param  int $idObjectif
  * @return void
  */
@@ -4434,11 +4578,11 @@ function afficherBarresProgression(int $idObjectif): void
 
 /**
  * recupererPremierJetonJamaisPose
- * Fonction qui permet de vérifier si la durée des 4 semaines n'est pas écoulée grâce au premier jeton jamais posé de l'objectif
+ * est une fonction qui permet de vérifier si la durée des 4 semaines n'est pas écoulée grâce au premier jeton jamais posé de l'objectif
  * @param  mixed $idObjectif
  * @return mixed
  */
-function recupererPremierJetonJamaisPose($idObjectif) : mixed
+function recupererPremierJetonJamaisPose($idObjectif)
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
@@ -4463,7 +4607,7 @@ function recupererPremierJetonJamaisPose($idObjectif) : mixed
 
 /**
  * nettoyerObjectif
- * Fonction qui permet de modifier l'état de l'objectif au bout de 4 semaines, en fonction de s'il a été validé a 80% ou non
+ * est une fonction qui permet de modifier l'état de l'objectif au bout de 4 semaines, en fonction de s'il a été validé a 80% ou non
  * @return void
  */
 function nettoyerObjectif(): void
