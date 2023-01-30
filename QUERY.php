@@ -305,7 +305,7 @@ $qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WH
 
 /**
  * connexionBd
- * fonction qui permet de se connecter à la BD
+ * Fonction qui permet de se connecter à la BD
  * @return PDO
  */
 function connexionBd(): PDO
@@ -328,7 +328,7 @@ function connexionBd(): PDO
 
 /**
  * champRempli
- * fonction qui vérifie que les champs dont le nom est donné en paramètre sont bien remplis
+ * Fonction qui vérifie que les champs dont le nom est donné en paramètre sont bien remplis
  * @param  array $field
  * @return bool
  */
@@ -347,11 +347,11 @@ function champRempli(array $field): bool
 
 /**
  * clean
- * fonction qui permet de sécurisé ( en nettoyant ) les données reçus en paramètre
- * @param  string $champEntrant
- * @return string
+ * Fonction qui permet de sécurisé ( en nettoyant ) les données reçus en paramètre
+ * @param  mixed $champEntrant
+ * @return mixed
  */
-function clean(string $champEntrant): string
+function clean(mixed $champEntrant): mixed
 {
     // permet d'enlever les balises html, xml, php
     $champEntrant = strip_tags($champEntrant);
@@ -362,7 +362,7 @@ function clean(string $champEntrant): string
 
 /**
  * saltHash
- * fonction de hashage pour les mdp de la bd
+ * Fonction de hashage pour les mdp de la bd
  * @param  string $mdp
  * @return string
  */
@@ -374,8 +374,13 @@ function saltHash(string $mdp): string
     return password_hash($code, PASSWORD_DEFAULT);
 }
 
-// fonction qui upload les images dans le dossier upload
-function uploadImage($photo)
+/**
+ * uploadImage
+ * Fonction qui upload les images dans le dossier upload
+ * @param  mixed $photo
+ * @return string
+ */
+function uploadImage($photo): string
 {
 
     if (isset($photo)) {
@@ -390,13 +395,13 @@ function uploadImage($photo)
         $extensions = ['jpg', 'png', 'jpeg', 'gif', 'svg', 'webp', 'bmp'];
         $maxSize = 4000000;
 
+        // verification bonne extension fichier + taille correct
         if (in_array($extension, $extensions) && $size <= $maxSize && $error == 0) {
-
+            // uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
             $uniqueName = uniqid('', true);
-            //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+            // $file = 5f586bf96dcd38.73540086.jpg
             $file = $uniqueName . "." . $extension;
             $chemin = "upload/";
-            //$file = 5f586bf96dcd38.73540086.jpg
             move_uploaded_file($tmpName, 'upload/' . $file);
             $result = $chemin . $file;
         }
@@ -409,8 +414,12 @@ function uploadImage($photo)
     return $result;
 }
 
-// fonction qui affiche le menu dans toutes les pages, ansi que des tests de connexion et la page de chargement
-function faireMenu()
+/**
+ * faireMenu
+ * Fonction qui affiche le menu dans toutes les pages
+ * @return void
+ */
+function faireMenu(): void
 {
     faireChargement();
 
@@ -502,8 +511,14 @@ function faireMenu()
     //     </ul>
     // </li>
 }
-// page de chargement du site
-function faireChargement()
+
+// 
+/**
+ * faireChargement
+ * Fonction qui affiche la page de chargement du site
+ * @return void
+ */
+function faireChargement(): void
 {
     echo '
     <!-- LOADER -->
@@ -4396,7 +4411,7 @@ function recupererPremierJetonJamaisPose($idObjectif) : mixed
  * Fonction qui permet de modifier l'état de l'objectif au bout de 4 semaines, en fonction de s'il a été validé a 80% ou non
  * @return void
  */
-function nettoyerObjectif() : void
+function nettoyerObjectif(): void
 {
     if (isset($_POST['boutonAVenir'])) {
         modifierObjectifAVenir($_SESSION['objectif']);
