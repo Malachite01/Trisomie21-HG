@@ -348,10 +348,10 @@ function champRempli(array $field): bool
 /**
  * clean
  * Fonction qui permet de sécurisé ( en nettoyant ) les données reçus en paramètre
- * @param  string $champEntrant
- * @return string
+ * @param  mixed $champEntrant
+ * @return mixed
  */
-function clean(string $champEntrant): string
+function clean(mixed $champEntrant): mixed
 {
     // permet d'enlever les balises html, xml, php
     $champEntrant = strip_tags($champEntrant);
