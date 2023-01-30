@@ -2,296 +2,298 @@
 
 /*
 * --------------------------------------------------------------------------------------------------------------------------
-* -----------------------------------------------Liste des requetes---------------------------------------------------------
+* ---------------------------------------------- LISTE DES REQUETES --------------------------------------------------------
 * --------------------------------------------------------------------------------------------------------------------------
 */
 
-//? ----------------------------------------------Enfant---------------------------------------------------------------------
+//! --------------------------------------------- ENFANT --------------------------------------------------------------------
 
-// requete pour ajouter un enfant a la BD
-$qAjouterEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
+// Requête pour AJOUTER un enfant a la BD
+$qAjouterUnEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
 
-// requete pour verifier qu'un enfant avec les données en parametre n'existe pas deja dans la BD
+// Requête pour VÉRIFIER qu'un enfant avec le nom, le prénom et la date de naissance entrée paramètre n'existe pas déjà dans la BD
 $qEnfantIdentique = 'SELECT Nom, Prenom, Date_Naissance FROM enfant WHERE Nom = :nom AND Prenom = :prenom AND Date_Naissance = :dateNaissance';
 
-// requete pour supprimer un enfant de la BD selon son Id_Enfant
-$qSupprimerEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
+// Requête pour SUPPRIMER un enfant de la BD selon son Id_Enfant
+$qSupprimerUnEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
 
-// requete pour recuperer l'Id_enfant, l'image du jeton, le nom, le prenom et la date de naissance de tout les enfants de la BD
+// Requête pour RÉCUPÉRER l'Id_enfant, l'image du jeton, le nom, le prénom et la date de naissance de tous les enfants de la BD
 $qRecupererInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From Enfant';
 
-// requete pour recuperer l'Id_enfant, l'image du jeton, le nom, le prenom et la date de naissance d'un enfants de la BD
+// Requête pour RÉCUPÉRER l'Id_enfant, l'image du jeton, le nom, le prénom et la date de naissance d'un enfant de la BD
 $qRecupererInformationUnEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From Enfant WHERE Id_Enfant = :idEnfant';
 
-// requete pour recuperer le nom, prenom de tous les enfants ( trie par nom )
+// Requête pour RÉCUPÉRER l'Id_Enfant, le nom et le prénom de tous les enfants ( trie par nom )
 $qRecupererNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
 
-// requete pour recuperer le nom, prenom d'un enfant selon son Id_Enfant
+// Requête pour RÉCUPÉRER le nom et le prénom d'un enfant selon son Id_Enfant
 $qRecupererNomPrenomUnEnfant = 'SELECT Nom, Prenom FROM enfant WHERE Id_Enfant = :idEnfant';
 
-// requete pour recuperer le nom prenom de tous les enfants que suis le membre de la session ( trie par nom )
+// Requête pour RÉCUPÉRER le nom et le prénom de tous les enfants que suit le membre de la session ( trie par nom )
 $qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enfant,suivre WHERE enfant.Id_Enfant = suivre.Id_Enfant AND suivre.Id_Membre = :idMembre ORDER BY Nom';
 
-// requete pour modifier l'image du jeton d'un enfant selon son Id_Enfant
-$qModifierInformationsEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, Date_Naissance = :dateNaissance, Lien_Jeton = :lienJeton WHERE Id_Enfant = :idEnfant';
+// Requête pour MODIFIER le nom, le prénom, la date de naissance et l'image du jeton d'un enfant selon son Id_Enfant
+$qModifierInformationsUnEnfant = 'UPDATE enfant SET Nom = :nom, Prenom = :prenom, Date_Naissance = :dateNaissance, Lien_Jeton = :lienJeton WHERE Id_Enfant = :idEnfant';
 
-$qSupprimerImageEnfant = 'SELECT Lien_Jeton from enfant WHERE Id_Enfant = :idEnfant';
+// Requête pour SUPPRIMER l'image du jeton pour un enfant selon son Id_Enfant
+$qSupprimerImageUnEnfant = 'SELECT Lien_Jeton from enfant WHERE Id_Enfant = :idEnfant';
 
-//? ----------------------------------------------Membre---------------------------------------------------------------------
+// Requête pour RÉCUPÉRER l'Id_Enfant, le lien jeton, le nom, le prénon et la date de naissance d'un enfant selon un nom donné en paramètre 
+$qRechercherEnfantParNom = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
+//! --------------------------------------------- MEMBRE --------------------------------------------------------------------
 
-// requete pour ajouter un membre a la BD
-$qAjouterMembre = 'INSERT INTO membre (Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Role) VALUES (:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:role)';
+// Requête pour AJOUTER un membre à la BD
+$qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :role)';
 
-// requete pour vérifier qu'un membre avec les données en parametre n'existe pas deja dans la BD
+// Requête pour VÉRIFIER qu'un membre avec le courrier donné en paramètre n'existe pas déjà dans la BD
 $qMembreIdentique = 'SELECT Courriel FROM membre WHERE Courriel = :courriel';
 
-$qMembreIdentiqueEquipe = 'SELECT Id_Membre FROM suivre WHERE Id_Membre=:idMembre AND Id_Enfant=:idEnfant';
+// Requête pour VÉRIFIER qu'un membre ne suit pas déjà un enfant donné en paramètre 
+$qMembreIdentiqueEquipe = 'SELECT Id_Membre FROM suivre WHERE Id_Membre = :idMembre AND Id_Enfant = :idEnfant';
 
-// requete pour supprimer un membre de la BD
-$qSupprimerMembre = 'DELETE FROM membre WHERE Id_Membre = :idMembre';
+// Requête pour SUPPRIMER un membre de la BD
+$qSupprimerUnMembre = 'DELETE FROM membre WHERE Id_Membre = :idMembre';
 
-// requete pour valider le compte d'un membre de la BD
-$qValiderMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMembre';
+// Requête pour VÉRIFIER la validité du compte d'un membre de la BD
+$qValiderUnMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMembre';
 
-// requete pour vérifier la validite du compte d'un membre selon son courriel dans la BD
-$qVerifierValidationMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Compte_Valide = 1';
+// Requête pour VÉRIFIER la validité du compte d'un membre selon son courriel dans la BD
+$qVerifierValidationUnMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Compte_Valide = 1';
 
-// requete pour rechercher un membre dans la BD
+// Requête pour RÉCUPÉRER le nom, le prénom, l'adresse, la date de naissance, le CP, la ville et le mdp d'un membre dans la BD
 $qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_Naissance, Code_Postal, Ville, Mdp FROM membre WHERE Id_Membre = :idMembre';
 
-// requete pour modifier les données d'un membre de la BD
-$qModifierInformationsMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, Ville = :ville, Date_Naissance = :dateNaissance WHERE Id_Membre = :idMembre';
+// Requête pour MODIFIER le nom, le prénom, l'adresse, le CP, la ville, la date de naissance d'un membre de la BD
+$qModifierInformationsUnMembre = 'UPDATE membre SET Nom = :nom, Prenom = :prenom, Adresse = :adresse, Code_Postal = :codePostal, Ville = :ville, Date_Naissance = :dateNaissance WHERE Id_Membre = :idMembre';
 
-// requete pour recuperer le prenom du membre connecté
-$qRecupererPrenomMembre = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
+// Requête pour RÉCUPÉRER le prénom du membre connecté
+$qRecupererPrenomMembreConnected = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
-// requete pour recuperer le prenom du membre connecté
+// Requête pour RÉCUPÉRER le prénom du membre connecté
 $qRecupererNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
 
-//Afficher Le Nom et Le Prenom d'un membre
+// Requête pour RÉCUPÉRER l'Id_Membre, Le nom et Le prénom d'un membre ( trie par nom )
 $qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
 
-// requete pour modifier le mot de passe du membre de connexion
-$qModifierMotDePasse = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
+// Requête pour MODIFIER le mdp du membre connecté
+$qModifierMotDePasseUnMembre = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :idMembre';
 
-// requete pour recuperer le mot de passe d'un membre selon son courriel
-$qRecupererMotDePasse = 'SELECT Mdp FROM membre WHERE Courriel = :courriel';
+// Requête pour RÉCUPÉRER le mdp d'un membre selon son courriel
+$qRecupererMotDePasseUnMembre = 'SELECT Mdp FROM membre WHERE Courriel = :courriel';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des membres de la BD
 $qRecupererInformationsMembres = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des  membres de la BD ( trie par Nom croissant puis prenom croissant )
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des  membres de la BD ( trie par nom croissant puis prénom croissant )
 $qRecupererInformationsMembresAZ = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Nom, Prenom';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Nom decroissant puis prenom croissant )
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des membres de la BD ( trie par nom décroissant puis prénom croissant )
 $qRecupererInformationsMembresZA = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Nom DESC, Prenom';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par date naissance croissante puis nom puis prenom )
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des membres de la BD ( trie par date de naissance croissante puis nom puis prénom )
 $qRecupererInformationsMembresDateNaissanceCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Date_Naissance, Nom, Prenom';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par date naissance decroissante puis nom puis prenom )
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des membres de la BD ( trie par date de naissance décroissante puis nom puis prénom )
 $qRecupererInformationsMembresDateNaissanceDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Date_Naissance DESC , Nom, Prenom';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par validation croissant puis nom puis prenom )
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des membres de la BD ( trie par validation croissant puis nom puis prénom )
 $qRecupererInformationsMembresCompteValideCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Compte_Valide, Nom, Prenom';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par validation decroissant puis nom puis prenom )
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des membres de la BD ( trie par validation décroissant puis nom puis prénom )
 $qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Compte_Valide DESC, Nom, Prenom';
 
-// requete pour recuperer l'id, le nom, le prenom, le email, la date de naissance et la validite de des compte des membres de la BD ( trie par Id_Membre decroissant )
+// Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes des membres de la BD ( trie par Id_Membre décroissant )
 $qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role FROM Membre ORDER BY Id_Membre DESC';
 
-$qRecupererIdMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel';
+// Requête pour RÉCUPÉRER l'Id_Membre d'un membre selon son courriel
+$qRecupererIdUnMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel';
 
-//? ----------------------------------------------Objectif-------------------------------------------------------------------
+// Requête pour RÉCUPÉRER l'Id_Membre, le nom, le prénom, le courriel, la date de naissance et le compte valide d'un membre selon un nom donné en paramètre 
+$qRechercherMembreParNom = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
 
+//! --------------------------------------------- OBJECTIF ------------------------------------------------------------------
 
-// requete pour ajouter un objectif a la BD
-$qAjouterObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant) VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :idMembre, :idEnfant)';
+// Requête pour AJOUTER un objectif à la BD
+$qAjouterUnObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant) VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :idMembre, :idEnfant)';
 
-// requete pour vérifier qu'un objectif n'est pas deja present dans la BD pour un enfant donne
+// Requête pour VÉRIFIER qu'un objectif n'est pas déjà présent dans la BD pour un enfant donné
 $qObjectifIdentique = 'SELECT Intitule FROM objectif WHERE Intitule = :intitule AND Id_Enfant = :idEnfant';
 
-// requete pour recuperer les informations des objectifs de la BD selon un Id_Enfant
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'ititule, la durée, le travaille, le nb jetons placés et le nb jetons des objectifs de la BD selon un Id_Enfant
 $qRecupererInformationsObjectifs = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Travaille, Nb_Jetons_Places, Nb_Jetons  FROM objectif WHERE Id_Enfant = :idEnfant';
 
-// requete pour recuperer les informations des objectifs de la BD selon un Id_Enfant et qui sont "en cours"
-$qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Intitule, Duree   FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
+// Requête pour RÉCUPÉRER l'Id_Objectif, le nb jetons placés, le nb jetons, le lien image, l'intitule et la durée des objectifs de la BD selon un Id_Enfant et qui sont "en cours"
+$qRecupererInformationsObjectifsEnCours = 'SELECT Id_Objectif, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Intitule, Duree FROM objectif WHERE Id_Enfant = :idEnfant AND Travaille = 1';
 
-// requete pour recuperer Nb_Jetons_Places, Nb_Jetons d'un objectif en cours selon son Id_Objectif 
+// Requête pour RÉCUPÉRER le nb jetons placés, le nb jetons d'un objectif en cours selon son Id_Objectif 
 $qRecupererJetonsUnObjectif = 'SELECT Nb_Jetons_Places, Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif AND Travaille = 1';
 
-// requete pour recuperer les informations d'un objectif pour un enfant ( trie par intitule )
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par intitule )
 $qRecupererInformationsObjectifsAZ = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
-// requete pour recuperer les informations d'un objectif pour un enfant ( trie par intitule decroissant )
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par intitule decroissant )
 $qRecupererInformationsObjectifsZA = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule DESC';
 
-// requete pour recuperer les informations d'un objectif pour un enfant ( trie par duree )
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par duree )
 $qRecupererInformationsObjectifsDureeCroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree';
 
-// requete pour recuperer les informations d'un objectif pour un enfant ( trie par duree decroissante )
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par duree decroissante )
 $qRecupererInformationsObjectifsDureeDecroissante = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Duree DESC';
 
-// requete pour recuperer les informations d'un objectif pour un enfant ( trie par statut )
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par statut )
 $qRecupererInformationsObjectifsStatutCroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille';
 
-// requete pour recuperer les informations d'un objectif pour un enfant ( trie par statut decroissant )
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par statut decroissant )
 $qRecupererInformationsObjectifsStatutDecroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille DESC';
 
-//requete pour modifier un objectif
-$qModifierInformationsObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, Lien_Image = :lienImage, Travaille = :travaille, Id_Membre = :idMembre WHERE id_Objectif = :idObjectif';
+// Requête pour MODIFIER l'intitule, le nb jetons, la durée, le lien image et le travaille un objectif
+$qModifierInformationsUnObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, Lien_Image = :lienImage, Travaille = :travaille, Id_Membre = :idMembre WHERE id_Objectif = :idObjectif';
 
-// requete pour supprimer un objectif selon son Id_Objectif
+// Requête pour SUPPRIMER un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour recuperer les informations d'un objectif selon son Id_Objectif
-$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Nb_Jetons_Places, Nb_Jetons,Lien_Image,Duree, Travaille  FROM objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour RÉCUPÉRER l'ID_Objectif, l'intitule, le nb jetons placés, le nb jetons, le lien image, la durée et le travaille d'un objectif selon son Id_Objectif
+$qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Duree, Travaille  FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour recuperer l'image d'un objectif 
-$qRecupererImageObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour RÉCUPÉRER le lien image d'un objectif selon son Id_Objectif
+$qRecupererImageUnObjectif = 'SELECT Lien_Image FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour recuperer le nombre de jetons pour un objectif selon son Id_Objectif
-$qRecupererNombreDeJetons = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour RÉCUPÉRER le nb jetons d'un objectif selon son Id_Objectif
+$qRecupererNombreJetonsUnObjectif = 'SELECT Nb_Jetons FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour recuperer le nombre de jetons places pour un objectif selon son Id_Objectif
-$qRecupererNombreDeJetonsPlaces = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour RÉCUPÉRER le nb jetons placés d'un objectif selon son Id_Objectif
+$qRecupererNombreJetonsPlacesUnObjectif = 'SELECT Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour modifier le nombre de jetons places pour un objectif selon son Id_Objectif
+// Requête pour MODIFIER le nb jetons placés d'un objectif selon son Id_Objectif
 $qAjouterJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places+1 WHERE Id_Objectif = :idObjectif';
 
-$qSupprimerJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places-1 WHERE Id_Objectif = :idObjectif';
+// Requête pour SUPPRIMER un jeton placés d'un objectif selon son Id_Objectif
+$qSupprimerJetonsPlacesUnObjectif = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places - 1 WHERE Id_Objectif = :idObjectif';
 
-$qSupprimerTousJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = 0 WHERE Id_Objectif = :idObjectif';
+// Requête pour SUPPRIMER tous les jetons placés d'un objectif selon son Id_Objectif
+$qSupprimerTousJetonsPlacesUnObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0 WHERE Id_Objectif = :idObjectif';
 
-$qsupprimerDernierJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (select max(Date_Heure) from placer_jeton)';
+// Requête pour SUPPRIMER le dernier jeton placé d'un objectif selon sa Date_Heure
+$qSupprimerDernierJetonUnObjectif = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (SELECT max(Date_Heure) FROM placer_jeton)';
 
-// requete pour mettre a null l'Id_Membre dans les objectifs selon son Id_Membre
+// Requête pour MODIFIER un objectif en mettant son Id_Membre à null selon son Id_Membre
 $qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
 
-// requete pour recuperer l'intitule d'un objectif selon son Id_Enfant ( trie par intitule )
-$qRecupererIntituleObjectif = 'SELECT Id_Objectif, Intitule FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
+// Requête pour RÉCUPÉRER l'Id_Objectif et l'intitule d'un objectif selon son Id_Enfant ( trie par intitule )
+$qRecupererIntituleObjectifUnEnfant = 'SELECT Id_Objectif, Intitule FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Intitule';
 
-// requete pour recuperer l'intitule d'un objectif selon son Id_Objectif
+// Requête pour RÉCUPÉRER l'intitule d'un objectif selon son Id_Objectif
 $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour supprimer l'image d'un objectif selon son Id_Objectif
-$qSupprimerImageObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour SUPPRIMER le lien image d'un objectif selon son Id_Objectif
+$qSupprimerImageUnObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
 
-$qReinitialiserObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0, Temps_Debut = 0 WHERE Id_Objectif = :idObjectif';
-//! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-$qSupprimerImageRecompense = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour MODIFIER un objectif en mettant son nb jetons placés à 0 et son temps début à 0 selon son Id_Objectif
+$qReinitialiserUnObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0, Temps_Debut = 0 WHERE Id_Objectif = :idObjectif';
 
+// Requête pour SUPPRIMER le lien image d'un objectif selon son Id_Objectif
+$qSupprimerImageUnObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
+
+// Requête pour RÉCUPÉRER la durée d'un objectif selon son Id_Objectif
 $qRecupererDureeUnObjectif = 'SELECT Duree FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qAjouterTempsRestantUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsDebut WHERE Id_Objectif = :idObjectif';
+// Requête pour MODIFIER le temps début d'un objectif selon son Id_Objectif
+$qAjouterTempsDebutUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsDebut WHERE Id_Objectif = :idObjectif';
 
-$qRecupererTempsRestantUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour RÉCUPÉRER le temps début d'un objectif selon son Id_Objectif
+$qRecupererTempsDebutUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Objectif = :idObjectif';
 
-$qModifierObjectifAVenir = 'UPDATE objectif SET Travaille = 2 WHERE Id_Objectif= :idObjectif';
+// Requête pour MODIFIER un objectif en passant son son travaille à 2 ( à venir )
+$qModifierUnObjectifAVenir = 'UPDATE objectif SET Travaille = 2 WHERE Id_Objectif= :idObjectif';
 
-//? ----------------------------------------------Recompense-----------------------------------------------------------------
+// Requête pour RÉCUPÉRER l'intitule, le nb jetons, la durée, le lien image et le nb jetons d'un objectif selon son Id_Objectif
+$qRecupererUnObjectif = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
-// requete pour ajuter une recompense a la BD
-$qAjouterRecompense = 'INSERT INTO recompense (Intitule,Lien_Image,Descriptif) VALUES (:intitule,:lienImage,:descriptif)';
-$qAjouterLienRecompenseObj = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompense) VALUES (:idObjectif,:idRecompense)';
+//! --------------------------------------------- RECOMPENSE ----------------------------------------------------------------
 
-// requete pour rechercher une recompense selon son Id_Recompense
-$qRechercherRecompense = 'SELECT Id_Recompense, Intitule, Descriptif, Lien_Image FROM Recompense WHERE id_Recompense = :idRecompense';
+// Requête pour AJOUTER une récompense à la BD
+$qAjouterUneRecompense = 'INSERT INTO recompense (Intitule,Lien_Image,Descriptif) VALUES (:intitule,:lienImage,:descriptif)';
 
-// requete pour modifier les informations d'une recompense selon son Id_Recompense
-$qModifierRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif WHERE id_Recompense = :idRecompense';
+// Requête pour AJOUTER le lien entre un objectif et un récompense à la BD
+$qAjouterLienUneRecompenseUnObjectif = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompense) VALUES (:idObjectif,:idRecompense)';
 
-// requete pour afficher l'image d'une recompense
-$qAfficherImageRecompense = 'SELECT Lien_Image FROM recompense WHERE Id_Recompense = :idRecompense';
+// Requête pour RÉCUPÉRER l'Id_Recompense, l'intitule, le descriptif et le lien image d'une récompense selon son Id_Recompense
+$qRecupererUneRecompense = 'SELECT Id_Recompense, Intitule, Descriptif, Lien_Image FROM Recompense WHERE id_Recompense = :idRecompense';
 
-// requete pour supprimer une recompense selon son id
-$qSupprimerRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
+// Requête pour MODIFIER l'intitule, le lien image et le descriptif d'une récompense selon son Id_Recompense
+$qModifierUneRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = :descriptif WHERE id_Recompense = :idRecompense';
 
-// requete pour afficher toutes les recompenses d'un enfant donne
-$qAfficherRecompense = 'SELECT recompense.Id_Recompense, recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, objectif.Intitule AS objIntitule FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
+// Requête pour RÉCUPÉRER le lien image d'une recompense selon son Id_Recompense
+$qRecupererImageUneRecompense = 'SELECT Lien_Image FROM recompense WHERE Id_Recompense = :idRecompense';
 
+// Requête pour SUPPRIMER une récompense selon son Id_Recompense
+$qSupprimerUneRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
 
-// requete pour afficher toutes les informations d'un objectif selon son idObjectif
-$qAfficherObjectifSelonId = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
+// Requête pour RÉCUPÉRER l'Id_Recompense, le lien image, l'intitule et le descriptif de toutes les récompenses d'un enfant en plus de l'intitule de l'objectif concerné
+$qRecupererRecompenseUnEnfant = 'SELECT recompense.Id_Recompense, recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, objectif.Intitule AS objIntitule FROM recompense, lier, enfant, objectif WHERE recompense.Id_Recompense = lier.Id_Recompense AND lier.Id_Objectif = objectif.Id_Objectif AND enfant.Id_Enfant = objectif.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
-// requete pour afficher toutes les informations d'un objectif selon son Intitule
+// Requête pour RÉCUPÉRER l'Id_Recompense d'un objectif selon son Intitule
+$qRecupererUnIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
 
-$qRechercherIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense WHERE Intitule = :intitule';
-// requete pour afficher toutes les informations d'un objectif selon son idObjectif
+// Requête pour RÉCUPÉRER le lien image, l'intitule, la description et l'Id_Recompense d'un objectif selon son idObjectif
+$qRecupererRecompenseSelonIdObjectif = 'SELECT recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, recompense.Id_Recompense FROM recompense, lier, objectif WHERE objectif.Id_Objectif = lier.Id_Objectif AND lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif';
 
-$qAfficherRecompenseSelonObjectif = 'SELECT recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, recompense.Id_Recompense FROM recompense, lier, objectif WHERE objectif.Id_Objectif = lier.Id_Objectif AND lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif';
+//! --------------------------------------------- TABLEAU DE BORD ----------------------------------------------------------------
 
-//? ----------------------------------------------Tableau de Bord-----------------------------------------------------------------
-// Afficher l'image choisi par l'enfant
-$qAfficherImageTampon = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
+// Requête pour RÉCUPÉRER le lien image d'un enfant selon son Id_Enfant
+$qRecupererImageJetonUnEnfant = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
 
-//?--------------------------------Equipe---------------------------------------------------------------------------
-// ajout d'une équipe a la bd
-$qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) 
-VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
+//! --------------------------------------------- EQUIPE --------------------------------------------------------------------------
 
+// Requête pour AJOUTER un lien entre un enfant et un membre à la BD
+$qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
 
-//Affichage de l'equipe pour un enfant
-$qAfficherEquipe = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND
-suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
-// Supprime un membre de l'equipe
+// Requête pour RÉCUPÉRER le rôle, le nom, le prénom, l'Id_Membre et l'Id_Enfant de l'equipe pour un enfant selon son Id_Enfant
+$qRecupererEquipeUnEnfant = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
+
+// Requête pour SUPPRIMER un membre de l'equipe
 $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfant AND suivre.Id_Membre =:idMembre';
-//?----------------------------------------------------MESSAGE-----------------------------------------------------------------
-//Ajout d'un message dans le chat
-$qAjouterMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
-//affiche les messages dans le chat
-$qAfficherMessage = 'SELECT message.Id_Membre, membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
-                        message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
-                        AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant ORDER BY message.Date_Heure';
+//! --------------------------------------------- MESSAGE -------------------------------------------------------------------------
+// Requête pour AJOUTER un message dans la BD
+$qAjouterUnMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
-//affiche les messages dans le chat par objectif
+// Requête pour RÉCUPÉRER l'Id_Membre, le nom, le prénom du membre, l'intitule de l'objectif, le sujet, le corps et la date du message selon un enfant avec son Id_Enfant
+$qRecupererMessage = 'SELECT message.Id_Membre, membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant ORDER BY message.Date_Heure';
 
-$qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND
-message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre 
-AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif ORDER BY message.Date_Heure';
+// Requête pour RÉCUPÉRER l'Id_Membre, le nom, le prénom du membre, l'intitule de l'objectif, le sujet, le corps et la date du message selon un enfant avec son Id_Enfant et un objectif avec son Id_Objectif
+$qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i")AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant AND objectif.Id_Objectif = :idObjectif ORDER BY message.Date_Heure';
 
-// Verifie si le message est le meme
+// Requête pour VÉRIFIER qu'un message n'est pas déjà présent dans la base selon son sujet, son corps pour un objectif et un membre donnés
 $qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
-//?---------------------------------------------PLACER JETON-----------------------------------------------------------------------------------
-// Ajout d'un jeton horodaté
-$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif,Date_Heure,Id_Membre,Temps_Debut) VALUES (:idObjectif,:dateHeure,:idMembre,:tempsDebut)';
+// Requête pour RÉCUPÉRER l'Id_Membre d'un message
+$qRechercherIdMembreMessage = 'SELECT Id_Membre From message';
 
-// Recherhce un enfant avec une barre de recherche selon son nom
-$qRechercherEnfant = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
+//! -------------------------------------------- PLACER JETON ---------------------------------------------------------------------
 
-// Recherche un membre avec une barre de recherche selon son nom
-$qRechercherMembre = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
+// Requête pour AJOUTER un jeton horodaté dans placer_jeton dans la BD
+$qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif, Date_Heure, Id_Membre, Temps_Debut) VALUES (:idObjectif, :dateHeure, :idMembre, :tempsDebut)';
 
-// recupere l'Id du membre qui a écrit un message
-$qRechercherIdMembreMessage = 'SELECT Id_Membre From message ';
-
+// Requête pour SUPPRIMER tout placer_jeton selon un Id_Objectif
 $qSupprimerTousLesJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif';
 
-//?------------------------------------------------PARTIE ADMIN-----------------------------------------------
+//! -------------------------------------------- STATISTIQUES ---------------------------------------------------------------------
 
-//$qAjouterCompteAdmin = 'INSERT INTO admin (Id_Admin,Nom,Prenom,Adresse,Code_Postal,Ville,Courriel,Date_Naissance,Mdp,Role) VALUES (:idAdmin,:nom,:prenom,:adresse,:codePostal,:ville,:courriel,:dateNaissance,:mdp,:role)';
-
-//$qSupprimerCompteAdmin = 'DELETE  FROM admin where Id_Admin = :idAdmin';
-
-//$qVerifierValidationAdmin = 'SELECT Id_Admin FROM admin WHERE courriel = :courriel';
-//----------------------------------------------------------------------------------------------------------------------------
-
-//?------------------------------------------------STATISTIQUES-----------------------------------------------
+// Requête pour RÉCUPÉRER le nb jetons placés selon un Id_Objectif et regroupé par Temps_Debut
 $qRecupererNbJetonsPlacesUnObjectif = 'SELECT COUNT(Temps_Debut) FROM placer_jeton WHERE Id_Objectif = :idObjectif GROUP BY Temps_Debut';
 
+// Requête pour RÉCUPÉRER la date la plus ancienne d'un placer_jeton selon un Id_Objectif
 $qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WHERE Id_Objectif = :idObjectif';
 
 /*
-/ --------------------------------------------------------------------------------------------------------------------------
-/ -----------------------------------------------Liste des fonctions--------------------------------------------------------
-/ --------------------------------------------------------------------------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------
+* ---------------------------------------------- LISTE DES FONCTIONS -------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------
 */
 
-//! -----------------------------------------------GENERALES-----------------------------------------------------------------
+//! ---------------------------------------------- GENERALES ---------------------------------------------------------------
 
 // fonction qui permet de se connecter a la BD
 function connexionBd()
@@ -625,22 +627,22 @@ function testConnexion()
 function rechercherEnfant($champ)
 {
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRechercherEnfant']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherEnfantParNom']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les informations de enfant');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour rechercher les informations de enfant');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array("%" . $champ . "%"));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les informations des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les informations des membres');
     }
     if ($req->rowCount() == 0) {
         return 0;
     } else {
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Nom' || $key == 'Prenom') {
@@ -677,28 +679,28 @@ function rechercherEnfant($champ)
         }
         return 1;
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
 
 }
 function rechercheMembre($champ)
 {
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRechercherMembre']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRechercherMembreParNom']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour rechercher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array("%" . $champ . "%"));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les informations des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les informations des membres');
     }
     if ($req->rowCount() == 0) {
         return 0;
     } else {
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -753,12 +755,12 @@ function ajouterEnfant($nom, $prenom, $dateNaissance, $lienJeton)
 
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterEnfant']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un enfant a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':nom' => clean($nom),
         ':prenom' => clean($prenom),
@@ -766,7 +768,7 @@ function ajouterEnfant($nom, $prenom, $dateNaissance, $lienJeton)
         ':lienJeton' => clean($lienJeton)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
 
@@ -775,19 +777,19 @@ function enfantIdentique($nom, $prenom, $dateNaissance)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qEnfantIdentique']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un enfant existe deja');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour verifier si un enfant existe deja');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':nom' => clean($nom),
         ':prenom' => clean($prenom),
         ':dateNaissance' => clean($dateNaissance)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un enfant existe deja');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour verifier si un enfant existe deja');
     }
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
@@ -797,20 +799,20 @@ function afficherNomPrenomEnfantSelect($enfantSelect)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher le Nom et le Prenom des enfants');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher le Nom et le Prenom des enfants');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher le Nom et le Prenom des enfants');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher le Nom et le Prenom des enfants');
     }
     echo '<select name="idEnfant" required>';
     echo '<option value="">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Id_Enfant') {
                 $idEnfant = $value;
@@ -833,20 +835,20 @@ function afficherNomPrenomEnfantSubmit($enfantSelect)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
     echo '<select name="idEnfant" onchange="this.form.submit()">';
     echo '<option value="0">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Id_Enfant') {
                 $idEnfant = $value;
@@ -868,22 +870,22 @@ function afficherNomPrenomEnfantEquipe($enfantSelect, $idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfantEquipe']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
     echo '<select name="idEnfant" required>';
     echo '<option value="">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Id_Enfant') {
                 $idEnfant = $value;
@@ -906,22 +908,22 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomEnfantEquipe']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
     echo '<select name="idEnfant" onchange="this.form.submit()">';
     echo '<option value="0">Veuillez choisir un enfant</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Id_Enfant') {
                 $idEnfant = $value;
@@ -942,21 +944,21 @@ function supprimerImageEnfant($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageEnfant']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             // selectionne toutes les colonnes $key necessaires
             return $value;
@@ -967,12 +969,12 @@ function modifierInformationsEnfant($nom, $prenom, $dateNaissance, $lienJeton, $
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsEnfant']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un enfant a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':nom' => clean($nom),
         ':prenom' => clean($prenom),
@@ -981,26 +983,26 @@ function modifierInformationsEnfant($nom, $prenom, $dateNaissance, $lienJeton, $
         ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
 function afficherImageTampon($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherImageTampon']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererImageJetonUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une image');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher une image');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une image');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une image');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             return $value;
         }
@@ -1010,20 +1012,20 @@ function afficherInformationsEnfant()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationEnfants']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom') {
@@ -1064,14 +1066,14 @@ function supprimerEnfant($idEnfant)
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     //on supprime le membre
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerEnfant']);
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un enfant de la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer un enfant de la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un enfant de la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un enfant de la BD');
     }
 }
 
@@ -1079,19 +1081,19 @@ function nomPrenomEnfant($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => $idEnfant));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Nom') {
                 $nom = $value;
@@ -1108,19 +1110,19 @@ function afficherInformationsEnfantModification($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationUnEnfants']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une image');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher une image');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une image');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une image');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Nom') {
                 echo '<label for="champNom">Nom :</label>
@@ -1149,12 +1151,12 @@ function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, 
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterMembre']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un membre a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':nom' => clean($nom),
         ':prenom' => clean($prenom),
@@ -1167,7 +1169,7 @@ function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, 
         ':role' => clean($role)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un membre a la BD');
     }
 }
 
@@ -1176,17 +1178,17 @@ function membreIdentique($courriel)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qMembreIdentique']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un membre existe deja');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour verifier si un membre existe deja');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':courriel' => clean($courriel)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour verifier si un membre existe deja');
     }
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
@@ -1194,18 +1196,18 @@ function membreIdentique($courriel)
 function membreIdentiqueEquipe($idMembre, $idEnfant)
 {
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qMembreIdentiqueEquipe']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un membre existe deja');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour verifier si un membre existe deja');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idMembre' => clean($idMembre),
         'idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour verifier si un membre existe deja');
     }
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
@@ -1216,20 +1218,20 @@ function AfficherMembres()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresIdMembreDecroissante']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1303,20 +1305,20 @@ function AfficherMembresAZ()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresAZ']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1390,20 +1392,20 @@ function AfficherMembresZA()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresZA']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1477,20 +1479,20 @@ function AfficherMembresDateNaissanceCroissante()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresDateNaissanceCroissante']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1564,20 +1566,20 @@ function AfficherMembresDateNaissanceDecroissante()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresDateNaissanceDecroissante']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1651,20 +1653,20 @@ function AfficherMembresCompteValideCroissante()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresCompteValideCroissante']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1738,20 +1740,20 @@ function AfficherMembresCompteValideDecroissante()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembresCompteValideDecroissante']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1825,20 +1827,20 @@ function AfficherMembresIdMembreDecroissante()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsMembres']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Nom' || $key == 'Prenom' || $key == 'Courriel') {
@@ -1911,15 +1913,15 @@ function validerMembre($idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qValiderMembre']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qValiderUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour valider le compte membre');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour valider le compte membre');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idMembre' => clean($idMembre)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour valider le compte membre');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour valider le compte membre');
     }
 }
 
@@ -1928,15 +1930,15 @@ function verifierValidationMembre($courriel)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qVerifierValidationMembre']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qVerifierValidationUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour vérifier la validité du membre');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':courriel' => clean($courriel)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour vérifier la validité du membre');
     }
     if ($req->rowCount() > 0) {
         return true;
@@ -1951,15 +1953,15 @@ function afficherPrenomMembre($idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererPrenomMembre']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererPrenomMembreConnected']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour vérifier la validité du membre');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idMembre' => clean($idMembre)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour vérifier la validité du membre');
     }
     return $req;
 }
@@ -1969,18 +1971,18 @@ function afficherNomPrenomMembreMessage($idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du membre');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour vérifier la validité du membre');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idMembre' => clean($idMembre)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du membre');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour vérifier la validité du membre');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
+        // permet de parcourir toutes les colonnes de la Requête 
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Nom') {
@@ -1999,15 +2001,15 @@ function rechercherMembre($idMembre)
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRechercherUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher un membre dans la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour rechercher un membre dans la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idMembre' => clean($idMembre)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher un membre dans la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour rechercher un membre dans la BD');
     }
     return $req; // retourne le membre correspondant a $idMembre
 }
@@ -2018,9 +2020,9 @@ function AfficherInformationsMembreSession($idMembre)
 {
     // recherche les informations d'un membre selon son idMembre
     $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
-    // permet de parcourir la ligne de la requetes 
+    // permet de parcourir la ligne de la Requêtes 
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
+        // permet de parcourir toutes les colonnes de la Requête 
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Nom') {
@@ -2063,9 +2065,9 @@ function AfficherInformationsMembre($idMembre)
 {
 
     $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
-    // permet de parcourir la ligne de la requetes 
+    // permet de parcourir la ligne de la Requêtes 
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
+        // permet de parcourir toutes les colonnes de la Requête 
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Nom') {
@@ -2102,13 +2104,13 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsMembre']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations du membre de la 
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations du membre de la 
             session');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':nom' => clean($nom),
         ':prenom' => clean($prenom),
@@ -2119,7 +2121,7 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
         ':dateNaissance' => clean($dateNaissance)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour permet de modifier les informations du membre de la 
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour permet de modifier les informations du membre de la 
             session');
     }
 }
@@ -2127,11 +2129,11 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
 function supprimerIdMembreDansObjectif($idMembre)
 {
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     //on supprime les liens avec Objectif
     $req = $linkpdo->prepare($GLOBALS['qSupprimerIdMembreObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer tous les idObj de la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer tous les idObj de la BD');
     }
 
     $req->execute(array(':idMembre' => clean($idMembre)));
@@ -2145,14 +2147,14 @@ function supprimerMembre($idMembre)
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     //on supprime le membre
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerMembre']);
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer un membre de la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idMembre' => clean($idMembre)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
     }
 }
 
@@ -2161,17 +2163,17 @@ function modifierMdp($mdp, $idMembre)
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     //on supprime le membre
-    $req = $linkpdo->prepare($GLOBALS['qModifierMotDePasse']);
+    $req = $linkpdo->prepare($GLOBALS['qModifierMotDePasseUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer un membre de la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':mdp' => saltHash($mdp),
         ':idMembre' => $idMembre
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
     }
 }
 
@@ -2180,19 +2182,19 @@ function recupererMdp($courriel)
     // connexion a la base de donnees
     $linkpdo = connexionBd();
     //on supprime le membre
-    $req = $linkpdo->prepare($GLOBALS['qRecupererMotDePasse']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererMotDePasseUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer un membre de la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':courriel' => $courriel
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
+        // permet de parcourir toutes les colonnes de la Requête 
         foreach ($data as $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             return $value;
@@ -2207,12 +2209,12 @@ function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':intitule' => clean($intitule),
         ':nbJetons' => clean($nbJetons),
@@ -2224,7 +2226,7 @@ function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille
     ));
 
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
 }
 
@@ -2233,18 +2235,18 @@ function objectifIdentique($intitule, $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qObjectifIdentique']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un membre existe deja');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour verifier si un membre existe deja');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':intitule' => clean($intitule),
         ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un membre existe deja');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour verifier si un membre existe deja');
     }
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
@@ -2254,21 +2256,21 @@ function afficherGererObjectifs($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifs']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -2327,15 +2329,15 @@ function afficherObjectifs($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsEnCours']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     $res = 0;
     if ($req->rowCount() < 1) {
@@ -2343,11 +2345,11 @@ function afficherObjectifs($idEnfant)
             echo "<p class='msgSelection'>Cet enfant ne possède pas d'objectifs en cours !</p>";
         }
     } else {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<div class="objectif">';
 
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Id_Objectif') {
@@ -2441,22 +2443,22 @@ function afficherObjectifsZoom($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="objectif zoom">';
         echo '<img src="images/banderole.png" id="banderole"><h2 id="titreObjectif">' . afficherUnIntituleObjectif($_SESSION['objectif']) . "  " . nomPrenomEnfant($_SESSION['enfant']) . '</h2>';
         echo '<button type="submit" name="butonResetSceance" class="boutonAnnuler boutonResetSeance" onclick="return confirm(\'Êtes vous sûr de vouloir réinitialiser cette séance ?\');"><img src="images/reinitialiser.png" class="imageIcone zoom" alt="icone valider"><span>Réinitialiser la séance</span></button>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         $res = 0;
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
@@ -2527,20 +2529,20 @@ function NombreDeJetons($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererNombreDeJetons']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNombreJetonsUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
+        // permet de parcourir toutes les colonnes de la Requête 
         foreach ($data as $value) {
             return $value;
         }
@@ -2552,20 +2554,20 @@ function NombreDeJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererNombreDeJetonsPlaces']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererNombreJetonsPlacesUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
+        // permet de parcourir toutes les colonnes de la Requête 
         foreach ($data as $value) {
             return $value;
         }
@@ -2577,34 +2579,34 @@ function AjouterJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qAjouterJetonsPlaces']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
 }
 function SupprimerJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerJetonsPlaces']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerJetonsPlacesUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
     supprimerDernierJeton($idObjectif);
 }
@@ -2612,17 +2614,17 @@ function supprimerTousJetonsPlaces($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerTousJetonsPlaces']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerTousJetonsPlacesUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
     supprimerDernierJeton($idObjectif);
 }
@@ -2632,19 +2634,19 @@ function AfficherInformationUnObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un membre a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour ajouter un membre a la BD');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour ajouter un membre a la BD');
     }
-    // permet de parcourir la ligne de la requetes 
+    // permet de parcourir la ligne de la Requêtes 
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete 
+        // permet de parcourir toutes les colonnes de la Requête 
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Intitule') {
@@ -2713,12 +2715,12 @@ function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, 
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierInformationsUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':intitule' => clean($intitule),
         ':nbJetons' => clean($nbJetons),
@@ -2729,22 +2731,22 @@ function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, 
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
 }
 function modifierObjectifAVenir($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierObjectifAVenir']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierUnObjectifAVenir']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
 }
 // fonction qui permet de supprimer un objectif selon son Id_Objectif
@@ -2752,17 +2754,17 @@ function supprimerObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qSupprimerObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
 }
 
@@ -2771,21 +2773,21 @@ function AfficherImageObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererImageObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererImageUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
@@ -2808,21 +2810,21 @@ function afficherObjectifSelonId($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherObjectifSelonId']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Intitule') {
@@ -2848,22 +2850,22 @@ function afficherIntituleObjectif($objectifSelected, $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererIntituleObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererIntituleObjectifUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
     echo '<select name="idObjectif">';
     echo '<option>Veuillez choisir un objectif</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
@@ -2884,22 +2886,22 @@ function afficherIntituleObjectifSubmit($objectifSelected, $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererIntituleObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererIntituleObjectifUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
     echo '<select name="idObjectif"onchange="this.form.submit()">';
     echo '<option>Veuillez choisir un objectif</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Id_Objectif') {
                 $idObjectif = $value;
@@ -2921,20 +2923,20 @@ function afficherUnIntituleObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererUnIntituleObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             return $value;
         }
@@ -2945,21 +2947,21 @@ function afficherGererObjectifsAZ($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsAZ']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -3015,21 +3017,21 @@ function afficherGererObjectifsZA($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsZA']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -3085,21 +3087,21 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsDureeCroissante']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -3155,21 +3157,21 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsDureeDecroissante']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -3225,21 +3227,21 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsStatutCroissant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -3295,21 +3297,21 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsStatutDecroissant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -3364,21 +3366,21 @@ function supprimerImageObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             // selectionne toutes les colonnes $key necessaires
             return $value;
@@ -3390,20 +3392,20 @@ function recupererDureeUnObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererDureeUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             return $value;
         }
@@ -3414,18 +3416,18 @@ function ajouterTempsDebutObjectif($tempsDebut, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterTempsRestantUnObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterTempsDebutUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':tempsDebut' => clean($tempsDebut),
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
 }
 
@@ -3433,21 +3435,21 @@ function recupererTempsDebutObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererTempsRestantUnObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererTempsDebutUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             return $value;
         }
@@ -3458,17 +3460,17 @@ function reinitialiserObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qReinitialiserObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qReinitialiserUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
 }
 
@@ -3479,12 +3481,12 @@ function ajouterRecompense($intitule, $lienImage, $descriptif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterRecompense']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUneRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter une recompense a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter une recompense a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':intitule' => clean($intitule),
         ':lienImage' => clean($lienImage),
@@ -3492,7 +3494,7 @@ function ajouterRecompense($intitule, $lienImage, $descriptif)
 
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
 
@@ -3501,12 +3503,12 @@ function modifierRecompense($idRecompense, $intitule, $lienImage, $descriptif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierRecompense']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qModifierUneRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'une recompense ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'une recompense ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idRecompense' => clean($idRecompense),
         ':intitule' => clean($intitule),
@@ -3514,7 +3516,7 @@ function modifierRecompense($idRecompense, $intitule, $lienImage, $descriptif)
         ':descriptif' => clean($descriptif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour modifier une recompense');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour modifier une recompense');
     }
 }
 
@@ -3523,17 +3525,17 @@ function rechercherRecompense($idRecompense)
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRechercherRecompense']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererUneRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour rechercher une recompense dans la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour rechercher une recompense dans la BD');
     }
-    //execution de la requete sql
+    //execution de la Requête sql
     $req->execute(array(
         ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour rechercher une recompense dans la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour rechercher une recompense dans la BD');
     }
     return $req;
 }
@@ -3541,22 +3543,22 @@ function afficherImageRecompense($idRecompense)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherImageRecompense']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererImageUneRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         //echo '<tr>';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
@@ -3567,14 +3569,14 @@ function afficherImageRecompense($idRecompense)
     }
 }
 
-// requete qui permet d'afficher un recompense selon son Id_Recompense
+// Requête qui permet d'afficher un recompense selon son Id_Recompense
 function afficherInfoRecompense($idRecompense)
 {
     // recherche les informations d'une selon son id
     $req = rechercherRecompense($idRecompense); // retoune la recompense selon $idRecompense
-    // permet de parcourir la ligne de la requete : rechercherRecompense($idRecompense);
+    // permet de parcourir la ligne de la Requête : rechercherRecompense($idRecompense);
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete : rechercherRecompense($idRecompense);
+        // permet de parcourir toutes les colonnes de la Requête : rechercherRecompense($idRecompense);
         foreach ($data as $key => $value) {
             // recuperation de toutes les informations du membre de la session dans des inputs 
             if ($key == 'Intitule') {
@@ -3595,20 +3597,20 @@ function afficherInfoRecompense($idRecompense)
         }
     }
 }
-// requete qui permet de supprimer une recompense selon son id
+// Requête qui permet de supprimer une recompense selon son id
 function supprimerRecompense($idRecompense)
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerRecompense']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerUneRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer un membre de la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idRecompense' => clean($idRecompense)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
     }
 }
 // fonction qui permet d'afficher toutes les recompenses de la BD pour un enfant donnee
@@ -3616,21 +3618,21 @@ function afficherRecompense($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherRecompense']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererRecompenseUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher une récompense');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une récompense');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Lien_Image') {
@@ -3677,15 +3679,15 @@ function ajouterLienRecompenseObj($idObjectif, $idRecompense)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterLienRecompenseObj']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterLienUneRecompenseUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher une récompense');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idObjectif' => clean($idObjectif), ':idRecompense' => clean($idRecompense)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une récompense');
     }
 }
 
@@ -3693,19 +3695,19 @@ function rechercherIdRecompenseSelonIntitule($intitule)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qRechercherIdRecompenseSelonIntitule']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererUnIdRecompenseSelonIntitule']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher une récompense');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':intitule' => clean($intitule)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une récompense');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             return $value;
         }
@@ -3715,21 +3717,21 @@ function supprimerImageRecompense($idRecompense)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageRecompense']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idRecompense)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour permet de modifier les informations d\'un objectif ');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             // selectionne toutes les colonnes $key necessaires
             return $value;
@@ -3741,20 +3743,20 @@ function afficherRecompenseSelonObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherRecompenseSelonObjectif']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererRecompenseSelonIdObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher une récompense');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher une récompense');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une récompense');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="recompense">';
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Lien_Image') {
@@ -3796,20 +3798,20 @@ function afficherNomPrenomMembre()
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qAfficherNomPrenomMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute();
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les information des membres');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
     echo '<select name="idMembre" required>';
     echo '<option value="">Veuillez choisir un Membre</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($key == 'Id_Membre') {
                 $idMembre = $value;
@@ -3829,12 +3831,12 @@ function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qAjouterUneEquipe']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter une recompense a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter une recompense a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idEnfant' => clean($idEnfant),
         ':idMembre' => clean($idMembre),
@@ -3842,7 +3844,7 @@ function ajouterUneEquipe($idEnfant, $idMembre, $dateDemandeEquipe, $role)
         ':role' => clean($role)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
 // fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
@@ -3850,21 +3852,21 @@ function afficherGererEquipe($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherEquipe']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererEquipeUnEnfant']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
     if ($req->rowCount() >= 1) {
-        // permet de parcourir toutes les lignes de la requete
+        // permet de parcourir toutes les lignes de la Requête
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<tr>';
-            // permet de parcourir toutes les colonnes de la requete
+            // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
                 if ($key == 'Role') {
@@ -3907,17 +3909,17 @@ function supprimerMembreEquipe($chaineConcatene)
     $idEnfant = $chaineDeconcatene[1];
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qSupprimerUnMembreEquipe']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
     $req->execute(array(
         ':idMembre' => clean($idMembre),
         ':idEnfant' => clean($idEnfant)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour supprimer un membre de la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
     }
 }
 //!---------------------------------------------MESSAGE-------------------------------------------------------------------------
@@ -3926,12 +3928,12 @@ function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterMessage']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qAjouterUnMessage']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter une recompense a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter une recompense a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':sujet' => clean($sujet),
         ':corps' => clean($corps),
@@ -3940,28 +3942,28 @@ function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
         ':idMembre'   => clean($idMembre)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
 function afficherMessage($idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qAfficherMessage']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererMessage']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     $i = 1;
     $count = $req->rowCount();
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Id_Membre') {
@@ -4089,24 +4091,24 @@ function afficherMessageParObjectif($idEnfant, $idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qAfficherMessageParObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher un objectif');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idEnfant' => clean($idEnfant),
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher un objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     $i = 1;
     $count = $req->rowCount();
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             // selectionne toutes les colonnes $key necessaires
             if ($key == 'Id_Membre') {
@@ -4159,12 +4161,12 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qMessageIdentique']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour verifier si un enfant existe deja');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour verifier si un enfant existe deja');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':sujet' => clean($sujet),
         ':corps' => clean($corps),
@@ -4172,13 +4174,13 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour verifier si un enfant existe deja');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour verifier si un enfant existe deja');
     }
     $cout = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
     $i = 0;
-    // permet de parcourir toutes les lignes de la requete
+    // permet de parcourir toutes les lignes de la Requête
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
             if ($i == $cout) {
             }
@@ -4194,12 +4196,12 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qAjouterJeton']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un jeton a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un jeton a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif),
         ':dateHeure' => clean($dateHeure), //Il faut mettre le timestamp, on le demande pas a l'utilisateur
@@ -4207,40 +4209,40 @@ function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
         ':tempsDebut' => clean($tempsDebut)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un enfant a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
 
 function supprimerDernierJeton($idObjectif)
 {
     $linkpdo = connexionBd();
-    // preparation de la requete sql
-    $req = $linkpdo->prepare($GLOBALS['qsupprimerDernierJetons']);
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qSupprimerDernierJetonUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
 }
 function supprimerTousLesJetons($idObjectif)
 {
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qSupprimerTousLesJetons']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un objectif a la BD');
+        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
 }
 
@@ -4250,12 +4252,12 @@ function supprimerTousLesJetons($idObjectif)
 // {
 //     // connexion a la BD
 //     $linkpdo = connexionBd();
-//     // preparation de la requete sql
+//     // preparation de la Requête sql
 //     $req = $linkpdo->prepare($GLOBALS['qAjouterCompteAdmin']);
 //     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour ajouter un membre a la BD');
+//         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un membre a la BD');
 //     }
-//     // execution de la requete sql
+//     // execution de la Requête sql
 //     $req->execute(array(
 //         ':idAdmin' => clean($idAdmin),
 //         ':nom' => clean($nom),
@@ -4270,22 +4272,22 @@ function supprimerTousLesJetons($idObjectif)
 //     ));
 
 //     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors l\'execution de la requete pour ajouter un membre a la BD');
+//         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un membre a la BD');
 //     }
 // }
 // function verifierValidationAdmin($courriel)
 // {
 //     // connexion a la BD
 //     $linkpdo = connexionBd();
-//     // preparation de la requete sql
+//     // preparation de la Requête sql
 //     $req = $linkpdo->prepare($GLOBALS['qVerifierValidationAdmin']);
 //     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors de la preparation de la requete pour vérifier la validité du admin');
+//         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour vérifier la validité du admin');
 //     }
-//     // execution de la requete sql
+//     // execution de la Requête sql
 //     $req->execute(array(':courriel' => clean($courriel)));
 //     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour vérifier la validité du admin');
+//         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour vérifier la validité du admin');
 //     }
 //     if ($req->rowCount() > 0) {
 //         return true;
@@ -4298,16 +4300,16 @@ function supprimerTousLesJetons($idObjectif)
 function recupererIdMembre($courriel)
 {
     $linkpdo = connexionBd();
-    $req = $linkpdo->prepare($GLOBALS['qRecupererIdMembre']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererIdUnMembre']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour récupérer id membre ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour récupérer id membre ');
     }
     $req->execute(array(':courriel' => clean($courriel)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour récupérer id membre');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour récupérer id membre');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             return $value;
         }
@@ -4320,23 +4322,23 @@ function afficherBarresProgression($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
-    // preparation de la requete sql
+    // preparation de la Requête sql
     $req = $linkpdo->prepare($GLOBALS['qRecupererNbJetonsPlacesUnObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour afficher les barres de progression');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les barres de progression');
     }
-    // execution de la requete sql
+    // execution de la Requête sql
     $req->execute(array(
         ':idObjectif' => clean($idObjectif)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour afficher les barres de progression');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les barres de progression');
     }
     $i = 0;
     $reussi = 0;
     echo '<div class="containerStats fenButtonOff transparent">';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             $i += 1;
             echo '<div class="containerSeance"><p class="txtSeance">Séance ' . $i . ' finie à : </p>';
@@ -4380,14 +4382,14 @@ function recupererPremierJetonJamaisPose($idObjectif)
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la requete pour récupérer id Objectif ');
+        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour récupérer id Objectif ');
     }
     $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la requete pour récupérer id Objectif');
+        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour récupérer id Objectif');
     }
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la requete
+        // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $value) {
             if ($value == null) {
                 return null;
