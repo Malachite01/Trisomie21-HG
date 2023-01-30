@@ -4317,7 +4317,14 @@ function recupererIdMembre($courriel)
 
 //! -------------------------------------------- STATISTIQUES --------------------------------------------------------------------
 
-function afficherBarresProgression($idObjectif)
+
+/**
+ * afficherBarresProgression
+ * Fonction qui affiche les barres de progression statistiques, des séances, d'un objectif
+ * @param  int $idObjectif
+ * @return void
+ */
+function afficherBarresProgression(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4376,7 +4383,13 @@ function afficherBarresProgression($idObjectif)
     $_SESSION['pourcentPie'] = $data;
 }
 
-function recupererPremierJetonJamaisPose($idObjectif)
+/**
+ * recupererPremierJetonJamaisPose
+ * Fonction qui permet de vérifier si la durée des 4 semaines n'est pas écoulée grâce au premier jeton jamais posé de l'objectif
+ * @param  mixed $idObjectif
+ * @return mixed
+ */
+function recupererPremierJetonJamaisPose($idObjectif) : mixed
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
