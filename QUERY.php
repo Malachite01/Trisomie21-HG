@@ -1,17 +1,17 @@
 <?php
 
 /*
-* --------------------------------------------------------------------------------------------------------------------------
-* ---------------------------------------------- LISTE DES REQUETES --------------------------------------------------------
-* -------------------------------------------------- 'ajouter' ------------------------------------------------------------------
-* -------------------------------------------------- 'supprimer' ----------------------------------------------------------------
-* -------------------------------------------------- 'modifier' -----------------------------------------------------------------
-* -------------------------------------------------- 'vérifier' -----------------------------------------------------------------
-* -------------------------------------------------- 'récupérer' ----------------------------------------------------------------
-* --------------------------------------------------------------------------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------------
+* ---------------------------------------------- LISTE DES REQUETES --------------------------------------------------------------
+* -------------------------------------------------- 'ajouter' -------------------------------------------------------------------
+* -------------------------------------------------- 'supprimer' -----------------------------------------------------------------
+* -------------------------------------------------- 'modifier' ------------------------------------------------------------------
+* -------------------------------------------------- 'vérifier' ------------------------------------------------------------------
+* -------------------------------------------------- 'récupérer' -----------------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------------
 */
 
-//! --------------------------------------------- ENFANT --------------------------------------------------------------------
+//! -------------------------------------------- ENFANT --------------------------------------------------------------------------
 
 // Requête pour AJOUTER un enfant a la BD
 $qAjouterUnEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) VALUES (:nom , :prenom, :dateNaissance, :lienJeton)';
@@ -46,7 +46,7 @@ $qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enf
 // Requête pour RÉCUPÉRER l'Id_Enfant, le lien jeton, le nom, le prénon et la date de naissance d'un enfant selon un nom donné en paramètre 
 $qRechercherEnfantParNom = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance FROM enfant WHERE nom LIKE ? ';
 
-//! --------------------------------------------- MEMBRE --------------------------------------------------------------------
+//! -------------------------------------------- MEMBRE --------------------------------------------------------------------------
 
 // Requête pour AJOUTER un membre à la BD
 $qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :role)';
@@ -117,7 +117,7 @@ $qRecupererIdUnMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel
 // Requête pour RÉCUPÉRER l'Id_Membre, le nom, le prénom, le courriel, la date de naissance et le compte valide d'un membre selon un nom donné en paramètre 
 $qRechercherMembreParNom = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre Where nom LIKE ?';
 
-//! --------------------------------------------- OBJECTIF ------------------------------------------------------------------
+//! -------------------------------------------- OBJECTIF ------------------------------------------------------------------------
 
 // Requête pour AJOUTER un objectif à la BD
 $qAjouterUnObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Image,Travaille,Id_Membre,Id_Enfant) VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :idMembre, :idEnfant)';
@@ -212,7 +212,7 @@ $qRecupererTempsDebutUnObjectif = 'SELECT Temps_Debut FROM objectif WHERE Id_Obj
 // Requête pour RÉCUPÉRER l'intitule, le nb jetons, la durée, le lien image et le nb jetons d'un objectif selon son Id_Objectif
 $qRecupererUnObjectif = 'SELECT Intitule, Nb_Jetons, Duree, Lien_Image, Nb_Jetons_Places FROM objectif WHERE Id_Objectif = :idObjectif';
 
-//! --------------------------------------------- RECOMPENSE ----------------------------------------------------------------
+//! -------------------------------------------- RECOMPENSE ----------------------------------------------------------------------
 
 // Requête pour AJOUTER une récompense à la BD
 $qAjouterUneRecompense = 'INSERT INTO recompense (Intitule,Lien_Image,Descriptif) VALUES (:intitule,:lienImage,:descriptif)';
@@ -238,12 +238,12 @@ $qRecupererUnIdRecompenseSelonIntitule = 'SELECT Id_Recompense FROM recompense W
 // Requête pour RÉCUPÉRER le lien image, l'intitule, la description et l'Id_Recompense d'un objectif selon son idObjectif
 $qRecupererRecompenseSelonIdObjectif = 'SELECT recompense.Lien_Image, recompense.Intitule, recompense.Descriptif, recompense.Id_Recompense FROM recompense, lier, objectif WHERE objectif.Id_Objectif = lier.Id_Objectif AND lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif';
 
-//! --------------------------------------------- TABLEAU DE BORD ----------------------------------------------------------------
+//! -------------------------------------------- TABLEAU DE BORD -----------------------------------------------------------------
 
 // Requête pour RÉCUPÉRER le lien image d'un enfant selon son Id_Enfant
 $qRecupererImageJetonUnEnfant = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
 
-//! --------------------------------------------- EQUIPE --------------------------------------------------------------------------
+//! -------------------------------------------- EQUIPE --------------------------------------------------------------------------
 
 // Requête pour AJOUTER un lien entre un enfant et un membre à la BD
 $qAjouterUneEquipe = 'INSERT INTO suivre (Id_Enfant,Id_Membre,Date_Demande_Equipe,Role) VALUES (:idEnfant,:idMembre,FROM_UNIXTIME(:dateDemandeEquipe),:role)';
@@ -254,7 +254,7 @@ $qSupprimerUnMembreEquipe = 'DELETE FROM suivre WHERE suivre.Id_Enfant = :idEnfa
 // Requête pour RÉCUPÉRER le rôle, le nom, le prénom, l'Id_Membre et l'Id_Enfant de l'equipe pour un enfant selon son Id_Enfant
 $qRecupererEquipeUnEnfant = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre.Id_Membre,suivre.Id_Enfant from membre,suivre,enfant WHERE membre.Id_Membre = suivre.Id_Membre AND suivre.Id_Enfant = enfant.Id_Enfant AND enfant.Id_Enfant = :idEnfant';
 
-//! --------------------------------------------- MESSAGE -------------------------------------------------------------------------
+//! -------------------------------------------- MESSAGE -------------------------------------------------------------------------
 
 // Requête pour AJOUTER un message dans la BD
 $qAjouterUnMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
@@ -271,7 +271,7 @@ $qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Preno
 // Requête pour RÉCUPÉRER l'Id_Membre d'un message
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message';
 
-//! -------------------------------------------- PLACER JETON ---------------------------------------------------------------------
+//! -------------------------------------------- PLACER JETON --------------------------------------------------------------------
 
 // Requête pour AJOUTER un jeton horodaté dans placer_jeton dans la BD
 $qAjouterJeton = 'INSERT INTO placer_jeton (Id_Objectif, Date_Heure, Id_Membre, Temps_Debut) VALUES (:idObjectif, :dateHeure, :idMembre, :tempsDebut)';
@@ -282,12 +282,12 @@ $qSupprimerTousLesJetons = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObje
 // Requête pour SUPPRIMER le dernier jeton placé d'un objectif selon sa Date_Heure
 $qSupprimerDernierJetonUnObjectif = 'DELETE FROM placer_jeton WHERE Id_Objectif = :idObjectif AND Date_Heure = (SELECT max(Date_Heure) FROM placer_jeton)';
 
-//! --------------------------------------------- LIER ----------------------------------------------------------------------------
+//! -------------------------------------------- LIER ----------------------------------------------------------------------------
 
 // Requête pour AJOUTER le lien entre un objectif et un récompense à la BD
 $qAjouterLienUneRecompenseUnObjectif = 'INSERT INTO lier (lier.Id_Objectif,lier.Id_Recompense) VALUES (:idObjectif,:idRecompense)';
 
-//! -------------------------------------------- STATISTIQUES ---------------------------------------------------------------------
+//! -------------------------------------------- STATISTIQUES --------------------------------------------------------------------
 
 // Requête pour RÉCUPÉRER le nb jetons placés selon un Id_Objectif et regroupé par Temps_Debut
 $qRecupererNbJetonsPlacesUnObjectif = 'SELECT COUNT(Temps_Debut) FROM placer_jeton WHERE Id_Objectif = :idObjectif GROUP BY Temps_Debut';
@@ -296,9 +296,9 @@ $qRecupererNbJetonsPlacesUnObjectif = 'SELECT COUNT(Temps_Debut) FROM placer_jet
 $qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WHERE Id_Objectif = :idObjectif';
 
 /*
-* --------------------------------------------------------------------------------------------------------------------------
-* ---------------------------------------------- LISTE DES FONCTIONS -------------------------------------------------------
-* --------------------------------------------------------------------------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------------
+* ---------------------------------------------- LISTE DES FONCTIONS -------------------------------------------------------------
+* --------------------------------------------------------------------------------------------------------------------------------
 */
 
 //! ---------------------------------------------- GENERALES ---------------------------------------------------------------
