@@ -351,7 +351,7 @@ function champRempli(array $field): bool
  * @param  mixed $champEntrant
  * @return mixed
  */
-function clean(mixed $champEntrant): mixed
+function clean($champEntrant)
 {
     // permet d'enlever les balises html, xml, php
     $champEntrant = strip_tags($champEntrant);
@@ -535,7 +535,7 @@ function faireChargement(): void
 
 /**
  * dureeString
- * fonction pour calculer la durée totale d'un objectif
+ * fonction pour calculer la durée totale d'un objectif jusqu'aux heures 
  * @param  int $duree
  * @return string
  */
@@ -576,7 +576,13 @@ function dureeString(int $duree): string
     return  $s . $j . $h;
 }
 
-function dureeStringMinutes($duree)
+/**
+ * dureeStringMinutes
+ * Fonction qui permet de calculer le temps total d'un objectif jusqu'aux minutes 
+ * @param  int $duree
+ * @return string
+ */
+function dureeStringMinutes(int $duree): string
 {
     $w = intdiv($duree, 10080);
     $duree -= 10080 * $w;
@@ -652,8 +658,13 @@ function dureeStringMinutes($duree)
 
     return  $w . $j . $h . $m;
 }
-// Fonction qui verifie l'id de connexion et redirige sur la bonne page
-function testConnexion()
+
+/**
+ * testConnexion
+ * Fonction qui permet de vérifier si la personne est bien connecté et sinon la rediriger vers index.php
+ * @return void
+ */
+function testConnexion(): void
 {
     if ($_SESSION['idConnexion'] == null) {
         header('Location: index.php');
@@ -670,7 +681,15 @@ function testConnexion()
         header('Location: tableauDeBord.php');
     }
 }
-function rechercherEnfant($champ)
+
+
+/**
+ * rechercherEnfant
+ * Fonction qui permet de chercher un enfant selon $champ dans son nom
+ * @param  string $champ
+ * @return int
+ */
+function rechercherEnfant(String $champ): int
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -684,6 +703,7 @@ function rechercherEnfant($champ)
         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les informations des membres');
     }
     if ($req->rowCount() == 0) {
+        // enfant pas trouvé
         return 0;
     } else {
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -723,12 +743,19 @@ function rechercherEnfant($champ)
                  </td>
              </tr>';
         }
+        // enfant trouvé
         return 1;
     }
-    // permet de parcourir toutes les lignes de la Requête
-
 }
-function rechercheMembre($champ)
+
+
+/**
+ * rechercheMembre
+ * Fonction qui permet de chercher un membre selon $champ dans son nom
+ * @param  string $champ
+ * @return int
+ */
+function rechercheMembre(string $champ): int
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -742,6 +769,7 @@ function rechercheMembre($champ)
         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les informations des membres');
     }
     if ($req->rowCount() == 0) {
+        // membre pas trouvé
         return 0;
     } else {
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -791,13 +819,22 @@ function rechercheMembre($champ)
             </tr>';
         }
     }
+    // membre trouvé
     return 1;
 }
 
 //! -------------------------------------------- ENFANT --------------------------------------------------------------------------
 
-// fonction qui permet d'ajouter un enfant a la BD
-function ajouterEnfant($nom, $prenom, $dateNaissance, $lienJeton)
+/**
+ * ajouterEnfant
+ * Fonction qui permet d'ajouter un enfant à la BD
+ * @param  string $nom
+ * @param  string $prenom
+ * @param  mixed  $dateNaissance
+ * @param  string $lienJeton
+ * @return void
+ */
+function ajouterEnfant(string $nom, string $prenom, $dateNaissance, string $lienJeton): void
 {
 
     // connexion a la BD
@@ -819,8 +856,15 @@ function ajouterEnfant($nom, $prenom, $dateNaissance, $lienJeton)
     }
 }
 
-// fonction qui retourne les lignes si un enfant a le meme nom, prenom, date naissance qu'un enfant de la BD
-function enfantIdentique($nom, $prenom, $dateNaissance)
+/**
+ * enfantIdentique
+ * Fonction qui retourne > 0 si un enfant à le meme nom, prenom et date naissance qu'un enfant de la BD
+ * @param  string $nom
+ * @param  string $prenom
+ * @param  mixed  $dateNaissance
+ * @return int
+ */
+function enfantIdentique(string $nom, string $prenom, $dateNaissance): int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -841,8 +885,13 @@ function enfantIdentique($nom, $prenom, $dateNaissance)
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
-// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
-function afficherNomPrenomEnfantSelect($enfantSelect)
+/**
+ * afficherNomPrenomEnfantSelect
+ * Fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
+ * @param  int $enfantSelect
+ * @return void
+ */
+function afficherNomPrenomEnfantSelect(int $enfantSelect): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4324,7 +4373,7 @@ function recupererIdMembre($courriel)
  * @param  int $idObjectif
  * @return void
  */
-function afficherBarresProgression(int $idObjectif) : void
+function afficherBarresProgression(int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4389,7 +4438,7 @@ function afficherBarresProgression(int $idObjectif) : void
  * @param  mixed $idObjectif
  * @return mixed
  */
-function recupererPremierJetonJamaisPose($idObjectif) : mixed
+function recupererPremierJetonJamaisPose($idObjectif): mixed
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererPremierJetonJamaisPose']);
