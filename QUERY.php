@@ -301,7 +301,7 @@ $qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WH
 * --------------------------------------------------------------------------------------------------------------------------------
 */
 
-//! ---------------------------------------------- GENERALES ---------------------------------------------------------------
+//! -------------------------------------------- GENERALES -----------------------------------------------------------------------
 
 //? fonction qui permet de se connecter à la BD
 function connexionBd()
@@ -746,7 +746,8 @@ function rechercheMembre($champ)
     }
     return 1;
 }
-//! -----------------------------------------------ENFANT--------------------------------------------------------------------
+
+//! -------------------------------------------- ENFANT --------------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un enfant a la BD
 function ajouterEnfant($nom, $prenom, $dateNaissance, $lienJeton)
@@ -1143,7 +1144,7 @@ function afficherInformationsEnfantModification($idEnfant)
 }
 
 
-//! -----------------------------------------------MEMBRE--------------------------------------------------------------------
+//! -------------------------------------------- MEMBRE --------------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un membre a la BD
 function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $role)
@@ -2201,7 +2202,7 @@ function recupererMdp($courriel)
     }
 }
 
-//! -----------------------------------------------OBJECTIF------------------------------------------------------------------
+//! -------------------------------------------- OBJECTIF ------------------------------------------------------------------------
 
 // fontion qui permet d'ajouter un objectif a la BD
 function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille, $idMembre, $idEnfant)
@@ -3475,7 +3476,7 @@ function reinitialiserObjectif($idObjectif)
     }
 }
 
-//! -----------------------------------------------RECOMPENSE--------------------------------------------------------------
+//! -------------------------------------------- RECOMPENSE ----------------------------------------------------------------------
 
 // fonction qui permet d'ajouter un recompense a la BD
 function ajouterRecompense($intitule, $lienImage, $descriptif)
@@ -3794,7 +3795,7 @@ function afficherRecompenseSelonObjectif($idObjectif)
     }
 }
 
-//! -------------------------------------------------EQUIPE------------------------------------------------------------
+//! -------------------------------------------- EQUIPE --------------------------------------------------------------------------
 function afficherNomPrenomMembre()
 {
     // connexion a la BD
@@ -3923,7 +3924,7 @@ function supprimerMembreEquipe($chaineConcatene)
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
     }
 }
-//!---------------------------------------------MESSAGE-------------------------------------------------------------------------
+//! -------------------------------------------- MESSAGE -------------------------------------------------------------------------
 
 function ajouterMessage($sujet, $corps, $dateHeure, $idObjectif, $idMembre)
 {
@@ -4190,7 +4191,7 @@ function messageIdentique($sujet, $corps, $idObjectif, $idMembre)
     $i++;
 }
 
-//!------------------------------------------------PLACER JETON----------------------------------------------------------------------
+//! -------------------------------------------- PLACER JETON --------------------------------------------------------------------
 
 //fonction qui permet d'ajouter 
 function ajouterJeton($idObjectif, $dateHeure, $idMembre, $tempsDebut)
@@ -4247,56 +4248,6 @@ function supprimerTousLesJetons($idObjectif)
     }
 }
 
-//!------------------------------------------------PARTIE ADMIN----------------------------------------------------------------------
-
-//function ajouterAdmin($idAdmin,$nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $role)
-// {
-//     // connexion a la BD
-//     $linkpdo = connexionBd();
-//     // preparation de la Requête sql
-//     $req = $linkpdo->prepare($GLOBALS['qAjouterCompteAdmin']);
-//     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un membre a la BD');
-//     }
-//     // execution de la Requête sql
-//     $req->execute(array(
-//         ':idAdmin' => clean($idAdmin),
-//         ':nom' => clean($nom),
-//         ':prenom' => clean($prenom),
-//         ':adresse' => clean($adresse),
-//         ':codePostal' => clean($codePostal),
-//         ':ville' => clean($ville),
-//         ':courriel' => clean($courriel),
-//         ':dateNaissance' => clean($dateNaissance),
-//         ':mdp' => clean($mdp),
-//         ':role' => clean($role)
-//     ));
-
-//     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un membre a la BD');
-//     }
-// }
-// function verifierValidationAdmin($courriel)
-// {
-//     // connexion a la BD
-//     $linkpdo = connexionBd();
-//     // preparation de la Requête sql
-//     $req = $linkpdo->prepare($GLOBALS['qVerifierValidationAdmin']);
-//     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour vérifier la validité du admin');
-//     }
-//     // execution de la Requête sql
-//     $req->execute(array(':courriel' => clean($courriel)));
-//     if ($req == false) {
-//         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour vérifier la validité du admin');
-//     }
-//     if ($req->rowCount() > 0) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
 //function qui permet de récupérer l'id d'un membre
 function recupererIdMembre($courriel)
 {
@@ -4317,7 +4268,7 @@ function recupererIdMembre($courriel)
     }
 }
 
-//!------------------------------------------------STATISTIQUES----------------------------------------------------------------------
+//! -------------------------------------------- STATISTIQUES --------------------------------------------------------------------
 
 function afficherBarresProgression($idObjectif)
 {
