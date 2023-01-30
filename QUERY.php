@@ -374,13 +374,14 @@ function saltHash(string $mdp): string
     return password_hash($code, PASSWORD_DEFAULT);
 }
 
+
 /**
  * uploadImage
  * Fonction qui upload les images dans le dossier upload
- * @param  mixed $photo
+ * @param  array $photo
  * @return string
  */
-function uploadImage($photo): string
+function uploadImage(array $photo): string
 {
 
     if (isset($photo)) {
@@ -512,7 +513,6 @@ function faireMenu(): void
     // </li>
 }
 
-// 
 /**
  * faireChargement
  * Fonction qui affiche la page de chargement du site
@@ -532,8 +532,14 @@ function faireChargement(): void
     </div>
     ';
 }
-// fonction pour les durées des objectifs
-function dureeString($duree)
+
+/**
+ * dureeString
+ * fonction pour calculer la durée totale d'un objectif
+ * @param  int $duree
+ * @return string
+ */
+function dureeString(int $duree): string
 {
     $s = intdiv($duree, 168);
     $duree -= 168 * $s;
