@@ -4377,7 +4377,13 @@ function recupererPremierJetonJamaisPose($idObjectif)
         }
     }
 }
-function nettoyerObjectif()
+
+/**
+ * nettoyerObjectif
+ * Fonction qui permet de modifier l'état de l'objectif au bout de 4 semaines, en fonction de s'il a été validé a 80% ou non
+ * @return void
+ */
+function nettoyerObjectif() : void
 {
     if (isset($_POST['boutonAVenir'])) {
         modifierObjectifAVenir($_SESSION['objectif']);
