@@ -1,4 +1,6 @@
-<?php session_start();require('QUERY.php');testConnexion();?>
+<?php session_start();
+require('QUERY.php');
+testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -17,53 +19,53 @@
 faireMenu();
 
 //!AJOUT D'UN ENFANT
-if (champRempli(array('champNom', 'champPrénom', 'champDateDeNaissance'))) {
-    if (isset($_POST['boutonValider'])) {
-        if (enfantIdentique(
-        $_POST['champNom'],
-        $_POST['champPrénom'],
-        $_POST['champDateDeNaissance']
-        ) == 0) {
-        $image = uploadImage($_FILES['champImageJeton']);
-        if($image != null) {
-            ajouterEnfant(
-            $_POST['champNom'],
-            $_POST['champPrénom'],
-            $_POST['champDateDeNaissance'],
-            $image
-            );
-            echo '
+if (isset($_POST['boutonValider'])) {
+  if (champRempli(array('champNom', 'champPrénom', 'champDateDeNaissance'))) {
+    if (enfantIdentique(
+      $_POST['champNom'],
+      $_POST['champPrénom'],
+      $_POST['champDateDeNaissance']
+    ) == 0) {
+      $image = uploadImage($_FILES['champImageJeton']);
+      if ($image != null) {
+        ajouterEnfant(
+          $_POST['champNom'],
+          $_POST['champPrénom'],
+          $_POST['champDateDeNaissance'],
+          $image
+        );
+        echo '
             <div class="validationPopup">
                 <h2 class="txtPopup">L\'enfant a bien été ajouté à la base !</h2>
                 <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
                 <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
             </div>';
-        } else {
-            echo '
+      } else {
+        echo '
             <div class="erreurPopup">
             <h2 class="txtPopup">Erreur, image trop grande.</h2>
             <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
             <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
             </div>';
-        }
-        } else {
-        echo
-        '<div class="erreurPopup">
+      }
+    } else {
+      echo
+      '<div class="erreurPopup">
             <h2 class="txtPopup">L\'enfant n\'a pas été ajouté à la base car il existe déja.</h2>
             <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
             <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
             </div>';
-        }
     }
+  }
 }
 
 //!SUPRESSION D'UN ENFANT
 if (isset($_POST['boutonSupprimer'])) {
-    if(file_exists(supprimerImageEnfant($_POST['boutonSupprimer']))) {
-         unlink(supprimerImageEnfant($_POST['boutonSupprimer']));
-     }
-    supprimerEnfant($_POST['boutonSupprimer']);
-    echo '
+  if (file_exists(supprimerImageEnfant($_POST['boutonSupprimer']))) {
+    unlink(supprimerImageEnfant($_POST['boutonSupprimer']));
+  }
+  supprimerEnfant($_POST['boutonSupprimer']);
+  echo '
     <div class="supprPopup">
         <h2 class="txtPopup">L\'enfant a été supprimé !</h2>
         <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
@@ -98,16 +100,16 @@ if (isset($_POST['boutonAppliquer'])) {
     $image = uploadImage($_FILES['champLienJeton']);
     if ($image != null) {
       modifierInformationsEnfant(
-            $_POST['champNom'],
-            $_POST['champPrénom'],
-            $_POST['champDateDeNaissance'],
-            $image,
-            $_POST['boutonAppliquer']
-        );
-        //Pour régler les problemes de réactualisation de page alors que l'image est déja suprimée
-        if(file_exists($_POST['hiddenImageLink'])) {
-            unlink($_POST['hiddenImageLink']);
-        }
+        $_POST['champNom'],
+        $_POST['champPrénom'],
+        $_POST['champDateDeNaissance'],
+        $image,
+        $_POST['boutonAppliquer']
+      );
+      //Pour régler les problemes de réactualisation de page alors que l'image est déja suprimée
+      if (file_exists($_POST['hiddenImageLink'])) {
+        unlink($_POST['hiddenImageLink']);
+      }
     } else {
       echo '
       <div class="erreurPopup">
@@ -128,32 +130,32 @@ if (isset($_POST['boutonAppliquer'])) {
 
   <h1>Gérer les enfants</h1>
 
-<div class="aCacher fenButtonOff transparent" id="formAjoutEnfant">
-  <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
-    <div class="miseEnForme" id="miseEnFormeFormulaire">
-      <label for="champNom">Nom :</label>
-      <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" required>
-      <span></span>
+  <div class="aCacher fenButtonOff transparent" id="formAjoutEnfant">
+    <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
+      <div class="miseEnForme" id="miseEnFormeFormulaire">
+        <label for="champNom">Nom :</label>
+        <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" required>
+        <span></span>
 
-      <label for="champPrénom">Prénom :</label>
-      <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" required>
-      <span></span>
+        <label for="champPrénom">Prénom :</label>
+        <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" required>
+        <span></span>
 
-      <label for="champDateDeNaissance">Date de naissance :</label>
-      <input type="date" name="champDateDeNaissance" min="1900-01-01" max="<?php echo date('Y-m-d'); ?>" required>
-      <span></span>
+        <label for="champDateDeNaissance">Date de naissance :</label>
+        <input type="date" name="champDateDeNaissance" min="1900-01-01" max="<?php echo date('Y-m-d'); ?>" required>
+        <span></span>
 
-      <label for="champImageJeton">Image du jeton :</label>
-      <input type="file" name="champImageJeton" id="champImageJeton" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector('champImageJeton','imageJeton');" required>
-      <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
-    </div>
+        <label for="champImageJeton">Image du jeton :</label>
+        <input type="file" name="champImageJeton" id="champImageJeton" accept="image/png, image/jpeg, image/svg+xml, image/webp, image/bmp, image/gif" onchange="refreshImageSelector('champImageJeton','imageJeton');" required>
+        <img src="images/placeholder.jpg" id="imageJeton" alt=" ">
+      </div>
 
-    <div class="center" id="boutonsValiderAnnuler">
+      <div class="center" id="boutonsValiderAnnuler">
         <button type="button" name="boutonAnnuler" class="boutonAnnuler" id="boutonAnnuler" onclick="fenClose('aCacher')"><img src="images/annuler.png" class="imageIcone" alt="icone annuler"><span>Annuler</span></button>
         <button type="submit" name="boutonValider" class="boutonValider" id="boutonValider" formaction="enfant.php"><img src="images/valider.png" class="imageIcone" alt="icone valider"><span>Valider</span></button>
-    </div>
-  </form>
-</div>
+      </div>
+    </form>
+  </div>
 
 
   <form id="formGestionEnfants" method="POST" enctype="multipart/form-data">

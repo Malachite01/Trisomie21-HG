@@ -303,48 +303,74 @@ $qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WH
 
 //! -------------------------------------------- GENERALES -----------------------------------------------------------------------
 
-//? fonction qui permet de se connecter à la BD
-function connexionBd()
+/**
+ * connexionBd
+ * fonction qui permet de se connecter à la BD
+ * @return PDO
+ */
+function connexionBd(): PDO
 {
+    // informations de connection
     $SERVER = '127.0.0.1';
     $DB = 'projet_sae';
     $LOGIN = 'root';
     $MDP = '';
-    // tentative de connexion a la BD
+    // tentative de connexion à la BD
     try {
-        // connexion a la BD
+        // connexion à la BD
         $linkpdo = new PDO("mysql:host=$SERVER;dbname=$DB", $LOGIN, $MDP);
     } catch (Exception $e) {
-        die('Erreur ! Probleme de connexion a la base de donnees' . $e->getMessage());
+        die('Erreur ! Problème de connexion à la base de données : ' . $e->getMessage());
     }
+    // retourne la connection
     return $linkpdo;
 }
 
-// fonction qui vérifie que les champs $_POST sont bien remplis
-function champRempli($field)
+/**
+ * champRempli
+ * fonction qui vérifie que les champs dont le nom est donné en paramètre sont bien remplis
+ * @param  array $field
+ * @return bool
+ */
+function champRempli(array $field): bool
 {
-    // parcoure la liste des champs 
+    // parcoure la liste des champs
     foreach ($field as $name) {
-        // vérifie s'ils sont vides 
         if (empty($_POST[$name])) {
-            return false; // au moins un champs vides
+            // au moins un champs vides
+            return false;
         }
     }
-    return true; // champs remplis
+    // si tout les champs remplis
+    return true;
 }
 
-// fonction qui permet d'enlever les balises de code dans les champs
-function clean($champEntrant)
+/**
+ * clean
+ * fonction qui permet de sécurisé ( en nettoyant ) les données reçus en paramètre
+ * @param  string $champEntrant
+ * @return string
+ */
+function clean(string $champEntrant): string
 {
-    $champEntrant = strip_tags($champEntrant); // permet d'enlever les balises html, xml, php
-    $champEntrant = htmlspecialchars($champEntrant); // permet de transformer les balises html en *String
+    // permet d'enlever les balises html, xml, php
+    $champEntrant = strip_tags($champEntrant);
+    // permet d'enlève les tags HTML et PHP
+    $champEntrant = htmlspecialchars($champEntrant);
     return $champEntrant;
 }
 
-// fonction de hashage pour les mdp de la bd
-function saltHash($mdp)
+/**
+ * saltHash
+ * fonction de hashage pour les mdp de la bd
+ * @param  string $mdp
+ * @return string
+ */
+function saltHash(string $mdp): string
 {
+    // ajout du sel au mdp
     $code = $mdp . 'BrIc3 4rNaUlT 3sT &$ Le MeIlLeUr d3s / pRoFesSeUrs DU.Mond3 !';
+    // hashage du mdp 
     return password_hash($code, PASSWORD_DEFAULT);
 }
 
