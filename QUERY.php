@@ -305,7 +305,7 @@ $qRecupererPremierJetonJamaisPose = 'SELECT MIN(Date_Heure) FROM placer_jeton WH
 
 /**
  * connexionBd
- * Fonction qui permet de se connecter à la BD
+ * est une fonction qui permet de se connecter à la BD
  * @return PDO
  */
 function connexionBd(): PDO
@@ -328,7 +328,7 @@ function connexionBd(): PDO
 
 /**
  * champRempli
- * Fonction qui vérifie que les champs dont le nom est donné en paramètre sont bien remplis
+ * est une fonction qui vérifie que les champs dont le nom est donné en paramètre sont bien remplis
  * @param  array $field
  * @return bool
  */
@@ -347,7 +347,7 @@ function champRempli(array $field): bool
 
 /**
  * clean
- * Fonction qui permet de sécurisé ( en nettoyant ) les données reçus en paramètre
+ * est une fonction qui permet de sécurisé ( en nettoyant ) les données reçus en paramètre
  * @param  mixed $champEntrant
  * @return mixed
  */
@@ -362,7 +362,7 @@ function clean($champEntrant)
 
 /**
  * saltHash
- * Fonction de hashage pour les mdp de la bd
+ * est une fonction de hashage pour les mdp de la BD
  * @param  string $mdp
  * @return string
  */
@@ -377,7 +377,7 @@ function saltHash(string $mdp): string
 
 /**
  * uploadImage
- * Fonction qui upload les images dans le dossier upload
+ * est une fonction qui upload les images dans le dossier upload
  * @param  array $photo
  * @return string
  */
@@ -417,7 +417,7 @@ function uploadImage(array $photo): string
 
 /**
  * faireMenu
- * Fonction qui affiche le menu dans toutes les pages
+ * est une fonction qui affiche le menu de navigation du site
  * @return void
  */
 function faireMenu(): void
@@ -515,7 +515,7 @@ function faireMenu(): void
 
 /**
  * faireChargement
- * Fonction qui affiche la page de chargement du site
+ * est une fonction qui affiche la page de chargement du site
  * @return void
  */
 function faireChargement(): void
@@ -535,7 +535,7 @@ function faireChargement(): void
 
 /**
  * dureeString
- * fonction pour calculer la durée totale d'un objectif jusqu'aux heures 
+ * est une fonction pour calculer la durée totale d'un objectif jusqu'aux heures 
  * @param  int $duree
  * @return string
  */
@@ -578,7 +578,7 @@ function dureeString(int $duree): string
 
 /**
  * dureeStringMinutes
- * Fonction qui permet de calculer le temps total d'un objectif jusqu'aux minutes 
+ * est une fonction qui permet de calculer le temps total d'un objectif jusqu'aux minutes 
  * @param  int $duree
  * @return string
  */
@@ -661,7 +661,7 @@ function dureeStringMinutes(int $duree): string
 
 /**
  * testConnexion
- * Fonction qui permet de vérifier si la personne est bien connecté et sinon la rediriger vers index.php
+ * est une fonction qui permet de vérifier si la personne est bien connecté et sinon la rediriger 
  * @return void
  */
 function testConnexion(): void
@@ -685,7 +685,7 @@ function testConnexion(): void
 
 /**
  * rechercherEnfant
- * Fonction qui permet de chercher un enfant selon $champ dans son nom
+ * est une fonction qui permet de chercher un/des enfant/s selon $champ dans son/leur nom
  * @param  string $champ
  * @return int
  */
@@ -751,7 +751,7 @@ function rechercherEnfant(String $champ): int
 
 /**
  * rechercheMembre
- * Fonction qui permet de chercher un membre selon $champ dans son nom
+ * est une fonction qui permet de chercher un/des membre/s selon $champ dans son/leur nom
  * @param  string $champ
  * @return int
  */
@@ -827,7 +827,7 @@ function rechercheMembre(string $champ): int
 
 /**
  * ajouterEnfant
- * Fonction qui permet d'ajouter un enfant à la BD
+ * est une fonction qui permet d'ajouter un enfant à la BD
  * @param  string $nom
  * @param  string $prenom
  * @param  mixed  $dateNaissance
@@ -858,7 +858,7 @@ function ajouterEnfant(string $nom, string $prenom, $dateNaissance, string $lien
 
 /**
  * enfantIdentique
- * Fonction qui retourne > 0 si un enfant à le meme nom, prenom et date naissance qu'un enfant de la BD
+ * est une fonction qui retourne > 0 si un enfant à le meme nom, prénom et date naissance qu'un enfant de la BD
  * @param  string $nom
  * @param  string $prenom
  * @param  mixed  $dateNaissance
@@ -887,7 +887,7 @@ function enfantIdentique(string $nom, string $prenom, $dateNaissance): int
 
 /**
  * afficherNomPrenomEnfantSelect
- * Fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
+ * est une fonction qui permet d'afficher le nom et le prenom de chaque enfants dans un select(html)
  * @param  int $enfantSelect
  * @return void
  */
@@ -926,8 +926,13 @@ function afficherNomPrenomEnfantSelect(int $enfantSelect): void
     echo '</select>';
 }
 
-// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
-function afficherNomPrenomEnfantSubmit($enfantSelect)
+/**
+ * afficherNomPrenomEnfantSubmit
+ * est une fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
+ * @param  int $enfantSelect
+ * @return void
+ */
+function afficherNomPrenomEnfantSubmit(int $enfantSelect): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -961,8 +966,15 @@ function afficherNomPrenomEnfantSubmit($enfantSelect)
     }
     echo '</select>';
 }
-// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html) et envoie le form direct
-function afficherNomPrenomEnfantEquipe($enfantSelect, $idMembre)
+
+/**
+ * afficherNomPrenomEnfantEquipe
+ * est une fonction qui permet d'afficher le nom et le prenom de chaque enfant à la charge du membre de la session dans un select(html)
+ * @param  int $enfantSelect
+ * @param  int $idMembre
+ * @return void
+ */
+function afficherNomPrenomEnfantEquipe(int $enfantSelect, int $idMembre): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -999,8 +1011,14 @@ function afficherNomPrenomEnfantEquipe($enfantSelect, $idMembre)
     echo '</select>';
 }
 
-// fonction qui permet d'afficher le nom et le prenom de chaque enfant dans un select(html)
-function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre)
+/**
+ * afficherNomPrenomEnfantSubmitEquipe
+ * est une fonction qui permet d'afficher le nom et le prenom de chaque enfant à la charge du membre de la session dans un select(html) et envoie le form direct
+ * @param  mixed $enfantSelect
+ * @param  int $idMembre
+ * @return void
+ */
+function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, int $idMembre): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1036,7 +1054,14 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre)
     }
     echo '</select>';
 }
-function supprimerImageEnfant($idEnfant)
+
+/**
+ * supprimerImageEnfant
+ * est une fonction qui permet de retourner le lien de l'image de l'enfant selon son Id_Enfant 
+ * @param  int $idEnfant
+ * @return string
+ */
+function supprimerImageEnfant(int $idEnfant): string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1052,16 +1077,21 @@ function supprimerImageEnfant($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            // selectionne toutes les colonnes $key necessaires
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
-function modifierInformationsEnfant($nom, $prenom, $dateNaissance, $lienJeton, $idEnfant)
+
+/**
+ * modifierInformationsEnfant
+ * est une fonction qui permet de modifier les informations de l'enfant selon son Id_Enfant
+ * @param  string $nom
+ * @param  string $prenom
+ * @param  mixed $dateNaissance
+ * @param  string $lienJeton
+ * @param  int $idEnfant
+ * @return void
+ */
+function modifierInformationsEnfant(String $nom, string $prenom, $dateNaissance, string $lienJeton, int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1082,7 +1112,14 @@ function modifierInformationsEnfant($nom, $prenom, $dateNaissance, $lienJeton, $
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un enfant a la BD');
     }
 }
-function afficherImageTampon($idEnfant)
+
+/**
+ * afficherImageTampon
+ * est une fonction qui permet de récupérer le lien de l'image d'un enfant selon son Id_enfant
+ * @param  int $idEnfant
+ * @return string
+ */
+function afficherImageTampon(int $idEnfant): string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1096,15 +1133,16 @@ function afficherImageTampon($idEnfant)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher une image');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
-function afficherInformationsEnfant()
+
+/**
+ * afficherInformationsEnfant
+ * est une fonction qui permet d'afficher les informations des enfants, d'un bouton submit et supprimer 
+ * @return void
+ */
+function afficherInformationsEnfant(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1151,13 +1189,20 @@ function afficherInformationsEnfant()
                  <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
                  " class="boutonSupprimer" formaction="enfant.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
                      <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                     <span>Supprimer</span>
+                     <span>Retirer</span>
                  </button>
              </td>
          </tr>';
     }
 }
-function supprimerEnfant($idEnfant)
+
+/**
+ * supprimerEnfant
+ * est une fonction qui permet de supprimer un enfant de la BD selon son Id_Enfant
+ * @param  int $idEnfant
+ * @return void
+ */
+function supprimerEnfant(int $idEnfant): void
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -1173,7 +1218,13 @@ function supprimerEnfant($idEnfant)
     }
 }
 
-function nomPrenomEnfant($idEnfant)
+/**
+ * nomPrenomEnfant
+ * est une fonction qui permet de retourner le nom et le prénom de l'enfant selon son Id_Enfant
+ * @param  int $idEnfant
+ * @return string
+ */
+function nomPrenomEnfant(int $idEnfant): string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1202,7 +1253,13 @@ function nomPrenomEnfant($idEnfant)
     return ' - ' . $nom . ' ' . $prenom;
 }
 
-function afficherInformationsEnfantModification($idEnfant)
+/**
+ * afficherInformationsEnfantModification
+ * est une fonction qui permet d'afficher les informations d'un enfant selon son Id_Enfant 
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherInformationsEnfantModification(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1239,11 +1296,23 @@ function afficherInformationsEnfantModification($idEnfant)
     }
 }
 
-
 //! -------------------------------------------- MEMBRE --------------------------------------------------------------------------
 
-// fonction qui permet d'ajouter un membre a la BD
-function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, $dateNaissance, $mdp, $role)
+/**
+ * ajouterMembre
+ * est une fonction qui permet d'ajouter un membre à la BD
+ * @param  string $nom
+ * @param  string $prenom
+ * @param  string $adresse
+ * @param  int $codePostal
+ * @param  string $ville
+ * @param  string $courriel
+ * @param  mixed $dateNaissance
+ * @param  string $mdp
+ * @param  int $role
+ * @return void
+ */
+function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePostal, string $ville, string $courriel, $dateNaissance, string $mdp, int $role): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1269,8 +1338,13 @@ function ajouterMembre($nom, $prenom, $adresse, $codePostal, $ville, $courriel, 
     }
 }
 
-// fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
-function membreIdentique($courriel)
+/**
+ * membreIdentique
+ * est une fonction qui retourne > 0 si un membre à le même nom, prénom, date naissance et courriel qu'un membre de la BD
+ * @param  string $courriel
+ * @return int
+ */
+function membreIdentique(string $courriel): int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1289,7 +1363,14 @@ function membreIdentique($courriel)
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
-function membreIdentiqueEquipe($idMembre, $idEnfant)
+/**
+ * membreIdentiqueEquipe
+ * est une fonction qui permet de vérifier si un membre n'est pas déjà présent dans l'équipe d'un enfant selon son Id_Membre et Id_Enfant
+ * @param  int $idMembre
+ * @param  int $idEnfant
+ * @return int
+ */
+function membreIdentiqueEquipe(int $idMembre, int $idEnfant): int
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -1308,9 +1389,12 @@ function membreIdentiqueEquipe($idMembre, $idEnfant)
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre
-function AfficherMembres()
+/**
+ * AfficherMembres
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre
+ * @return void
+ */
+function AfficherMembres(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1378,7 +1462,7 @@ function AfficherMembres()
                 <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
                 " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                     <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
+                    <span>Retirer</span>
                 </button>
             </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1395,9 +1479,12 @@ function AfficherMembres()
     }
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre le tout trie par Nom croissant puis prenom croissant
-function AfficherMembresAZ()
+/**
+ * AfficherMembresAZ
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre le tout trie par Nom croissant puis prenom croissant
+ * @return void
+ */
+function AfficherMembresAZ(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1465,7 +1552,7 @@ function AfficherMembresAZ()
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1482,9 +1569,12 @@ function AfficherMembresAZ()
     }
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre le tout trie par Nom décroissant puis prenom croissant
-function AfficherMembresZA()
+/**
+ * AfficherMembresZA
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre le tout trie par Nom décroissant puis prenom croissant
+ * @return void
+ */
+function AfficherMembresZA(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1552,7 +1642,7 @@ function AfficherMembresZA()
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1569,9 +1659,12 @@ function AfficherMembresZA()
     }
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre le tout trie par date de naissance croissante puis nom puis prenom
-function AfficherMembresDateNaissanceCroissante()
+/**
+ * AfficherMembresDateNaissanceCroissante
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre le tout trie par date de naissance croissante puis nom puis prenom
+ * @return void
+ */
+function AfficherMembresDateNaissanceCroissante(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1639,7 +1732,7 @@ function AfficherMembresDateNaissanceCroissante()
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1656,9 +1749,12 @@ function AfficherMembresDateNaissanceCroissante()
     }
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre le tout trie par date de naissance decroissante puis nom puis prenom
-function AfficherMembresDateNaissanceDecroissante()
+/**
+ * AfficherMembresDateNaissanceDecroissante
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre le tout trie par date de naissance decroissante puis nom puis prenom
+ * @return void
+ */
+function AfficherMembresDateNaissanceDecroissante(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1726,7 +1822,7 @@ function AfficherMembresDateNaissanceDecroissante()
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1743,9 +1839,12 @@ function AfficherMembresDateNaissanceDecroissante()
     }
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre le tout trie par validation croissante puis nom puis prenom
-function AfficherMembresCompteValideCroissante()
+/**
+ * AfficherMembresCompteValideCroissante
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre le tout trie par validation croissante puis nom puis prenom
+ * @return void
+ */
+function AfficherMembresCompteValideCroissante(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1813,7 +1912,7 @@ function AfficherMembresCompteValideCroissante()
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1830,9 +1929,12 @@ function AfficherMembresCompteValideCroissante()
     }
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre le tout trie par validation decroissante puis nom puis prenom
-function AfficherMembresCompteValideDecroissante()
+/**
+ * AfficherMembresCompteValideDecroissante
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre le tout trie par validation decroissante puis nom puis prenom
+ * @return void
+ */
+function AfficherMembresCompteValideDecroissante(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1900,7 +2002,7 @@ function AfficherMembresCompteValideDecroissante()
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1917,9 +2019,12 @@ function AfficherMembresCompteValideDecroissante()
     }
 }
 
-// fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id)
-// et un checkbox affiche l'etat de validation du membre le tout trie par Id_Membre decroissante
-function AfficherMembresIdMembreDecroissante()
+/**
+ * AfficherMembresIdMembreDecroissante
+ * est une fonction qui permet d'afficher le nom, le prenom, la date de naissance, le courriel, un bouton qui appele supprimerMembre($id) et un checkbox affiche l'etat de validation du membre le tout trie par Id_Membre decroissante
+ * @return void
+ */
+function AfficherMembresIdMembreDecroissante(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1987,7 +2092,7 @@ function AfficherMembresIdMembreDecroissante()
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -2004,8 +2109,13 @@ function AfficherMembresIdMembreDecroissante()
     }
 }
 
-// fonction qui permet de valider un membre a partir de son id
-function validerMembre($idMembre)
+/**
+ * validerMembre
+ * est une fonction qui permet de valider un membre a partir de son id
+ * @param  int $idMembre
+ * @return void
+ */
+function validerMembre(int $idMembre): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2021,8 +2131,13 @@ function validerMembre($idMembre)
     }
 }
 
-// fonction qui permet de vérifier si un membre est validé ou non avant de se connecter
-function verifierValidationMembre($courriel)
+/**
+ * verifierValidationMembre
+ * est une fonction qui permet de vérifier si un membre est validé ou non avant de se connecter
+ * @param  string $courriel
+ * @return bool
+ */
+function verifierValidationMembre(string $courriel): bool
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2038,62 +2153,17 @@ function verifierValidationMembre($courriel)
     }
     if ($req->rowCount() > 0) {
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
-// ---------------------------------------------------------------------------------------------------A finir
-// fonction qui permet d'afficher le prenom d'un membre (barre menu)
-function afficherPrenomMembre($idMembre)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererPrenomMembreConnected']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour vérifier la validité du membre');
-    }
-    // execution de la Requête sql
-    $req->execute(array(':idMembre' => clean($idMembre)));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour vérifier la validité du membre');
-    }
-    return $req;
-}
-
-// fonction qui permet d'afficher le prenom d'un membre (barre menu)
-function afficherNomPrenomMembreMessage($idMembre)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererNomPrenomMembre']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour vérifier la validité du membre');
-    }
-    // execution de la Requête sql
-    $req->execute(array(':idMembre' => clean($idMembre)));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour vérifier la validité du membre');
-    }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête 
-        foreach ($data as $key => $value) {
-            // recuperation de toutes les informations du membre de la session dans des inputs 
-            if ($key == 'Nom') {
-                $nom = $value;
-            }
-            if ($key == 'Prenom') {
-                $prenom = $value;
-            }
-            return $nom . '.' . $prenom;
-        }
-    }
-}
-
-// fonction qui permet de rechercher un membre à partir de son idMembre
-function rechercherMembre($idMembre)
+/**
+ * rechercherMembre
+ * est une fonction qui permet de rechercher un membre à partir de son idMembre
+ * @param  int $idMembre
+ * @return PDOStatement
+ */
+function rechercherMembre(int $idMembre): PDOStatement
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -2110,9 +2180,13 @@ function rechercherMembre($idMembre)
     return $req; // retourne le membre correspondant a $idMembre
 }
 
-// ---------------------------------------------------------------------------------------------------A revoir commentaire
-// fonction qui permet d'afficher les informations du membre de la session
-function AfficherInformationsMembreSession($idMembre)
+/**
+ * AfficherInformationsMembreSession
+ * est une fonction qui permet d'afficher les informations du membre de la session
+ * @param  int $idMembre
+ * @return void
+ */
+function AfficherInformationsMembreSession(int $idMembre): void
 {
     // recherche les informations d'un membre selon son idMembre
     $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
@@ -2157,7 +2231,15 @@ function AfficherInformationsMembreSession($idMembre)
         }
     }
 }
-function AfficherInformationsMembre($idMembre)
+
+
+/**
+ * AfficherInformationsMembre
+ * est une fonction qui permet d'afficher les informations du membre selon son Id_Membre
+ * @param  int $idMembre
+ * @return void
+ */
+function AfficherInformationsMembre(int $idMembre): void
 {
 
     $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
@@ -2195,8 +2277,20 @@ function AfficherInformationsMembre($idMembre)
         }
     }
 }
-// fonction qui permet de modifier les informations du membre de la session
-function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, $ville, $dateNaissance)
+
+/**
+ * modifierMembreSession
+ * est une fonction qui permet de modifier les informations du membre de la session
+ * @param  int  $idMembre
+ * @param  string $nom
+ * @param  string $prenom
+ * @param  string $adresse
+ * @param  int $codePostal
+ * @param  string $ville
+ * @param  mixed $dateNaissance
+ * @return void
+ */
+function modifierMembreSession(int $idMembre, string $nom, string $prenom, string $adresse, int $codePostal, string $ville, $dateNaissance): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2222,22 +2316,31 @@ function modifierMembreSession($idMembre, $nom, $prenom, $adresse, $codePostal, 
     }
 }
 
-function supprimerIdMembreDansObjectif($idMembre)
+/**
+ * supprimerIdMembreDansObjectif
+ * est une fonction qui permet de supprimer l'Id_Membre de l'objectif qui le concerne 
+ * @param  int $idMembre
+ * @return void
+ */
+function supprimerIdMembreDansObjectif(int $idMembre): void
 {
     $linkpdo = connexionBd();
-    // preparation de la Requête sql
-    //on supprime les liens avec Objectif
+    // on supprime les liens avec Objectif
     $req = $linkpdo->prepare($GLOBALS['qSupprimerIdMembreObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer tous les idObj de la BD');
     }
 
     $req->execute(array(':idMembre' => clean($idMembre)));
-    // $req->debugDumpParams();
 }
 
-// fonction qui permet de supprimer un membre a partir de son idMembre
-function supprimerMembre($idMembre)
+/**
+ * supprimerMembre
+ * est une fonction qui permet de supprimer un membre a partir de son idMembre
+ * @param  int $idMembre
+ * @return void
+ */
+function supprimerMembre(int $idMembre): void
 {
     supprimerIdMembreDansObjectif($idMembre);
     // connexion a la base de donnees
@@ -2254,7 +2357,14 @@ function supprimerMembre($idMembre)
     }
 }
 
-function modifierMdp($mdp, $idMembre)
+/**
+ * modifierMdp
+ * est une fonction qui permet de modifier le mdp du membre de la session
+ * @param  string $mdp
+ * @param  void $idMembre
+ * @return void
+ */
+function modifierMdp(string $mdp, int $idMembre): void
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -2273,35 +2383,21 @@ function modifierMdp($mdp, $idMembre)
     }
 }
 
-function recupererMdp($courriel)
-{
-    // connexion a la base de donnees
-    $linkpdo = connexionBd();
-    //on supprime le membre
-    $req = $linkpdo->prepare($GLOBALS['qRecupererMotDePasseUnMembre']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour supprimer un membre de la BD');
-    }
-    // execution de la Requête sql
-    $req->execute(array(
-        ':courriel' => $courriel
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour supprimer un membre de la BD');
-    }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête 
-        foreach ($data as $value) {
-            // recuperation de toutes les informations du membre de la session dans des inputs 
-            return $value;
-        }
-    }
-}
-
 //! -------------------------------------------- OBJECTIF ------------------------------------------------------------------------
 
-// fontion qui permet d'ajouter un objectif a la BD
-function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille, $idMembre, $idEnfant)
+/**
+ * ajouterObjectif
+ * est une fontion qui permet d'ajouter un objectif à la BD
+ * @param  string $intitule
+ * @param  int $nbJetons
+ * @param  int $duree
+ * @param  string $lienObjectif
+ * @param  int $travaille
+ * @param  int $idMembre
+ * @param  int $idEnfant
+ * @return void
+ */
+function ajouterObjectif(string $intitule, int $nbJetons, int $duree, string $lienObjectif, int $travaille, int $idMembre, int $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2326,8 +2422,14 @@ function ajouterObjectif($intitule, $nbJetons, $duree, $lienObjectif, $travaille
     }
 }
 
-// fonction qui retourne les lignes si un membre a le meme nom, prenom, date naissance et courriel qu'un membre de la BD
-function objectifIdentique($intitule, $idEnfant)
+/**
+ * objectifIdentique
+ * est une fonction qui retourne > 0 si un objectif a le meme intitule pour un enfant donné de la BD
+ * @param  string $intitule
+ * @param  int $idEnfant
+ * @return int
+ */
+function objectifIdentique(string $intitule, int $idEnfant): int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2347,8 +2449,13 @@ function objectifIdentique($intitule, $idEnfant)
     return $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
 }
 
-// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
-function afficherGererObjectifs($idEnfant)
+/**
+ * afficherGererObjectifs
+ * fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifs(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3555,7 +3662,7 @@ function recupererDureeUnObjectif(int $idObjectif) : int
  * @param  int $idObjectif
  * @return void
  */
-function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif) : void
+function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3580,7 +3687,7 @@ function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif) : void
  * @param  int $idObjectif
  * @return int
  */
-function recupererTempsDebutObjectif(int $idObjectif) : int
+function recupererTempsDebutObjectif(int $idObjectif): int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3607,7 +3714,7 @@ function recupererTempsDebutObjectif(int $idObjectif) : int
  * @param  int $idObjectif
  * @return void
  */
-function reinitialiserObjectif(int $idObjectif) : void
+function reinitialiserObjectif(int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3635,7 +3742,7 @@ function reinitialiserObjectif(int $idObjectif) : void
  * @param  string $descriptif
  * @return void
  */
-function ajouterRecompense(string $intitule, string $lienImage, string $descriptif) : void
+function ajouterRecompense(string $intitule, string $lienImage, string $descriptif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3664,7 +3771,7 @@ function ajouterRecompense(string $intitule, string $lienImage, string $descript
  * @param  string $descriptif
  * @return void
  */
-function modifierRecompense(int $idRecompense, string $intitule, string $lienImage, string $descriptif) : void
+function modifierRecompense(int $idRecompense, string $intitule, string $lienImage, string $descriptif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3691,7 +3798,7 @@ function modifierRecompense(int $idRecompense, string $intitule, string $lienIma
  * @param  int $idRecompense
  * @return PDOStatement
  */
-function rechercherRecompense(int $idRecompense) : PDOStatement
+function rechercherRecompense(int $idRecompense): PDOStatement
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -3716,7 +3823,7 @@ function rechercherRecompense(int $idRecompense) : PDOStatement
  * @param  int $idRecompense
  * @return string
  */
-function afficherImageRecompense(int $idRecompense) : string
+function afficherImageRecompense(int $idRecompense): string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3742,7 +3849,7 @@ function afficherImageRecompense(int $idRecompense) : string
  * @param  int $idRecompense
  * @return void
  */
-function afficherInfoRecompense(int $idRecompense) : void
+function afficherInfoRecompense(int $idRecompense): void
 {
     // recherche les informations d'une selon son id
     $req = rechercherRecompense($idRecompense); // retoune la recompense selon $idRecompense
@@ -3776,7 +3883,7 @@ function afficherInfoRecompense(int $idRecompense) : void
  * @param  int $idRecompense
  * @return void
  */
-function supprimerRecompense(int $idRecompense) : void
+function supprimerRecompense(int $idRecompense): void
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -3798,7 +3905,7 @@ function supprimerRecompense(int $idRecompense) : void
  * @param  int $idEnfant
  * @return void
  */
-function afficherRecompense(int $idEnfant) : void
+function afficherRecompense(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3866,7 +3973,7 @@ function afficherRecompense(int $idEnfant) : void
  * @param  int $idRecompense
  * @return void
  */
-function ajouterLienRecompenseObj(int $idObjectif, int $idRecompense) : void
+function ajouterLienRecompenseObj(int $idObjectif, int $idRecompense): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3888,7 +3995,7 @@ function ajouterLienRecompenseObj(int $idObjectif, int $idRecompense) : void
  * @param  string $intitule
  * @return int
  */
-function rechercherIdRecompenseSelonIntitule(string $intitule) : int
+function rechercherIdRecompenseSelonIntitule(string $intitule): int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3913,7 +4020,7 @@ function rechercherIdRecompenseSelonIntitule(string $intitule) : int
  * @param  int $idRecompense
  * @return string
  */
-function supprimerImageRecompense(int $idRecompense) : string
+function supprimerImageRecompense(int $idRecompense): string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3939,7 +4046,7 @@ function supprimerImageRecompense(int $idRecompense) : string
  * @param  int $idObjectif
  * @return void
  */
-function afficherRecompenseSelonObjectif(int $idObjectif) : void
+function afficherRecompenseSelonObjectif(int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3999,7 +4106,7 @@ function afficherRecompenseSelonObjectif(int $idObjectif) : void
  * est une fonction qui permet d'afficher tous les membres dans un sélécteur
  * @return void
  */
-function afficherNomPrenomMembre() : void
+function afficherNomPrenomMembre(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4042,7 +4149,7 @@ function afficherNomPrenomMembre() : void
  * @param  string $role
  * @return void
  */
-function ajouterUneEquipe(int $idEnfant, int $idMembre, $dateDemandeEquipe, string $role) : void
+function ajouterUneEquipe(int $idEnfant, int $idMembre, $dateDemandeEquipe, string $role): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4069,7 +4176,7 @@ function ajouterUneEquipe(int $idEnfant, int $idMembre, $dateDemandeEquipe, stri
  * @param  int $idEnfant
  * @return void
  */
-function afficherGererEquipe(int $idEnfant) : void
+function afficherGererEquipe(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4130,7 +4237,7 @@ function afficherGererEquipe(int $idEnfant) : void
  * @param  string $chaineConcatene est constitué de $idMembre et $idEnfant
  * @return void
  */
-function supprimerMembreEquipe(string $chaineConcatene) : void
+function supprimerMembreEquipe(string $chaineConcatene): void
 {
     $chaineDeconcatene = explode(",", $chaineConcatene);
     $idMembre = $chaineDeconcatene[0];
@@ -4162,7 +4269,7 @@ function supprimerMembreEquipe(string $chaineConcatene) : void
  * @param  int $idMembre
  * @return void
  */
-function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjectif, int $idMembre) : void
+function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjectif, int $idMembre): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4190,7 +4297,7 @@ function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjecti
  * @param  mixed $idEnfant
  * @return void
  */
-function afficherMessage(int $idEnfant) : void
+function afficherMessage(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4262,7 +4369,7 @@ function afficherMessage(int $idEnfant) : void
  * est une fonction qui affiche le chat du tableau de bord
  * @return void
  */
-function faireChatTb() : void
+function faireChatTb(): void
 {
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')," enctype="multipart/form-data">      
@@ -4312,7 +4419,7 @@ function faireChatTb() : void
  * est une fonction qui affiche le chat pour un objectif
  * @return void
  */
-function faireChatObjectif() : void
+function faireChatObjectif(): void
 {
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
@@ -4351,7 +4458,7 @@ function faireChatObjectif() : void
  * @param  int $idObjectif
  * @return void
  */
-function afficherMessageParObjectif(int $idEnfant, int $idObjectif) : void
+function afficherMessageParObjectif(int $idEnfant, int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4473,7 +4580,7 @@ function messageIdentique(string $sujet, string $corps, int $idObjectif, int $id
  * @param  mixed $tempsDebut
  * @return void
  */
-function ajouterJeton(int $idObjectif, int $dateHeure, int $idMembre, $tempsDebut) : void
+function ajouterJeton(int $idObjectif, int $dateHeure, int $idMembre, $tempsDebut): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4500,7 +4607,7 @@ function ajouterJeton(int $idObjectif, int $dateHeure, int $idMembre, $tempsDebu
  * @param  int $idObjectif
  * @return void
  */
-function supprimerDernierJeton(int $idObjectif) : void
+function supprimerDernierJeton(int $idObjectif): void
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -4523,7 +4630,7 @@ function supprimerDernierJeton(int $idObjectif) : void
  * @param  int $idObjectif
  * @return void
  */
-function supprimerTousLesJetons(int $idObjectif) : void 
+function supprimerTousLesJetons(int $idObjectif): void
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -4546,7 +4653,7 @@ function supprimerTousLesJetons(int $idObjectif) : void
  * @param  string $courriel
  * @return int
  */
-function recupererIdMembre(string $courriel) : int
+function recupererIdMembre(string $courriel): int
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererIdUnMembre']);
