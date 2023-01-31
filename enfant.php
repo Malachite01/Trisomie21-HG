@@ -134,11 +134,11 @@ if (isset($_POST['boutonAppliquer'])) {
     <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">
       <div class="miseEnForme" id="miseEnFormeFormulaire">
         <label for="champNom">Nom :</label>
-        <input type="text" name="champNom" placeholder="Entrez votre nom" minlength="1" maxlength="50" required>
+        <input type="text" name="champNom" placeholder="Entrez le nom" minlength="1" maxlength="50" required>
         <span></span>
 
         <label for="champPrénom">Prénom :</label>
-        <input type="text" name="champPrénom" placeholder="Entrez votre prénom" minlength="1" maxlength="50" required>
+        <input type="text" name="champPrénom" placeholder="Entrez le prénom" minlength="1" maxlength="50" required>
         <span></span>
 
         <label for="champDateDeNaissance">Date de naissance :</label>
@@ -178,7 +178,7 @@ if (isset($_POST['boutonAppliquer'])) {
         <th>Prénom</th>
         <th>Date de naissance</th>
         <th>Modifier</th>
-        <th>Supprimer</th>
+        <th>Retirer</th>
       </thead>
 
       <tbody id="tbodyGererEnfants">

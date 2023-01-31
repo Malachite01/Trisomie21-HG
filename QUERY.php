@@ -1189,7 +1189,7 @@ function afficherInformationsEnfant(): void
                  <button type="submit" name="boutonSupprimer" value="' . $idEnfant . '
                  " class="boutonSupprimer" formaction="enfant.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet enfant ?\');" >
                      <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                     <span>Supprimer</span>
+                     <span>Retirer</span>
                  </button>
              </td>
          </tr>';
@@ -1462,7 +1462,7 @@ function AfficherMembres(): void
                 <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
                 " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                     <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                    <span>Supprimer</span>
+                    <span>Retirer</span>
                 </button>
             </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1552,7 +1552,7 @@ function AfficherMembresAZ(): void
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1642,7 +1642,7 @@ function AfficherMembresZA(): void
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1732,7 +1732,7 @@ function AfficherMembresDateNaissanceCroissante(): void
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1822,7 +1822,7 @@ function AfficherMembresDateNaissanceDecroissante(): void
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -1912,7 +1912,7 @@ function AfficherMembresCompteValideCroissante(): void
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -2002,7 +2002,7 @@ function AfficherMembresCompteValideDecroissante(): void
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -2092,7 +2092,7 @@ function AfficherMembresIdMembreDecroissante(): void
             <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
             " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
-                <span>Supprimer</span>
+                <span>Retirer</span>
             </button>
         </td>';
         if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
@@ -3628,7 +3628,7 @@ function recupererDureeUnObjectif(int $idObjectif)
  * @param  int $idObjectif
  * @return void
  */
-function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif) : void
+function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3653,7 +3653,7 @@ function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif) : void
  * @param  int $idObjectif
  * @return int
  */
-function recupererTempsDebutObjectif(int $idObjectif) : int
+function recupererTempsDebutObjectif(int $idObjectif): int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3680,7 +3680,7 @@ function recupererTempsDebutObjectif(int $idObjectif) : int
  * @param  int $idObjectif
  * @return void
  */
-function reinitialiserObjectif(int $idObjectif) : void
+function reinitialiserObjectif(int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3708,7 +3708,7 @@ function reinitialiserObjectif(int $idObjectif) : void
  * @param  string $descriptif
  * @return void
  */
-function ajouterRecompense(string $intitule, string $lienImage, string $descriptif) : void
+function ajouterRecompense(string $intitule, string $lienImage, string $descriptif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3737,7 +3737,7 @@ function ajouterRecompense(string $intitule, string $lienImage, string $descript
  * @param  string $descriptif
  * @return void
  */
-function modifierRecompense(int $idRecompense, string $intitule, string $lienImage, string $descriptif) : void
+function modifierRecompense(int $idRecompense, string $intitule, string $lienImage, string $descriptif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3764,7 +3764,7 @@ function modifierRecompense(int $idRecompense, string $intitule, string $lienIma
  * @param  int $idRecompense
  * @return PDOStatement
  */
-function rechercherRecompense(int $idRecompense) : PDOStatement
+function rechercherRecompense(int $idRecompense): PDOStatement
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -3789,7 +3789,7 @@ function rechercherRecompense(int $idRecompense) : PDOStatement
  * @param  int $idRecompense
  * @return string
  */
-function afficherImageRecompense(int $idRecompense) : string
+function afficherImageRecompense(int $idRecompense): string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3815,7 +3815,7 @@ function afficherImageRecompense(int $idRecompense) : string
  * @param  int $idRecompense
  * @return void
  */
-function afficherInfoRecompense(int $idRecompense) : void
+function afficherInfoRecompense(int $idRecompense): void
 {
     // recherche les informations d'une selon son id
     $req = rechercherRecompense($idRecompense); // retoune la recompense selon $idRecompense
@@ -3849,7 +3849,7 @@ function afficherInfoRecompense(int $idRecompense) : void
  * @param  int $idRecompense
  * @return void
  */
-function supprimerRecompense(int $idRecompense) : void
+function supprimerRecompense(int $idRecompense): void
 {
     // connexion a la base de donnees
     $linkpdo = connexionBd();
@@ -3871,7 +3871,7 @@ function supprimerRecompense(int $idRecompense) : void
  * @param  int $idEnfant
  * @return void
  */
-function afficherRecompense(int $idEnfant) : void
+function afficherRecompense(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3939,7 +3939,7 @@ function afficherRecompense(int $idEnfant) : void
  * @param  int $idRecompense
  * @return void
  */
-function ajouterLienRecompenseObj(int $idObjectif, int $idRecompense) : void
+function ajouterLienRecompenseObj(int $idObjectif, int $idRecompense): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3961,7 +3961,7 @@ function ajouterLienRecompenseObj(int $idObjectif, int $idRecompense) : void
  * @param  string $intitule
  * @return int
  */
-function rechercherIdRecompenseSelonIntitule(string $intitule) : int
+function rechercherIdRecompenseSelonIntitule(string $intitule): int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3986,7 +3986,7 @@ function rechercherIdRecompenseSelonIntitule(string $intitule) : int
  * @param  int $idRecompense
  * @return string
  */
-function supprimerImageRecompense(int $idRecompense) : string
+function supprimerImageRecompense(int $idRecompense): string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4012,7 +4012,7 @@ function supprimerImageRecompense(int $idRecompense) : string
  * @param  int $idObjectif
  * @return void
  */
-function afficherRecompenseSelonObjectif(int $idObjectif) : void
+function afficherRecompenseSelonObjectif(int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4072,7 +4072,7 @@ function afficherRecompenseSelonObjectif(int $idObjectif) : void
  * est une fonction qui permet d'afficher tous les membres dans un sélécteur
  * @return void
  */
-function afficherNomPrenomMembre() : void
+function afficherNomPrenomMembre(): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4115,7 +4115,7 @@ function afficherNomPrenomMembre() : void
  * @param  string $role
  * @return void
  */
-function ajouterUneEquipe(int $idEnfant, int $idMembre, $dateDemandeEquipe, string $role) : void
+function ajouterUneEquipe(int $idEnfant, int $idMembre, $dateDemandeEquipe, string $role): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4142,7 +4142,7 @@ function ajouterUneEquipe(int $idEnfant, int $idMembre, $dateDemandeEquipe, stri
  * @param  int $idEnfant
  * @return void
  */
-function afficherGererEquipe(int $idEnfant) : void
+function afficherGererEquipe(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4203,7 +4203,7 @@ function afficherGererEquipe(int $idEnfant) : void
  * @param  string $chaineConcatene est constitué de $idMembre et $idEnfant
  * @return void
  */
-function supprimerMembreEquipe(string $chaineConcatene) : void
+function supprimerMembreEquipe(string $chaineConcatene): void
 {
     $chaineDeconcatene = explode(",", $chaineConcatene);
     $idMembre = $chaineDeconcatene[0];
@@ -4235,7 +4235,7 @@ function supprimerMembreEquipe(string $chaineConcatene) : void
  * @param  int $idMembre
  * @return void
  */
-function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjectif, int $idMembre) : void
+function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjectif, int $idMembre): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4263,7 +4263,7 @@ function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjecti
  * @param  mixed $idEnfant
  * @return void
  */
-function afficherMessage(int $idEnfant) : void
+function afficherMessage(int $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4335,7 +4335,7 @@ function afficherMessage(int $idEnfant) : void
  * est une fonction qui affiche le chat du tableau de bord
  * @return void
  */
-function faireChatTb() : void
+function faireChatTb(): void
 {
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')," enctype="multipart/form-data">      
@@ -4385,7 +4385,7 @@ function faireChatTb() : void
  * est une fonction qui affiche le chat pour un objectif
  * @return void
  */
-function faireChatObjectif() : void
+function faireChatObjectif(): void
 {
     echo '
     <form id="form" method="POST" onsubmit="erasePopup(\'erreurPopup\'),erasePopup(\'validationPopup\')" enctype="multipart/form-data">      
@@ -4424,7 +4424,7 @@ function faireChatObjectif() : void
  * @param  int $idObjectif
  * @return void
  */
-function afficherMessageParObjectif(int $idEnfant, int $idObjectif) : void
+function afficherMessageParObjectif(int $idEnfant, int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4546,7 +4546,7 @@ function messageIdentique(string $sujet, string $corps, int $idObjectif, int $id
  * @param  mixed $tempsDebut
  * @return void
  */
-function ajouterJeton(int $idObjectif, int $dateHeure, int $idMembre, $tempsDebut) : void
+function ajouterJeton(int $idObjectif, int $dateHeure, int $idMembre, $tempsDebut): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4573,7 +4573,7 @@ function ajouterJeton(int $idObjectif, int $dateHeure, int $idMembre, $tempsDebu
  * @param  int $idObjectif
  * @return void
  */
-function supprimerDernierJeton(int $idObjectif) : void
+function supprimerDernierJeton(int $idObjectif): void
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -4596,7 +4596,7 @@ function supprimerDernierJeton(int $idObjectif) : void
  * @param  int $idObjectif
  * @return void
  */
-function supprimerTousLesJetons(int $idObjectif) : void 
+function supprimerTousLesJetons(int $idObjectif): void
 {
     $linkpdo = connexionBd();
     // preparation de la Requête sql
@@ -4619,7 +4619,7 @@ function supprimerTousLesJetons(int $idObjectif) : void
  * @param  string $courriel
  * @return int
  */
-function recupererIdMembre(string $courriel) : int
+function recupererIdMembre(string $courriel): int
 {
     $linkpdo = connexionBd();
     $req = $linkpdo->prepare($GLOBALS['qRecupererIdUnMembre']);
