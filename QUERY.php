@@ -2528,10 +2528,10 @@ function afficherGererObjectifs(int $idEnfant): void
 /**
  * afficherObjectifs
  * est une fonction permettant d'afficher tous les objectifs d'un enfant donné, dans le tableau de bord
- * @param  int $idEnfant
+ * @param  mixed $idEnfant
  * @return void
  */
-function afficherObjectifs(int $idEnfant) : void
+function afficherObjectifs($idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
