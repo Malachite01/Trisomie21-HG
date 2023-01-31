@@ -138,7 +138,7 @@ $qSupprimerJetonsPlacesUnObjectif = 'UPDATE objectif set Nb_Jetons_Places = Nb_J
 $qModifierInformationsUnObjectif = 'UPDATE objectif SET Intitule = :intitule, Nb_Jetons = :nbJetons, Duree = :duree, Lien_Image = :lienImage, Travaille = :travaille, Id_Membre = :idMembre WHERE id_Objectif = :idObjectif';
 
 // Requête pour MODIFIER le nb jetons placés d'un objectif selon son Id_Objectif
-$qAjouterJetonsPlaces = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places+1 WHERE Id_Objectif = :idObjectif';
+$qAjouterJetonsPlacesUnObjectif = 'UPDATE objectif set Nb_Jetons_Places = Nb_Jetons_Places+1 WHERE Id_Objectif = :idObjectif';
 
 // Requête pour MODIFIER un objectif en mettant son nb jetons placés à 0 et son temps début à 0 selon son Id_Objectif
 $qReinitialiserUnObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0, Temps_Debut = 0 WHERE Id_Objectif = :idObjectif';
@@ -2403,8 +2403,8 @@ function afficherGererObjectifs($idEnfant)
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -2418,10 +2418,13 @@ function afficherGererObjectifs($idEnfant)
     }
 }
 
-
-
-// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
-function afficherObjectifs($idEnfant)
+/**
+ * afficherObjectifs
+ * est une fonction permettant d'afficher tous les objectifs d'un enfant donné, dans le tableau de bord
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherObjectifs(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2536,8 +2539,14 @@ function afficherObjectifs($idEnfant)
     }
 }
 
-// fonction qui permet d'afficher tous les objectif de la BD pour un enfant donnee
-function afficherObjectifsZoom($idObjectif)
+
+/**
+ * afficherObjectifsZoom
+ * est une fonction permettant d'afficher un objectif dans la page "consulterObjectif.php"
+ * @param  int $idObjectif
+ * @return void
+ */
+function afficherObjectifsZoom(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2622,8 +2631,13 @@ function afficherObjectifsZoom($idObjectif)
     }
 }
 
-// fontion qui permet d'ajouter un objectif a la BD
-function NombreDeJetons($idObjectif)
+/**
+ * NombreDeJetons
+ * est une fonction permettant de récupérer le nombre de jetons à placer sur un objectif 
+ * @param  int $idObjectif
+ * @return int
+ */
+function NombreDeJetons(int $idObjectif) : int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2639,16 +2653,17 @@ function NombreDeJetons($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête 
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
-// fontion qui permet d'ajouter un objectif a la BD
-function NombreDeJetonsPlaces($idObjectif)
+/**
+ * NombreDeJetonsPlaces
+ * est une fonction permettant d'obtenir le nombre de jetons placés sur un objectif
+ * @param  int $idObjectif
+ * @return int
+ */
+function NombreDeJetonsPlaces(int $idObjectif) : int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2664,21 +2679,22 @@ function NombreDeJetonsPlaces($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête 
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
-// fontion qui permet d'ajouter un objectif a la BD
-function AjouterJetonsPlaces($idObjectif)
+/**
+ * AjouterJetonsPlaces
+ * est une fonction permettant de placer un jeton sur un objectif
+ * @param  int $idObjectif
+ * @return void
+ */
+function AjouterJetonsPlaces(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qAjouterJetonsPlaces']);
+    $req = $linkpdo->prepare($GLOBALS['qAjouterJetonsPlacesUnObjectif']);
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour ajouter un objectif a la BD');
     }
@@ -2690,7 +2706,15 @@ function AjouterJetonsPlaces($idObjectif)
         die('Erreur ! Il y a un probleme lors l\'execution de la Requête pour ajouter un objectif a la BD');
     }
 }
-function SupprimerJetonsPlaces($idObjectif)
+
+
+/**
+ * SupprimerJetonsPlaces
+ * est une fonction permettant de de supprimer tous les jetons placés
+ * @param  int $idObjectif
+ * @return void
+ */
+function SupprimerJetonsPlaces(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2708,7 +2732,15 @@ function SupprimerJetonsPlaces($idObjectif)
     }
     supprimerDernierJeton($idObjectif);
 }
-function supprimerTousJetonsPlaces($idObjectif)
+
+
+/**
+ * supprimerTousJetonsPlaces
+ * est une fonction permettant de supprimer tous les jetons placés
+ * @param  int $idObjectif
+ * @return void
+ */
+function supprimerTousJetonsPlaces(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2727,8 +2759,13 @@ function supprimerTousJetonsPlaces($idObjectif)
     supprimerDernierJeton($idObjectif);
 }
 
-// fonction qui permet d'afficher les informations de l'objectif selon son Id_Objectif
-function AfficherInformationUnObjectif($idObjectif)
+/**
+ * AfficherInformationUnObjectif
+ * est une fonction permettant d'afficher les informations d'un objectif
+ * @param  int $idObjectif
+ * @return void
+ */
+function AfficherInformationUnObjectif(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2808,8 +2845,19 @@ function AfficherInformationUnObjectif($idObjectif)
     }
 }
 
-// fonction qui permet de modifier un objectif de la BD
-function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, $idMembre, $idObjectif)
+/**
+ * modifierObjectif
+ * est une fonction permettant de modifier un objectif
+ * @param  string $intitule
+ * @param  int $nbJetons
+ * @param  int $duree
+ * @param  string $lienImage
+ * @param  int $travaille
+ * @param  int $idMembre
+ * @param  int $idObjectif
+ * @return void
+ */
+function modifierObjectif(string $intitule, int $nbJetons, int $duree, string $lienImage, int $travaille, int $idMembre, int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2832,7 +2880,15 @@ function modifierObjectif($intitule, $nbJetons, $duree, $lienImage, $travaille, 
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
 }
-function modifierObjectifAVenir($idObjectif)
+
+
+/**
+ * modifierObjectifAVenir
+ * est une fonction permettant de changer le statut d'un objectif en "A venir"
+ * @param  int $idObjectif
+ * @return void
+ */
+function modifierObjectifAVenir(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2847,8 +2903,14 @@ function modifierObjectifAVenir($idObjectif)
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
 }
-// fonction qui permet de supprimer un objectif selon son Id_Objectif
-function supprimerObjectif($idObjectif)
+
+/**
+ * supprimerObjectif
+ * est une fonction permettant de supprimer un objectif, à partir de son id
+ * @param  int $idObjectif
+ * @return void
+ */
+function supprimerObjectif(int $idObjectif) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2866,8 +2928,14 @@ function supprimerObjectif($idObjectif)
     }
 }
 
-// fonction qui permet d'afficher l'image d'un objectif selon son Id_Objectif
-function AfficherImageObjectif($idObjectif)
+
+/**
+ * AfficherImageObjectif
+ * est une fonction permettant d'afficher l'image d'un objectif donné
+ * @param  int $idObjectif
+ * @return string
+ */
+function AfficherImageObjectif(int $idObjectif) : string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2883,68 +2951,33 @@ function AfficherImageObjectif($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Lien_Image') {
-                $image = $value;
-            }
-        }
-        return $image;
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
-// fonction qui ressort une durée en heure avec des semaines, jours
-function dureeDeCagnottage($semaines, $jours, $heures)
+/**
+ * dureeDeCagnottage
+ * est une fonction qui convertit une durée en secondes en semaines/heures/jours
+ * @param  int $semaines
+ * @param  int $jours
+ * @param  int $heures
+ * @return int
+ */
+function dureeDeCagnottage(int $semaines, int $jours, int $heures) : int
 {
     $semaines *= 24 * 7;
     $jours *= 24;
     return $semaines + $jours + $heures;
 }
 
-function afficherObjectifSelonId($idObjectif)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererUnObjectif']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour permet de modifier les informations d\'un objectif ');
-    }
-    // execution de la Requête sql
-    $req->execute(array(
-        ':idObjectif' => clean($idObjectif)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
-    }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $key => $value) {
-            // selectionne toutes les colonnes $key necessaires
-            if ($key == 'Intitule') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Nb_jetons') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Duree') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Lien_Image') {
-                echo '<div>' . $value . '</div>';
-            }
-            if ($key == 'Nb_Jetons_Places') {
-                echo '<div>' . $value . '</div>';
-            }
-        }
-    }
-}
-
-function afficherIntituleObjectif($objectifSelected, $idEnfant)
+/**
+ * afficherIntituleObjectif
+ * est une fonction permettant d'afficher les intitulés des objectifs dans un sélecteur, avec potentiellement une option présélectionnée
+ * @param  mixed $objectifSelected
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherIntituleObjectif($objectifSelected, int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2980,44 +3013,14 @@ function afficherIntituleObjectif($objectifSelected, $idEnfant)
     }
     echo '</select>';
 }
-function afficherIntituleObjectifSubmit($objectifSelected, $idEnfant)
-{
-    // connexion a la BD
-    $linkpdo = connexionBd();
-    // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qRecupererIntituleObjectifUnEnfant']);
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher les information des membres');
-    }
-    // execution de la Requête sql
-    $req->execute(array(
-        ':idEnfant' => clean($idEnfant)
-    ));
-    if ($req == false) {
-        die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
-    }
-    echo '<select name="idObjectif"onchange="this.form.submit()">';
-    echo '<option>Veuillez choisir un objectif</option>';
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $key => $value) {
-            if ($key == 'Id_Objectif') {
-                $idObjectif = $value;
-            }
-            if ($key == 'Intitule') {
-                $Intitule = $value;
-            }
-        }
-        if ($idObjectif == $objectifSelected) {
-            echo '<option value=' . $idObjectif . ' selected>' . $Intitule . '</option>';
-        } else {
-            echo '<option value=' . $idObjectif . '>' . $Intitule . '</option>';
-        }
-    }
-    echo '</select>';
-}
 
-function afficherUnIntituleObjectif($idObjectif)
+/**
+ * afficherUnIntituleObjectif
+ * est une fonction permettant d'afficher l'intitulé d'un objectif donné
+ * @param  int $idObjectif
+ * @return void
+ */
+function afficherUnIntituleObjectif(int $idObjectif) : string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3033,15 +3036,17 @@ function afficherUnIntituleObjectif($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de la preparation de la Requête pour afficher les information des membres');
     }
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
-function afficherGererObjectifsAZ($idEnfant)
+/**
+ * afficherGererObjectifsAZ
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par ordre alphabétique croissant
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsAZ(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3096,8 +3101,8 @@ function afficherGererObjectifsAZ($idEnfant)
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -3111,7 +3116,13 @@ function afficherGererObjectifsAZ($idEnfant)
     }
 }
 
-function afficherGererObjectifsZA($idEnfant)
+/**
+ * afficherGererObjectifsZA
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par ordre alphabétique inversé
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsZA(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3166,8 +3177,8 @@ function afficherGererObjectifsZA($idEnfant)
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -3181,7 +3192,13 @@ function afficherGererObjectifsZA($idEnfant)
     }
 }
 
-function afficherGererObjectifsDureeCroissante($idEnfant)
+/**
+ * afficherGererObjectifsDureeCroissante
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par durée croissante
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsDureeCroissante(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3236,8 +3253,8 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -3251,7 +3268,13 @@ function afficherGererObjectifsDureeCroissante($idEnfant)
     }
 }
 
-function afficherGererObjectifsDureeDecroissante($idEnfant)
+/**
+ * afficherGererObjectifsDureeDecroissante
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par durée décroissante
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsDureeDecroissante(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3306,8 +3329,8 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -3321,7 +3344,14 @@ function afficherGererObjectifsDureeDecroissante($idEnfant)
     }
 }
 
-function afficherGererObjectifsStatutCroissant($idEnfant)
+
+/**
+ * afficherGererObjectifsStatutCroissant
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par statut décroissant
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsStatutCroissant(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3376,8 +3406,8 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -3391,7 +3421,13 @@ function afficherGererObjectifsStatutCroissant($idEnfant)
     }
 }
 
-function afficherGererObjectifsStatutDecroissant($idEnfant)
+/**
+ * afficherGererObjectifsStatutDecroissant
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par statut
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsStatutDecroissant(int $idEnfant) : void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3446,8 +3482,8 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
             </button>
             </td>
             <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '
-            " class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Supprimer</span>
             </button>
@@ -3460,7 +3496,14 @@ function afficherGererObjectifsStatutDecroissant($idEnfant)
         }
     }
 }
-function supprimerImageObjectif($idObjectif)
+
+/**
+ * supprimerImageObjectif
+ * est une fonction qui permet de supprimer l'image d'un objectif donné 
+ * @param  int $idObjectif
+ * @return string
+ */
+function supprimerImageObjectif(int $idObjectif) : string
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3476,23 +3519,17 @@ function supprimerImageObjectif($idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour permet de modifier les informations d\'un objectif ');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            // selectionne toutes les colonnes $key necessaires
-            return $value;
-        }
-    }
+    $res = $req->fetch();
+    return $res[0];
 }
 
 /**
  * recupererDureeUnObjectif
  * est une fonction permettant de récupérer la durée d'un objectif
  * @param  int $idObjectif
- * @return void
+ * @return int
  */
-function recupererDureeUnObjectif(int $idObjectif)
+function recupererDureeUnObjectif(int $idObjectif) : int
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -3506,14 +3543,9 @@ function recupererDureeUnObjectif(int $idObjectif)
     if ($req == false) {
         die('Erreur ! Il y a un probleme lors de l\'execution de la Requête pour afficher un objectif');
     }
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        echo '<tr>';
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $value) {
-            return $value;
-        }
-    }
+    echo '<tr>';
+    $res = $req->fetch();
+    return $res[0];
 }
 
 /**
