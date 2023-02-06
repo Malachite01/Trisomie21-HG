@@ -27,7 +27,7 @@
     <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
       <div class="miseEnForme" id="miseEnFormeFormulaire">
         <?php
-          AfficherInformationsMembre($_POST['boutonModifier']);
+          AfficherInformationsMembre($_POST['boutonConsulter']);
         ?>
       </div>
 

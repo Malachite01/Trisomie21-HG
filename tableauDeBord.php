@@ -23,7 +23,7 @@
   nettoyerObjectif();
   ?>
 
-  <h1>Tableau de bord pour l'enfant:</h1>
+  <h1>Tableau de bord de l'enfant</h1>
   <form id="formTableauDeBord" method="POST">
     <div class="filtres" id="miseEnFormeEnfant">
       <label for="Recherche">Enfant :</label>

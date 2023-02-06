@@ -2592,11 +2592,11 @@ function afficherObjectifs($idEnfant): void
                     }
 
                     if ($res == 1) {
-                        echo '<p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
+                        echo '<img style="width: 20px; position: relative; margin-left: -25px; bottom: -2px;" src="images/singleToken.png"><p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
                     } else if ($res == 0) {
                         echo '<br>';
                     } else {
-                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
+                        echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                     }
                 }
 
@@ -2723,9 +2723,9 @@ function afficherObjectifsZoom(int $idObjectif): void
                 }
                 if ($res != 0) {
                     if ($res == 1) {
-                        echo '<p class="jetonsRestant">' . $res . ' jeton à valider : </p>';
+                        echo '<img style="width: 20px; position: relative; margin-left: -25px; bottom: -2px;" src="images/singleToken.png"><p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
                     } else {
-                        echo '<p class="jetonsRestant">' . $res . ' jetons à valider : </p>';
+                        echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                     }
                 }
             }

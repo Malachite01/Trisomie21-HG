@@ -279,6 +279,10 @@ table {
     border-spacing: 0 10px;
 }
 
+tr:hover {
+    transform: scale(1.005);
+}
+
 table tbody tr:nth-child(even) {
     background-color: var(--even);
 }
@@ -376,6 +380,7 @@ nav a {
     color: var(--policeNoire);
     padding: 8px;
     border-radius: var(--globalRadius);
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 .sousMenu {
     position: absolute;
@@ -1600,6 +1605,7 @@ div.miseFormeConnexion label {
     margin: 50px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    transition: all .6s ease-in;
 }
 #containerRecompenses {
     margin: 50px;
@@ -1615,11 +1621,18 @@ div.miseFormeConnexion label {
     border: solid 5px rgb(241, 240, 240);
     min-width: 200px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    transition: all .2s ease-in-out;
     /* background: #FCA92E;
     background: -webkit-radial-gradient(center, #FCA92E, #A06501);
     background: -moz-radial-gradient(center, #FCA92E, #A06501);
     background: radial-gradient(ellipse at center, #FCA92E, #A06501);
     transition: all .8s; */
+}
+.objectif:hover {
+    transform: scale(1.05);
+}
+.objectif.zoom:hover {
+    transform: scale(1);
 }
 .boutonSeance {
     position: absolute;
@@ -1688,11 +1701,11 @@ div.miseFormeConnexion label {
 }
 
 .objectif:nth-child(even) {
-    background-color: var(--even);
+    background: linear-gradient(180deg, var(--even) 30%, rgb(200, 213, 198) 100%);
 }
 
 .objectif:nth-child(odd) {
-    background-color: var(--odd);
+    background: linear-gradient(180deg, var(--odd) 30%, rgb(200, 213, 198) 100%);
 }
 .recompense:nth-child(even) {
     background-color: var(--even);
@@ -1712,6 +1725,7 @@ div.miseFormeConnexion label {
     margin-bottom: -15px;
     padding-top: 5px;
     z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 
 .imgRedirect {
@@ -1746,6 +1760,7 @@ button.redirect:hover {
     top: -20px;
     left: -20px;
     background-color: rgba(152, 151, 141, 0.23);
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
     padding: 5px;
 }
 
@@ -1765,8 +1780,7 @@ button.redirect:hover {
     position: relative;
     color: grey; 
     margin-bottom: 5px;
-    top: -12px;
-    
+    top: -15px;
 }
 
 .duree {
@@ -1881,6 +1895,7 @@ button.redirect:hover {
     margin-top: 0;
     margin: -15px;
     padding-top: 5px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 .containerTampons.zoom {
     height: 190px;
@@ -2787,7 +2802,7 @@ button#boutonSelecteurs:hover {
     height: 0;
     position: absolute;
     justify-self: center;
-    z-index: 2;
+    z-index: 3;
 }
 
 .aCacher#formAjoutEquipe {
@@ -2946,7 +2961,7 @@ button#boutonSelecteurs:hover {
     padding: 0;
     margin: 0;
     margin-top: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     align-self: center;
     justify-self: center;
 }
