@@ -1,4 +1,6 @@
-<?php session_start();require('QUERY.php');testConnexion();?>
+<?php session_start();
+require('QUERY.php');
+testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 

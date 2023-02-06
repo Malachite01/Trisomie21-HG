@@ -3094,10 +3094,10 @@ function dureeDeCagnottage(int $semaines, int $jours, int $heures): int
  * afficherIntituleObjectif
  * est une fonction permettant d'afficher les intitulés des objectifs dans un sélecteur, avec potentiellement une option présélectionnée
  * @param  mixed $objectifSelected
- * @param  int $idEnfant
+ * @param  mixed $idEnfant
  * @return void
  */
-function afficherIntituleObjectif($objectifSelected, int $idEnfant): void
+function afficherIntituleObjectif($objectifSelected,  $idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4310,7 +4310,7 @@ function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjecti
  * @param  mixed $idEnfant
  * @return void
  */
-function afficherMessage(int $idEnfant): void
+function afficherMessage($idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
