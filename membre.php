@@ -209,10 +209,10 @@ if (isset($_POST['boutonValiderMembre'])) {
         <th>Date de naissance</th>
         <th>Rôle</th>
         <th>Valider</th>
-        <th>Retirer</th>
         <? if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) { ?>
           <th>Consulter</th>
         <? } ?>
+        <th>Retirer</th>
       </thead>
 
       <tbody id="tbodyGererMembres">

@@ -77,7 +77,7 @@
   <a href="indexAdmin.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas"><span>Connexion pro</span></button></a>
   
   <form id="formConnexion" action="indexConnexion.php" method="POST">
-    <h1 id="pageDeCoStatut">Membre</h1>
+    <h1 id="pageDeCoStatut"><img src="images/profil.png" class="imageIcone" alt="icone cadenas" style="position: relative; margin-bottom: -7px"> Membre</h1>
     <div class="miseFormeConnexion" id="miseEnFormeConnexion">
       <label for="champIdentifiant">Identifiant :</label>
       <input type="email" name="champIdentifiant" id="champIdentifiant" placeholder="Entrez votre adresse mail"  minlength="1" maxlength="50"  required>

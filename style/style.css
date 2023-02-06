@@ -325,6 +325,17 @@ input[type="checkbox"]:checked {
     left: 20px;
     width: 100px;
 }
+.role {
+    position: absolute;
+    float: left;
+    margin-left: 5%;
+    font-family: Georama;
+    margin-top: -10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    padding: 5px;
+    border-radius: var(--globalRadius);
+    z-index: 6;
+}
 nav a {
     font-family: Georama; 
 }
@@ -378,7 +389,6 @@ nav a {
     padding-top: 14px;
 }
 .navbar .nav-links .nav-ul ul.sousMenu {
-    /* margin-left: -45px; */
     justify-self: center;
     align-self: center;
 }
@@ -399,7 +409,7 @@ nav a {
     right: 5px;
     top: 5px;
     width: 35px;
-    z-index: 2;
+    z-index: 5;
 }
 .menu-hamburger:hover {
     background-color: var(--couleurHover);
@@ -436,8 +446,8 @@ nav a {
     justify-content: center;
     vertical-align: middle;
 }
-/* Phone navbar 1062px*/
-@media screen and (max-width: 1150px) {
+/* Phone navbar*/
+@media screen and (max-width: 1300px) {
     .navbar {
         position: fixed;
         padding: 0px;
@@ -445,11 +455,16 @@ nav a {
         background-color: var(--couleurMenu);
     }
     .navbar .logo {
-        z-index: 1;
+        z-index: 6;
+    }
+    .role {
+        position: absolute;
+        margin-top: 60px;
+        margin-left: 150px;
     }
     .navbar .fondMobile {
         position: absolute;
-        z-index: 1;
+        z-index: 5;
         top: 0;
         background-color: var(--couleurMenu);
         box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
@@ -475,6 +490,7 @@ nav a {
     }
     .nav-links.mobile-menu {
         margin-left: 0;
+        z-index: 4;
     }
     .nav-links .nav-ul {
         margin-top: 200px;
@@ -647,6 +663,13 @@ div.miseFormeConnexion label {
     font-size: 1.5em;
     border: 2px dashed black;
     padding: 4px;
+}
+
+@media screen and (max-width: 650px) {
+    #pageDeCoStatut {
+        margin-top: 20px;
+        margin-bottom: -10px;
+    }
 }
 
 #boutonAdmin {
@@ -1919,7 +1942,7 @@ button.redirect:hover {
 }
 .tick {
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     top: 0px;
     display: inline-block;
     transform: rotate(45deg);
@@ -2138,7 +2161,10 @@ button.redirect:hover {
         content: "Date de naissance :";
     }
     #tbodyGererMembres td:nth-child(5)::before{
-        content: "Validé :";
+        content: "Rôle :";
+    }
+    #tbodyGererMembres td:nth-child(6)::before{
+        content: "Valider :";
     }
 
 

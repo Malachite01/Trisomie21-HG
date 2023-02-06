@@ -442,6 +442,7 @@ function faireMenu(): void
     echo ' <nav class="navbar">
     <div class="fondMobile"></div>
     <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
+    '.afficherRole().'
     
     <div class="nav-links">
       <ul class="nav-ul">';
@@ -450,30 +451,26 @@ function faireMenu(): void
         '
             <li><a href="tableauDeBord.php" id="tableauDeBord">Tableau de bord</a></li>
     
-            <div class="separateur"></div>
-    ';
+            <div class="separateur"></div>';
     }
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
         echo '     
             <li><a href="membre.php" id="Membres">Membres</a></li>
 
-            <div class="separateur"></div>
-    ';
+            <div class="separateur"></div>';
     }
     if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) {
         echo
         '     
             <li><a href="enfant.php" id="Enfants">Enfants</a></li>        
             
-            <div class="separateur"></div>
-    ';
+            <div class="separateur"></div>';
     }
     if ($_SESSION['role'] != 0) {
         echo '
             <li><a href="equipe.php" id="Equipe">Équipe</a></li>    
             
-            <div class="separateur"></div>
-    ';
+            <div class="separateur"></div>';
     }
     echo '        
             <li><a href="objectif.php" id="Objectifs">Objectifs</a></li>
@@ -503,14 +500,29 @@ function faireMenu(): void
         elementActif.classList.add("active");
     </script>';
 
-    //LES CLASSES POUR LES SOUS MENUS FONCTIONNENT, ON FAIT COMME CA
+    //LES SOUS MENUS FONCTIONNENT, ON FAIT COMME CA
     // <li><a href="#" id="Objectifs">Objectifs</a>
     //     <ul class="sousMenu">
-    //         <li><a href="ajouterObjectif.php">Ajouter un objectif</a></li>
-    //         <li><a href="gererObjectifs.php">Gérer les objectifs</a></li>
     //         <li><a href="objectif.php">Objectifs</a></li>
     //     </ul>
     // </li>
+}
+
+/**
+ * afficherRole
+ * est une fonction permettant d'afficher le rôle du membre connecté, utilisé dans la fonction faireMenu
+ * @return string
+ */
+function afficherRole() : string {
+    if ($_SESSION['role'] == 0) {
+        return '<p class="role">Membre</p>';
+    } else if ($_SESSION['role'] == 1) {
+        return '<p class="role">Coordinateur</p>';
+    } else if ($_SESSION['role'] == 2) {
+        return '<p class="role">Gestionnaire</p>';
+    } else if ($_SESSION['role'] == 3) {
+        return '<p class="role">Administrateur</p>';
+    }
 }
 
 /**
@@ -1444,7 +1456,7 @@ function AfficherMembres(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1456,25 +1468,25 @@ function AfficherMembres(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
             <td>
-                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-                " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+                <button type="submit" name="boutonSupprimer" value="' . $idMembre . '" 
+                class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                     <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                     <span>Retirer</span>
                 </button>
             </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-                <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-                class="boutonConsulter" formaction="consultationInformationsMembre.php">
-                <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
-                <span>Consulter</span>
-                </button>
-            </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -1534,7 +1546,7 @@ function AfficherMembresAZ(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1546,6 +1558,16 @@ function AfficherMembresAZ(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
         <td>
@@ -1555,16 +1577,6 @@ function AfficherMembresAZ(): void
                 <span>Retirer</span>
             </button>
         </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-         class="boutonModifier" formaction="consultationInformationsMembre.php">
-            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
-            <span>Consulter</span>
-        </button>
-        </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -1624,7 +1636,7 @@ function AfficherMembresZA(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1636,6 +1648,16 @@ function AfficherMembresZA(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
         <td>
@@ -1645,16 +1667,6 @@ function AfficherMembresZA(): void
                 <span>Retirer</span>
             </button>
         </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-         class="boutonModifier" formaction="consultationInformationsMembre.php">
-            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
-            <span>Consulter</span>
-        </button>
-        </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -1714,7 +1726,7 @@ function AfficherMembresDateNaissanceCroissante(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1726,6 +1738,16 @@ function AfficherMembresDateNaissanceCroissante(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
         <td>
@@ -1735,16 +1757,6 @@ function AfficherMembresDateNaissanceCroissante(): void
                 <span>Retirer</span>
             </button>
         </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-         class="boutonModifier" formaction="consultationInformationsMembre.php">
-            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
-            <span>Consulter</span>
-        </button>
-        </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -1804,7 +1816,7 @@ function AfficherMembresDateNaissanceDecroissante(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1816,25 +1828,25 @@ function AfficherMembresDateNaissanceDecroissante(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
         <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '" 
+            class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Retirer</span>
             </button>
         </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-         class="boutonModifier" formaction="consultationInformationsMembre.php">
-            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
-            <span>Consulter</span>
-        </button>
-        </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -1894,7 +1906,7 @@ function AfficherMembresCompteValideCroissante(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1906,6 +1918,16 @@ function AfficherMembresCompteValideCroissante(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
         <td>
@@ -1915,16 +1937,6 @@ function AfficherMembresCompteValideCroissante(): void
                 <span>Retirer</span>
             </button>
         </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-         class="boutonModifier" formaction="consultationInformationsMembre.php">
-            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
-            <span>Consulter</span>
-        </button>
-        </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -1984,7 +1996,7 @@ function AfficherMembresCompteValideDecroissante(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -1996,6 +2008,16 @@ function AfficherMembresCompteValideDecroissante(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
         <td>
@@ -2005,16 +2027,6 @@ function AfficherMembresCompteValideDecroissante(): void
                 <span>Retirer</span>
             </button>
         </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-         class="boutonModifier" formaction="consultationInformationsMembre.php">
-            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
-            <span>Consulter</span>
-        </button>
-        </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -2074,7 +2086,7 @@ function AfficherMembresIdMembreDecroissante(): void
         if ($compteValide == Null) {
             echo '
             <td>
-                <button type="submit" name="boutonValiderMembre" value=' . $idMembre . '
+                <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
                 class="boutonValiderMembre" onclick="return confirm(\'Êtes vous sûr de vouloir valider ce membre ?\');">
                     <img src="images/valider.png" class="imageIcone" alt="icone valider">
                     <span>Valider</span>
@@ -2086,25 +2098,25 @@ function AfficherMembresIdMembreDecroissante(): void
                 <p style="color: green">Compte valide !</p>
             </td>'; // compte valide donc bouton innactif
         }
+        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
+            echo '
+            <td>
+                <button type="submit" name="boutonConsulter" value="' . $idMembre . '" 
+                class="boutonConsulter" formaction="consultationInformationsMembre.php">
+                    <img src="images/oeil2.png" class="imageIcone" alt="icone consulter">
+                    <span>Consulter</span>
+                </button>
+            </td>';
+        }
         // creation du bouton supprimer dans le tableau
         echo '
         <td>
-            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '
-            " class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
+            <button type="submit" name="boutonSupprimer" value="' . $idMembre . '" 
+            class="boutonSupprimer" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer ce membre ?\');" >
                 <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
                 <span>Retirer</span>
             </button>
         </td>';
-        if ($_SESSION['role'] == 2 ||  $_SESSION['role'] == 3) {
-            echo '
-            <td>
-            <button type="submit" name="boutonModifier" value="' . $idMembre . '" 
-         class="boutonModifier" formaction="consultationInformationsMembre.php">
-            <img src="images/edit.png" class="imageIcone" alt="icone modifier">
-            <span>Consulter</span>
-        </button>
-        </td>';
-        }
         echo ' </tr>';
     }
 }
@@ -3684,10 +3696,10 @@ function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif): void
 /**
  * recupererTempsDebutObjectif
  * est une fonction permettant de récupérer le temps de cagnottage d'un objectif
- * @param  int $idObjectif
- * @return int
+ * @param  mixed $idObjectif
+ * @return mixed
  */
-function recupererTempsDebutObjectif(int $idObjectif): int
+function recupererTempsDebutObjectif($idObjectif): mixed
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4132,7 +4144,7 @@ function afficherNomPrenomMembre(): void
                 $nom = $value;
             }
             if ($key == 'Prenom') {
-                echo '<option value=' . $idMembre . '>' . $nom . " " . $value . '</option>';
+                echo '<option value="' . $idMembre . '" >' . $nom . " " . $value . '</option>';
             }
         }
     }

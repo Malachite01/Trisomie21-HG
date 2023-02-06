@@ -11,7 +11,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 	<link rel="stylesheet" href="style/style.css">
 </head>
-<body>
+<body style="background-image: url(images/cadenasBackground.png); background-size: 200px;">
   <div class="svgWaveContains">
     <div class="svgWave"></div>
   </div>
@@ -65,10 +65,10 @@
   
   <img src="images/logoAdmin.png" alt="logo application" class="iconeApp"> 
 
-  <a href="index.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas"><span>Connexion membre</span></button></a>
+  <a href="index.php"><button type="button" name="boutonAdmin" id="boutonAdmin"><img src="images/profil.png" class="imageIcone" alt="icone profil"><span>Connexion membre</span></button></a>
   
   <form id="formConnexion" action="indexConnexionAdmin.php" method="POST">
-    <h1 id="pageDeCoStatut">Professionnels</h1>
+    <h1 id="pageDeCoStatut"><img src="images/cadenas.png" class="imageIcone" alt="icone cadenas" style="position: relative; margin-bottom: -5px; width: 25px">Professionnels</h1>
     <div class="miseFormeConnexion" id="miseEnFormeConnexion">
       <label for="champIdentifiant">Identifiant :</label>
       <input type="email" name="champIdentifiant" id="champIdentifiant" placeholder="Entrez votre adresse mail"  minlength="1" maxlength="50"  required>
