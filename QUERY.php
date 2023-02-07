@@ -3915,10 +3915,10 @@ function supprimerRecompense(int $idRecompense): void
 /**
  * afficherRecompense
  * est une fonction qui permet d'afficher toutes les récompenses d'un enfant
- * @param  int $idEnfant
+ * @param  mixed $idEnfant
  * @return void
  */
-function afficherRecompense(int $idEnfant): void
+function afficherRecompense($idEnfant): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -4278,11 +4278,11 @@ function supprimerMembreEquipe(string $chaineConcatene): void
  * @param  string $sujet
  * @param  string $corps
  * @param  mixed $dateHeure
- * @param  int $idObjectif
- * @param  int $idMembre
+ * @param  mixed $idObjectif
+ * @param  mixed $idMembre
  * @return void
  */
-function ajouterMessage(string $sujet, string $corps, $dateHeure, int $idObjectif, int $idMembre): void
+function ajouterMessage(string $sujet, string $corps, $dateHeure, $idObjectif, $idMembre): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
