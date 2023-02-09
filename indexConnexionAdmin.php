@@ -24,7 +24,7 @@ if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // 
                      $_SESSION['idConnexion'] = $data['id_Membre'];
                      $_SESSION['prenomMembre'] = $data['Prenom'];
                      $_SESSION['role'] = $data['Role'];
-                     $_SESSION['enfant'] = null;
+                     $_SESSION['enfant'] = 0;
                      $_SESSION['objectif'] = null;
                      
                      //page d'accueil  tableau de bord
