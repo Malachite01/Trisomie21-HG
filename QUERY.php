@@ -1156,7 +1156,7 @@ function afficherImageTampon(int $idEnfant): string
  * @return bool
  */
 function estTonAnniversaire($anniversaire) : bool{
-    return ($anniversaire == date('d/m') ? true : false);
+   return ($anniversaire == date('d/m') ? true : false);
 }
 
 /**
