@@ -1150,6 +1150,16 @@ function afficherImageTampon(int $idEnfant): string
 }
 
 /**
+ * estTonAnniversaire
+ * est une fonction qui permet de vérifier si c'est l'anniversaire de l'enfant avec en paramètre la date de naissance de l'enfant (d/M)
+ * @param  mixed $anniversaire
+ * @return bool
+ */
+function estTonAnniversaire($anniversaire) : bool{
+    return ($anniversaire == date('d/m') ? true : false);
+}
+
+/**
  * afficherInformationsEnfant
  * est une fonction qui permet d'afficher les informations des enfants, d'un bouton submit et supprimer 
  * @return void
@@ -1178,7 +1188,10 @@ function afficherInformationsEnfant(): void
                 echo '<td>' . $value . '</td>';
             }
             if ($key == 'Date_Naissance') {
-                echo '<td>' . date('d/m/Y', strtotime($value)) . '</td>';
+                $echoAnniv = "";
+                (estTonAnniversaire(date('d/m', strtotime($value))) ? $echoAnniv = '<td><img src="images/cake.png" style="width: 35px;">' : $echoAnniv = "<td>");
+                echo $echoAnniv;
+                echo date('d/m/Y', strtotime($value)) . '</td>';
             }
             if ($key == 'Lien_Jeton') {
                 echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
