@@ -49,7 +49,7 @@ $qRechercherEnfantParNom = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Nais
 //! -------------------------------------------- MEMBRE --------------------------------------------------------------------------
 
 // Requête pour AJOUTER un membre à la BD
-$qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :role)';
+$qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Compte_Valide, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :validation,:role)';
 
 // Requête pour SUPPRIMER un membre de la BD
 $qSupprimerUnMembre = 'DELETE FROM membre WHERE Id_Membre = :idMembre';
@@ -1337,7 +1337,7 @@ function afficherInformationsEnfantModification(int $idEnfant): void
  * @param  int $role
  * @return void
  */
-function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePostal, string $ville, string $courriel, $dateNaissance, string $mdp, int $role): void
+function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePostal, string $ville, string $courriel, $dateNaissance, string $mdp, int $validation,  int $role): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1356,6 +1356,7 @@ function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePo
         ':courriel' => clean($courriel),
         ':dateNaissance' => clean($dateNaissance),
         ':mdp' => clean($mdp),
+        ':validation' => clean($validation),
         ':role' => clean($role)
     ));
     if ($req == false) {

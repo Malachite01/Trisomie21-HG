@@ -33,6 +33,7 @@
           $_POST['champMail'],
           $_POST['champDateDeNaissance'],
           saltHash($_POST['champMdp']),
+          0,
           0
         );
       } else {
