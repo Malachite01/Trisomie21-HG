@@ -1,5 +1,5 @@
 <?php session_start();
-require('QUERY.php');
+require_once('QUERY.php');
 testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
