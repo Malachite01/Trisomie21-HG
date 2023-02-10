@@ -50,7 +50,7 @@ testConnexion(); ?>
     if ($_SESSION['enfant'] == 0 || (isset($_POST['idEnfant']) && $_POST['idEnfant'] == 0)) {
       echo "<p class='msgSelection'>Veuillez choisir un enfant pour afficher son tableau de bord !</p>";
     } else {
-      
+      //FAIRE L'EASTER EGG ANNIVERSAIRE ICI
     }
     if (isset($_POST['valeurJetonsIdObjectif'])) {
       $valeur = explode(".", $_POST['valeurJetonsIdObjectif']);

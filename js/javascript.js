@@ -186,6 +186,7 @@ function deCache(div) {
     } 
 }
 
+
 function holdSubmit(event) {
     let form = document.getElementById("formConsulter");
     //permettre de recuperer en $_POST['boutonRecuperer']
@@ -199,7 +200,8 @@ function holdSubmit(event) {
     let gifDuration = 2.5; // duration of the gif
     let target = event.target;
     let image = new Image();
-    image.src = 'images/ouvertureKdo.gif';
+    rand = Math.round(Math.random() * 10);
+    (rand < 5 ? image.src = 'images/ouvertureKdo.gif' : image.src = 'images/ouvertureKdo2.gif');
     image.classList.add('ouvertureKdo');
     form.appendChild(image);
     setTimeout(function(){

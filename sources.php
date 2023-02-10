@@ -41,53 +41,53 @@ faireMenu();
 
                 <div>
                     <ul>
-                        <li><a target="_blank" href="https://icons8.com/icon/4yf9X1E8Zd73/unlock">Unlock</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/4yf9X1E8Zd73/unlock">Unlock</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/jhSQZwuwQGrJ/eyes">Eyes</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/jhSQZwuwQGrJ/eyes">Eyes</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/jhSQZwuwQGrJ/eyes">Eyes</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/jhSQZwuwQGrJ/eyes">Eyes</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
                         <a href="https://www.flaticon.com/fr/icones-gratuites/interface-utilisateur" title="interface utilisateur icônes">Interface utilisateur icônes créées par Febrian Hidayat - Flaticon</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/83145/coche">Coche</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/83145/coche">Coche</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/VaHFapP3XCAj/multiplier">Multiplier</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/VaHFapP3XCAj/multiplier">Multiplier</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/TyVKuAzjHryr/bin">Bin</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/TyVKuAzjHryr/bin">Bin</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/2sWrwEXiaegS/chercher">Chercher</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/2sWrwEXiaegS/chercher">Chercher</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/3720/filtre">Filtre</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/3720/filtre">Filtre</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/vGj0AluRnTSa/sortie">Sortie</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/vGj0AluRnTSa/sortie">Sortie</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
                         <a href="https://www.flaticon.com/fr/icones-gratuites/editer" title="Éditer icônes">Éditer icônes créées par Freepik - Flaticon</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/1320IBiTPBYp/menu">Menu</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/1320IBiTPBYp/menu">Menu</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/VaY24BN2Q36n/fl%C3%A8che-gauche">Flèche gauche</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/VaY24BN2Q36n/fl%C3%A8che-gauche">Flèche gauche</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/ABBSjQJK83zf/utilisateur">Utilisateur</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/ABBSjQJK83zf/utilisateur">Utilisateur</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/70157/sablier-(fond)">Sablier (fond)</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/70157/sablier-(fond)">Sablier (fond)</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/QLL8CFimzQ57/rechercher-un-client">Rechercher un client</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/QLL8CFimzQ57/rechercher-un-client">Rechercher un client</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/d97WRZyim1cD/child-safe-zone">Child Safe Zone</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/d97WRZyim1cD/child-safe-zone">Child Safe Zone</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
                         <a href="https://www.flaticon.com/fr/icones-gratuites/lhorloge" title="l'horloge icônes">L'horloge icônes créées par Gregor Cresnar - Flaticon</a></li>
 
                         <a href="https://www.flaticon.com/free-icons/redirect" title="redirect icons">Redirect icons created by IconKanan - Flaticon</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/100004/envoi-de-courriel">Envoi de courriel</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/100004/envoi-de-courriel">Envoi de courriel</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/114083/message">Message</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/114083/message">Message</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
                         <a href="https://www.flaticon.com/fr/icones-gratuites/la-personne" title="la personne icônes">La personne icônes créées par th studio - Flaticon</a></li>
 
                         <a href="https://www.flaticon.com/fr/icones-gratuites/panier" title="panier icônes">Panier icônes créées par uicon - Flaticon</a></li>
 
-                        <li><a target="_blank" href="https://icons8.com/icon/23623/remplacer">Remplacer</a></li> icon by <li><a target="_blank" href="https://icons8.com">Icons8</a></li>
+                        <li><a target="_blank" rel="noopener" href="https://icons8.com/icon/23623/remplacer">Remplacer</a></li> icon by <li><a target="_blank" rel="noopener" href="https://icons8.com">Icons8</a></li>
 
                         <a href="https://www.flaticon.com/fr/icones-gratuites/guirlande" title="guirlande icônes">Guirlande icônes créées par Freepik - Flaticon</a></li>
 
