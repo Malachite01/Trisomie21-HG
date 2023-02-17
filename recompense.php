@@ -186,6 +186,7 @@ if (isset($_POST['boutonAppliquer'])) {
     <button type="button" name="boutonAjouterRecompense" class="boutons boutonAjouterA" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter une récompense</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
 
     <table>
+      <caption>Tableau de la liste des récompenses</caption>
       <thead>
         <th>Image Recompense</th>
         <th>Intitulé</th>

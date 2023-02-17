@@ -47,10 +47,6 @@
     font-family: Georama;
 }
 
-@font-face {
-    src: url(../fonts/Georama-Italic.ttf);
-    font-family: GeoramaItalic;
-}
 ::selection {
     background-color: var(--couleurBoutonHover);
     color: white;
@@ -267,6 +263,10 @@ button > span {
 
 button > #imgDeconnexion {
     vertical-align: middle;
+}
+
+caption {
+    display: none;
 }
 
 table {

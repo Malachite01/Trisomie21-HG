@@ -2582,6 +2582,7 @@ function afficherObjectifs($idEnfant): void
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<div class="objectif">';
 
+//Id_Objectif, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Intitule, Duree
             // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
@@ -2592,28 +2593,7 @@ function afficherObjectifs($idEnfant): void
                 if ($key == 'Intitule') {
                     echo '<h3 class="titreObjectif">' . $value . '</h3>';
                 }
-                if ($key == 'Duree') {
-
-                    // Temps restant de la séance
-                    if ((recupererTempsDebutObjectif($idObjectif) != 0) && (recupererTempsDebutObjectif($idObjectif) - time() > 0)) {
-                        $maintenant = time();
-                        $restant = recupererTempsDebutObjectif($idObjectif) - $maintenant;
-                        $heureRestante = $restant / 60;
-                        $duree = dureeStringMinutes($heureRestante);
-                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
-                    } else {
-                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
-                    }
-
-                    if ($res == 1) {
-                        echo '<img style="width: 20px; position: relative; margin-left: -25px; bottom: -2px;" src="images/singleToken.png"><p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
-                    } elseif ($res == 0) {
-                        echo '<br>';
-                    } else {
-                        echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
-                    }
-                }
-
+                
                 if ($key == 'Nb_Jetons_Places') {
                     if (is_null($value) || $value == 0) {
                         $places = 0;
@@ -2644,19 +2624,37 @@ function afficherObjectifs($idEnfant): void
                     }
                     $places = 0;
                 }
+
+                if ($key == 'Duree') {
+
+                    // Temps restant de la séance
+                    if ((recupererTempsDebutObjectif($idObjectif) != 0) && (recupererTempsDebutObjectif($idObjectif) - time() > 0)) {
+                        $maintenant = time();
+                        $restant = recupererTempsDebutObjectif($idObjectif) - $maintenant;
+                        $heureRestante = $restant / 60;
+                        $duree = dureeStringMinutes($heureRestante);
+                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
+                    } else {
+                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                    }
+
+                    if ($res == 1) {
+                        echo '<img style="width: 20px; position: relative; margin-left: -25px; bottom: -2px;" src="images/singleToken.png"><p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
+                    } elseif ($res == 0) {
+                        echo '<br>';
+                    } else {
+                        echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
+                    }
+                }
+
             }
             echo '<div class="containerTampons">';
             if (recupererPremierJetonJamaisPose($idObjectif) == null || recupererPremierJetonJamaisPose($idObjectif) + 180  >= time()) {
                 if (recupererTempsDebutObjectif($idObjectif) >= time()) {
                     for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
                         if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                            echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                            //DEGUEU MAIS NE PAS TOUCHER SINON CA MARCHE PAS
-                            if ($res == 0) {
-                                echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
-                            } else {
-                                echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
-                            }
+                            echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">
+                            <img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                         } else {
                             echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                         }
@@ -2748,12 +2746,8 @@ function afficherObjectifsZoom(int $idObjectif): void
         if (recupererTempsDebutObjectif($idObjectif) >= time()) {
             for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
                 if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                    echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                    if ($res == 0) {
-                        echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
-                    } else {
-                        echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
-                    }
+                    echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">
+                    <img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 } else {
                     echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                 }
