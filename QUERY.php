@@ -49,7 +49,7 @@ $qRechercherEnfantParNom = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Nais
 //! -------------------------------------------- MEMBRE --------------------------------------------------------------------------
 
 // Requête pour AJOUTER un membre à la BD
-$qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :role)';
+$qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Compte_Valide, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :validation,:role)';
 
 // Requête pour SUPPRIMER un membre de la BD
 $qSupprimerUnMembre = 'DELETE FROM membre WHERE Id_Membre = :idMembre';
@@ -428,15 +428,15 @@ function faireMenu(): void
     $idAChercher = "";
     if (stripos($get_url, "tableau")) {
         $idAChercher = "tableauDeBord";
-    } else if (stripos($get_url, "enfant")) {
+    } elseif (stripos($get_url, "enfant")) {
         $idAChercher = "Enfants";
-    } else if (stripos($get_url, "membre")) {
+    } elseif (stripos($get_url, "membre")) {
         $idAChercher = "Membres";
-    } else if (stripos($get_url, "objectif")) {
+    } elseif (stripos($get_url, "objectif")) {
         $idAChercher = "Objectifs";
-    } else if (stripos($get_url, "recompense")) {
+    } elseif (stripos($get_url, "recompense")) {
         $idAChercher = "Recompenses";
-    } else if (stripos($get_url, "equipe")) {
+    } elseif (stripos($get_url, "equipe")) {
         $idAChercher = "Equipe";
     }
     echo ' <nav class="navbar">
@@ -516,11 +516,11 @@ function faireMenu(): void
 function afficherRole() : string {
     if ($_SESSION['role'] == 0) {
         return '<p class="role">Membre</p>';
-    } else if ($_SESSION['role'] == 1) {
+    } elseif ($_SESSION['role'] == 1) {
         return '<p class="role">Coordinateur</p>';
-    } else if ($_SESSION['role'] == 2) {
+    } elseif ($_SESSION['role'] == 2) {
         return '<p class="role">Gestionnaire</p>';
-    } else if ($_SESSION['role'] == 3) {
+    } elseif ($_SESSION['role'] == 3) {
         return '<p class="role">Administrateur</p>';
     }
 }
@@ -685,11 +685,11 @@ function testConnexion(): void
     $get_url = $_SERVER['REQUEST_URI'];
     if (stripos($get_url, "tableau") && $_SESSION['role'] == 2) {
         header('Location: modifierProfil.php');
-    } else if (stripos($get_url, "enfant") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
+    } elseif (stripos($get_url, "enfant") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
         header('Location: tableauDeBord.php');
-    } else if (stripos($get_url, "membre") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
+    } elseif (stripos($get_url, "membre") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
         header('Location: tableauDeBord.php');
-    } else if (stripos($get_url, "equipe") && $_SESSION['role'] == 0) {
+    } elseif (stripos($get_url, "equipe") && $_SESSION['role'] == 0) {
         header('Location: tableauDeBord.php');
     }
 }
@@ -930,7 +930,7 @@ function afficherNomPrenomEnfantSelect(int $enfantSelect): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -971,7 +971,7 @@ function afficherNomPrenomEnfantSubmit(int $enfantSelect): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1015,7 +1015,7 @@ function afficherNomPrenomEnfantEquipe(int $enfantSelect, int $idMembre): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1059,7 +1059,7 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, int $idMembre): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1156,7 +1156,7 @@ function afficherImageTampon(int $idEnfant): string
  * @return bool
  */
 function estTonAnniversaire($anniversaire) : bool{
-    return ($anniversaire == date('d/m') ? true : false);
+   return ($anniversaire == date('d/m') ? true : false);
 }
 
 /**
@@ -1337,7 +1337,7 @@ function afficherInformationsEnfantModification(int $idEnfant): void
  * @param  int $role
  * @return void
  */
-function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePostal, string $ville, string $courriel, $dateNaissance, string $mdp, int $role): void
+function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePostal, string $ville, string $courriel, $dateNaissance, string $mdp, int $validation,  int $role): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1356,6 +1356,7 @@ function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePo
         ':courriel' => clean($courriel),
         ':dateNaissance' => clean($dateNaissance),
         ':mdp' => clean($mdp),
+        ':validation' => clean($validation),
         ':role' => clean($role)
     ));
     if ($req == false) {
@@ -2517,7 +2518,7 @@ function afficherGererObjectifs(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else {
                         echo '<td>Aucun</td>';
@@ -2606,7 +2607,7 @@ function afficherObjectifs($idEnfant): void
 
                     if ($res == 1) {
                         echo '<img style="width: 20px; position: relative; margin-left: -25px; bottom: -2px;" src="images/singleToken.png"><p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
-                    } else if ($res == 0) {
+                    } elseif ($res == 0) {
                         echo '<br>';
                     } else {
                         echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
@@ -3215,7 +3216,7 @@ function afficherGererObjectifsAZ(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else {
                         echo '<td>Aucun</td>';
@@ -3291,7 +3292,7 @@ function afficherGererObjectifsZA(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else {
                         echo '<td>Aucun</td>';
@@ -3367,7 +3368,7 @@ function afficherGererObjectifsDureeCroissante(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else {
                         echo '<td>Aucun</td>';
@@ -3443,7 +3444,7 @@ function afficherGererObjectifsDureeDecroissante(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else {
                         echo '<td>Aucun</td>';
@@ -3520,7 +3521,7 @@ function afficherGererObjectifsStatutCroissant(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else {
                         echo '<td>Aucun</td>';
@@ -3596,7 +3597,7 @@ function afficherGererObjectifsStatutDecroissant(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else {
                         echo '<td>Aucun</td>';

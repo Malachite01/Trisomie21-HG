@@ -1,4 +1,4 @@
-<?php session_start();require('QUERY.php');$_SESSION['idConnexion']=null;(isset($_POST['boutonValider'])?header('Location: index.php?login_err=ajoutMembre'):'');?>
+<?php session_start();require_once('QUERY.php');$_SESSION['idConnexion']=null;(isset($_POST['boutonValider'])?header('Location: index.php?login_err=ajoutMembre'):'');?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -33,6 +33,7 @@
           $_POST['champMail'],
           $_POST['champDateDeNaissance'],
           saltHash($_POST['champMdp']),
+          0,
           0
         );
       } else {
