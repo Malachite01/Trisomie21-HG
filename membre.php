@@ -19,27 +19,31 @@ testConnexion(); ?>
 faireMenu();
 
 //!AJOUTER UN MEMBRE PRO
-if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDate', 'champMdp', 'champRole'))) {
-  ajouterMembre(
-    $_POST['champNom'],
-    $_POST['champPrénom'],
-    $_POST['champAdresse'],
-    $_POST['champCp'],
-    $_POST['champVille'],
-    $_POST['champMail'],
-    $_POST['champDate'],
-    saltHash($_POST['champMdp']),
-    1,
-    $_POST['champRole']
-  );
-  $id = recupererIdMembre($_POST['champMail']);
-  validerMembre($id);
-  echo '
-    <div class="validationPopup">
-        <h2 class="txtPopup">Le compte administratif a bien été ajouté à la base !</h2>
-        <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-        <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
-    </div>';
+if(isset($_POST['boutonValider'])) {
+  if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDate', 'champMdp', 'champRole'))) {
+    if (membreIdentique($_POST['champMail']) == 0) {
+      ajouterMembre(
+        $_POST['champNom'],
+        $_POST['champPrénom'],
+        $_POST['champAdresse'],
+        $_POST['champCp'],
+        $_POST['champVille'],
+        $_POST['champMail'],
+        $_POST['champDate'],
+        saltHash($_POST['champMdp']),
+        1,
+        $_POST['champRole']
+      );
+      $id = recupererIdMembre($_POST['champMail']);
+      validerMembre($id);
+      echo '
+      <div class="validationPopup">
+          <h2 class="txtPopup">Le compte administratif a bien été ajouté à la base !</h2>
+          <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+          <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+      </div>';
+    }
+  }
 }
 
 //!SUPRESSION D'UN MEMBRE

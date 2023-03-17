@@ -21,9 +21,7 @@
   <?php
   if(isset($_POST['boutonValider'])) {
     if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDateDeNaissance', 'champMdp'))) {
-      if (membreIdentique(
-        $_POST['champMail']
-      ) == 0) {
+      if (membreIdentique($_POST['champMail']) == 0) {
         ajouterMembre(
           $_POST['champNom'],
           $_POST['champPrénom'],
