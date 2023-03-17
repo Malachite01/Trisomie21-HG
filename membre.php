@@ -1,5 +1,5 @@
 <?php session_start();
-require('QUERY.php');
+require_once('QUERY.php');
 testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -202,6 +202,7 @@ if (isset($_POST['boutonValiderMembre'])) {
     <button type="button" name="boutonAjouterMembrePro" class="boutons boutonAjouterA" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter un <b style="text-decoration: underline; color: orange;">professionnel</b></span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
 
     <table>
+      <caption>Tableau de la liste des membres</caption>
       <thead>
         <th>Nom</th>
         <th>Prénom</th>

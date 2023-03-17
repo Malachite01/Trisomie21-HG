@@ -1,6 +1,4 @@
-<?php session_start();
-require('QUERY.php');
-testConnexion(); ?>
+<?php session_start();require_once('QUERY.php');testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -172,6 +170,7 @@ if (isset($_POST['boutonAppliquer'])) {
     <button type="button" name="boutonAjouterEnfant" class="boutons boutonAjouterA" onclick="fenOpen('aCacher'),deCache('aCacher')"><span>Ajouter un enfant</span><img style="transform: rotate(-45deg);" src="images/annuler.png" class="imageIcone" alt="icone cadenas"></button>
 
     <table>
+      <caption>Tableau de la liste des enfants</caption>
       <thead>
         <th>Image du jeton</th>
         <th>Nom</th>

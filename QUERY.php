@@ -49,7 +49,7 @@ $qRechercherEnfantParNom = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Nais
 //! -------------------------------------------- MEMBRE --------------------------------------------------------------------------
 
 // Requête pour AJOUTER un membre à la BD
-$qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :role)';
+$qAjouterUnMembre = 'INSERT INTO membre (Nom, Prenom, Adresse, Code_Postal, Ville, Courriel, Date_Naissance, Mdp, Compte_Valide, Role) VALUES (:nom, :prenom, :adresse, :codePostal, :ville, :courriel, :dateNaissance, :mdp, :validation,:role)';
 
 // Requête pour SUPPRIMER un membre de la BD
 $qSupprimerUnMembre = 'DELETE FROM membre WHERE Id_Membre = :idMembre';
@@ -428,21 +428,21 @@ function faireMenu(): void
     $idAChercher = "";
     if (stripos($get_url, "tableau")) {
         $idAChercher = "tableauDeBord";
-    } else if (stripos($get_url, "enfant")) {
+    } elseif (stripos($get_url, "enfant")) {
         $idAChercher = "Enfants";
-    } else if (stripos($get_url, "membre")) {
+    } elseif (stripos($get_url, "membre")) {
         $idAChercher = "Membres";
-    } else if (stripos($get_url, "objectif")) {
+    } elseif (stripos($get_url, "objectif")) {
         $idAChercher = "Objectifs";
-    } else if (stripos($get_url, "recompense")) {
+    } elseif (stripos($get_url, "recompense")) {
         $idAChercher = "Recompenses";
-    } else if (stripos($get_url, "equipe")) {
+    } elseif (stripos($get_url, "equipe")) {
         $idAChercher = "Equipe";
     }
     echo ' <nav class="navbar">
     <div class="fondMobile"></div>
     <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
-    '.afficherRole().'
+    ' . afficherRole() . '
     
     <div class="nav-links">
       <ul class="nav-ul">';
@@ -513,14 +513,15 @@ function faireMenu(): void
  * est une fonction permettant d'afficher le rôle du membre connecté, utilisé dans la fonction faireMenu
  * @return string
  */
-function afficherRole() : string {
+function afficherRole(): string
+{
     if ($_SESSION['role'] == 0) {
         return '<p class="role">Membre</p>';
-    } else if ($_SESSION['role'] == 1) {
+    } elseif ($_SESSION['role'] == 1) {
         return '<p class="role">Coordinateur</p>';
-    } else if ($_SESSION['role'] == 2) {
+    } elseif ($_SESSION['role'] == 2) {
         return '<p class="role">Gestionnaire</p>';
-    } else if ($_SESSION['role'] == 3) {
+    } elseif ($_SESSION['role'] == 3) {
         return '<p class="role">Administrateur</p>';
     }
 }
@@ -685,11 +686,11 @@ function testConnexion(): void
     $get_url = $_SERVER['REQUEST_URI'];
     if (stripos($get_url, "tableau") && $_SESSION['role'] == 2) {
         header('Location: modifierProfil.php');
-    } else if (stripos($get_url, "enfant") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
+    } elseif (stripos($get_url, "enfant") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
         header('Location: tableauDeBord.php');
-    } else if (stripos($get_url, "membre") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
+    } elseif (stripos($get_url, "membre") && ($_SESSION['role'] == 0 || $_SESSION['role'] == 1)) {
         header('Location: tableauDeBord.php');
-    } else if (stripos($get_url, "equipe") && $_SESSION['role'] == 0) {
+    } elseif (stripos($get_url, "equipe") && $_SESSION['role'] == 0) {
         header('Location: tableauDeBord.php');
     }
 }
@@ -930,7 +931,7 @@ function afficherNomPrenomEnfantSelect(int $enfantSelect): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -971,7 +972,7 @@ function afficherNomPrenomEnfantSubmit(int $enfantSelect): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1015,7 +1016,7 @@ function afficherNomPrenomEnfantEquipe(int $enfantSelect, int $idMembre): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1059,7 +1060,7 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, int $idMembre): void
             }
             if ($key == 'Prenom' && $idEnfant == $enfantSelect) {
                 echo '<option value=' . $idEnfant . ' selected>' . $nom . " " . $value . '</option>';
-            } else if ($key == 'Prenom') {
+            } elseif ($key == 'Prenom') {
                 echo '<option value=' . $idEnfant . '>' . $nom . " " . $value . '</option>';
             }
         }
@@ -1155,7 +1156,8 @@ function afficherImageTampon(int $idEnfant): string
  * @param  mixed $anniversaire
  * @return bool
  */
-function estTonAnniversaire($anniversaire) : bool{
+function estTonAnniversaire($anniversaire): bool
+{
     return ($anniversaire == date('d/m') ? true : false);
 }
 
@@ -1337,7 +1339,7 @@ function afficherInformationsEnfantModification(int $idEnfant): void
  * @param  int $role
  * @return void
  */
-function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePostal, string $ville, string $courriel, $dateNaissance, string $mdp, int $role): void
+function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePostal, string $ville, string $courriel, $dateNaissance, string $mdp, int $validation,  int $role): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1356,6 +1358,7 @@ function ajouterMembre(string $nom, string $prenom, string $adresse, int $codePo
         ':courriel' => clean($courriel),
         ':dateNaissance' => clean($dateNaissance),
         ':mdp' => clean($mdp),
+        ':validation' => clean($validation),
         ':role' => clean($role)
     ));
     if ($req == false) {
@@ -2517,7 +2520,7 @@ function afficherGererObjectifs(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
@@ -2584,6 +2587,7 @@ function afficherObjectifs($idEnfant): void
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<div class="objectif">';
 
+            //Id_Objectif, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Intitule, Duree
             // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
@@ -2593,27 +2597,6 @@ function afficherObjectifs($idEnfant): void
 
                 if ($key == 'Intitule') {
                     echo '<h3 class="titreObjectif">' . $value . '</h3>';
-                }
-                if ($key == 'Duree') {
-
-                    // Temps restant de la séance
-                    if ((recupererTempsDebutObjectif($idObjectif) != 0) && (recupererTempsDebutObjectif($idObjectif) - time() > 0)) {
-                        $maintenant = time();
-                        $restant = recupererTempsDebutObjectif($idObjectif) - $maintenant;
-                        $heureRestante = $restant / 60;
-                        $duree = dureeStringMinutes($heureRestante);
-                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
-                    } else {
-                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
-                    }
-
-                    if ($res == 1) {
-                        echo '<img style="width: 20px; position: relative; margin-left: -25px; bottom: -2px;" src="images/singleToken.png"><p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
-                    } else if ($res == 0) {
-                        echo '<br>';
-                    } else {
-                        echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
-                    }
                 }
 
                 if ($key == 'Nb_Jetons_Places') {
@@ -2646,19 +2629,36 @@ function afficherObjectifs($idEnfant): void
                     }
                     $places = 0;
                 }
+
+                if ($key == 'Duree') {
+
+                    // Temps restant de la séance
+                    if ((recupererTempsDebutObjectif($idObjectif) != 0) && (recupererTempsDebutObjectif($idObjectif) - time() > 0)) {
+                        $maintenant = time();
+                        $restant = recupererTempsDebutObjectif($idObjectif) - $maintenant;
+                        $heureRestante = $restant / 60;
+                        $duree = dureeStringMinutes($heureRestante);
+                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . $duree . '</p></div><span></span></div><br>';
+                    } else {
+                        echo '<div class="dureeObjectifs"><div class="centerIconeTemps"><img class="imageIcone" src="images/chrono.png" alt="chronometre"><p>' . dureeString($value) . '</p></div><span></span></div><br>';
+                    }
+
+                    if ($res == 1) {
+                        echo '<img style="width: 20px; position: relative; margin-left: -25px; bottom: -2px;" src="images/singleToken.png"><p class="jetonsRestant"">' . $res . ' jeton à valider:</p>';
+                    } elseif ($res == 0) {
+                        echo '<br>';
+                    } else {
+                        echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
+                    }
+                }
             }
             echo '<div class="containerTampons">';
             if (recupererPremierJetonJamaisPose($idObjectif) == null || recupererPremierJetonJamaisPose($idObjectif) + 180  >= time()) {
                 if (recupererTempsDebutObjectif($idObjectif) >= time()) {
                     for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
                         if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                            echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                            //DEGUEU MAIS NE PAS TOUCHER SINON CA MARCHE PAS
-                            if ($res == 0) {
-                                echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
-                            } else {
-                                echo '<img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
-                            }
+                            echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">
+                            <img class="imageTamponValide" src="' . afficherImageTampon($idEnfant) . '"></button>';
                         } else {
                             echo '<button class="tampon" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                         }
@@ -2750,12 +2750,8 @@ function afficherObjectifsZoom(int $idObjectif): void
         if (recupererTempsDebutObjectif($idObjectif) >= time()) {
             for ($i = 1; $i <= NombreDeJetons($idObjectif); $i++) {
                 if ($i <= NombreDeJetonsPlaces($idObjectif)) {
-                    echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">';
-                    if ($res == 0) {
-                        echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
-                    } else {
-                        echo '<img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
-                    }
+                    echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '" onclick="return confirm(\'Êtes vous sûr de vouloir retirer un jeton ?\');">
+                    <img class="imageTamponValide zoom" src="' . afficherImageTampon($_SESSION['enfant']) . '"></button>';
                 } else {
                     echo '<button class="tampon zoom" type="submit" name="valeurJetonsIdObjectif" value="' . $i . '.' . $idObjectif . '">?</button>';
                 }
@@ -3222,7 +3218,7 @@ function afficherGererObjectifsAZ(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
@@ -3300,7 +3296,7 @@ function afficherGererObjectifsZA(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
@@ -3378,7 +3374,7 @@ function afficherGererObjectifsDureeCroissante(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
@@ -3457,7 +3453,7 @@ function afficherGererObjectifsDureeDecroissante(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
@@ -3536,7 +3532,7 @@ function afficherGererObjectifsStatutCroissant(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
@@ -3614,7 +3610,7 @@ function afficherGererObjectifsStatutDecroissant(int $idEnfant): void
                 if ($key == 'Travaille') {
                     if ($value == 1) {
                         echo '<td>En cours</td>';
-                    } else if ($value == 2) {
+                    } elseif ($value == 2) {
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
@@ -4071,16 +4067,16 @@ function supprimerImageRecompense(int $idRecompense): string
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageUnObjectif']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererImageUneRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de la préparation de la requête : qSupprimerImageUnObjectif');
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qRecupererImageUneRecompense');
     }
     // execution de la Requête sql
     $req->execute(array(
-        ':idObjectif' => clean($idRecompense)
+        ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qSupprimerImageUnObjectif');
+        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qRecupererImageUneRecompense');
     }
     $res = $req->fetch();
     return $res[0];

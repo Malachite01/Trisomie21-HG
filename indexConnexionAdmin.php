@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('QUERY.php');
+require_once('QUERY.php');
 $linkpdo = connexionBd();
 if (!empty($_POST['champIdentifiant']) && !empty($_POST['champMotDePasse'])) // Si il existe les champs email, password et qu'il sont pas vides
 {
