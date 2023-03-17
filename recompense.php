@@ -114,7 +114,7 @@ if (isset($_POST['boutonAppliquer'])) {
     <div class="svgWave"></div>
   </div>
 
-  <h1>Gérer les récompenses</h1>
+  <h1><img src="images/gestionRecompense.png" alt="image gestion récompense" class="iconeH1"> Gérer les récompenses</h1>
 
   <!-- PAGE DE FORMULAIRE -->
 

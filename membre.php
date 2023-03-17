@@ -75,7 +75,7 @@ if (isset($_POST['boutonValiderMembre'])) {
     <div class="svgWave"></div>
   </div>
 
-  <h1>Gérer les membres</h1>
+  <h1><img src="images/gererGroupe.png" alt="image gestion membre" class="iconeH1"> Gérer les membres</h1>
 
   <div class="aCacher fenButtonOff transparent" id="formAjoutMembrePro">
     <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">

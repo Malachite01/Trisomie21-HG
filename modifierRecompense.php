@@ -18,7 +18,7 @@
     <div class="svgWave"></div>
   </div>
 
-  <h1>Modifier une récompense</h1>
+  <h1><img src="images/iconeEdit.png" alt="icone modification" class="iconeH1"> Modifier une récompense</h1>
   <?php
   faireMenu();
   ?>

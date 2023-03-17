@@ -23,7 +23,7 @@
     faireMenu();
   ?>
 
-  <h1>Informations du membre</h1>
+  <h1><img src="images/oeil.png" alt="icone oeil" class="iconeH1"> Informations du membre</h1>
     <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
       <div class="miseEnForme" id="miseEnFormeFormulaire">
         <?php

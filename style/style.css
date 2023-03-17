@@ -2090,6 +2090,11 @@ button.redirect:hover {
     margin-right: 5px;
 }
 
+.iconeH1 {
+    margin-bottom: -6px;
+    width: 35px;
+}
+
 @media screen and (max-width: 400px) {
     h1 {
         font-size: 1.5em;
@@ -2564,6 +2569,8 @@ button#boutonSelecteurs:hover {
     background-color: var(--chatMsgSortant);
     border-radius: var(--globalRadius);
     margin-top: 50px;
+    align-self: center;
+    padding: 5px;
 }
 .selecteursMsgOn#selecteursMsg {
     display: block;
@@ -2580,7 +2587,7 @@ button#boutonSelecteurs:hover {
     }
     100% {
         clip-path: circle(100% at center);
-        width: 100%;
+        width: 80%;
         height: fit-content;
     }
 }

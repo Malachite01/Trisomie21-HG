@@ -264,5 +264,26 @@ function submitForm(formId, divId, url) {
     });
   }
   
+//
+function verifIdPasVide() {
+    var bouton = document.getElementById('boutonEnvoiMessage');
+    if(document.getElementById('idObjectif').value == "") {
+        bouton.disabled = true;
+        bouton.style.backgroundColor = "grey";
+        bouton.style.cursor = "not-allowed";
+        if(document.getElementById('doitSelectionnerObj') == null) {
+            var html = "<p id='doitSelectionnerObj' class='msgSelectionErreurFonctions'>Veuillez choisir un objectif avant d'envoyer un message</p>";
+            document.getElementById('scrollChat').insertAdjacentHTML("beforeend", html); 
+        }
+        document.getElementById('idObjectif').setAttribute('onchange','verifIdPasVide()');
+    } else {
+        bouton.disabled = false;
+        bouton.style.backgroundColor = "#5aabcb";
+        bouton.style.cursor = "pointer";
+        if(document.getElementById('doitSelectionnerObj') != null) {
+            document.getElementById('doitSelectionnerObj').remove();
+        }
+    }
+}
 
   

@@ -18,7 +18,7 @@
     <div class="svgWave"></div>
   </div>
 
-  <h1>Modifier informations enfant</h1>
+  <h1><img src="images/iconeEdit.png" alt="icone modifier" class="iconeH1"> Modifier informations enfant</h1>
   <?php
   faireMenu();
   ?>
