@@ -83,12 +83,12 @@ faireMenu();
                 afficherRecompenseSelonObjectif($_SESSION['objectif']);
                 ?>
             </div>
-            <button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart('chartData','chartTata'),fenOpenStats('containerStats'),deCache('containerStats');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>
+            <button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart('chartData','chartTata'),fenOpenStats('containerStats'),deCache('containerStats');"><img src="images/flecheBas.png" id="flecheBas" alt="image déployer statistiques"><span></span></button>
 
         <?php
             afficherBarresProgression($_SESSION['objectif']);
         } else {
-            echo '<button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart(\'chartData\',\'chartTata\'),fenOpenStats(\'containerStats\'),deCache(\'containerStats\');"><img src="images/flecheBas.png" id="flecheBas"><span></span></button>';
+            echo '<button type="button" id="boutonStats" class="boutonEdit" onclick="createPieChart(\'chartData\',\'chartTata\'),fenOpenStats(\'containerStats\'),deCache(\'containerStats\');"><img src="images/flecheBas.png" id="flecheBas" alt="fleche du bas"><span></span></button>';
             afficherBarresProgression($_SESSION['objectif']);
             if ($_SESSION['pourcentPie'] >= 80) {
                 echo '
