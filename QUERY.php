@@ -147,7 +147,7 @@ $qReinitialiserUnObjectif = 'UPDATE objectif set Nb_Jetons_Places = 0, Temps_Deb
 $qAjouterTempsDebutUnObjectif = 'UPDATE objectif SET Temps_Debut = :tempsDebut WHERE Id_Objectif = :idObjectif';
 
 // Requête pour MODIFIER un objectif en passant son son travaille à 2 ( à venir )
-$qModifierUnObjectifAVenir = 'UPDATE objectif SET Travaille = 2 WHERE Id_Objectif= :idObjectif';
+$qModifierUnObjectifTermine = 'UPDATE objectif SET Travaille = 3 WHERE Id_Objectif= :idObjectif';
 
 // Requête pour MODIFIER un objectif en mettant son Id_Membre à null selon son Id_Membre
 $qSupprimerIdMembreObjectif = 'UPDATE objectif SET Id_Membre = NULL WHERE Id_Membre = :idMembre';
@@ -2519,7 +2519,10 @@ function afficherGererObjectifs(int $idEnfant): void
                         echo '<td>En cours</td>';
                     } else if ($value == 2) {
                         echo '<td>A venir</td>';
-                    } else {
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
+                    
+                    }else {
                         echo '<td>Aucun</td>';
                     }
                 }
@@ -2898,7 +2901,7 @@ function supprimerTousJetonsPlaces(int $idObjectif): void
  * @param  int $idObjectif
  * @return void
  */
-function AfficherInformationUnObjectif(int $idObjectif): void
+function AfficherInformationUnObjectif( $idObjectif) 
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2945,20 +2948,24 @@ function AfficherInformationUnObjectif(int $idObjectif): void
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="Avenir" value="2" required';
-                if ($value == 2) echo ' checked>';
-                else echo '>';
-                echo '
+                        echo ($value == 2 ? ' checked>' : '>');
+                        echo '
                         <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
                     </span>
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="enCours" value="1" required';
-                if ($value == 1) echo ' checked>';
-                else echo '>';
-                echo '
+                        echo ($value == 1 ? ' checked>' : '>');
+                        echo '
                         <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
                     </span>
 
+                    <span class="center1Item">
+                        <input type="radio" name="champTravaille" id="Passe" value="3" required';
+                        echo ($value == 3 ? ' checked>' : '>');
+                        echo '
+                        <label for="Passe" class="radioLabel" tabindex="0">Passé</label>
+                    </span>
                 </div>
                 <span></span>';
             } elseif ($key == 'Lien_Image') {
@@ -3016,24 +3023,24 @@ function modifierObjectif(string $intitule, int $nbJetons, int $duree, string $l
 
 
 /**
- * modifierObjectifAVenir
+ * modifierObjectifTermine
  * est une fonction permettant de changer le statut d'un objectif en "A venir"
  * @param  int $idObjectif
  * @return void
  */
-function modifierObjectifAVenir(int $idObjectif): void
+function modifierObjectifTermine(int $idObjectif): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qModifierUnObjectifAVenir']);
+    $req = $linkpdo->prepare($GLOBALS['qModifierUnObjectifTermine']);
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de la préparation de la requête : qModifierUnObjectifAVenir');
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qModifierUnObjectifTermine');
     }
     // execution de la Requête sql
     $req->execute(array(':idObjectif' => clean($idObjectif)));
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qModifierUnObjectifAVenir');
+        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qModifierUnObjectifTermine');
     }
 }
 
@@ -3217,6 +3224,8 @@ function afficherGererObjectifsAZ(int $idEnfant): void
                         echo '<td>En cours</td>';
                     } else if ($value == 2) {
                         echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
                     } else {
                         echo '<td>Aucun</td>';
                     }
@@ -3293,6 +3302,8 @@ function afficherGererObjectifsZA(int $idEnfant): void
                         echo '<td>En cours</td>';
                     } else if ($value == 2) {
                         echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
                     } else {
                         echo '<td>Aucun</td>';
                     }
@@ -3369,6 +3380,9 @@ function afficherGererObjectifsDureeCroissante(int $idEnfant): void
                         echo '<td>En cours</td>';
                     } else if ($value == 2) {
                         echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
+                    
                     } else {
                         echo '<td>Aucun</td>';
                     }
@@ -3445,6 +3459,8 @@ function afficherGererObjectifsDureeDecroissante(int $idEnfant): void
                         echo '<td>En cours</td>';
                     } else if ($value == 2) {
                         echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
                     } else {
                         echo '<td>Aucun</td>';
                     }
@@ -3522,6 +3538,8 @@ function afficherGererObjectifsStatutCroissant(int $idEnfant): void
                         echo '<td>En cours</td>';
                     } else if ($value == 2) {
                         echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
                     } else {
                         echo '<td>Aucun</td>';
                     }
@@ -3598,6 +3616,8 @@ function afficherGererObjectifsStatutDecroissant(int $idEnfant): void
                         echo '<td>En cours</td>';
                     } else if ($value == 2) {
                         echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
                     } else {
                         echo '<td>Aucun</td>';
                     }
@@ -4799,7 +4819,7 @@ function recupererPremierJetonJamaisPose($idObjectif)
 function nettoyerObjectif(): void
 {
     if (isset($_POST['boutonAVenir'])) {
-        modifierObjectifAVenir($_SESSION['objectif']);
+        modifierObjectifTermine($_SESSION['objectif']);
         supprimerTousLesJetons($_SESSION['objectif']);
         supprimerTousJetonsPlaces($_SESSION['objectif']);
         reinitialiserObjectif($_SESSION['objectif']);
