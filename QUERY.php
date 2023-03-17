@@ -263,7 +263,7 @@ $qRecupererEquipeUnEnfant = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre
 $qAjouterUnMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
 // Requête pour VÉRIFIER qu'un message n'est pas déjà présent dans la base selon son sujet, son corps pour un objectif et un membre donnés
-$qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
+$qMessageIdentique = 'SELECT Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
 // Requête pour RÉCUPÉRER l'Id_Membre, le nom, le prénom du membre, l'intitule de l'objectif, le sujet, le corps et la date du message selon un enfant avec son Id_Enfant
 $qRecupererMessage = 'SELECT message.Id_Membre, membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant ORDER BY message.Date_Heure';
@@ -273,6 +273,9 @@ $qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Preno
 
 // Requête pour RÉCUPÉRER l'Id_Membre d'un message
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message';
+
+// Requête pour RÉCUPÉRER le Sujet, le corps du dernier message écrit par un membre pour un objectif donné
+$qRechercherDernierMessageMembreObjectif = 'SELECT Corps FROM message WHERE Id_Membre = :idMembre AND Id_Objectif = :idObjectif ORDER BY Date_Heure DESC LIMIT 1';
 
 //! -------------------------------------------- PLACER JETON --------------------------------------------------------------------
 
@@ -4135,7 +4138,6 @@ function rechercherIdRecompenseSelonIntitule(string $intitule): int
     return $res[0];
 }
 
-//!------------------------------------------------- CANCER -------------------------------------------------------
 /**
  * supprimerImageRecompense
  * est une fonction qui permet de supprimer l'image d'une récompense
@@ -4650,44 +4652,39 @@ function afficherMessageParObjectif(int $idEnfant, int $idObjectif): void
 }
 
 /**
- * messageIdentique
- * est une fonction qui retourne > 0 si le message est identique au message précédent
- * @param  string $sujet
- * @param  string $corps
- * @param  int $idObjectif
+ * lastMessageMembreObjectif
+ * est une fonction qui retourne le dernier message d'un membre pour un objectif
+ * @param  mixed $idObjectif
  * @param  int $idMembre
- * @return void
+ * @param  string $corps
+ * @return bool
  */
-function messageIdentique(string $sujet, string $corps, int $idObjectif, int $idMembre)
+function lastMessageMembreObjectif($idObjectif, int $idMembre, $corps): bool
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qMessageIdentique']);
+    $req = $linkpdo->prepare($GLOBALS['qRechercherDernierMessageMembreObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de la préparation de la requête : qMessageIdentique');
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qRechercherDernierMessageMembreObjectif');
     }
     // execution de la Requête sql
     $req->execute(array(
-        ':sujet' => clean($sujet),
-        ':corps' => clean($corps),
         ':idObjectif' => clean($idObjectif),
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors l\'exécution de la requête : qMessageIdentique');
+        die('Erreur ! Il y a un problème lors l\'exécution de la requête : qRechercherDernierMessageMembreObjectif');
     }
-    $count = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
-    $i = 0;
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $key => $value) {
-            if ($i == $count) {
-            }
+    if ($req->rowCount() != 0) {
+        $res = $req->fetch();
+        if ($res[0] == $corps) {
+            return false;
+        } else {
+            return true;
         }
     }
-    $i++;
+    return true;
 }
 
 //! -------------------------------------------- PLACER JETON --------------------------------------------------------------------

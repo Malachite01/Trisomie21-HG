@@ -89,13 +89,15 @@ testConnexion(); ?>
   <?php
   //!CHAT
   if (champRempli(array('champSujet', 'champCorps'))) {
-    ajouterMessage(
-      $_POST['champSujet'],
-      $_POST['champCorps'],
-      time(),
-      $_POST['idObjectif'],
-      $_SESSION['idConnexion']
-    );
+    if (lastMessageMembreObjectif($_POST['idObjectif'], $_SESSION['idConnexion'], $_POST['champCorps'])) {
+      ajouterMessage(
+        $_POST['champSujet'],
+        $_POST['champCorps'],
+        time(),
+        $_POST['idObjectif'],
+        $_SESSION['idConnexion']
+      );
+    }
   }
   faireChatTb();
   ?>

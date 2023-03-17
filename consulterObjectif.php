@@ -1,4 +1,6 @@
-<?php session_start();require_once('QUERY.php');testConnexion();?>
+<?php session_start();
+require_once('QUERY.php');
+testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -104,20 +106,18 @@ faireMenu();
                 ';
             }
         } ?>
-
     </form>
-
-
     <?php
-
     if (champRempli(array('champSujet', 'champCorps'))) {
-        ajouterMessage(
-            $_POST['champSujet'],
-            $_POST['champCorps'],
-            time(),
-            $_SESSION['objectif'],
-            $_SESSION['idConnexion']
-        );
+        if (lastMessageMembreObjectif($_SESSION['objectif'], $_SESSION['idConnexion'], $_POST['champCorps'])) {
+            ajouterMessage(
+                $_POST['champSujet'],
+                $_POST['champCorps'],
+                time(),
+                $_SESSION['objectif'],
+                $_SESSION['idConnexion']
+            );
+        }
     }
     faireChatObjectif();
     ?>
