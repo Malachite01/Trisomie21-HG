@@ -19,7 +19,7 @@ testConnexion(); ?>
 faireMenu();
 
 //!AJOUTER UN MEMBRE PRO
-if(isset($_POST['boutonValider'])) {
+if (isset($_POST['boutonValider'])) {
   if (champRempli(array('champNom', 'champPrénom', 'champAdresse', 'champCp', 'champVille', 'champMail', 'champDate', 'champMdp', 'champRole'))) {
     if (membreIdentique($_POST['champMail']) == 0) {
       ajouterMembre(
@@ -134,7 +134,7 @@ if (isset($_POST['boutonValiderMembre'])) {
 
   <form id="formGestionMembre" method="POST">
     <div class="filtres" id="miseEnFormeFiltres">
-      <label for="Recherche">Filtres :</label>
+      <label for="Recherche">Trier :</label>
       <div class="centerIconeChamp">
         <input type="text" name="Recherche" placeholder="Rechercher par Nom">
         <button type="submit" id="btnRecherche"><img src="images/search.png" class="imageIcone" alt="icone de loupe"></button>

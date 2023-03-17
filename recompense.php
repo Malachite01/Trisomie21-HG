@@ -174,7 +174,7 @@ if (isset($_POST['boutonAppliquer'])) {
   <!-- PAGE DE GESTION -->
   <form id="formGestionRecompense" method="POST" enctype="multipart/form-data">
     <div class="filtres" id="miseEnFormeFiltresEnfants">
-      <label for="Recherche">Filtres :</label>
+      <label for="Recherche">Trier :</label>
       <div class="centerIconeChamp">
         <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
         <?php

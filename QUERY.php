@@ -1072,9 +1072,8 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, int $idMembre): void
  * supprimerImageEnfant
  * est une fonction qui permet de retourner le lien de l'image de l'enfant selon son Id_Enfant 
  * @param  int $idEnfant
- * @return string
  */
-function supprimerImageEnfant(int $idEnfant): string
+function supprimerImageEnfant(int $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1090,8 +1089,10 @@ function supprimerImageEnfant(int $idEnfant): string
     if ($req == false) {
         die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qSupprimerImageUnEnfant');
     }
-    $res = $req->fetch();
-    return $res[0];
+    if ($req->rowCount() != 0) {
+        $res = $req->fetch();
+        return $res[0];
+    }
 }
 
 /**
@@ -2524,8 +2525,7 @@ function afficherGererObjectifs(int $idEnfant): void
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
-                    
-                    }else {
+                    } else {
                         echo '<td>Aucun</td>';
                     }
                 }
@@ -2897,7 +2897,7 @@ function supprimerTousJetonsPlaces(int $idObjectif): void
  * @param  int $idObjectif
  * @return void
  */
-function AfficherInformationUnObjectif( $idObjectif) 
+function AfficherInformationUnObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2944,22 +2944,22 @@ function AfficherInformationUnObjectif( $idObjectif)
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="Avenir" value="2" required';
-                        echo ($value == 2 ? ' checked>' : '>');
-                        echo '
+                echo ($value == 2 ? ' checked>' : '>');
+                echo '
                         <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
                     </span>
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="enCours" value="1" required';
-                        echo ($value == 1 ? ' checked>' : '>');
-                        echo '
+                echo ($value == 1 ? ' checked>' : '>');
+                echo '
                         <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
                     </span>
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="Passe" value="3" required';
-                        echo ($value == 3 ? ' checked>' : '>');
-                        echo '
+                echo ($value == 3 ? ' checked>' : '>');
+                echo '
                         <label for="Passe" class="radioLabel" tabindex="0">Passé</label>
                     </span>
                 </div>
@@ -3378,7 +3378,6 @@ function afficherGererObjectifsDureeCroissante(int $idEnfant): void
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
-                    
                     } else {
                         echo '<td>Aucun</td>';
                     }
