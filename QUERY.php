@@ -2552,7 +2552,7 @@ function afficherGererObjectifs(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
         }
     }
 }
@@ -2580,7 +2580,7 @@ function afficherObjectifs($idEnfant): void
     $res = 0;
     if ($req->rowCount() < 1) {
         if ($_SESSION['enfant'] != null) {
-            echo "<p class='msgSelection'>Cet enfant ne possède pas d'objectifs en cours !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant ne possède pas d'objectifs en cours !</p>";
         }
     } else {
         // permet de parcourir toutes les lignes de la Requête
@@ -2940,7 +2940,7 @@ function AfficherInformationUnObjectif($idObjectif)
             } elseif ($key == 'Travaille') {
                 echo '
                 <label for="champTravaille">Statut de l\'objectif :</label>
-                <div class="center" style="width: 100%;">
+                <div class="center3Items" style="width: 100%;">
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="Avenir" value="2" required';
@@ -3249,7 +3249,7 @@ function afficherGererObjectifsAZ(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
         }
     }
 }
@@ -3327,7 +3327,7 @@ function afficherGererObjectifsZA(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
         }
     }
 }
@@ -3405,7 +3405,7 @@ function afficherGererObjectifsDureeCroissante(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
         }
     }
 }
@@ -3483,7 +3483,7 @@ function afficherGererObjectifsDureeDecroissante(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
         }
     }
 }
@@ -3562,7 +3562,7 @@ function afficherGererObjectifsStatutCroissant(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
         }
     }
 }
@@ -3640,7 +3640,7 @@ function afficherGererObjectifsStatutDecroissant(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'objectifs !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
         }
     }
 }
@@ -4002,7 +4002,7 @@ function afficherRecompense($idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas de récompenses !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas de récompenses !</p>";
         }
     }
 }
@@ -4267,7 +4267,7 @@ function afficherGererEquipe(int $idEnfant): void
         }
     } else {
         if ($idEnfant != 0) {
-            echo "<p class='msgSelection'>Cet enfant n'a pas d'équipe !</p>";
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'équipe !</p>";
         }
     }
 }

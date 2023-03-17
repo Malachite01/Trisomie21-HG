@@ -707,6 +707,15 @@ div.miseFormeConnexion label {
     justify-items: center;
 }
 
+.center3Items {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+    justify-items: center;
+}
+
 .center1Item {
     display: grid;
     grid-template-columns: 1fr;
@@ -1528,6 +1537,17 @@ div.miseFormeConnexion label {
     font-family: Georama;
     display: grid;
     justify-self: center;
+    font-size: 1.2em;
+    color: red;
+    text-align: center;
+}
+
+.msgSelectionErreurFonctions {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    font-family: Georama;
     font-size: 1.2em;
     color: red;
     text-align: center;
