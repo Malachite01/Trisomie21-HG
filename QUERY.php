@@ -442,7 +442,7 @@ function faireMenu(): void
     echo ' <nav class="navbar">
     <div class="fondMobile"></div>
     <a href="tableauDeBord.php"><img src="images/logo.png" alt="logo" class="logo"></a>
-    '.afficherRole().'
+    ' . afficherRole() . '
     
     <div class="nav-links">
       <ul class="nav-ul">';
@@ -513,7 +513,8 @@ function faireMenu(): void
  * est une fonction permettant d'afficher le rôle du membre connecté, utilisé dans la fonction faireMenu
  * @return string
  */
-function afficherRole() : string {
+function afficherRole(): string
+{
     if ($_SESSION['role'] == 0) {
         return '<p class="role">Membre</p>';
     } elseif ($_SESSION['role'] == 1) {
@@ -1155,8 +1156,9 @@ function afficherImageTampon(int $idEnfant): string
  * @param  mixed $anniversaire
  * @return bool
  */
-function estTonAnniversaire($anniversaire) : bool{
-   return ($anniversaire == date('d/m') ? true : false);
+function estTonAnniversaire($anniversaire): bool
+{
+    return ($anniversaire == date('d/m') ? true : false);
 }
 
 /**
@@ -2582,7 +2584,7 @@ function afficherObjectifs($idEnfant): void
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             echo '<div class="objectif">';
 
-//Id_Objectif, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Intitule, Duree
+            //Id_Objectif, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Intitule, Duree
             // permet de parcourir toutes les colonnes de la Requête
             foreach ($data as $key => $value) {
                 // selectionne toutes les colonnes $key necessaires
@@ -2593,7 +2595,7 @@ function afficherObjectifs($idEnfant): void
                 if ($key == 'Intitule') {
                     echo '<h3 class="titreObjectif">' . $value . '</h3>';
                 }
-                
+
                 if ($key == 'Nb_Jetons_Places') {
                     if (is_null($value) || $value == 0) {
                         $places = 0;
@@ -2646,7 +2648,6 @@ function afficherObjectifs($idEnfant): void
                         echo '<img style="width: 25px; position: relative; margin-left: -25px; bottom: -2px;" src="images/token.png"><p class="jetonsRestant">' . $res . ' jetons à valider:</p>';
                     }
                 }
-
             }
             echo '<div class="containerTampons">';
             if (recupererPremierJetonJamaisPose($idObjectif) == null || recupererPremierJetonJamaisPose($idObjectif) + 180  >= time()) {
@@ -4046,16 +4047,16 @@ function supprimerImageRecompense(int $idRecompense): string
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qSupprimerImageUnObjectif']);
+    $req = $linkpdo->prepare($GLOBALS['qRecupererImageUneRecompense']);
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de la préparation de la requête : qSupprimerImageUnObjectif');
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qRecupererImageUneRecompense');
     }
     // execution de la Requête sql
     $req->execute(array(
-        ':idObjectif' => clean($idRecompense)
+        ':idRecompense' => clean($idRecompense)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qSupprimerImageUnObjectif');
+        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qRecupererImageUneRecompense');
     }
     $res = $req->fetch();
     return $res[0];

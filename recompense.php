@@ -1,4 +1,6 @@
-<?php session_start();require_once('QUERY.php');testConnexion();?>
+<?php session_start();
+require_once('QUERY.php');
+testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -17,34 +19,36 @@
 faireMenu();
 
 //!AJOUT D'UNE RECOMPENSE
-if (isset($_POST['idEnfant'])) {
-  if (champRempli(array('champIntitule', 'champDescriptif'))) {
-    $image = uploadImage($_FILES['champImage']);
-    if ($image != null) {
-      ajouterRecompense(
-        $_POST['champIntitule'],
-        $image,
-        $_POST['champDescriptif']
-      );
-      AjouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
-      echo '
-            <div class="validationPopup">
-            <h2 class="txtPopup">La récompense a bien été ajoutée à la base !</h2>
-            <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
-            <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
-            </div>';
-    } else {
-      echo '
-            <div class="erreurPopup">
-            <h2 class="txtPopup">Erreur, image trop grande.</h2>
-            <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
-            <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
-            </div>';
+if (isset($_POST['boutonValider'])) {
+  if (isset($_POST['idEnfant'])) {
+    if (champRempli(array('champIntitule', 'champDescriptif'))) {
+      $image = uploadImage($_FILES['champImage']);
+      if ($image != null) {
+        ajouterRecompense(
+          $_POST['champIntitule'],
+          $image,
+          $_POST['champDescriptif']
+        );
+        ajouterLienRecompenseObj($_POST['idObjectif'], rechercherIdRecompenseSelonIntitule($_POST['champIntitule']));
+        echo '
+        <div class="validationPopup">
+        <h2 class="txtPopup">La récompense a bien été ajoutée à la base !</h2>
+        <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+        </div>';
+      } else {
+        echo '
+        <div class="erreurPopup">
+        <h2 class="txtPopup">Erreur, image trop grande.</h2>
+        <img src="images/annuler.png" alt="valider" class="imageIcone centerIcon">
+        <button class="boutonFermerPopup" onclick="erasePopup(\'erreurPopup\')">Fermer X</button>
+        </div>';
+      }
     }
   }
 }
 
-//!SUPRESSION D'UN OBJECTIF
+//!SUPRESSION D'UNE RECOMPENSE
 if (isset($_POST['boutonSupprimer'])) {
   if (file_exists(supprimerImageRecompense($_POST['boutonSupprimer']))) {
     unlink(supprimerImageRecompense($_POST['boutonSupprimer']));
@@ -53,7 +57,7 @@ if (isset($_POST['boutonSupprimer'])) {
 
   echo '
   <div class="supprPopup">
-    <h2 class="txtPopup">La récompense a été supprimé !</h2>
+    <h2 class="txtPopup">La récompense a été supprimée !</h2>
     <img src="images/bin.png" alt="image suppression" class="imageIcone centerIcon">
     <button class="boutonFermerPopup" onclick="erasePopup(\'supprPopup\')">Fermer X</button>
   </div>';
