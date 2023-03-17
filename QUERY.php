@@ -182,6 +182,9 @@ $qRecupererInformationsObjectifsStatutCroissant = 'SELECT Id_Objectif, Lien_Imag
 // Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par statut decroissant )
 $qRecupererInformationsObjectifsStatutDecroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille DESC';
 
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par statut passé )
+$qRecupererInformationsObjectifsStatutPasse = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY CASE WHEN Travaille = 2 THEN 0 ELSE 1 END, travaille ASC';
+
 // Requête pour RÉCUPÉRER l'ID_Objectif, l'intitule, le nb jetons placés, le nb jetons, le lien image, la durée et le travaille d'un objectif selon son Id_Objectif
 $qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Duree, Travaille  FROM objectif WHERE Id_Objectif = :idObjectif';
 
@@ -3586,6 +3589,84 @@ function afficherGererObjectifsStatutDecroissant(int $idEnfant): void
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
         die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qRecupererInformationsObjectifsStatutDecroissant');
+    }
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la Requête
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la Requête
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } elseif ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
+                }
+            }
+            echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
+        }
+    }
+}
+
+/**
+ * afficherGererObjectifsStatutPasse
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par statut passe
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsStatutPasse(int $idEnfant): void
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsStatutPasse']);
+    if ($req == false) {
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qRecupererInformationsObjectifsStatutPasse');
+    }
+    // execution de la Requête sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qRecupererInformationsObjectifsStatutPasse');
     }
     if ($req->rowCount() >= 1) {
         // permet de parcourir toutes les lignes de la Requête

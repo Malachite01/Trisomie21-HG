@@ -229,19 +229,24 @@ if (isset($_POST['boutonAppliquer'])) {
             if ($_POST['filtres'] == 4) {
               echo 'selected';
             };
-            echo '>De A à Z</option>';
+            echo '>Objectifs passés</option>';
             echo '<option value="5"';
             if ($_POST['filtres'] == 5) {
               echo 'selected';
             };
-            echo '>De Z à A</option>';
+            echo '>De A à Z</option>';
             echo '<option value="6"';
             if ($_POST['filtres'] == 6) {
               echo 'selected';
             };
-            echo '>Objectifs les plus courts</option>';
+            echo '>De Z à A</option>';
             echo '<option value="7"';
             if ($_POST['filtres'] == 7) {
+              echo 'selected';
+            };
+            echo '>Objectifs les plus courts</option>';
+            echo '<option value="8"';
+            if ($_POST['filtres'] == 8) {
               echo 'selected';
             };
             echo '>Objectifs les plus longs</option>';
@@ -250,10 +255,11 @@ if (isset($_POST['boutonAppliquer'])) {
             <option value="1">Veuillez choisir un filtre</option>
             <option value="2">Objectifs en cours</option>
             <option value="3">Objectifs à venir</option>
-            <option value="4">De A à Z</option>
-            <option value="5">De Z à A</option>
-            <option value="6">Objectifs les plus courts</option>
-            <option value="7">Objectifs les plus longs</option>
+            <option value="4">Objectifs passés</option>
+            <option value="5">De A à Z</option>
+            <option value="6">De Z à A</option>
+            <option value="7">Objectifs les plus courts</option>
+            <option value="8">Objectifs les plus longs</option>
           ';
           }
 
@@ -295,33 +301,40 @@ if (isset($_POST['boutonAppliquer'])) {
               break;
             case 3:
               if (!isset($_POST['idEnfant'])) {
+                afficherGererObjectifsStatutPasse($_SESSION['enfant']);
+              } else {
+                afficherGererObjectifsStatutPasse($_POST['idEnfant']);
+              }
+              break;
+            case 4:
+              if (!isset($_POST['idEnfant'])) {
                 afficherGererObjectifsStatutDecroissant($_SESSION['enfant']);
               } else {
                 afficherGererObjectifsStatutDecroissant($_POST['idEnfant']);
               }
               break;
-            case 4:
+            case 5:
               if (!isset($_POST['idEnfant'])) {
                 afficherGererObjectifsAZ($_SESSION['enfant']);
               } else {
                 afficherGererObjectifsAZ($_POST['idEnfant']);
               }
               break;
-            case 5:
+            case 6:
               if (!isset($_POST['idEnfant'])) {
                 afficherGererObjectifsZA($_SESSION['enfant']);
               } else {
                 afficherGererObjectifsZA($_POST['idEnfant']);
               }
               break;
-            case 6:
+            case 7:
               if (!isset($_POST['idEnfant'])) {
                 afficherGererObjectifsDureeCroissante($_SESSION['enfant']);
               } else {
                 afficherGererObjectifsDureeCroissante($_POST['idEnfant']);
               }
               break;
-            case 7:
+            case 8:
               if (!isset($_POST['idEnfant'])) {
                 afficherGererObjectifsDureeDecroissante($_SESSION['enfant']);
               } else {
