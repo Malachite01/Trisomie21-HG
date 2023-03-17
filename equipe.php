@@ -1,4 +1,6 @@
-<?php session_start();require_once('QUERY.php');testConnexion();?>
+<?php session_start();
+require_once('QUERY.php');
+testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -74,7 +76,7 @@ if (champRempli(array('champRole'))) {
     <form id="formGestionObjectifs" method="POST" enctype="multipart/form-data">
 
         <div class="filtres" id="miseEnFormeFiltresEnfants">
-            <label for="Recherche">Filtres :</label>
+            <label for="Recherche">Trier :</label>
             <div class="centerIconeChamp">
                 <img src="images/enfants.png" class="imageIcone" alt="icone de filtre">
                 <?php

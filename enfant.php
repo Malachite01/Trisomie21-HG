@@ -1,4 +1,6 @@
-<?php session_start();require_once('QUERY.php');testConnexion(); ?>
+<?php session_start();
+require_once('QUERY.php');
+testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -158,7 +160,7 @@ if (isset($_POST['boutonAppliquer'])) {
 
   <form id="formGestionEnfants" method="POST" enctype="multipart/form-data">
     <div class="filtres" id="miseEnFormeFiltresEnfants">
-      <label for="Recherche">Filtres :</label>
+      <label for="Recherche">Trier :</label>
       <div class="centerIconeChamp">
         <div class="centerIconeChamp">
           <input type="text" name="Recherche" placeholder="Rechercher par Nom">

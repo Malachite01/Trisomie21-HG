@@ -90,14 +90,16 @@ testConnexion(); ?>
   //!CHAT
   if (isset($_POST['boutonEnvoiMessage']) && isset($_POST['idObjectif']) && (isset($_POST['idEnfant']) || $_SESSION['enfant'])) {
     if (champRempli(array('champSujet', 'champCorps'))) {
-      ajouterMessage(
-        $_POST['champSujet'],
-        $_POST['champCorps'],
-        time(),
-        $_POST['idObjectif'],
-        $_SESSION['idConnexion']
-      );
-    }
+    if (lastMessageMembreObjectif($_POST['idObjectif'], $_SESSION['idConnexion'], $_POST['champCorps'])) {
+        ajouterMessage(
+          $_POST['champSujet'],
+          $_POST['champCorps'],
+          time(),
+          $_POST['idObjectif'],
+          $_SESSION['idConnexion']
+        );
+      }
+  }
   }
   faireChatTb();
   ?>

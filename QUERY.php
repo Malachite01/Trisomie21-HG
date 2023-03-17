@@ -182,6 +182,9 @@ $qRecupererInformationsObjectifsStatutCroissant = 'SELECT Id_Objectif, Lien_Imag
 // Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par statut decroissant )
 $qRecupererInformationsObjectifsStatutDecroissant = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY Travaille DESC';
 
+// Requête pour RÉCUPÉRER l'Id_Objectif, le lien image, l'intitule, la duée, le nb jetons et le travaille d'un objectif pour un enfant ( trie par statut passé )
+$qRecupererInformationsObjectifsStatutPasse = 'SELECT Id_Objectif, Lien_Image, Intitule, Duree, Nb_Jetons, Travaille FROM objectif WHERE Id_Enfant = :idEnfant ORDER BY CASE WHEN Travaille = 2 THEN 0 ELSE 1 END, travaille ASC';
+
 // Requête pour RÉCUPÉRER l'ID_Objectif, l'intitule, le nb jetons placés, le nb jetons, le lien image, la durée et le travaille d'un objectif selon son Id_Objectif
 $qRecupererInformationsUnObjectif = 'SELECT Id_Objectif, Intitule, Nb_Jetons_Places, Nb_Jetons, Lien_Image, Duree, Travaille  FROM objectif WHERE Id_Objectif = :idObjectif';
 
@@ -260,7 +263,7 @@ $qRecupererEquipeUnEnfant = 'SELECT suivre.Role, membre.Nom,membre.Prenom,suivre
 $qAjouterUnMessage = 'INSERT INTO message (Sujet,Corps,Date_Heure,Id_Objectif,Id_Membre) VALUES (:sujet,:corps,FROM_UNIXTIME(:dateHeure),:idObjectif,:idMembre)';
 
 // Requête pour VÉRIFIER qu'un message n'est pas déjà présent dans la base selon son sujet, son corps pour un objectif et un membre donnés
-$qMessageIdentique = 'SELECT Sujet, Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :Corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
+$qMessageIdentique = 'SELECT Corps, Id_Objectif, Id_Membre FROM message WHERE Sujet = :sujet AND Corps = :corps AND Id_Objectif = :idObjectif AND Id_Membre = :idMembre';
 
 // Requête pour RÉCUPÉRER l'Id_Membre, le nom, le prénom du membre, l'intitule de l'objectif, le sujet, le corps et la date du message selon un enfant avec son Id_Enfant
 $qRecupererMessage = 'SELECT message.Id_Membre, membre.Nom,membre.Prenom, objectif.Intitule,message.Sujet,message.Corps,DATE_FORMAT(message.Date_Heure, "%d %b %H:%i") AS Date_Heure FROM objectif,message,membre,suivre,enfant WHERE  message.Id_Objectif = objectif.Id_Objectif AND message.Id_Membre = membre.Id_Membre AND membre.Id_Membre = suivre.Id_Membre AND suivre.Id_Enfant = enfant.Id_Enfant AND objectif.Id_Enfant = enfant.Id_Enfant AND suivre.Id_Enfant = :idEnfant ORDER BY message.Date_Heure';
@@ -270,6 +273,9 @@ $qAfficherMessageParObjectif = 'SELECT message.Id_Membre,membre.Nom,membre.Preno
 
 // Requête pour RÉCUPÉRER l'Id_Membre d'un message
 $qRechercherIdMembreMessage = 'SELECT Id_Membre From message';
+
+// Requête pour RÉCUPÉRER le Sujet, le corps du dernier message écrit par un membre pour un objectif donné
+$qRechercherDernierMessageMembreObjectif = 'SELECT Corps FROM message WHERE Id_Membre = :idMembre AND Id_Objectif = :idObjectif ORDER BY Date_Heure DESC LIMIT 1';
 
 //! -------------------------------------------- PLACER JETON --------------------------------------------------------------------
 
@@ -1072,9 +1078,8 @@ function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, int $idMembre): void
  * supprimerImageEnfant
  * est une fonction qui permet de retourner le lien de l'image de l'enfant selon son Id_Enfant 
  * @param  int $idEnfant
- * @return string
  */
-function supprimerImageEnfant(int $idEnfant): string
+function supprimerImageEnfant(int $idEnfant)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -1090,8 +1095,10 @@ function supprimerImageEnfant(int $idEnfant): string
     if ($req == false) {
         die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qSupprimerImageUnEnfant');
     }
-    $res = $req->fetch();
-    return $res[0];
+    if ($req->rowCount() != 0) {
+        $res = $req->fetch();
+        return $res[0];
+    }
 }
 
 /**
@@ -2524,8 +2531,7 @@ function afficherGererObjectifs(int $idEnfant): void
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
-                    
-                    }else {
+                    } else {
                         echo '<td>Aucun</td>';
                     }
                 }
@@ -2897,7 +2903,7 @@ function supprimerTousJetonsPlaces(int $idObjectif): void
  * @param  int $idObjectif
  * @return void
  */
-function AfficherInformationUnObjectif( $idObjectif) 
+function AfficherInformationUnObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
@@ -2944,22 +2950,22 @@ function AfficherInformationUnObjectif( $idObjectif)
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="Avenir" value="2" required';
-                        echo ($value == 2 ? ' checked>' : '>');
-                        echo '
+                echo ($value == 2 ? ' checked>' : '>');
+                echo '
                         <label for="Avenir" class="radioLabel" tabindex="0">A venir</label>
                     </span>
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="enCours" value="1" required';
-                        echo ($value == 1 ? ' checked>' : '>');
-                        echo '
+                echo ($value == 1 ? ' checked>' : '>');
+                echo '
                         <label for="enCours" class="radioLabel" tabindex="0">En cours</label>
                     </span>
 
                     <span class="center1Item">
                         <input type="radio" name="champTravaille" id="Passe" value="3" required';
-                        echo ($value == 3 ? ' checked>' : '>');
-                        echo '
+                echo ($value == 3 ? ' checked>' : '>');
+                echo '
                         <label for="Passe" class="radioLabel" tabindex="0">Passé</label>
                     </span>
                 </div>
@@ -3378,7 +3384,6 @@ function afficherGererObjectifsDureeCroissante(int $idEnfant): void
                         echo '<td>A venir</td>';
                     } else if ($value == 3) {
                         echo '<td>Passé</td>';
-                    
                     } else {
                         echo '<td>Aucun</td>';
                     }
@@ -3587,6 +3592,84 @@ function afficherGererObjectifsStatutDecroissant(int $idEnfant): void
     $req->execute(array(':idEnfant' => clean($idEnfant)));
     if ($req == false) {
         die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qRecupererInformationsObjectifsStatutDecroissant');
+    }
+    if ($req->rowCount() >= 1) {
+        // permet de parcourir toutes les lignes de la Requête
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            echo '<tr>';
+            // permet de parcourir toutes les colonnes de la Requête
+            foreach ($data as $key => $value) {
+                // selectionne toutes les colonnes $key necessaires
+                if ($key == 'Lien_Image') {
+                    echo '<td><img src="' . $value . '" alt=" " style="max-width: 70px; min-width: 70px; border-radius: 8px; margin: 10px;"></td>';
+                }
+                if ($key == 'Intitule') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Duree') {
+                    echo '<td>' . dureeString($value) . '</td>';
+                }
+                if ($key == 'Nb_Jetons') {
+                    echo '<td>' . $value . '</td>';
+                }
+                if ($key == 'Travaille') {
+                    if ($value == 1) {
+                        echo '<td>En cours</td>';
+                    } elseif ($value == 2) {
+                        echo '<td>A venir</td>';
+                    } else if ($value == 3) {
+                        echo '<td>Passé</td>';
+                    } else {
+                        echo '<td>Aucun</td>';
+                    }
+                }
+                if ($key == 'Id_Objectif') {
+                    $idObjectif = $value;
+                }
+            }
+            echo '
+            <td>
+            <button type="submit" name="boutonModifier" value="' . $idObjectif . '" 
+             class="boutonModifier" formaction="modifierObjectifs.php">
+                <img src="images/edit.png" class="imageIcone" alt="icone modifier">
+                <span>Modifier</span>
+            </button>
+            </td>
+            <td>
+            <button type="submit" name="boutonSupprimer" value="' . $idObjectif . '"
+             class="boutonSupprimer" formaction="objectif.php" onclick="return confirm(\'Êtes vous sûr de vouloir supprimer cet objectif ?\');" >
+                <img src="images/bin.png" class="imageIcone" alt="icone supprimer">
+                <span>Supprimer</span>
+            </button>
+            </td>
+        </tr>';
+        }
+    } else {
+        if ($idEnfant != 0) {
+            echo "<p class='msgSelectionErreurFonctions'>Cet enfant n'a pas d'objectifs !</p>";
+        }
+    }
+}
+
+/**
+ * afficherGererObjectifsStatutPasse
+ * est une fonction permettant d'afficher les objectifs d'un enfant donné, trié par statut passe
+ * @param  int $idEnfant
+ * @return void
+ */
+function afficherGererObjectifsStatutPasse(int $idEnfant): void
+{
+    // connexion a la BD
+    $linkpdo = connexionBd();
+    // preparation de la Requête sql
+    $req = $linkpdo->prepare($GLOBALS['qRecupererInformationsObjectifsStatutPasse']);
+    if ($req == false) {
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qRecupererInformationsObjectifsStatutPasse');
+    }
+    // execution de la Requête sql
+    $req->execute(array(':idEnfant' => clean($idEnfant)));
+    if ($req == false) {
+        die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qRecupererInformationsObjectifsStatutPasse');
     }
     if ($req->rowCount() >= 1) {
         // permet de parcourir toutes les lignes de la Requête
@@ -4055,7 +4138,6 @@ function rechercherIdRecompenseSelonIntitule(string $intitule): int
     return $res[0];
 }
 
-//!------------------------------------------------- CANCER -------------------------------------------------------
 /**
  * supprimerImageRecompense
  * est une fonction qui permet de supprimer l'image d'une récompense
@@ -4568,44 +4650,39 @@ function afficherMessageParObjectif(int $idEnfant, int $idObjectif): void
 }
 
 /**
- * messageIdentique
- * est une fonction qui retourne > 0 si le message est identique au message précédent
- * @param  string $sujet
- * @param  string $corps
- * @param  int $idObjectif
+ * lastMessageMembreObjectif
+ * est une fonction qui retourne le dernier message d'un membre pour un objectif
+ * @param  mixed $idObjectif
  * @param  int $idMembre
- * @return void
+ * @param  string $corps
+ * @return bool
  */
-function messageIdentique(string $sujet, string $corps, int $idObjectif, int $idMembre)
+function lastMessageMembreObjectif($idObjectif, int $idMembre, $corps): bool
 {
     // connexion a la BD
     $linkpdo = connexionBd();
     // preparation de la Requête sql
-    $req = $linkpdo->prepare($GLOBALS['qMessageIdentique']);
+    $req = $linkpdo->prepare($GLOBALS['qRechercherDernierMessageMembreObjectif']);
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors de la préparation de la requête : qMessageIdentique');
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qRechercherDernierMessageMembreObjectif');
     }
     // execution de la Requête sql
     $req->execute(array(
-        ':sujet' => clean($sujet),
-        ':corps' => clean($corps),
         ':idObjectif' => clean($idObjectif),
         ':idMembre' => clean($idMembre)
     ));
     if ($req == false) {
-        die('Erreur ! Il y a un problème lors l\'exécution de la requête : qMessageIdentique');
+        die('Erreur ! Il y a un problème lors l\'exécution de la requête : qRechercherDernierMessageMembreObjectif');
     }
-    $count = $req->rowCount(); // si ligne > 0 alors enfant deja dans la BD
-    $i = 0;
-    // permet de parcourir toutes les lignes de la Requête
-    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        // permet de parcourir toutes les colonnes de la Requête
-        foreach ($data as $key => $value) {
-            if ($i == $count) {
-            }
+    if ($req->rowCount() != 0) {
+        $res = $req->fetch();
+        if ($res[0] == $corps) {
+            return false;
+        } else {
+            return true;
         }
     }
-    $i++;
+    return true;
 }
 
 //! -------------------------------------------- PLACER JETON --------------------------------------------------------------------
