@@ -683,12 +683,7 @@ function dureeStringMinutes(int $duree): string
  * est une fonction qui permet de vérifier si la personne est bien connecté et sinon la rediriger 
  * @return void
  */
-function testConnexion(): void
-{
-    if ($_SESSION['idConnexion'] == null) {
-        header('Location: index.php');
-    }
-
+function testConnexion(): void{if ($_SESSION['idConnexion']==null) {header('Location: index.php');}
     $get_url = $_SERVER['REQUEST_URI'];
     if (stripos($get_url, "tableau") && $_SESSION['role'] == 2) {
         header('Location: modifierProfil.php');
