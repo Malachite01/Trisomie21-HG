@@ -1,6 +1,4 @@
-<?php session_start();
-require_once('QUERY.php');
-testConnexion(); ?>
+<?php session_start();require_once('QUERY.php');testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -128,7 +126,7 @@ if (isset($_POST['boutonAppliquer'])) {
     <div class="svgWave"></div>
   </div>
 
-  <h1>Gérer les enfants</h1>
+  <h1><img src="images/gererEnfant.png" alt="icone gestion enfant" class="iconeH1"> Gérer les enfants</h1>
 
   <div class="aCacher fenButtonOff transparent" id="formAjoutEnfant">
     <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">

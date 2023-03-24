@@ -1,6 +1,4 @@
-<?php session_start();
-require_once('QUERY.php');
-testConnexion(); ?>
+<?php session_start();require_once('QUERY.php');testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -133,7 +131,7 @@ if (isset($_POST['boutonAppliquer'])) {
     <div class="svgWave"></div>
   </div>
 
-  <h1>Gérer les objectifs</h1>
+  <h1><img src="images/gestionObjectif.png" alt="image gestion objectifs" class="iconeH1"> Gérer les objectifs</h1>
 
   <div class="aCacher fenButtonOff transparent" id="formAjoutObjectif">
     <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')" enctype="multipart/form-data">

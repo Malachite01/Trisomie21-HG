@@ -1,6 +1,4 @@
-<?php session_start();
-require_once('QUERY.php');
-testConnexion(); ?>
+<?php session_start();require_once('QUERY.php');testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -48,7 +46,7 @@ if (champRempli(array('champRole'))) {
         <div class="svgWave"></div>
     </div>
 
-    <h1>Gérer les équipes</h1>
+    <h1><img src="images/gererEquipe.png" alt="image gestion equipe" class="iconeH1"> Gérer les équipes</h1>
 
     <div class="aCacher fenButtonOff transparent" id="formAjoutEquipe">
         <form id="form" method="POST" onsubmit="erasePopup('erreurPopup'),erasePopup('validationPopup')" enctype="multipart/form-data">

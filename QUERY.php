@@ -418,8 +418,8 @@ function connexionBd(): PDO
     // informations de connection
     $SERVER = '127.0.0.1';
     $DB = 'projet_sae';
-    $LOGIN = 'root';
-    $MDP = '';
+    $LOGIN = 'sae';
+    $MDP = 'sae';
     // tentative de connexion à la BD
     try {
         // connexion à la BD
@@ -782,12 +782,7 @@ function dureeStringMinutes(int $duree): string
  * est une fonction qui permet de vérifier si la personne est bien connecté et sinon la rediriger 
  * @return void
  */
-function testConnexion(): void
-{
-    if ($_SESSION['idConnexion'] == null) {
-        header('Location: index.php');
-    }
-
+function testConnexion(): void{if ($_SESSION['idConnexion']==null) {header('Location: index.php');}
     $get_url = $_SERVER['REQUEST_URI'];
     if (stripos($get_url, "tableau") && $_SESSION['role'] == 2) {
         header('Location: modifierProfil.php');
@@ -3234,8 +3229,8 @@ function afficherIntituleObjectif($objectifSelected,  $idEnfant): void
     if ($req == false) {
         die('Erreur ! Il y a un problème lors de l\'exécution de la requête : qRecupererIntituleObjectifUnEnfant');
     }
-    echo '<select name="idObjectif">';
-    echo '<option>Veuillez choisir un objectif</option>';
+    echo '<select id="idObjectif" name="idObjectif">';
+    echo '<option value="">Veuillez choisir un objectif</option>';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         // permet de parcourir toutes les colonnes de la Requête
         foreach ($data as $key => $value) {
@@ -4626,8 +4621,8 @@ function faireChatTb(): void
           </div>
 
           <div id="containerBoutonsChat">
-            <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet"></textarea>
-            <textarea name="champCorps" id="msgTextArea" placeholder="Message"></textarea>
+            <textarea name="champSujet" id="msgObjet" maxlength="50" placeholder="Objet" onkeyup="verifIdPasVide()"></textarea>
+            <textarea name="champCorps" id="msgTextArea" placeholder="Message" onkeyup="verifIdPasVide()"></textarea>
             <button type="submit" name="boutonEnvoiMessage" id="boutonEnvoiMessage"><img src="images/envoi.png" id="boutonsImgMsg" alt="icone envoi"></button>
           </div>
         </div>
@@ -4655,9 +4650,7 @@ function faireChatObjectif(): void
 
     echo '
             <div id="selecteursMsg">
-            <label>Objectifs : </label>';
-
-    echo '
+            <label>Objectifs : </label>
             </div>
           </div>
 

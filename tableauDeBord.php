@@ -1,6 +1,4 @@
-<?php session_start();
-require_once('QUERY.php');
-testConnexion(); ?>
+<?php session_start();require_once('QUERY.php');testConnexion(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -25,7 +23,7 @@ testConnexion(); ?>
   nettoyerObjectif();
   ?>
 
-  <h1>Tableau de bord de l'enfant</h1>
+  <h1><img src="images/dashboard.png" alt="icone de dashboard" class="iconeH1"> Tableau de bord de l'enfant</h1>
   <form id="formTableauDeBord" method="POST">
     <div class="filtres" id="miseEnFormeEnfant">
       <label for="Recherche">Enfant :</label>
@@ -88,16 +86,18 @@ testConnexion(); ?>
 
   <?php
   //!CHAT
-  if (champRempli(array('champSujet', 'champCorps'))) {
+  if (isset($_POST['boutonEnvoiMessage']) && isset($_POST['idObjectif']) && (isset($_POST['idEnfant']) || $_SESSION['enfant'])) {
+    if (champRempli(array('champSujet', 'champCorps'))) {
     if (lastMessageMembreObjectif($_POST['idObjectif'], $_SESSION['idConnexion'], $_POST['champCorps'])) {
-      ajouterMessage(
-        $_POST['champSujet'],
-        $_POST['champCorps'],
-        time(),
-        $_POST['idObjectif'],
-        $_SESSION['idConnexion']
-      );
-    }
+        ajouterMessage(
+          $_POST['champSujet'],
+          $_POST['champCorps'],
+          time(),
+          $_POST['idObjectif'],
+          $_SESSION['idConnexion']
+        );
+      }
+  }
   }
   faireChatTb();
   ?>
