@@ -418,8 +418,8 @@ function connexionBd(): PDO
     // informations de connection
     $SERVER = '127.0.0.1';
     $DB = 'projet_sae';
-    $LOGIN = 'sae';
-    $MDP = 'sae';
+    $LOGIN = 'root';
+    $MDP = '';
     // tentative de connexion à la BD
     try {
         // connexion à la BD
@@ -1128,10 +1128,10 @@ function afficherNomPrenomEnfantEquipe(int $enfantSelect, int $idMembre): void
  * afficherNomPrenomEnfantSubmitEquipe
  * est une fonction qui permet d'afficher le nom et le prenom de chaque enfant à la charge du membre de la session dans un select(html) et envoie le form direct
  * @param  mixed $enfantSelect
- * @param  int $idMembre
+ * @param  mixed $idMembre
  * @return void
  */
-function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, int $idMembre): void
+function afficherNomPrenomEnfantSubmitEquipe($enfantSelect, $idMembre): void
 {
     // connexion a la BD
     $linkpdo = connexionBd();
