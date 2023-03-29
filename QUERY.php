@@ -18,7 +18,7 @@ $qAjouterUnEnfant = 'INSERT INTO enfant (Nom,Prenom,Date_Naissance,Lien_Jeton) V
 :dateNaissance, :lienJeton)';
 
 // Requête pour SUPPRIMER un enfant de la BD selon son Id_Enfant
-$qSupprimerUnEnfant = 'DELETE  FROM Enfant where Id_Enfant = :idEnfant';
+$qSupprimerUnEnfant = 'DELETE  FROM enfant where Id_Enfant = :idEnfant';
 
 // Requête pour SUPPRIMER l'image du jeton pour un enfant selon son Id_Enfant
 $qSupprimerImageUnEnfant = 'SELECT Lien_Jeton from enfant WHERE Id_Enfant = :idEnfant';
@@ -35,22 +35,22 @@ Date_Naissance = :dateNaissance';
 
 // Requête pour RÉCUPÉRER l'Id_enfant, l'image du jeton, le nom, le prénom et la date de naissance de tous les 
 // enfants de la BD
-$qRecupererInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From Enfant';
+$qRecupererInformationEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From enfant';
 
 // Requête pour RÉCUPÉRER l'Id_enfant, l'image du jeton, le nom, le prénom et la date de naissance d'un enfant 
 // de la BD
-$qRecupererInformationUnEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From Enfant WHERE 
+$qRecupererInformationUnEnfants = 'SELECT Id_Enfant, Lien_Jeton, Nom, Prenom, Date_Naissance From enfant WHERE 
 Id_Enfant = :idEnfant';
 
 // Requête pour RÉCUPÉRER l'Id_Enfant, le nom et le prénom de tous les enfants ( trie par nom )
-$qRecupererNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM Enfant ORDER BY Nom';
+$qRecupererNomPrenomEnfant = 'SELECT Id_Enfant, Nom,Prenom FROM enfant ORDER BY Nom';
 
 // Requête pour RÉCUPÉRER le nom et le prénom d'un enfant selon son Id_Enfant
 $qRecupererNomPrenomUnEnfant = 'SELECT Nom, Prenom FROM enfant WHERE Id_Enfant = :idEnfant';
 
 // Requête pour RÉCUPÉRER le nom et le prénom de tous les enfants que suit le membre de la session ( trie par 
 // nom )
-$qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM Enfant,suivre WHERE 
+$qRecupererNomPrenomEnfantEquipe = 'SELECT enfant.Id_Enfant, Nom,Prenom FROM enfant,suivre WHERE 
 enfant.Id_Enfant = suivre.Id_Enfant AND suivre.Id_Membre = :idMembre ORDER BY Nom';
 
 // Requête pour RÉCUPÉRER l'Id_Enfant, le lien jeton, le nom, le prénon et la date de naissance d'un enfant 
@@ -79,7 +79,7 @@ $qModifierMotDePasseUnMembre = 'UPDATE membre SET Mdp = :mdp WHERE Id_Membre = :
 $qValiderUnMembre = 'UPDATE membre SET Compte_Valide = 1 WHERE Id_Membre = :idMembre';
 
 // Requête pour VÉRIFIER la validité du compte d'un membre selon son courriel dans la BD
-$qVerifierValidationUnMembre = 'SELECT Id_Membre FROM Membre WHERE Courriel = :courriel AND Compte_Valide = 1';
+$qVerifierValidationUnMembre = 'SELECT Id_Membre FROM membre WHERE Courriel = :courriel AND Compte_Valide = 1';
 
 // Requête pour VÉRIFIER qu'un membre avec le courrier donné en paramètre n'existe pas déjà dans la BD
 $qMembreIdentique = 'SELECT Courriel FROM membre WHERE Courriel = :courriel';
@@ -93,13 +93,13 @@ $qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_Naissance, Code_Postal
 Id_Membre = :idMembre';
 
 // Requête pour RÉCUPÉRER le prénom du membre connecté
-$qRecupererPrenomMembreConnected = 'SELECT Prenom FROM Membre WHERE Id_Membre = :idMembre';
+$qRecupererPrenomMembreConnected = 'SELECT Prenom FROM membre WHERE Id_Membre = :idMembre';
 
 // Requête pour RÉCUPÉRER le prénom du membre connecté
-$qRecupererNomPrenomMembre = 'SELECT Nom, Prenom FROM Membre WHERE Id_Membre = :idMembre';
+$qRecupererNomPrenomMembre = 'SELECT Nom, Prenom FROM membre WHERE Id_Membre = :idMembre';
 
 // Requête pour RÉCUPÉRER l'Id_Membre, Le nom et Le prénom d'un membre ( trie par nom )
-$qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM Membre ORDER BY Nom';
+$qAfficherNomPrenomMembre = 'SELECT Id_Membre, Nom,Prenom FROM membre ORDER BY Nom';
 
 // Requête pour RÉCUPÉRER le mdp d'un membre selon son courriel
 $qRecupererMotDePasseUnMembre = 'SELECT Mdp FROM membre WHERE Courriel = :courriel';
@@ -107,49 +107,49 @@ $qRecupererMotDePasseUnMembre = 'SELECT Mdp FROM membre WHERE Courriel = :courri
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes
 // des membres de la BD
 $qRecupererInformationsMembres = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role 
-FROM Membre';
+FROM membre';
 
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes 
 // des  membres de la BD ( trie par nom croissant puis prénom croissant )
 $qRecupererInformationsMembresAZ = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role 
-FROM Membre ORDER BY Nom, Prenom';
+FROM membre ORDER BY Nom, Prenom';
 
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes 
 // des membres de la BD ( trie par nom décroissant puis prénom croissant )
 $qRecupererInformationsMembresZA = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide,Role 
-FROM Membre ORDER BY Nom DESC, Prenom';
+FROM membre ORDER BY Nom DESC, Prenom';
 
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes 
 // des membres de la BD ( trie par date de naissance croissante puis nom puis prénom )
 $qRecupererInformationsMembresDateNaissanceCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, 
-Compte_Valide,Role FROM Membre ORDER BY Date_Naissance, Nom, Prenom';
+Compte_Valide,Role FROM membre ORDER BY Date_Naissance, Nom, Prenom';
 
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes 
 // des membres de la BD ( trie par date de naissance décroissante puis nom puis prénom )
 $qRecupererInformationsMembresDateNaissanceDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance,
-Compte_Valide,Role FROM Membre ORDER BY Date_Naissance DESC , Nom, Prenom';
+Compte_Valide,Role FROM membre ORDER BY Date_Naissance DESC , Nom, Prenom';
 
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes
 // des membres de la BD ( trie par validation croissant puis nom puis prénom )
 $qRecupererInformationsMembresCompteValideCroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, 
-Compte_Valide,Role FROM Membre ORDER BY Compte_Valide, Nom, Prenom';
+Compte_Valide,Role FROM membre ORDER BY Compte_Valide, Nom, Prenom';
 
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes 
 // des membres de la BD ( trie par validation décroissant puis nom puis prénom )
 $qRecupererInformationsMembresCompteValideDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance,
-Compte_Valide,Role FROM Membre ORDER BY Compte_Valide DESC, Nom, Prenom';
+Compte_Valide,Role FROM membre ORDER BY Compte_Valide DESC, Nom, Prenom';
 
 // Requête pour RÉCUPÉRER l'id, le nom, le prenom, le courriel, la date de naissance et la validité des comptes 
 // des membres de la BD ( trie par Id_Membre décroissant )
 $qRecupererInformationsMembresIdMembreDecroissante = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, 
-Compte_Valide,Role FROM Membre ORDER BY Id_Membre DESC';
+Compte_Valide,Role FROM membre ORDER BY Id_Membre DESC';
 
 // Requête pour RÉCUPÉRER l'Id_Membre d'un membre selon son courriel
 $qRecupererIdUnMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel';
 
 // Requête pour RÉCUPÉRER l'Id_Membre, le nom, le prénom, le courriel, la date de naissance et le compte valide 
 // d'un membre selon un nom donné en paramètre 
-$qRechercherMembreParNom = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM Membre 
+$qRechercherMembreParNom = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM membre 
 Where nom LIKE ?';
 
 //! -------------------------------------------- OBJECTIF ---------------------------------------------------------
@@ -159,7 +159,7 @@ $qAjouterUnObjectif = 'INSERT INTO objectif (Intitule, Nb_Jetons, Duree,Lien_Ima
 VALUES (:intitule, :nbJetons, :duree, :lienObjectif, :travaille, :idMembre, :idEnfant)';
 
 // Requête pour SUPPRIMER le lien image d'un objectif selon son Id_Objectif
-$qSupprimerImageUnObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
+$qSupprimerImageUnObjectif = 'SELECT Lien_Image from objectif WHERE Id_Objectif = :idObjectif';
 
 // Requête pour SUPPRIMER un objectif selon son Id_Objectif
 $qSupprimerObjectif = 'DELETE FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -268,7 +268,7 @@ ORDER BY Intitule';
 $qRecupererUnIntituleObjectif = 'SELECT Intitule FROM objectif WHERE Id_Objectif = :idObjectif';
 
 // Requête pour SUPPRIMER le lien image d'un objectif selon son Id_Objectif
-$qSupprimerImageUnObjectif = 'SELECT Lien_Image from Objectif WHERE Id_Objectif = :idObjectif';
+$qSupprimerImageUnObjectif = 'SELECT Lien_Image from objectif WHERE Id_Objectif = :idObjectif';
 
 // Requête pour RÉCUPÉRER la durée d'un objectif selon son Id_Objectif
 $qRecupererDureeUnObjectif = 'SELECT Duree FROM objectif WHERE Id_Objectif = :idObjectif';
@@ -288,7 +288,7 @@ $qAjouterUneRecompense = 'INSERT INTO recompense (Intitule,Lien_Image,Descriptif
 :descriptif)';
 
 // Requête pour SUPPRIMER une récompense selon son Id_Recompense
-$qSupprimerUneRecompense = 'DELETE FROM Recompense WHERE Id_Recompense = :idRecompense';
+$qSupprimerUneRecompense = 'DELETE FROM recompense WHERE Id_Recompense = :idRecompense';
 
 // Requête pour MODIFIER l'intitule, le lien image et le descriptif d'une récompense selon son Id_Recompense
 $qModifierUneRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Image = :lienImage, Descriptif = 
@@ -296,7 +296,7 @@ $qModifierUneRecompense = 'UPDATE recompense SET Intitule = :intitule, Lien_Imag
 
 // Requête pour RÉCUPÉRER l'Id_Recompense, l'intitule, le descriptif et le lien image d'une récompense selon 
 // son Id_Recompense
-$qRecupererUneRecompense = 'SELECT Id_Recompense, Intitule, Descriptif, Lien_Image FROM Recompense WHERE 
+$qRecupererUneRecompense = 'SELECT Id_Recompense, Intitule, Descriptif, Lien_Image FROM recompense WHERE 
 id_Recompense = :idRecompense';
 
 // Requête pour RÉCUPÉRER le lien image d'une recompense selon son Id_Recompense
@@ -321,7 +321,7 @@ lier.Id_Recompense = recompense.Id_Recompense AND lier.ID_Objectif = :idObjectif
 //! -------------------------------------------- TABLEAU DE BORD --------------------------------------------------
 
 // Requête pour RÉCUPÉRER le lien image d'un enfant selon son Id_Enfant
-$qRecupererImageJetonUnEnfant = 'SELECT Lien_Jeton from Enfant WHERE Id_Enfant = :idEnfant';
+$qRecupererImageJetonUnEnfant = 'SELECT Lien_Jeton from enfant WHERE Id_Enfant = :idEnfant';
 
 //! -------------------------------------------- EQUIPE -----------------------------------------------------------
 
