@@ -152,6 +152,7 @@ $qRecupererIdUnMembre = 'SELECT Id_Membre FROM membre WHERE courriel = :courriel
 $qRechercherMembreParNom = 'SELECT Id_Membre, Nom, Prenom, Courriel, Date_Naissance, Compte_Valide FROM membre 
 Where nom LIKE ?';
 
+$qResetPassword = 'UPDATE membre SET Mdp = :password WHERE id = :id';
 //! -------------------------------------------- OBJECTIF ---------------------------------------------------------
 
 // Requête pour AJOUTER un objectif à la BD
@@ -2512,6 +2513,19 @@ function modifierMdp(string $mdp, int $idMembre): void
         die('Erreur ! Il y a un problème lors l\'exécution de la requête : qModifierMotDePasseUnMembre');
     }
 }
+function reset_password($id) {
+    $linkpdo = connexionBd();
+    $req = $linkpdo->prepare($GLOBALS['qResetPassword']);
+    if ($req == false) {
+        die('Erreur ! Il y a un problème lors de la préparation de la requête : qResetPassword');
+    }
+    // execution de la Requête sql
+    $req->execute(array(
+        ':password' => saltHash('password'),
+        ':id' => $id
+    ));
+}
+
 
 //! -------------------------------------------- OBJECTIF ------------------------------------------------------------------------
 
