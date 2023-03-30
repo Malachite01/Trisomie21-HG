@@ -419,8 +419,8 @@ function connexionBd(): PDO
     // informations de connection
     $SERVER = '127.0.0.1';
     $DB = 'projet_sae';
-    $LOGIN = 'root';
-    $MDP = '';
+    $LOGIN = 'sae';
+    $MDP = 'sae';
     // tentative de connexion à la BD
     try {
         // connexion à la BD
