@@ -34,6 +34,12 @@
           }
           if(isset($_POST['boutonReset'])){
             resetPassword($_POST['boutonReset']);
+            echo '
+            <div class="validationPopup">
+                <h2 class="txtPopup">Le mot de passe de l\'utilisateur a bien été réinitialisé</h2>
+                <img src="images/valider.png" alt="valider" class="imageIcone centerIcon">
+                <button class="boutonFermerPopup" onclick="erasePopup(\'validationPopup\')">Fermer X</button>
+            </div>';
           }
         ?>
       </div>

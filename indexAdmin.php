@@ -78,7 +78,7 @@
       <input type="password" name="champMotDePasse" id="champMotDePasse" placeholder="Mot de passe (8 charactères minimum)" minlength="8" maxlength="50" required>
       <span><img src="images/oeilFermé.png" id="oeilMdp" alt="oeil" onclick="afficherMDP('champMotDePasse','oeilMdp')"></span>
       
-      <a href="#" class="texteAccueil"> Mot de passe oublié ?</a>
+      <a href="motDePasseOublie.php" class="texteAccueil"> Mot de passe oublié ?</a>
     </div>
 
     <button type="submit" name="boutonConnexion" class="boutons" id="boutonConnexion"><img src="images/unlock.png" class="imageIcone" alt="icone cadenas"><span>Connexion</span></button>

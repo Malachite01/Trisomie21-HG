@@ -89,7 +89,7 @@ $qMembreIdentiqueEquipe = 'SELECT Id_Membre FROM suivre WHERE Id_Membre = :idMem
 
 // Requête pour RÉCUPÉRER le nom, le prénom, l'adresse, la date de naissance, le CP, la ville et le mdp d'un 
 // membre dans la BD
-$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_Naissance, Code_Postal, Ville, Mdp FROM membre WHERE 
+$qRechercherUnMembre = 'SELECT Nom, Prenom, Adresse, Date_Naissance, Code_Postal, Ville, Mdp, Role FROM membre WHERE 
 Id_Membre = :idMembre';
 
 // Requête pour RÉCUPÉRER le prénom du membre connecté
@@ -2403,11 +2403,15 @@ function AfficherInformationsMembre(int $idMembre): void
                 echo '<label for="champVille">Ville :</label>
                 <input type="text" name="champVille" value="' . $value . '" class="champMdpNonModifiable" readonly>
                 <span></span>';
+            } else if($key == 'Role') {
+                //Si le membre n'est pas un administrateur
+                if($value != 3) {
+                    echo '<label for="champMotDePasse">Mot de passe :</label>
+                    <button type="submit" name="boutonReset" value="'. $idMembre .'" class="boutonSupprimer"><img src="images/passReset.png" class="imageIcone" alt="icone annuler" style="filter: invert(100%);"><span>Réinitialiser le mot de passe&ensp;</span></button>
+                    <span></span>';
+                }
             }
         }
-        echo '<label for="champMotDePasse">Mot de passe :</label>
-        <button type="submit" name="boutonReset" value="'. $idMembre .'" class="boutonSupprimer"><img src="images/passReset.png" class="imageIcone" alt="icone annuler" style="filter: invert(100%);"><span>Réinitialiser le mot de passe&ensp;</span></button>
-        <span></span>';
     }
 }
 

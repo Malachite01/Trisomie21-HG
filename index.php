@@ -88,7 +88,7 @@
       <span><img src="images/oeilFermé.png" id="oeilMdp" alt="oeil" onclick="afficherMDP('champMotDePasse','oeilMdp')"></span>
       
       <a href="demandeInscription.php" class="texteAccueil"> Pas encore de compte ?</a>
-      <a href="#" class="texteAccueil"> Mot de passe oublié ?</a>
+      <a href="motDePasseOublie.php" class="texteAccueil"> Mot de passe oublié ?</a>
     </div>
 
     <button type="submit" name="boutonConnexion" class="boutons" id="boutonConnexion"><img src="images/unlock.png" class="imageIcone" alt="icone cadenas"><span>Connexion</span></button>
