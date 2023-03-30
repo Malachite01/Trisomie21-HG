@@ -27,7 +27,14 @@
     <form id="form" method="POST" onsubmit="erasePopup('validationPopup'),erasePopup('erreurPopup')">
       <div class="miseEnForme" id="miseEnFormeFormulaire">
         <?php
-          AfficherInformationsMembre($_POST['boutonConsulter']);
+          if(isset($_POST['boutonConsulter'])){
+            AfficherInformationsMembre($_POST['boutonConsulter']);
+          } else{
+            AfficherInformationsMembre($_POST['boutonReset']);
+          }
+          if(isset($_POST['boutonReset'])){
+            resetPassword($_POST['boutonReset']);
+          }
         ?>
       </div>
 
