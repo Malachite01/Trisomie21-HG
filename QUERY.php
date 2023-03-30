@@ -3906,7 +3906,7 @@ function ajouterTempsDebutObjectif(int $tempsDebut, int $idObjectif): void
  * @param  mixed $idObjectif
  * @return mixed
  */
-function recupererTempsDebutObjectif($idObjectif): mixed
+function recupererTempsDebutObjectif($idObjectif)
 {
     // connexion a la BD
     $linkpdo = connexionBd();
