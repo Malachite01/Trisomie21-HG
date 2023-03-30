@@ -108,20 +108,22 @@
 
 
   <?php
-  if (isset($_POST['boutonEnvoiMessage']) && isset($_SESSION['enfant']) && isset($_SESSION['objectif'])) {
-    if (champRempli(array('champSujet', 'champCorps'))) {
-        if (lastMessageMembreObjectif($_SESSION['objectif'], $_SESSION['idConnexion'], $_POST['champCorps'])) {
-            ajouterMessage(
-                $_POST['champSujet'],
-                $_POST['champCorps'],
-                time(),
-                $_SESSION['objectif'],
-                $_SESSION['idConnexion']
-            );
-        }
+  if (isset($_SESSION['enfant']) && isset($_SESSION['objectif'])) {
+    if(isset($_POST['boutonEnvoiMessage']) ) {
+      if (champRempli(array('champSujet', 'champCorps'))) {
+          if (lastMessageMembreObjectif($_SESSION['objectif'], $_SESSION['idConnexion'], $_POST['champCorps'])) {
+              ajouterMessage(
+                  $_POST['champSujet'],
+                  $_POST['champCorps'],
+                  time(),
+                  $_SESSION['objectif'],
+                  $_SESSION['idConnexion']
+              );
+          }
+      }
     }
+    faireChatObjectif();
   }
-  faireChatObjectif();
   ?>
 </body>
 </html>

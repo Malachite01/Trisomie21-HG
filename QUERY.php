@@ -2405,6 +2405,9 @@ function AfficherInformationsMembre(int $idMembre): void
                 <span></span>';
             }
         }
+        echo '<label for="champMotDePasse">Mot de passe :</label>
+        <button type="button" name="boutonReset" class="boutonSupprimer"><img src="images/passReset.png" class="imageIcone" alt="icone annuler" style="filter: invert(100%);"><span>Réinitialiser le mot de passe&ensp;</span></button>
+        <span></span>';
     }
 }
 
