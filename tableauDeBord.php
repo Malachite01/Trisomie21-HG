@@ -68,7 +68,7 @@
         // lancement de la séance 
         if (isset($_POST['butonDebutSeanceTb'])) {
           if (recupererTempsDebutObjectif($_POST['butonDebutSeanceTb']) == 0) {
-            $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_POST['butonDebutSeanceTb']) * 3600);
+            $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_POST['butonDebutSeanceTb']) * 2419200);
             ajouterTempsDebutObjectif($nowPlusDureeObjectif, $_POST['butonDebutSeanceTb']);
             unset($_POST['butonDebutSeanceTb']);
           }
