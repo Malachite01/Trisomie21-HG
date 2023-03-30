@@ -120,8 +120,8 @@
             );
         }
     }
-    faireChatObjectif();
   }
+  faireChatObjectif();
   ?>
 </body>
 </html>
