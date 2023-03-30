@@ -2370,7 +2370,6 @@ function AfficherInformationsMembreSession(int $idMembre): void
  */
 function AfficherInformationsMembre(int $idMembre): void
 {
-
     $req = rechercherMembre($idMembre); // retoune le membre avec ses informations selon $idMembre
     // permet de parcourir la ligne de la Requêtes 
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -2404,6 +2403,9 @@ function AfficherInformationsMembre(int $idMembre): void
                 <span></span>';
             }
         }
+        echo '<label for="champMotDePasse">Mot de passe :</label>
+        <button type="button" name="boutonReset" class="boutonSupprimer"><img src="images/passReset.png" class="imageIcone" alt="icone annuler" style="filter: invert(100%);"><span>Réinitialiser le mot de passe&ensp;</span></button>
+        <span></span>';
     }
 }
 
