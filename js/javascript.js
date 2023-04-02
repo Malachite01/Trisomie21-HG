@@ -201,7 +201,11 @@ function holdSubmit(event) {
     let target = event.target;
     let image = new Image();
     rand = Math.round(Math.random() * 10);
-    (rand < 5 ? image.src = 'images/ouvertureKdo.gif' : image.src = 'images/ouvertureKdo2.gif');
+    if(rand <= 5) {
+        image.src = 'images/ouvertureKdo.gif';
+    } else if(rand > 5 && rand <= 10) {
+        image.src = 'images/ouvertureKdo2.gif';
+    }
     image.classList.add('ouvertureKdo');
     form.appendChild(image);
     setTimeout(function(){

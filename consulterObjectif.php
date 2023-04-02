@@ -44,7 +44,7 @@
 
     // lancement de la séance 
     if (recupererTempsDebutObjectif($_SESSION['objectif']) == 0 && isset($_POST['butonDebutSeance'])) {
-      $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_SESSION['objectif']) * 2419200);
+      $nowPlusDureeObjectif = time() + (recupererDureeUnObjectif($_SESSION['objectif']) * 3600);
       ajouterTempsDebutObjectif($nowPlusDureeObjectif, $_SESSION['objectif']);
       unset($_POST['butonDebutSeance']);
     }
@@ -74,7 +74,7 @@
       }
     }
     // 2419200 = 4 weeks
-    if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null || recupererPremierJetonJamaisPose($_SESSION['objectif']) + 180  >= time()) {
+    if (recupererPremierJetonJamaisPose($_SESSION['objectif']) == null || recupererPremierJetonJamaisPose($_SESSION['objectif']) + 2419200  >= time()) {
       afficherObjectifsZoom($_SESSION['objectif']);
     ?>
       <div id="containerRecompenses">
