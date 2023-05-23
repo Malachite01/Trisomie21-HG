@@ -1841,7 +1841,7 @@ function AfficherMembresDateNaissanceCroissante(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
@@ -1931,7 +1931,7 @@ function AfficherMembresDateNaissanceDecroissante(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
@@ -2021,7 +2021,7 @@ function AfficherMembresCompteValideCroissante(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
@@ -2111,7 +2111,7 @@ function AfficherMembresCompteValideDecroissante(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
@@ -2201,7 +2201,7 @@ function AfficherMembresIdMembreDecroissante(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
