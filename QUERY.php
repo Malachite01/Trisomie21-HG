@@ -1571,7 +1571,7 @@ function AfficherMembres(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
@@ -1661,7 +1661,7 @@ function AfficherMembresAZ(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
@@ -1751,7 +1751,7 @@ function AfficherMembresZA(): void
             }
         }
         // permet de dire si un membre a son compte valide ou non 
-        if ($compteValide == Null) {
+        if ($compteValide == 0) {
             echo '
             <td>
                 <button type="submit" name="boutonValiderMembre" value="' . $idMembre . '" 
